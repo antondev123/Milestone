@@ -14,7 +14,11 @@ function norm(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
 }
 
-export async function gradeAnswer(question: Question, answer: string): Promise<GradeResponse> {
+export interface GradeOptions {
+  hintFirst?: boolean; // wrong MCQ pick: nudge towards the idea instead of naming the answer (study mode, first try)
+}
+
+export async function gradeAnswer(question: Question, answer: string, opts: GradeOptions = {}): Promise<GradeResponse> {
   const a = answer.trim();
   if (!a) return { correct: false, feedback: "I did not catch an answer. Try again." };
 
@@ -31,10 +35,9 @@ export async function gradeAnswer(question: Question, answer: string): Promise<G
       return llmGrade(question, a);
     }
     const correct = norm(picked) === norm(question.answer);
-    return {
-      correct,
-      feedback: correct ? "Correct." : `Not quite. The answer is: ${question.answer}.`,
-    };
+    if (correct) return { correct, feedback: "Correct." };
+    if (opts.hintFirst) return { correct, feedback: `Not quite. ${await mcqHint(question, picked)}` };
+    return { correct, feedback: `Not quite. The answer is: ${question.answer}.` };
   }
 
   if (!process.env.ANTHROPIC_API_KEY) {
@@ -83,4 +86,49 @@ LEARNER ANSWER: ${answer}`,
   const text = res.content.find((b) => b.type === "text")?.text ?? "{}";
   const parsed = JSON.parse(text) as GradeResponse;
   return { correct: !!parsed.correct, feedback: String(parsed.feedback ?? "") };
+}
+
+const HINT_FALLBACK = "That is not the one. Have another look at the passage and pick again.";
+
+const hintSchema = {
+  type: "object",
+  properties: { hint: { type: "string" } },
+  required: ["hint"],
+  additionalProperties: false,
+} as const;
+
+/** One nudge towards the right idea for a wrong MCQ pick, never naming the answer. Fixed line if Claude is unavailable. */
+async function mcqHint(question: Question, picked: string): Promise<string> {
+  if (!process.env.ANTHROPIC_API_KEY) return HINT_FALLBACK;
+  try {
+    const res = await anthropic().messages.create({
+      model: MODEL,
+      max_tokens: 80,
+      output_config: { effort: "low", format: { type: "json_schema", schema: hintSchema } },
+      system:
+        "A learner tapped a wrong option on a multiple-choice check in a short course. Write one hint sentence, max 20 words, that points them at the idea behind the right option. Never name, quote or paraphrase the correct option, and never say which option is right. You may say the picked one is not it. Plain spoken words, no 'rubric', no 'option'.",
+      messages: [
+        {
+          role: "user",
+          content: `QUESTION: ${question.prompt}
+OPTIONS: ${(question.options ?? []).join(" | ")}
+CORRECT OPTION: ${question.answer}
+LEARNER PICKED: ${picked}
+NOTES: ${question.rubric}`,
+        },
+      ],
+    });
+    const u = res.usage;
+    const usd = (u.input_tokens * 2 + u.output_tokens * 10) / 1_000_000;
+    console.log(`[hint] ${MODEL} in=${u.input_tokens} out=${u.output_tokens} ~$${usd.toFixed(4)}`);
+    if (res.stop_reason !== "end_turn") return HINT_FALLBACK;
+    const text = res.content.find((b) => b.type === "text")?.text ?? "{}";
+    const hint = String((JSON.parse(text) as { hint?: string }).hint ?? "").trim();
+    // cheap leak guard: a hint that contains the answer text is no hint
+    if (!hint || norm(hint).includes(norm(question.answer))) return HINT_FALLBACK;
+    return hint;
+  } catch (e) {
+    console.error(`[hint] ${(e as Error).message}`);
+    return HINT_FALLBACK;
+  }
 }

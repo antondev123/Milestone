@@ -29,6 +29,7 @@ Updated: 2026-09-18 (play button fix for Dial and Study; app renamed to Mileston
 - Seed is position-only (no fabricated trips, answers or streak).
 - **Voice lessons start on their own**: the greeting no longer says "Say go"; `VoiceAgent.start()` arms auto-continue so the first block follows the greeting. Agent prompt (`scripts/configure-agent.ts`) updated to expect the synthetic "continue" as the start signal, so run `npm run agent:configure` after merging.
 - **Mode switch keeps the trip**: tapping Listen instead / Read instead mid-trip opens the other mode with `?carry=1`, which calls `POST /api/session {carry: true}` (`actionCarryTrip`). Same trip id, plan and clock; only `activeTrip.mode` changes, and the opening line says the minutes left. No second "How long is this trip?". Verified both directions on localhost. Arriving from the home screen still shows the picker.
+- **Study mode MCQ is hint-first**: a first wrong tap gets a one-sentence Claude nudge (`mcqHint` in `src/lib/grader.ts`, same model as open grading, fixed line without a key) instead of the answer, and the missed option is struck out; the second miss reveals the answer as before. Voice and Text modes are unchanged (`hintFirst` is only set for `mode === "study"` in `cursor.answer`).
 - `chunk.ts` sentence splitter no longer breaks on initials ("U.S."), so block boundaries hold in 1.3.
 
 ## In progress / needs a human
@@ -36,7 +37,7 @@ Updated: 2026-09-18 (play button fix for Dial and Study; app renamed to Mileston
 - Voice mode mic test in Chrome per docs/ELEVENLABS.md §6: confirm the 700 ms auto-continue grace window feels right and barge-in mid-block re-reads the block. Chunked reading is now server-driven, so no prompt tuning for it.
 
 ## Not started
-- Study mode follow-ups: the grader reveals the MCQ answer on a first wrong try ("The answer is: X. Try once more."), which reads oddly with buttons; a hint-first rubric would suit the tap UI. Word-level resume (the cursor is block-level). Chapters 2–3 are ingested paraphrases, so the "book as it is" promise only holds for chapter 1 until the parser fix below.
+- Study mode follow-ups: word-level resume (the cursor is block-level). Chapters 2–3 are ingested paraphrases, so the "book as it is" promise only holds for chapter 1 until the parser fix below.
 - Listen dial in landscape (dash mount): Where block left, dial centre, mute/End right. Portrait only for now.
 - First real `npm run deploy:fly` and a phone test over HTTPS (mic needs a secure origin).
 - **parse-book.ts drops real prose**: every `> **` line is treated as a figure caption, but pdftotext glues body text onto some of them. Lost from `source/`: most of Decisional Roles (1.3) and the levels-of-management paragraph (1.4); the ingested 1.3/1.4 lessons filled the gap from the model, not the book. Chapter 1 now bypasses this; chapters 2+ need a parser fix and a re-ingest check.

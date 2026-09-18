@@ -33,6 +33,7 @@ export function Checkpoint({
   const [done, setDone] = useState(false);
   const [busy, setBusy] = useState(false);
   const [picked, setPicked] = useState<string | null>(null);
+  const [wrong, setWrong] = useState<string[]>([]); // options tapped and missed on this question
   const [typed, setTyped] = useState("");
   const [feedback, setFeedback] = useState<{ correct: boolean; text: string; advance: boolean } | null>(null);
 
@@ -42,6 +43,7 @@ export function Checkpoint({
     setDone(false);
     setFeedback(null);
     setPicked(null);
+    setWrong([]);
     setTyped("");
     tool("check", { segmentId }).then((r) => {
       if (!live) return;
@@ -64,12 +66,14 @@ export function Checkpoint({
     const stripped = stripVerdict(say.replace(/\s*(Try once more\.|Part done\.)\s*$/, "")).trim();
     const clean = stripped.charAt(0).toUpperCase() + stripped.slice(1);
     setFeedback({ correct: r.correct === true, text: clean, advance: !retry });
+    if (retry) setWrong((w) => [...w, text]);
     if (finished) setDone(true);
   }
 
   function next() {
     setFeedback(null);
     setPicked(null);
+    setWrong([]);
     setTyped("");
     setQIdx((q) => (q ?? 0) + 1);
   }
@@ -101,21 +105,22 @@ export function Checkpoint({
           {q.type === "mcq" && q.options ? (
             <div className="flex flex-col gap-2.5">
               {q.options.map((o) => {
-                const selected = picked === o;
+                const missed = wrong.includes(o);
+                const selected = picked === o && !missed;
                 const isRight = selected && feedback?.correct;
                 return (
                   <button
                     key={o}
                     type="button"
-                    disabled={busy || feedback?.advance === true}
+                    disabled={busy || missed || feedback?.advance === true}
                     aria-pressed={selected}
                     onClick={() => {
                       setPicked(o);
                       submit(o);
                     }}
-                    className={`flex min-h-16 items-center justify-between gap-3 rounded-[14px] px-[18px] py-3 text-left text-[17px] leading-[1.35] disabled:opacity-80 ${
-                      isRight ? "bg-ink font-semibold text-ground" : selected ? "bg-panel ring-2 ring-ink" : "bg-panel"
-                    }`}
+                    className={`flex min-h-16 items-center justify-between gap-3 rounded-[14px] px-[18px] py-3 text-left text-[17px] leading-[1.35] ${
+                      missed ? "bg-panel line-through opacity-50" : isRight ? "bg-ink font-semibold text-ground" : selected ? "bg-panel ring-2 ring-ink" : "bg-panel"
+                    } ${missed ? "" : "disabled:opacity-80"}`}
                   >
                     {o}
                     {isRight && <CheckIcon size={22} color="#E0A419" />}
