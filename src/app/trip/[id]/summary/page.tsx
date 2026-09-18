@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { actionProgress } from "@/lib/actions";
 import { DEFAULT_COURSE_ID, loadCourse } from "@/lib/course";
-import { findSegment } from "@/types/lesson";
+import { chapterOf, findSegment, sectionOf } from "@/types/lesson";
 import { ProgressBar } from "@/components/ProgressBar";
 
 export const dynamic = "force-dynamic";
@@ -26,7 +26,11 @@ export default async function Summary({ params }: { params: Promise<{ id: string
   }
   const mins = Math.max(1, Math.round((new Date(trip.endedAt).getTime() - new Date(trip.startedAt).getTime()) / 60000));
   const nextSeg = findSegment(course, progress.resume.segmentId);
-  const totalSegs = course.modules[0].segments.length;
+  const nextSection = nextSeg ? sectionOf(course, nextSeg.id) : undefined;
+  const anchorId = progress.segmentsCompleted.at(-1) ?? progress.resume.segmentId;
+  const chapter = chapterOf(course, anchorId) ?? course.chapters[0];
+  const totalSegs = chapter.segments.length;
+  const doneInChapter = progress.segmentsCompleted.filter((id) => id.startsWith(chapter.id + "/")).length;
 
   return (
     <div className="flex flex-1 flex-col gap-5">
@@ -43,9 +47,9 @@ export default async function Summary({ params }: { params: Promise<{ id: string
       </div>
 
       <div className="rounded-2xl bg-slate-900 p-4">
-        <ProgressBar value={trip.modulePct} label={`${course.modules[0].title} · ${progress.segmentsCompleted.length}/${totalSegs} segments`} />
+        <ProgressBar value={trip.modulePct} label={`Chapter ${chapter.number} · ${chapter.shortTitle} · ${doneInChapter}/${totalSegs} parts`} />
         <ul className="mt-3 flex flex-col gap-1 text-sm">
-          {course.modules[0].segments.map((s) => {
+          {chapter.segments.map((s) => {
             const done = progress.segmentsCompleted.includes(s.id);
             const thisTrip = trip.segmentIds.includes(s.id);
             return (
@@ -75,10 +79,13 @@ export default async function Summary({ params }: { params: Promise<{ id: string
       <div className="rounded-2xl border border-slate-800 p-4 text-sm">
         <p className="text-xs uppercase text-slate-400">Next leg picks up at</p>
         <p className="mt-1 font-medium">
+          {nextSection ? `${nextSection.number} ${nextSection.title} · ` : ""}
           {nextSeg?.title ?? "Course complete"}
           {progress.resume.position === "checkpoint" && nextSeg ? " · checkpoint" : ""}
         </p>
       </div>
+
+      {course.license && <p className="text-[11px] text-slate-500">{course.license.attribution}</p>}
 
       <div className="mt-auto flex gap-2">
         <Link href="/learn/text" className="flex-1 rounded-xl bg-slate-800 px-4 py-4 text-center font-semibold">🚐 Next: taxi</Link>

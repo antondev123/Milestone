@@ -2,7 +2,9 @@
 // killed trip resumes where it stopped.
 import {
   allSegments,
-  findQuestion,
+  chapterOf,
+  parentId,
+  type QuestionMeta,
   findSegment,
   type Course,
   type Mode,
@@ -27,16 +29,14 @@ export function startTrip(progress: Progress, plan: Plan, minutes: number, mode:
 }
 
 export function recordCheckpoint(
-  course: Course,
   progress: Progress,
-  questionId: string,
+  q: QuestionMeta,
   answer: string,
   correct: boolean,
   feedback: string,
   mode: Mode,
 ): Progress {
-  const q = findQuestion(course, questionId);
-  if (!q) throw new Error(`unknown question ${questionId}`);
+  const questionId = q.id;
   const attempt = progress.checkpoints.filter((c) => c.questionId === questionId).length + 1;
   progress.checkpoints.push({ questionId, correct, attempt, mode, answer, feedback, at: new Date().toISOString() });
   const t = (progress.topics[q.topic] ??= { seen: 0, correct: 0 });
@@ -44,8 +44,9 @@ export function recordCheckpoint(
     t.seen += 1;
     if (correct) t.correct += 1;
   }
-  const segId = questionId.split("/").slice(0, -1).join("/");
-  progress.resume = { segmentId: segId, position: "checkpoint" };
+  const segId = parentId(questionId);
+  // chapter-quiz questions ("<chapterId>/quiz/qN") do not move the resume pointer
+  if (!segId.endsWith("/quiz")) progress.resume = { segmentId: segId, position: "checkpoint" };
   saveProgress(progress);
   return progress;
 }
@@ -93,7 +94,11 @@ export function endTrip(course: Course, progress: Progress): TripSummary {
     if (t.seen >= 2 && t.correct / t.seen >= 0.75) mastered.push(topic);
     else if (t.seen >= 1 && t.correct / t.seen < 0.5) weak.push(topic);
   }
-  const moduleSegs = course.modules[0].segments.length;
+  // chapter-scoped: the chapter of the most recent completed segment (or the resume pointer)
+  const anchorId = progress.segmentsCompleted.at(-1) ?? progress.resume.segmentId;
+  const chapter = chapterOf(course, anchorId) ?? course.chapters[0];
+  const moduleSegs = Math.max(1, chapter.segments.length);
+  const doneInChapter = progress.segmentsCompleted.filter((id) => id.startsWith(chapter.id + "/")).length;
   const summary: TripSummary = {
     tripId,
     startedAt,
@@ -105,7 +110,7 @@ export function endTrip(course: Course, progress: Progress): TripSummary {
     total: thisTrip.length,
     mastered,
     weak,
-    modulePct: Math.round((progress.segmentsCompleted.length / moduleSegs) * 100),
+    modulePct: Math.round((doneInChapter / moduleSegs) * 100),
     streakDays: progress.streakDays,
   };
   progress.trips.push(summary);

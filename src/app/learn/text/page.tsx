@@ -4,7 +4,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Course, GradeResponse, Plan, Question, Segment } from "@/types/lesson";
-import { findSegment } from "@/types/lesson";
 import { TripPicker } from "@/components/TripPicker";
 import { ProgressBar } from "@/components/ProgressBar";
 
@@ -28,6 +27,7 @@ export default function TextMode() {
   const router = useRouter();
   const [course, setCourse] = useState<Course | null>(null);
   const [plan, setPlan] = useState<Plan | null>(null);
+  const [segs, setSegs] = useState<Segment[]>([]); // full segments for this trip, fetched lazily
   const [phase, setPhase] = useState<Phase>({ kind: "pick" });
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const [busy, setBusy] = useState(false);
@@ -43,7 +43,6 @@ export default function TextMode() {
 
   const say = (b: Bubble) => setBubbles((prev) => [...prev, b]);
 
-  const segs: Segment[] = plan && course ? plan.segmentIds.map((id) => findSegment(course, id)!).filter(Boolean) : [];
   const seg = phase.kind === "read" || phase.kind === "ask" ? segs[phase.segIdx] : null;
   const paras = seg ? paragraphs(seg.script) : [];
 
@@ -54,9 +53,18 @@ export default function TextMode() {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ minutes, mode: "text" }),
     }).then((r) => r.json());
+    // the course manifest has no prose; fetch this trip's segments (a few KB each)
+    const full = await Promise.all(
+      p.segmentIds.map((id) =>
+        fetch(`/api/segment?id=${encodeURIComponent(id)}`)
+          .then((r) => r.json() as Promise<{ segment: Segment }>)
+          .then((r) => r.segment),
+      ),
+    );
+    setSegs(full);
     setPlan(p);
     setBusy(false);
-    const first = course ? findSegment(course, p.segmentIds[0]) : null;
+    const first = full[0];
     say({ who: "tutor", text: `${p.segmentIds.length} segment${p.segmentIds.length > 1 ? "s" : ""} fit in ${minutes} minutes. Picking up at "${first?.title}".` });
     if (p.startAt.position === "checkpoint") {
       say({ who: "tutor", text: "You already heard this one. Straight to the checkpoint." });

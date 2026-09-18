@@ -1,6 +1,6 @@
 # STATUS
 
-Updated: 2026-09-18 (keys added, pipeline verified live)
+Updated: 2026-09-18 (Principles of Management course landed, chapters 1–3 ingested)
 
 ## Done
 - Task 1: docs/OUTLINE.md
@@ -30,7 +30,7 @@ Updated: 2026-09-18 (keys added, pipeline verified live)
 - Maps API (duration picker instead)
 - Slides ingestion (transcript + quiz.md only)
 - Auth / Supabase (single demo user, JSON store)
-- Multi-course catalogue (one course)
+- Multi-course catalogue (one course; the old `sample` course still loads with `COURSE_ID=sample`)
 
 ## Gotchas
 - Vercel FS is read-only: store falls back to memory per instance. Demo from localhost if cross-request state looks flaky.

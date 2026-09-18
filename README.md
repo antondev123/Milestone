@@ -22,19 +22,21 @@ npm run dev
 ```bash
 npm install
 cp .env.example .env.local   # then fill in keys
-npm run ingest               # raw course → data/courses/sample/lesson.json (needs ANTHROPIC_API_KEY)
+npm run ingest               # chapters 1–3 of the textbook → data/courses/pom/sections (needs ANTHROPIC_API_KEY; already committed)
 npm run dev                  # http://localhost:3000
 ```
 
-`lesson.json` for the sample course is committed, so `npm run dev` works without running ingest.
+The ingested lessons for chapters 1–3 are committed, so `npm run dev` works without running ingest. See `data/courses/pom/README.md` for the PDF → course pipeline.
 
 ## Scripts
 
 | Script | What |
 |---|---|
 | `npm run dev` | Next.js dev server |
-| `npm run ingest` | Offline: `data/courses/sample/raw/*` → `lesson.json` via Claude. Never runs on the request path. |
-| `npm run demo:reset` | Delete all progress files so the demo starts fresh |
+| `npm run parse:book` | Offline, free: pdftotext dump → `data/courses/pom/source/*.md` + `course.json` |
+| `npm run ingest` | Offline: section markdown → spoken lessons via Claude, chapters 1–3 by default. Idempotent. Never runs on the request path. |
+| `npm run validate` | Check the course data: manifest ↔ files, ids, questions, script hygiene |
+| `npm run demo:reset` | Delete all progress files so the demo starts fresh (`-- --seed` for a mid-course rehearsal state) |
 | `npm run agent:configure` | Push the ElevenLabs agent config (prompt, tools, ASR) from `scripts/configure-agent.ts` |
 | `npm run ledger` | Spend and credits left, in rands. Log kept in `docs/LEDGER.md` |
 | `npm run typecheck` | `tsc --noEmit` |

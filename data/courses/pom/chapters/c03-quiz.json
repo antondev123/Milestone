@@ -1,0 +1,62 @@
+{
+  "id": "pom/c3/quiz",
+  "chapterId": "pom/c3",
+  "title": "Chapter 3 review",
+  "source": "book",
+  "questions": [
+    {
+      "id": "pom/c3/quiz/q1",
+      "prompt": "How did the Industrial Revolution change business and the economy?",
+      "type": "open",
+      "answer": "The Industrial Revolution, driven by the steam engine and Adam Smith's ideas on specialization, lowered transport costs and expanded markets. This led to the rise of large factories and modern corporations, but also created impersonal workplaces where old family-based motivation broke down, causing worker resistance and sabotage.",
+      "rubric": "Should mention factory system growth, steam engine/specialization lowering costs, and resulting worker resistance or need for management as a field.",
+      "topic": "industrial-revolution",
+      "source": "book"
+    },
+    {
+      "id": "pom/c3/quiz/q2",
+      "prompt": "What is scientific management and how did it differ from earlier management practices?",
+      "type": "open",
+      "answer": "Scientific management, developed by Taylor, based jobs on scientific research rather than habit, scientifically selected and trained workers instead of favoritism, required cooperation between management and workers, and divided responsibility fairly between them. This was different from earlier practices that relied on rule of thumb, favoritism, and no formal training.",
+      "rubric": "Must mention at least two of Taylor's four principles (scientific study of work, scientific selection/training, cooperation, division of responsibility) and contrast with prior rule-of-thumb/favoritism methods.",
+      "topic": "scientific-management",
+      "source": "book"
+    },
+    {
+      "id": "pom/c3/quiz/q3",
+      "prompt": "Who were some key contributors to scientific management, and what did each add?",
+      "type": "open",
+      "answer": "Carl Barth studied worker fatigue and created tools for calculating steel cutting speeds; Henry Gantt invented the Gantt chart for tracking work progress; Frank Gilbreth pioneered motion studies breaking tasks into basic movements; Lillian Gilbreth added focus on worker interest and human factors, later designing the modern kitchen.",
+      "rubric": "Should name at least two contributors (Barth, Gantt, Frank Gilbreth, Lillian Gilbreth) with their specific contribution.",
+      "topic": "scientific-management-contributors",
+      "source": "book"
+    },
+    {
+      "id": "pom/c3/quiz/q4",
+      "prompt": "Describe the Hawthorne studies. Was Elton Mayo a humanist?",
+      "type": "open",
+      "answer": "The Hawthorne studies revealed that social relationships, attention, and group dynamics affected worker productivity more than physical conditions or pay alone, helping launch the human relations movement. Mayo is often seen as a humanist because he emphasized psychological and social factors in the workplace over purely rational, economic incentives.",
+      "rubric": "Should mention that the studies showed social/psychological factors affect productivity beyond pay/conditions, and address Mayo's humanist orientation.",
+      "topic": "hawthorne-studies",
+      "source": "book"
+    },
+    {
+      "id": "pom/c3/quiz/q5",
+      "prompt": "What is the zone of indifference?",
+      "type": "open",
+      "answer": "The zone of indifference, from Barnard, refers to the range of orders that workers will follow without questioning because the orders are something they can do, understand, believe fit organizational goals, and don't violate their personal beliefs—even if they don't necessarily agree with them.",
+      "rubric": "Must capture that it's the set of orders workers accept/follow automatically because they are feasible, understood, aligned with goals, and not against personal ethics.",
+      "topic": "zone-of-indifference",
+      "source": "book"
+    },
+    {
+      "id": "pom/c3/quiz/q6",
+      "prompt": "Describe Follett's concept of conflict resolution.",
+      "type": "open",
+      "answer": "Follett proposed three ways to resolve conflict: domination, where one side wins; compromise, where both sides give something up; and integration, where a creative solution is found that fully satisfies both parties' underlying interests.",
+      "rubric": "Must mention all three methods—domination, compromise, integration—and note integration as the ideal creative win-win solution.",
+      "topic": "follett-conflict-resolution",
+      "source": "book"
+    }
+  ]
+}

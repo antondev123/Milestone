@@ -1,0 +1,161 @@
+{
+  "id": "pom/c2/s5",
+  "title": "Barriers to Effective Decision-Making",
+  "sourceHash": "6f7631b23e06",
+  "model": "claude-sonnet-5",
+  "segments": [
+    {
+      "id": "pom/c2/s5/g1",
+      "title": "Why We Can Never Fully Decide",
+      "durationSec": 160,
+      "sectionId": "pom/c2/s5",
+      "script": "Picture a taxi owner in Soweto trying to decide whether to buy a new minibus or fix the old one. You might think a good manager just gathers all the facts and picks the best option, but that is not really how it works. Managers face what is called bounded rationality, the idea that we cannot be completely rational because we simply cannot gather every piece of information, and even if we could, our brains cannot process all of it. The taxi owner does not know exactly how many more months the old engine will last, what fuel prices will do next year, or how reliable the new supplier really is. He has to decide with incomplete information and limited time, just like every manager does. This is especially true for nonprogrammed decisions, ones we have not faced before, because we do not even know which questions to ask. Now imagine he chooses to fix the old minibus instead of buying new. Two months later it breaks down again, costing him more in repairs than a new vehicle would have cost. Does he cut his losses, or does he keep pouring money into fixing it because he has already invested so much? This is escalation of commitment, staying loyal to a bad decision because abandoning it feels like admitting failure. Effective managers recognise that continuing down a wrong road is not progress, and they are willing to change course even after real money and pride have been spent. Add to this the pressure of time. A spaza shop owner deciding whether to restock before a public holiday rush does not have days to research suppliers; she has hours. Under time pressure, we lean on heuristics, mental shortcuts built from experience, which are fast but not always accurate. Then there is uncertainty. A manager at a Shoprite branch choosing between two promotional campaigns cannot know in advance which one will bring more customers through the door. She commits to one, watches what happens, and never truly knows what the other choice would have delivered. All of these barriers, bounded rationality, escalation of commitment, time constraints, and uncertainty, mean that decision-making is never as clean as a textbook diagram. The best managers stay aware of these limits, gather what evidence they reasonably can, and remain humble enough to adjust when new information arrives, rather than pretending they had perfect foresight from the start.",
+      "keyPoints": [
+        "Bounded rationality means managers can never gather or process all relevant information",
+        "Escalation of commitment is staying committed to a bad choice because of what has already been invested",
+        "Time pressure pushes managers toward quick heuristics instead of careful analysis",
+        "Uncertainty means you never know what the road not taken would have produced"
+      ],
+      "altExplanation": "Think about packing for a long taxi trip to the Eastern Cape without knowing the weather ahead. You cannot check every town's forecast, so you pack based on general experience, a jacket just in case, some cash for fuel stops. That is bounded rationality, doing your best with limited foresight. If you pack wrong and it rains, you might stubbornly refuse to buy a raincoat along the way because you already spent money on a jacket that did not work, that stubbornness is escalation of commitment. Rushing to leave on time makes you grab whatever is nearest instead of the ideal item, that is a time constraint. And not knowing if the alternate route would have been faster is uncertainty, you only ever see the results of the road you chose.",
+      "deeper": "Bounded rationality was introduced by Herbert Simon to challenge the classical economic idea that decision makers are perfectly rational calculators. Simon argued that real decision makers operate within cognitive and informational limits, so instead of finding the optimal choice, they often settle for a satisfactory one, a related idea called satisficing. Escalation of commitment is closely tied to sunk cost thinking, where past investment of money, time, or reputation clouds judgement about future action, even though rationally those past costs cannot be recovered regardless of what happens next. Time constraints interact with the brain's reactive and reflective systems, when time is short, the quick intuitive reactive system dominates over the slower analytical reflective system, which increases reliance on heuristics. Uncertainty differs from risk in that risk can sometimes be estimated with probabilities, while true uncertainty means outcomes are essentially unknowable in advance. Recognising these four barriers helps managers build in checks, such as setting review dates for decisions, or deliberately slowing down high stakes choices even when pressure to act fast is strong.",
+      "example": "A clinic manager in Tembisa has to decide quickly whether to keep using an ageing X-ray machine or approve an expensive replacement before month end budgets close. She does not have time to test every alternative supplier, and she cannot know for certain how many more scans the old machine can safely perform. She relies on the technician's experience, a heuristic, and commits to a decision under real uncertainty, accepting she may need to revisit it if the machine fails sooner than expected.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s5/g1/q1",
+          "prompt": "List and describe at least three barriers to effective decision-making.",
+          "type": "open",
+          "answer": "Barriers include bounded rationality, where managers lack complete information and full cognitive capacity to process everything; escalation of commitment, where decision makers stay loyal to a poor decision despite worsening outcomes; time constraints, which push managers toward heuristics instead of thorough analysis; uncertainty, where outcomes of alternatives can never be fully known in advance; personal biases such as confirmation bias; and conflict between individuals.",
+          "rubric": "Answer must name and briefly describe at least three distinct barriers from the list: bounded rationality, escalation of commitment, time constraints, uncertainty, personal biases, or conflict, with a correct description of each named barrier.",
+          "topic": "decision-barriers-overview",
+          "source": "book"
+        },
+        {
+          "id": "pom/c2/s5/g1/q2",
+          "prompt": "A manager keeps funding a failing project because she already spent so much money on it. This is an example of what?",
+          "type": "mcq",
+          "options": [
+            "Escalation of commitment",
+            "Bounded rationality",
+            "Confirmation bias",
+            "Process conflict"
+          ],
+          "answer": "Escalation of commitment",
+          "rubric": "Must select escalation of commitment.",
+          "topic": "escalation-of-commitment",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c2/s5/g1/q3",
+          "prompt": "Explain why nonprogrammed decisions are harder to make rationally than programmed decisions.",
+          "type": "open",
+          "answer": "Nonprogrammed decisions are novel, so decision makers do not have established rules or prior experience to draw on, making it harder to know what information to gather or how to interpret it, unlike programmed decisions which follow known, repeated rules.",
+          "rubric": "Must mention that nonprogrammed decisions are novel or unfamiliar, lacking established rules, unlike programmed decisions which have known criteria.",
+          "topic": "programmed-vs-nonprogrammed",
+          "source": "generated"
+        }
+      ]
+    },
+    {
+      "id": "pom/c2/s5/g2",
+      "title": "Our Own Minds Get in the Way",
+      "durationSec": 165,
+      "sectionId": "pom/c2/s5",
+      "script": "We like to think we judge people and ideas fairly, but our brains are wired to favour what feels familiar. Think about a hiring manager at a call centre in Durban who studied at the same college she now recruits from. Without even realising it, she may lean toward candidates from that college, not because they are better qualified, but because they feel familiar and similar to her. This is the similar-to-me bias, and it can lead to real problems, hiring less capable people, trusting some employees' excuses while doubting others, or sticking with an old supplier out of comfort even when a better one exists. Our brains love to sort information into neat categories, and once a category is set, like this employee is excellent or this supplier is reliable, the brain resists rearranging it. That resistance shows up as confirmation bias, the tendency to notice and remember information that supports what we already believe, while ignoring or explaining away information that contradicts it. Imagine a manager at a stokvel-run investment club who was convinced early on that a particular member's business idea would succeed. Every good sign gets noticed and celebrated, every warning sign gets brushed off as bad luck rather than poor planning. The opposite happens when we dislike someone, their mistakes get magnified and their successes get ignored or credited to luck. This is partly why workplace politics and rivalries can become so bitter, once a negative impression forms, it becomes very hard to see that person objectively. Part of the reason confirmation bias is so powerful is that having our beliefs challenged feels threatening, and that threat pushes our brain toward the fast, emotional reactive system rather than the slower, logical reflective system. This makes it genuinely difficult to change someone's mind once they feel sure of themselves. Effective managers know this about themselves too. They deliberately seek out second opinions, invite people who see things differently into the conversation, and try to look at a decision from more than one angle before locking it in. At an Eskom regional office, for example, a good manager reviewing a contractor's performance report would not just accept a glowing summary at face value if the contractor is someone they personally like, they would ask a colleague with no personal relationship to that contractor to review the numbers independently. That extra step of seeking outside perspective is one of the most reliable ways to counter the pull of our own biases.",
+      "keyPoints": [
+        "We tend to favour people and ideas that feel similar or familiar to us",
+        "Confirmation bias means we notice information that confirms beliefs and ignore what contradicts them",
+        "Challenges to our beliefs feel threatening and trigger the reactive rather than reflective brain system",
+        "Seeking multiple perspectives and independent opinions helps offset personal bias"
+      ],
+      "altExplanation": "Think of your brain like a filing cabinet that has already labelled certain folders as good and others as bad. Once someone or something gets filed under good, like a trusted taxi driver on your route, you keep adding positive notes to that folder and toss out anything negative, maybe blaming a late arrival on traffic rather than the driver. If a new driver gets filed under unproven or different, you scrutinise every small mistake much more harshly. The filing cabinet does not want to relabel folders, it takes effort, so the brain just keeps stuffing information into the existing files whether it truly belongs there or not. That stubborn filing habit is confirmation bias.",
+      "deeper": "Confirmation bias operates alongside a broader pattern of motivated reasoning, where people interpret evidence in ways that protect their existing self-image or prior commitments rather than purely seeking truth. This connects to the distinction between the reactive system, which is fast, intuitive, and emotionally driven, and the reflective system, which is slower, logical, and deliberate. When a core belief is challenged, the brain often responds as though facing a threat, activating the reactive system and shutting down careful reflective analysis, which explains why presenting someone with contrary facts can sometimes make them cling more tightly to their original view rather than less. In organisations, this has serious consequences beyond individual relationships, it can affect hiring, performance reviews, supplier selection, and strategic choices, since decision makers may unconsciously seek out data that supports a favoured option while discounting warning signs. Building structured processes, such as requiring written justification for decisions, rotating who reviews performance data, or explicitly assigning someone to argue the opposing view, can help counteract this natural tendency and improve decision quality across the organisation.",
+      "example": "A branch manager at a bank in Polokwane has always liked one teller because they attended the same church. When customer complaints come in about long queues at that teller's counter, the manager assumes it is just a busy day, but when a different teller gets a similar complaint, the manager immediately schedules a performance review. This uneven response is confirmation bias shaping how the manager interprets the same type of evidence differently depending on who is involved.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s5/g2/q1",
+          "prompt": "Explain the concept of confirmation bias.",
+          "type": "open",
+          "answer": "Confirmation bias is the tendency for a person to pay attention to information that confirms her existing beliefs and ignore information that conflicts with these existing beliefs, making it difficult to evaluate situations objectively, especially regarding people we like or dislike.",
+          "rubric": "Must state that confirmation bias involves favouring or noticing information that supports existing beliefs while ignoring or discounting contradicting information.",
+          "topic": "confirmation-bias",
+          "source": "book"
+        },
+        {
+          "id": "pom/c2/s5/g2/q2",
+          "prompt": "Why does challenging someone's strongly held belief often fail to change their mind?",
+          "type": "mcq",
+          "options": [
+            "It activates the reactive system, blocking reflective analysis",
+            "It has no effect on the brain",
+            "It always triggers satisficing",
+            "It removes bounded rationality"
+          ],
+          "answer": "It activates the reactive system, blocking reflective analysis",
+          "rubric": "Must select the option about the reactive system blocking reflective analysis.",
+          "topic": "reactive-reflective-systems",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c2/s5/g2/q3",
+          "prompt": "Describe one practical step a manager can take to reduce the impact of confirmation bias when making a decision.",
+          "type": "open",
+          "answer": "A manager can seek out multiple perspectives or independent opinions, such as asking someone without a personal relationship to the person or issue involved to review the evidence.",
+          "rubric": "Answer must describe seeking outside, multiple, or independent perspectives or opinions as a way to counter personal bias.",
+          "topic": "reducing-bias",
+          "source": "generated"
+        }
+      ]
+    },
+    {
+      "id": "pom/c2/s5/g3",
+      "title": "When Conflict Helps and Hurts",
+      "durationSec": 183,
+      "sectionId": "pom/c2/s5",
+      "script": "Most people avoid conflict whenever they can, it feels uncomfortable and stressful. But sometimes the right decision is exactly the one that stirs up conflict. Picture a supervisor at a warehouse in Germiston who has an employee who is often late, forcing colleagues to cover his tasks. The supervisor knows a conversation about this will be tense and the employee might react badly, but avoiding that conversation is worse in the long run. If the lateness continues unchecked, other workers notice that bad behaviour goes unpunished, and some may start showing up late themselves. Eventually the best performers, the ones who have other options, get frustrated and leave for better managed workplaces, while the problem employee stays. So sometimes taking on short term discomfort through necessary conflict protects the team's long term health. It helps to separate conflict into two very different kinds. Process conflict is disagreement about the best way to do something, like two colleagues at a municipal office debating whether to switch to a new billing system or improve the current one. This kind of conflict, when handled respectfully, actually improves outcomes because people are forced to examine assumptions and explore better options together. Relationship conflict is different, it becomes personal, involving attacks on someone's character rather than their ideas, like two taxi association members feuding over an old grudge that has nothing to do with the route schedule they are supposed to be planning. Relationship conflict is almost always harmful because feeling personally attacked pushes people into the reactive system of the brain, making calm reasoning nearly impossible. Effective managers try to keep disagreements focused on process, on behaviours and tasks, rather than letting them slide into personal attacks. When giving feedback, a good manager at an insurance office in Cape Town would say the report was submitted three days late rather than you are careless and unreliable, keeping the focus on the action rather than the person. This is where emotional intelligence matters, the ability to understand and manage emotions in yourself and others helps a manager notice when a discussion is drifting from healthy process conflict into damaging relationship conflict, and to steer it back. Satya Nadella's approach at Microsoft illustrates this well. When he became CEO, he pushed the company away from a culture where employees needed to prove they were the smartest person in the room, toward one built on curiosity, listening, and empathetic communication. He had his top team read a book on nonviolent communication and encouraged honest opinions without personal attacks. That shift toward valuing learning over knowing it all reduced destructive relationship conflict and made room for the kind of open process conflict that actually improves decisions, contributing to Microsoft's turnaround in both culture and financial performance.",
+      "keyPoints": [
+        "Avoiding necessary conflict, like correcting poor behaviour, often causes bigger problems later",
+        "Process conflict is disagreement about the best way to do a task and can improve outcomes",
+        "Relationship conflict is personal and destructive, pushing people into reactive, emotional thinking",
+        "Emotional intelligence helps managers keep disagreements focused on tasks rather than personalities"
+      ],
+      "altExplanation": "Think of process conflict like two mechanics arguing over the best way to fix a taxi's gearbox, they disagree about the method, but both want the same working outcome, and the debate usually leads to a better repair. Relationship conflict is more like two mechanics who dislike each other personally and start insulting each other's competence regardless of the actual gearbox problem, nothing useful gets fixed because the argument is really about ego and history, not the task. A good workshop owner would encourage the first kind of debate and shut down the second kind quickly, because one builds better cars and the other just builds resentment.",
+      "deeper": "The distinction between process conflict and relationship conflict comes from organisational behaviour research showing that not all conflict is equally damaging, task related disagreement, when managed constructively, can surface better alternatives and prevent groupthink, the tendency of a group to agree too quickly without real discussion. In fact, having a devil's advocate deliberately introduce process conflict can protect a team from suppression of dissent, where a dominant voice discourages others from sharing differing views. Relationship conflict, by contrast, tends to escalate because personal attacks trigger defensive, emotional responses rooted in the reactive system, making it very hard to return to calm, reflective thinking. Managers can reduce the risk of process conflict sliding into relationship conflict by using structured discussion formats, focusing feedback strictly on observable behaviours rather than character judgments, and modelling calm responses even when challenged. Leaders with strong emotional intelligence are better positioned to read the room, sense when a discussion is becoming personal, and redirect it before lasting damage is done to trust and collaboration within the team.",
+      "example": "At a school in Mitchells Plain, two teachers disagree loudly about whether to change the timetable to improve exam results, this is process conflict and, after a heated but respectful debate, they land on a better combined plan. Later, one teacher makes a snide personal remark about the other's competence unrelated to the timetable issue, and the discussion turns cold and unproductive, this shift marks the moment process conflict became relationship conflict, and the principal has to step in to refocus the conversation on the actual task.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s5/g3/q1",
+          "prompt": "When is conflict beneficial, and when is it harmful? Why?",
+          "type": "open",
+          "answer": "Conflict is beneficial when it is process conflict, disagreement about the best way to do something, because it is task-oriented and constructive and helps identify superior solutions. Conflict is harmful when it becomes relationship conflict, personal disagreement based on individual differences, because it tends to be destructive and causes people to revert to a reactive, emotional response rather than reasoned thinking.",
+          "rubric": "Must distinguish process conflict as beneficial and task-focused from relationship conflict as harmful and personal, with a reason such as reactive emotional responses for why relationship conflict is destructive.",
+          "topic": "process-vs-relationship-conflict",
+          "source": "book"
+        },
+        {
+          "id": "pom/c2/s5/g3/q2",
+          "prompt": "A manager gives feedback by saying the report was late instead of saying you are lazy. What is this manager doing?",
+          "type": "mcq",
+          "options": [
+            "Keeping feedback focused on behaviour to avoid relationship conflict",
+            "Encouraging groupthink",
+            "Practising escalation of commitment",
+            "Demonstrating satisficing"
+          ],
+          "answer": "Keeping feedback focused on behaviour to avoid relationship conflict",
+          "rubric": "Must select the option about keeping feedback focused on behaviour to avoid relationship conflict.",
+          "topic": "process-vs-relationship-conflict",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c2/s5/g3/q3",
+          "prompt": "How did Satya Nadella's cultural changes at Microsoft help reduce destructive conflict?",
+          "type": "open",
+          "answer": "Nadella shifted Microsoft's culture from proving who knew the most toward curiosity, listening, and empathetic communication, including having leaders read a book on nonviolent communication, which encouraged honest process discussion while reducing personal attacks and relationship conflict.",
+          "rubric": "Answer must reference Nadella promoting empathy, listening, or nonviolent communication to shift culture away from personal attacks toward constructive discussion.",
+          "topic": "nadella-microsoft-culture",
+          "source": "generated"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "id": "pom/c2/s4",
+  "title": "Programmed and Nonprogrammed Decisions",
+  "sourceHash": "e3804e7193e2",
+  "model": "claude-sonnet-5",
+  "segments": [
+    {
+      "id": "pom/c2/s4/g1",
+      "title": "Programmed Versus Nonprogrammed Decisions",
+      "durationSec": 166,
+      "sectionId": "pom/c2/s4",
+      "script": "Think about a spaza shop owner in Soweto who orders bread, milk, and airtime every single week. She knows roughly how much stock moves on a Monday versus a Friday, she knows her supplier's delivery times, and she has done this so many times that she barely thinks about it anymore. That is what management calls a programmed decision. It is a decision you repeat over and over, where the rules are known or can be reasonably estimated, so you can build a routine around it. It might be simple, like ordering bread, or it might be complicated, like a Shoprite branch manager building next week's staff roster while juggling school holidays, leave requests, and a month-end rush. Either way, because the criteria are understood, the manager can develop what is called a heuristic, a mental shortcut built from experience. The taxi association chairperson who always adds two extra vehicles on the route whenever there is a big soccer match at FNB Stadium is using a heuristic. It is not perfect, but it is fast and it usually works well enough, and that is the whole point of a heuristic, it trades a bit of precision for a lot of speed. Programmed decisions are also easy to teach to someone new, because you can write down the rule and hand it over. Now compare that to a completely different kind of choice. Imagine the owner of a small logistics company in Durban trying to decide whether to invest in new tracking software for her trucks. There is no history to lean on. Will the software actually reduce fuel theft? Will a better system come along next year? Will drivers even use it properly? This is a nonprogrammed decision, novel, unstructured, and built on incomplete information. Here you cannot rely on a shortcut. You need to slow down, gather evidence, weigh options, and use judgment and creativity, because guessing wrong could be costly. This connects directly to how our brains work. The reactive system in your brain is quick and intuitive, and it is what fires when you use a heuristic for a programmed decision, like reflexively grabbing extra taxis for a match day. The reflective system is slower, logical, and methodical, and it is what you must engage for nonprogrammed decisions, like the trucking software investment, because rushing a novel, high-stakes choice with intuition alone often leads to poor outcomes. Recognising which system a situation calls for is itself a management skill worth developing.",
+      "keyPoints": [
+        "Programmed decisions repeat over time and follow known or estimable rules, allowing routines and heuristics.",
+        "Nonprogrammed decisions are novel and unstructured, with ambiguous or incomplete information, requiring judgment and creativity.",
+        "Heuristics are fast mental shortcuts built from experience, good enough though not always optimal.",
+        "Programmed decisions suit the brain's quick reactive system, while nonprogrammed decisions need the slower reflective system."
+      ],
+      "altExplanation": "Picture a stokvel treasurer who collects contributions every month. Counting and recording that money is a programmed decision, she has a checklist and a rhythm, and she barely has to think hard because she has done it fifty times before. Now picture the same stokvel deciding whether to invest their pooled savings in a new business venture nobody has tried before. There is no checklist for that. She must research, ask questions, weigh risks, and think it through carefully because the situation is unfamiliar. The monthly counting is routine and repeatable, the investment choice is one-off and uncertain, and that difference in familiarity is exactly what separates programmed from nonprogrammed decisions.",
+      "deeper": "The distinction between programmed and nonprogrammed decisions matters because it tells a manager where to spend scarce time and mental energy. Applying deep, careful analysis to a decision you make every week wastes effort and slows the organisation down, which is why experienced managers build heuristics and standard procedures for repeated choices, freeing up their reflective thinking for the decisions that truly need it. Conversely, treating a genuinely novel, high-stakes decision like the technology adoption example as if it were routine, by rushing it or applying an old rule of thumb, risks a poor outcome because the old rule was built for a different situation. Exhibit 2.4 in the textbook lays out a six-step decision-making process, recognising the problem, generating alternatives, analysing them, selecting one, implementing it, and evaluating its effectiveness, and this structured process is really meant for nonprogrammed decisions. People often stumble at step one, refusing to admit a decision is even needed, because acknowledging a novel problem is uncomfortable and demands the harder, slower reflective thinking rather than a quick reactive shortcut.",
+      "example": "An Eskom regional manager decides every month how many maintenance crews to schedule based on historical fault rates, a programmed decision using a known formula. But when Eskom must decide whether to adopt an entirely new grid technology to reduce load shedding, there is no historical formula to lean on, costs, reliability, and public reaction are all uncertain. That is a nonprogrammed decision requiring research, consultation with engineers and communities, and careful weighing of alternatives before committing.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s4/g1/q1",
+          "prompt": "What distinguishes a programmed decision from a nonprogrammed decision?",
+          "type": "open",
+          "answer": "A programmed decision is repeated over time and based on known or estimable rules, allowing routines and heuristics, while a nonprogrammed decision is novel, unstructured, and based on ambiguous or incomplete information requiring judgment and creativity.",
+          "rubric": "Answer must state that programmed decisions are repeated/routine with known rules and nonprogrammed decisions are novel/unstructured with incomplete or ambiguous information.",
+          "topic": "programmed-vs-nonprogrammed",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c2/s4/g1/q2",
+          "prompt": "A taxi association chairperson always adds two extra vehicles whenever there is a big soccer match, because this has worked well in the past. What is this an example of?",
+          "type": "mcq",
+          "options": [
+            "A heuristic",
+            "Escalation of commitment",
+            "Groupthink",
+            "Bounded rationality"
+          ],
+          "answer": "A heuristic",
+          "rubric": "Must select 'A heuristic' as the correct answer.",
+          "topic": "heuristics",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c2/s4/g1/q3",
+          "prompt": "Which brain system is generally engaged for nonprogrammed decisions, and why?",
+          "type": "open",
+          "answer": "The reflective system, because it is logical, analytical, and methodical, which is needed to work through novel, ambiguous situations without an established rule to rely on.",
+          "rubric": "Answer must name the reflective system and explain that nonprogrammed decisions need slower, logical, analytical processing rather than quick intuition.",
+          "topic": "reactive-reflective-systems",
+          "source": "generated"
+        }
+      ]
+    }
+  ]
+}
