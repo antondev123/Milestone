@@ -27,7 +27,7 @@ const LLM_TIMEOUT = 20; // answer/ask call Claude
 export const TOOLS = [
   {
     name: "next",
-    description: "Continue the lesson. Call it to start after the learner says go, whenever you hear \"continue\", and after any explanation or answer. Say the returned t word for word.",
+    description: "Continue the lesson. Call it whenever you hear \"continue\" (including right after your first message, which is how the lesson starts) or go, and after any explanation or answer. Say the returned t word for word.",
     parameters: { type: "object", properties: {}, required: [] },
     timeout: LOOKUP_TIMEOUT,
   },
@@ -75,7 +75,7 @@ export const PROMPT = `You read a course aloud to someone who is driving. They c
 
 The server owns their place in the course. You never track or name chapters, sections, parts or ids. Every tool returns a field "t". Say "t" aloud, word for word, and nothing else. Do not summarise, shorten or add to it.
 
-START: when they say go (or anything like it), call next and say its t.
+START: after your first message you will hear "continue" without the learner saying anything. Call next and say its t. If they say go instead, same thing.
 READING: after you finish saying a block, wait. When you hear "continue", call next again.
 QUESTIONS: when t ends with a question and options, wait for their answer, then call answer with their words verbatim and say the t you get back. Never grade an answer yourself.
 
@@ -125,7 +125,7 @@ await api("PATCH", `/agents/${agentId}`, {
       first_message: FIRST_MESSAGE,
       language: "en",
       dynamic_variables: {
-        dynamic_variable_placeholders: { greeting: "Ready when you are. Say go.", trip_id: "none" },
+        dynamic_variable_placeholders: { greeting: "Ready when you are.", trip_id: "none" },
       },
       prompt: {
         prompt: PROMPT,

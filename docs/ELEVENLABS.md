@@ -28,7 +28,7 @@ This creates the seven client tools and patches the agent with everything below.
 {{greeting}}
 ```
 
-`greeting` is composed server-side by `src/lib/say.ts` from the cursor (fresh start / resume mid-part / resume at a checkpoint) and sent both as a dynamic variable and as a `firstMessage` override. The agent never computes position.
+`greeting` is composed server-side by `src/lib/say.ts` from the cursor (fresh start / resume mid-part / resume at a checkpoint) and sent both as a dynamic variable and as a `firstMessage` override. The agent never computes position. The greeting no longer asks the learner to say go: reading starts as soon as it is spoken (see §6 step 2).
 
 ## 3. System prompt
 
@@ -62,7 +62,7 @@ Everything the agent does not need (ids, options arrays, flags) stays in the cli
 Text-only rehearsal without a mic: open `/learn/voice?text=1`, start, and type commands in the box. Same agent, same tools, no TTS credits.
 
 1. `npm run dev`, open `/learn/voice`, pick 10 min, Start talking. Allow mic.
-2. Agent greets with the server line ("Back in chapter one… Say go"). Say "go".
+2. Agent greets with the server line ("Back in chapter one… Here we go") and starts reading by itself: the client arms auto-continue before the session, so the first `listening` sends "continue" and the agent calls `next`. No "go" needed.
 3. It reads a block, pauses ~1 s, and continues on its own. Interrupt mid-block with "explain that differently". The tutor should go quiet within a syllable of you speaking and the orb should stop glowing at the same moment (local ducking, `src/components/useBargeInDucking.ts`); then it gives the analogy at full volume and continues reading the interrupted block ("Back to it."). Clap once while it reads: expect a ~1 s dip and a smooth return, not a stop. Add `?debug=1` to the URL to see the mic meter and duck phase.
 4. At a question, answer with a letter or in your own words. Vague open answers are rejected with a nudge.
 5. Ask something off-script ("how does this apply to a taxi business?"). Answer comes from the book; "continue" re-anchors.
