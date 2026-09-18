@@ -9,14 +9,23 @@ export interface Sentence {
 
 export function sentences(script: string): Sentence[] {
   const out: Sentence[] = [];
-  const re = /[^.!?]+(?:[.!?]+["')\]]*|$)/g;
+  const push = (from: number, to: number) => {
+    const chunk = script.slice(from, to);
+    const lead = chunk.length - chunk.trimStart().length;
+    const text = chunk.trim();
+    if (text) out.push({ start: from + lead, end: from + lead + text.length, text });
+  };
+  const re = /[.!?]+["')\]]*(?=\s|$)/g;
+  let start = 0;
   let m: RegExpExecArray | null;
   while ((m = re.exec(script))) {
-    if (!m[0]) break;
-    const lead = m[0].length - m[0].trimStart().length;
-    const text = m[0].trim();
-    if (text) out.push({ start: m.index + lead, end: m.index + lead + text.length, text });
+    const before = script.slice(start, m.index);
+    // not a boundary: initials and abbreviations such as "U.S." or "Dr."
+    if (m[0] === "." && (/(?:^|[\s.(])[A-Z]$/.test(before) || /\b(?:Mr|Mrs|Ms|Dr|St|vs|etc|e\.g|i\.e|No)$/.test(before))) continue;
+    push(start, m.index + m[0].length);
+    start = m.index + m[0].length;
   }
+  push(start, script.length);
   return out;
 }
 
@@ -52,15 +61,16 @@ export function paragraphs(list: Sentence[], from = 0, target = 40): Sentence[][
 
 /** The last few words before `offset`, for the resume card: "…every rand has a job before the". */
 export function fragmentBefore(script: string, offset: number, maxWords = 14): string {
-  const head = script.slice(0, offset).trimEnd();
-  const w = head.split(/\s+/).filter(Boolean);
+  let head = script.slice(0, offset);
+  if (/\w$/.test(head) && /^\w/.test(script.slice(offset))) head = head.replace(/\S+$/, ""); // never show half a word
+  const w = head.trimEnd().split(/\s+/).filter(Boolean);
   return w.slice(-maxWords).join(" ");
 }
 
 /** The first few words from `offset`, for a leg that has not started yet. */
 export function fragmentFrom(script: string, offset: number, maxWords = 14): string {
   const w = script.slice(offset).trim().split(/\s+/).filter(Boolean);
-  return w.slice(0, maxWords).join(" ");
+  return w.slice(0, maxWords).join(" ").replace(/[,;:]+$/, "");
 }
 
 /** True when the offset sits inside a sentence rather than on a boundary. */

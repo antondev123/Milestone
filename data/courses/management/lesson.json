@@ -1,0 +1,319 @@
+{
+  "id": "management",
+  "title": "Managing and Performing",
+  "description": "What managers actually do, the roles they play, and how the job changes with level and function. Chapter 1 of OpenStax Principles of Management, in eight legs.",
+  "source": "OpenStax Principles of Management",
+  "estimatedMinutes": 32,
+  "modules": [
+    {
+      "id": "management/m1",
+      "title": "Managing and Performing",
+      "segments": [
+        {
+          "id": "management/m1/s1",
+          "title": "Management is more than common sense",
+          "durationSec": 149,
+          "script": "So, you're in this course and you may have pondered, or discussed with others, what this course will be about. You probably have some preconceptions of what management is all about. You must manage your time, deciding on how much study time you will devote to your management and accounting classes, for instance. You may have had a summer or part-time job where you had a manager whom you had to report to. You may have followed news reports on successful managers like Jeff Bezos of Amazon or Sheryl Sandberg of Facebook and want to learn what made them successful so you can emulate their practices in your business career. You may have the impression (not an accurate one) that management is basically just common sense and that you really don't need to take this course except that you must meet your degree requirement. You may be an accounting or marketing major who is taking this class because it is required for completion of your degree requirements, but you don't think that you will ever require what you learn in this class during your career since you don't plan on applying for HR jobs upon graduation. If you're believing this, you could not be more mistaken. Regardless of where you are in your career, be it as an individual contributor, project leader, or middle or senior manager, what you will get out of this course will be valuable. If your first job out of college is as an accountant, sales representative, or another entry-level position, you will appreciate the roles that your managers, both direct and senior level, play in an organization and the behaviors and actions that will get you recognized and appreciated. Best of luck! Most management textbooks would say, as does this one, that managers spend their time engaged in planning, organizing, staffing, directing, coordinating, reporting, and controlling. These activities, as Hannaway found in her study of managers at work, \"do not, in fact, describe what managers do.\" At best they seem to describe vague objectives that managers are continually trying to accomplish. The real world, however, is far from being that simple. The world in which most managers work is a \"messy and hectic stream of ongoing activity.\"",
+          "keyPoints": [
+            "What you learn about management is useful at every career stage, not only in HR or senior jobs",
+            "Textbooks list planning, organizing, staffing, directing, coordinating, reporting and controlling",
+            "Hannaway found those activities do not describe what managers actually do",
+            "Real managerial work is a messy and hectic stream of ongoing activity"
+          ],
+          "altExplanation": "The textbook list of management activities reads like a tidy job description. When researchers watched managers at work, the tidy list did not match what they saw. The list describes goals managers keep aiming at, while the day itself is messy, hectic and continuous.",
+          "deeper": "The chapter's learning objectives frame the whole course: what managers do to help organizations achieve top performance, the roles they play, and the characteristics effective managers display. The rest of this chapter answers each of those in turn.",
+          "checkpoint": [
+            {
+              "id": "management/m1/s1/q1",
+              "prompt": "According to Hannaway, what is wrong with the textbook list of planning, organizing and controlling?",
+              "type": "mcq",
+              "options": [
+                "It only applies to senior managers",
+                "It does not describe what managers actually do",
+                "It leaves out reporting"
+              ],
+              "answer": "It does not describe what managers actually do",
+              "rubric": "Hannaway found that these activities \"do not, in fact, describe what managers do\"; at best they describe vague objectives managers keep trying to reach.",
+              "topic": "textbook-vs-reality"
+            },
+            {
+              "id": "management/m1/s1/q2",
+              "prompt": "How does the chapter describe the world most managers actually work in?",
+              "type": "open",
+              "answer": "A messy and hectic stream of ongoing activity.",
+              "rubric": "Must convey that managerial work is messy, hectic or a constant stream of activity rather than a neat, orderly process.",
+              "topic": "nature-of-managerial-work"
+            }
+          ],
+          "sourceSection": "1.1"
+        },
+        {
+          "id": "management/m1/s2",
+          "title": "What managers actually do all day",
+          "durationSec": 242,
+          "script": "Managers are in constant action. Virtually every study of managers in action has found that they \"switch frequently from task to task, changing their focus of attention to respond to issues as they arise, and engaging in a large volume of tasks of short duration.\" Mintzberg observed CEOs on the job to get some idea of what they do and how they spend their time. He found, for instance, that they averaged 36 written and 16 verbal contacts per day, almost every one of them dealing with a distinct or different issue. Most of these activities were brief, lasting less than nine minutes. Kotter studied a number of successful general managers over a five-year period and found that they spend most of their time with others, including subordinates, their bosses, and numerous people from outside the organization. Kotter's study found that the average manager spent just 25% of his time working alone, and that time was spent largely at home, on airplanes, or commuting. Few of them spent less than 70% of their time with others, and some spent up to 90% of their working time this way. Kotter also found that the breadth of topics in their discussions with others was extremely wide, with unimportant issues taking time alongside important business matters. His study revealed that managers rarely make \"big decisions\" during these conversations and rarely give orders in a traditional sense. They often react to others' initiatives and spend substantial amounts of time in unplanned activities that aren't on their calendars. He found that managers will spend most of their time with others in short, disjointed conversations. \"Discussions of a single question or issue rarely last more than ten minutes,\" he notes. \"It is not at all unusual for a general manager to cover ten unrelated topics in a five-minute conversation.\" More recently, managers studied by Sproull showed similar patterns. During the course of a day, they engaged in 58 different activities with an average duration of just nine minutes. Interruptions also appear to be a natural part of the job. Stewart found that the managers she studied could work uninterrupted for half an hour only nine times during the four weeks she studied them. Managers, in fact, spend very little time by themselves. Contrary to the image offered by management textbooks, they are rarely alone drawing up plans or worrying about important decisions. Instead, they spend most of their time interacting with others—both inside and outside the organization. If casual interactions in hallways, phone conversations, one-on-one meetings, and larger group meetings are included, managers spend about two thirds of their time with other people. As Mintzberg has pointed out, \"Unlike other workers, the manager does not leave the telephone or the meeting to get back to work. Rather, these contacts are his work.\" The interactive nature of management means that most management work is conversational. When managers are in action, they are talking and listening. Studies on the nature of managerial work indicate that managers spend about two-thirds to three-quarters of their time in verbal activity. These verbal conversations, according to Eccles and Nohria, are the means by which managers gather information, stay on top of things, identify problems, negotiate shared meanings, develop plans, put things in motion, give orders, assert authority, develop relationships, and spread gossip. In short, they are what the manager's daily practice is all about. \"Through other forms of talk, such as speeches and presentations,\" they write, \"managers establish definitions and meanings for their own actions and give others a sense of what the organization is about, where it is at, and what it is up to.\"",
+          "keyPoints": [
+            "Managers switch from task to task; most activities last under ten minutes",
+            "Kotter found the average manager spent only 25% of the time alone",
+            "Interruptions are normal; managers spend about two thirds of their time with other people",
+            "Most management work is conversation: talking and listening is how managers gather information and get things moving"
+          ],
+          "altExplanation": "Picture a manager's day as a long run of short conversations rather than quiet hours of planning. Study after study found brief, fragmented activities, constant interruptions, and most of the day spent with other people. For a manager, those contacts are not a distraction from the work. They are the work.",
+          "deeper": "The chapter summary puts it this way: managers perform a variety of functions, but one of the most important is communicating with direct reports to help their organizations achieve and exceed goals.",
+          "checkpoint": [
+            {
+              "id": "management/m1/s2/q1",
+              "prompt": "In Kotter's study, how much of their time did the average manager spend working alone?",
+              "type": "mcq",
+              "options": [
+                "About 50%",
+                "About 75%",
+                "Just 25%"
+              ],
+              "answer": "Just 25%",
+              "rubric": "Kotter found the average manager spent just 25% of the time working alone, mostly at home, on airplanes or commuting.",
+              "topic": "time-with-others"
+            },
+            {
+              "id": "management/m1/s2/q2",
+              "prompt": "Why is most management work described as conversational?",
+              "type": "open",
+              "answer": "Because managers spend most of their time talking and listening to other people, about two thirds to three quarters of their time, and those conversations are how they gather information, plan and get things done.",
+              "rubric": "Must say that managers spend most of their time in verbal activity (talking and listening with others). Credit extra if they say conversation is how managers gather information, plan or act.",
+              "topic": "conversational-work"
+            }
+          ],
+          "sourceSection": "1.2"
+        },
+        {
+          "id": "management/m1/s3",
+          "title": "Interpersonal roles: figurehead, leader, liaison",
+          "durationSec": 191,
+          "script": "In Mintzberg's seminal study of managers and their jobs, he found the majority of them clustered around three core management roles. Managers are required to interact with a substantial number of people in the course of a workweek. They host receptions; take clients and customers to dinner; meet with business prospects and partners; conduct hiring and performance interviews; and form alliances, friendships, and personal relationships with many others. Numerous studies have shown that such relationships are the richest source of information for managers because of their immediate and personal nature. Three of a manager's roles arise directly from formal authority and involve basic interpersonal relationships. First is the figurehead role. As the head of an organizational unit, every manager must perform some ceremonial duties. In Mintzberg's study, chief executives spent 12% of their contact time on ceremonial duties; 17% of their incoming mail dealt with acknowledgments and requests related to their status. One example is a company president who requested free merchandise for a handicapped schoolchild. Managers are also responsible for the work of the people in their unit, and their actions in this regard are directly related to their role as a leader. The influence of managers is most clearly seen, according to Mintzberg, in the leader role. Formal authority vests them with great potential power. Leadership determines, in large part, how much power they will realize. Does the leader's role matter? Ask the employees of Chrysler Corporation (now DaimlerChrysler). When Lee Iacocca took over the company in the 1980s, the once-great auto manufacturer was in bankruptcy, teetering on the verge of extinction. He formed new relationships with the United Auto Workers, reorganized the senior management of the company, and—perhaps most importantly—convinced the U.S. federal government to guarantee a series of bank loans that would make the company solvent again. The loan guarantees, the union response, and the reaction of the marketplace were due in large measure to Iacocca's leadership style and personal charisma. More recent examples include the return of Starbucks founder Howard Schultz to reenergize and steer his company, and Amazon CEO Jeff Bezos and his ability to innovate during a downturn in the economy. Popular management literature has had little to say about the liaison role until recently. This role, in which managers establish and maintain contacts outside the vertical chain of command, becomes especially important in view of the finding of virtually every study of managerial work that managers spend as much time with peers and other people outside of their units as they do with their own subordinates. Surprisingly, they spend little time with their own superiors. In Rosemary Stewart's study, 160 British middle and top managers spent 47% of their time with peers, 41% of their time with people inside their unit, and only 12% of their time with superiors. Guest's (1956) study of U.S. manufacturing supervisors revealed similar findings.",
+          "keyPoints": [
+            "Mintzberg grouped managers' work into three core roles: interpersonal, informational and decisional",
+            "Figurehead: ceremonial duties that come with heading a unit",
+            "Leader: responsibility for the people in the unit; leadership decides how much of a manager's power is realized",
+            "Liaison: contacts outside the vertical chain of command, with peers as much as subordinates"
+          ],
+          "altExplanation": "The three interpersonal roles all come from a manager's formal position. As figurehead they represent the unit at ceremonies. As leader they are responsible for their people's work. As liaison they build contacts sideways and outward, not just up and down the chain of command.",
+          "deeper": "Stewart's study of 160 British middle and top managers found they spent 47% of their time with peers, 41% with people inside their unit, and only 12% with superiors, which is why the liaison role matters more than popular literature once assumed.",
+          "checkpoint": [
+            {
+              "id": "management/m1/s3/q1",
+              "prompt": "Which interpersonal role covers a manager's ceremonial duties?",
+              "type": "mcq",
+              "options": [
+                "Figurehead",
+                "Liaison",
+                "Leader"
+              ],
+              "answer": "Figurehead",
+              "rubric": "As head of an organizational unit, every manager performs some ceremonial duties. Mintzberg calls this the figurehead role.",
+              "topic": "figurehead-role"
+            },
+            {
+              "id": "management/m1/s3/q2",
+              "prompt": "What does a manager do in the liaison role?",
+              "type": "open",
+              "answer": "Builds and maintains contacts outside the vertical chain of command, such as peers and people outside their own unit.",
+              "rubric": "Must mention building or keeping contacts outside the chain of command or outside their own unit (peers, other departments, outside people).",
+              "topic": "liaison-role"
+            }
+          ],
+          "sourceSection": "1.3"
+        },
+        {
+          "id": "management/m1/s4",
+          "title": "Informational roles: monitor, disseminator, spokesperson",
+          "durationSec": 120,
+          "script": "Managers are required to gather, collate, analyze, store, and disseminate many kinds of information. In doing so, they become information resource centers, often storing huge amounts of information in their own heads, moving quickly from the role of gatherer to the role of disseminator in minutes. Although many business organizations install large, expensive management information systems to perform many of those functions, nothing can match the speed and intuitive power of a well-trained manager's brain for information processing. Not surprisingly, most managers prefer it that way. As monitors, managers are constantly scanning the environment for information, talking with liaison contacts and subordinates, and receiving unsolicited information, much of it as a result of their network of personal contacts. A good portion of this information arrives in verbal form, often as gossip, hearsay, and speculation. In the disseminator role, managers pass privileged information directly to subordinates, who might otherwise have no access to it. Managers must not only decide who should receive such information, but how much of it, how often, and in what form. Increasingly, managers are being asked to decide whether subordinates, peers, customers, business partners, and others should have direct access to information 24 hours a day without having to contact the manager directly. In the spokesperson role, managers send information to people outside of their organizations: an executive makes a speech to lobby for an organizational cause, or a supervisor suggests a product modification to a supplier. Increasingly, managers are also being asked to deal with representatives of the news media, providing both factual and opinion-based responses that will be printed or broadcast to vast unseen audiences, often directly or with little editing. The risks in such circumstances are enormous, but so too are the potential rewards in terms of brand recognition, public image, and organizational visibility.",
+          "keyPoints": [
+            "Managers act as information resource centres, gathering and passing on information quickly",
+            "Monitor: scanning the environment, often through personal contacts and word of mouth",
+            "Disseminator: passing privileged information to subordinates who would not otherwise have it",
+            "Spokesperson: sending information outside the organization, including to the news media"
+          ],
+          "altExplanation": "Think of information flowing through the manager in three directions. As monitor, it flows in from contacts and the environment. As disseminator, it flows down to their own people. As spokesperson, it flows out to suppliers, the public and the media.",
+          "deeper": "The chapter notes that managers are increasingly asked to decide whether subordinates, peers, customers and partners should have direct access to information around the clock, without going through the manager at all.",
+          "checkpoint": [
+            {
+              "id": "management/m1/s4/q1",
+              "prompt": "A supervisor suggests a product change to a supplier. Which informational role is that?",
+              "type": "mcq",
+              "options": [
+                "Monitor",
+                "Spokesperson",
+                "Disseminator"
+              ],
+              "answer": "Spokesperson",
+              "rubric": "In the spokesperson role, managers send information to people outside their organization, for example a supervisor suggesting a product modification to a supplier.",
+              "topic": "spokesperson-role"
+            },
+            {
+              "id": "management/m1/s4/q2",
+              "prompt": "What does a manager do in the disseminator role?",
+              "type": "open",
+              "answer": "Passes privileged information directly to subordinates who might otherwise have no access to it, deciding who gets it, how much, how often and in what form.",
+              "rubric": "Must say the manager passes or shares information with subordinates (people inside the unit) who would otherwise not have it.",
+              "topic": "disseminator-role"
+            }
+          ],
+          "sourceSection": "1.3"
+        },
+        {
+          "id": "management/m1/s5",
+          "title": "Decisional roles: entrepreneur to negotiator",
+          "durationSec": 130,
+          "script": "Ultimately, managers are charged with the responsibility of making decisions on behalf of both the organization and the stakeholders with an interest in it. Such decisions are often made under circumstances of high ambiguity and with inadequate information. Often, the other two managerial roles—interpersonal and informational—will assist a manager in making difficult decisions in which outcomes are not clear and interests are often conflicting. In the role of entrepreneur, managers seek to improve their businesses, adapt to changing market conditions, and react to opportunities as they present themselves. Managers who take a longer-term view of their responsibilities are among the first to realize that they will need to reinvent themselves, their product and service lines, their marketing strategies, and their ways of doing business as older methods become obsolete and competitors gain advantage. While the entrepreneur role describes managers who initiate change, the disturbance or crisis handler role depicts managers who must involuntarily react to conditions. Crises can arise because bad managers let circumstances deteriorate or spin out of control, but just as often good managers find themselves in the midst of a crisis that they could not have anticipated but must react to just the same. The third decisional role of resource allocator involves managers making decisions about who gets what, how much, when, and why. Resources, including funding, equipment, human labor, office or production space, and even the boss's time are all limited, and demand inevitably outstrips supply. Managers must make sensible decisions about such matters while still retaining, motivating, and developing the best of their employees. The final decisional role is that of negotiator. Managers spend considerable amounts of time in negotiations: over budget allocations, labor and collective bargaining agreements, and other formal dispute resolutions. In the course of a week, managers will often make dozens of decisions that are the result of brief but important negotiations between and among employees, customers and clients, suppliers, and others with whom managers must deal.",
+          "keyPoints": [
+            "Decisions are often made with high ambiguity and too little information",
+            "Entrepreneur: initiating change and reacting to opportunities",
+            "Crisis handler: reacting to conditions the manager did not choose",
+            "Resource allocator and negotiator: deciding who gets what, and reaching agreement with others"
+          ],
+          "altExplanation": "The four decisional roles differ in who starts the action. The entrepreneur starts change. The crisis handler responds to change forced on them. The resource allocator divides limited money, space, people and time. The negotiator settles terms with employees, unions, customers and suppliers.",
+          "deeper": "The chapter stresses that the other two role groups feed this one: interpersonal and informational roles help a manager make difficult decisions where outcomes are unclear and interests conflict.",
+          "checkpoint": [
+            {
+              "id": "management/m1/s5/q1",
+              "prompt": "Deciding who gets funding, equipment, space and the boss's time is which decisional role?",
+              "type": "mcq",
+              "options": [
+                "Entrepreneur",
+                "Negotiator",
+                "Resource allocator"
+              ],
+              "answer": "Resource allocator",
+              "rubric": "The resource allocator role involves deciding who gets what, how much, when and why, because resources like funding, equipment, space and the boss's time are limited.",
+              "topic": "resource-allocator-role"
+            },
+            {
+              "id": "management/m1/s5/q2",
+              "prompt": "How is the crisis handler role different from the entrepreneur role?",
+              "type": "open",
+              "answer": "The entrepreneur initiates change, while the crisis handler has to react, involuntarily, to conditions they may not have anticipated.",
+              "rubric": "Must contrast starting or initiating change (entrepreneur) with reacting to unexpected or unchosen conditions (crisis handler).",
+              "topic": "crisis-vs-entrepreneur"
+            }
+          ],
+          "sourceSection": "1.3"
+        },
+        {
+          "id": "management/m1/s6",
+          "title": "Why the manager's job is so demanding",
+          "durationSec": 236,
+          "script": "Time is fragmented. Managers have acknowledged from antiquity that they never seem to have enough time to get all those things done that need to be done. In the latter years of the twentieth century, however, a new phenomenon arose: demand for time from those in leadership roles increased, while the number of hours in a day remained constant. Increased work hours was one reaction to such demand, but managers quickly discovered that the day had just 24 hours and that working more of them produced diminishing marginal returns. According to one researcher, \"Managers are overburdened with obligations yet cannot easily delegate their tasks. As a result, they are driven to overwork and forced to do many tasks superficially. Brevity, fragmentation, and verbal communication characterize their work.\" Values compete and the various roles are in tension. Managers clearly cannot satisfy everyone. Employees want more time to do their jobs; customers want products and services delivered quickly and at high quality levels. Supervisors want more money to spend on equipment, training, and product development; shareholders want returns on investment maximized. A manager caught in the middle cannot deliver to each of these people what each most wants; decisions are often based on the urgency of the need and the proximity of the problem. The job is overloaded. In recent years, many North American and global businesses were reorganized to make them more efficient, nimble, and competitive. For the most part, this reorganization meant decentralizing many processes along with the wholesale elimination of middle management layers. Many managers who survived such downsizing found that their number of direct reports had doubled. Classical management theory suggests that seven is the maximum number of direct reports a manager can reasonably handle. Today, high-speed information technology and remarkably efficient telecommunication systems mean that many managers have as many as 20 or 30 people reporting to them directly. Efficiency is a core skill. With less time than they need, with time fragmented into increasingly smaller units during the workday, with the workplace following many managers out the door and even on vacation, and with many more responsibilities loaded onto managers in downsized, flatter organizations, efficiency has become the core management skill of the twenty-first century. The entrepreneur role is gaining importance. Managers must increasingly be aware of threats and opportunities in their environment. Threats include technological breakthroughs on the part of competitors, obsolescence in a manager's organization, and dramatically shortened product cycles. Opportunities might include product or service niches that are underserved, out-of-cycle hiring opportunities, mergers, purchases, or upgrades in equipment, space, or other assets. Managers who are carefully attuned to the marketplace and competitive environment will look for opportunities to gain an advantage. So is the leader role gaining importance. Managers must be more sophisticated as strategists and mentors. A manager's job involves much more than simple caretaking in a division of a large organization. Unless organizations are able to attract, train, motivate, retain, and promote good people, they cannot possibly hope to gain advantage over the competition. Thus, as leaders, managers must constantly act as mentors to those in the organization with promise and potential. When organizations lose a highly capable worker, all else in their world will come to a halt until they can replace that worker. Even if they find someone ideally suited and superbly qualified for a vacant position, they must still train, motivate, and inspire that new recruit, and live with the knowledge that productivity levels will be lower for a while than they were with their previous employee.",
+          "keyPoints": [
+            "Time is fragmented and working longer hours gives diminishing returns",
+            "Values compete: employees, customers, supervisors and shareholders all want different things",
+            "The job is overloaded: flatter organizations mean far more direct reports than the classical limit of seven",
+            "Efficiency is the core skill, and the entrepreneur and leader roles are growing in importance"
+          ],
+          "altExplanation": "Four pressures shape the modern manager's job: not enough time, and what there is comes in small pieces; people pulling in different directions; too many direct reports after layers of middle management were cut; and work that follows them home. Under those pressures, getting things done efficiently becomes the key skill.",
+          "deeper": "The leader role grows because organizations cannot gain an advantage unless they attract, train, motivate, retain and promote good people. Losing a highly capable worker stalls things, and even an ideal replacement must be trained and will be less productive for a while.",
+          "checkpoint": [
+            {
+              "id": "management/m1/s6/q1",
+              "prompt": "According to classical management theory, what is the most direct reports a manager can reasonably handle?",
+              "type": "mcq",
+              "options": [
+                "Seven",
+                "Twelve",
+                "Thirty"
+              ],
+              "answer": "Seven",
+              "rubric": "Classical management theory suggests seven is the maximum number of direct reports, though many managers today have 20 or 30.",
+              "topic": "span-of-control"
+            },
+            {
+              "id": "management/m1/s6/q2",
+              "prompt": "Why does the chapter call efficiency the core management skill of the twenty-first century?",
+              "type": "open",
+              "answer": "Because managers have less time than they need, that time is broken into small pieces, work follows them out the door, and flatter, downsized organizations load more responsibilities onto each manager.",
+              "rubric": "Must give at least one of these reasons: too little or fragmented time, work following managers home or on holiday, or more responsibilities and direct reports in flatter, downsized organizations.",
+              "topic": "efficiency-core-skill"
+            }
+          ],
+          "sourceSection": "1.4"
+        },
+        {
+          "id": "management/m1/s7",
+          "title": "Responsibilities and levels of management",
+          "durationSec": 188,
+          "script": "An important question often raised about managers is: What responsibilities do managers have in organizations? According to our definition, managers are involved in planning, organizing, directing, and controlling. Managers have described their responsibilities that can be aggregated into nine major types of activity. These include: Long-range planning. Managers occupying executive positions are frequently involved in strategic planning and development. Controlling. Managers evaluate and take corrective action concerning the allocation and use of human, financial, and material resources. Environmental scanning. Managers must continually watch for changes in the business environment and monitor business indicators such as returns on equity or investment, economic indicators, business cycles, and so forth. Supervision. Managers continually oversee the work of their subordinates. Coordinating. Managers often must coordinate the work of others both inside the work unit and out. Customer relations and marketing. Certain managers are involved in direct contact with customers and potential customers. Community relations. Contact must be maintained and nurtured with representatives from various constituencies outside the company, including state and federal agencies, local civic groups, and suppliers. Internal consulting. Some managers make use of their technical expertise to solve internal problems, acting as inside consultants for organizational change and development. Monitoring products and services. Managers get involved in planning, scheduling, and monitoring the design, development, production, and delivery of the organization's products and services. As we shall see, not every manager engages in all of these activities. Rather, different managers serve different roles and carry different responsibilities, depending upon where they are in the organizational hierarchy. We will begin by looking at several of the variations in managerial work. Although each manager may have a diverse set of responsibilities, including those mentioned above, the amount of time spent on each activity and the importance of that activity will vary considerably. The two most salient perceptions of a manager are (1) the manager's level in the organizational hierarchy and (2) the type of department or function for which he is responsible. Let us briefly consider each of these. We can distinguish three general levels of management: executives, middle management, and first-line management. Executive managers are at the top of the hierarchy and are responsible for the entire organization, especially its strategic direction. Middle managers, who are at the middle of the hierarchy, are responsible for major departments and may supervise other lower level managers. Finally, first-line managers supervise rank-and-file employees and carry out day-to-day activities within departments. Senior executives will devote more of their time to conceptual issues, while front-line managers will concentrate their efforts on technical issues. For example, top managers rate high on such activities as long-range planning, monitoring business indicators, coordinating, and internal consulting. Lower-level managers, by contrast, rate high on supervising because their responsibility is to accomplish tasks through rank-and-file employees. Middle managers rate near the middle for all activities.",
+          "keyPoints": [
+            "Managers' responsibilities fall into nine types, from long-range planning to monitoring products and services",
+            "How much time each gets depends on the manager's level and department",
+            "Executives lead the whole organization and its strategy; middle managers run major departments; first-line managers supervise rank-and-file employees",
+            "Top managers rate high on planning and coordinating; lower-level managers rate high on supervising"
+          ],
+          "altExplanation": "Every manager draws from the same nine responsibilities, but the mix changes with where they sit. Near the top, the job leans towards long-range planning and watching the business as a whole. Near the front line, it leans towards supervising the people doing the day-to-day work.",
+          "deeper": "The nine responsibilities are: long-range planning, controlling, environmental scanning, supervision, coordinating, customer relations and marketing, community relations, internal consulting, and monitoring products and services.",
+          "checkpoint": [
+            {
+              "id": "management/m1/s7/q1",
+              "prompt": "Which managers supervise rank-and-file employees and carry out day-to-day activities?",
+              "type": "mcq",
+              "options": [
+                "Middle managers",
+                "First-line managers",
+                "Executive managers"
+              ],
+              "answer": "First-line managers",
+              "rubric": "First-line managers supervise rank-and-file employees and carry out day-to-day activities within departments.",
+              "topic": "levels-of-management"
+            },
+            {
+              "id": "management/m1/s7/q2",
+              "prompt": "Name two of the nine types of managerial responsibility.",
+              "type": "open",
+              "answer": "Any two of: long-range planning, controlling, environmental scanning, supervision, coordinating, customer relations and marketing, community relations, internal consulting, and monitoring products and services.",
+              "rubric": "Must name at least two items from this list, in any wording: long-range planning, controlling, environmental scanning, supervision, coordinating, customer relations and marketing, community relations, internal consulting, monitoring products and services.",
+              "topic": "managerial-responsibilities"
+            }
+          ],
+          "sourceSection": "1.4"
+        },
+        {
+          "id": "management/m1/s8",
+          "title": "Three managerial skills",
+          "durationSec": 210,
+          "script": "We can distinguish three types of managerial skills: Technical skills. Managers must have the ability to use the tools, procedures, and techniques of their special areas. An accountant must have expertise in accounting principles, whereas a production manager must know operations management. These skills are the mechanics of the job. Human relations skills. Human relations skills involve the ability to work with people and understand employee motivation and group processes. These skills allow the manager to become involved with and lead his group. Conceptual skills. These skills represent a manager's ability to organize and analyze information in order to improve organizational performance. They include the ability to see the organization as a whole and to understand how various parts fit together to work as an integrated unit. These skills are required to coordinate the departments and divisions successfully so that the entire organization can pull together. Different levels of these skills are required at different stages of the managerial hierarchy. That is, success in executive positions requires far more conceptual skill and less use of technical skills in most (but not all) situations, whereas first-line managers generally require more technical skills and fewer conceptual skills. Note, however, that human relations skills, or people skills, remain important for success at all three levels in the hierarchy. In addition to level in the hierarchy, managerial responsibilities also differ with respect to the type of department or function. There are differences found for quality assurance, manufacturing, marketing, accounting and finance, and human resource management departments. For instance, manufacturing department managers will concentrate their efforts on products and services, controlling, and supervising. Marketing managers, in comparison, focus less on planning, coordinating, and consulting and more on customer relations and external contact. Managers in both accounting and human resource management departments rate high on long-range planning, but will spend less time on the organization's products and service offerings. Managers in accounting and finance are also concerned with controlling and with monitoring performance indicators, while human resource managers provide consulting expertise, coordination, and external contacts. The emphasis on and intensity of managerial activities varies considerably by the department the manager is assigned to. At a personal level, knowing that the mix of conceptual, human, and technical skills changes over time and that different functional areas require different levels of specific management activities can serve at least two important functions. First, if you choose to become a manager, knowing that the mix of skills changes over time can help you avoid a common complaint that often young employees want to think and act like a CEO before they have mastered being a first-line supervisor. Second, knowing the different mix of management activities by functional area can facilitate your selection of an area or areas that best match your skills and interests. In many firms managers are rotated through departments as they move up in the hierarchy. In this way they obtain a well-rounded perspective on the responsibilities of the various departments. In their day-to-day tasks they must emphasize the right activities for their departments and their managerial levels. Knowing what types of activity to emphasize is the core of the manager's job.",
+          "keyPoints": [
+            "Technical skills are the mechanics of the job; human relations skills are about working with people; conceptual skills are about seeing the organization as a whole",
+            "Executives need more conceptual skill, first-line managers more technical skill",
+            "Human relations skills matter at every level",
+            "Activities also differ by department, and knowing what to emphasize is the core of the manager's job"
+          ],
+          "altExplanation": "As a manager moves up, the balance of skills shifts: less hands-on technical know-how, more big-picture thinking about how the parts fit together. What stays constant all the way up is the ability to work with and motivate people.",
+          "deeper": "The chapter gives two practical uses for this: it warns against wanting to act like a CEO before mastering first-line supervision, and it helps you pick a functional area, such as marketing, finance or HR, whose mix of activities suits your skills and interests.",
+          "checkpoint": [
+            {
+              "id": "management/m1/s8/q1",
+              "prompt": "Which kind of skill stays important at all three levels of management?",
+              "type": "mcq",
+              "options": [
+                "Technical skills",
+                "Conceptual skills",
+                "Human relations skills"
+              ],
+              "answer": "Human relations skills",
+              "rubric": "Human relations skills, or people skills, remain important for success at all three levels of the hierarchy.",
+              "topic": "human-relations-skills"
+            },
+            {
+              "id": "management/m1/s8/q2",
+              "prompt": "How does the mix of skills change between a first-line supervisor and an executive?",
+              "type": "open",
+              "answer": "Executives need far more conceptual skill and less technical skill, while first-line managers need more technical skill and less conceptual skill.",
+              "rubric": "Must say conceptual skills matter more at the top (executives) and technical skills matter more at the first-line level.",
+              "topic": "skills-by-level"
+            }
+          ],
+          "sourceSection": "1.4"
+        }
+      ]
+    }
+  ]
+}
