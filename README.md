@@ -4,6 +4,19 @@ Turn the trip into the lesson. One lesson engine, two delivery modes: voice (dri
 
 Docs: [OUTLINE](docs/OUTLINE.md) · [SCHEMA](docs/SCHEMA.md) · [STATUS](docs/STATUS.md) · [DEMO](docs/DEMO.md) · [ELEVENLABS](docs/ELEVENLABS.md)
 
+## Team workflow
+
+Branch per person per task, PR into `main`, squash-merge, never push to `main` directly. Full rules in [CLAUDE.md](CLAUDE.md), which Claude Code reads automatically when you open this repo. Quick start for a teammate:
+
+```bash
+git clone https://github.com/antondev123/commute-course.git
+cd commute-course
+npm install
+cp .env.example .env.local   # ask Anton for the keys
+git checkout -b <yourname>/<task>
+npm run dev
+```
+
 ## Setup
 
 ```bash
