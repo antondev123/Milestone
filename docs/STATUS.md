@@ -55,6 +55,7 @@ Updated: 2026-09-18 (play button fix for Dial and Study; app renamed to Mileston
 - Grading latency: Sonnet 5 at low effort is ~4 s; the 2.5 s "One sec." filler covers it. If it drags, switch ANTHROPIC_MODEL to claude-haiku-4-5 for grading only. `ask` uses ANTHROPIC_ASK_MODEL (default claude-haiku-4-5).
 - The in-app browser blocks the microphone. Use `/learn/voice?text=1` for a text-only session with the real agent (no TTS credits), or Chrome for the mic.
 - Restart `npm run dev` after editing .env.local; Next does not hot-reload env.
+- Study read-aloud: the word highlighter is a rAF loop that only the `<audio>` `play` event starts. Anything that re-binds the listener effect in `useReadAloud.ts` mid-playback cancels the loop, so `loadBlock`'s deps must stay stable (speed lives in a ref) and the effect resumes the loop itself if the element is already playing. Fixed 2026-09-18 after the speed pill froze the highlight.
 - Client tools (browser) vs webhook tools (dashboard): the component uses client tools so localhost works without ngrok. Configure them as type Client in the dashboard.
 
 ## Costs (tracked 2026-09-18)
