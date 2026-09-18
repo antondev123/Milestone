@@ -1,8 +1,22 @@
-// ElevenLabs server-tool webhooks. The agent POSTs JSON here when it calls a tool.
-// Same engine actions as the direct routes. Protected by a shared-secret header.
-// Tool names + schemas: docs/ELEVENLABS.md
+// Speech tools. The ElevenLabs agent (via client tools in VoiceAgent.tsx) and the text UI both POST here.
+// The server owns the learner's position; every reply is `{ kind, say, loc, more, ... }` (ToolReply).
+// The voice client forwards only `{ t: say }` to the agent LLM.
+// Tool names + schemas: docs/ELEVENLABS.md. The four legacy tools remain as adapters for one release.
 import { NextResponse } from "next/server";
-import { actionCompleteSegment, actionEndTrip, actionGetSegment, actionGrade } from "@/lib/actions";
+import {
+  actionAnswer,
+  actionAsk,
+  actionCompleteSegment,
+  actionEndTripSpoken,
+  actionExplain,
+  actionGetSegment,
+  actionGoto,
+  actionGrade,
+  actionInterrupted,
+  actionNext,
+  actionWhereAmI,
+} from "@/lib/actions";
+import type { Mode } from "@/types/lesson";
 
 type Params = { params: Promise<{ tool: string }> };
 
@@ -12,7 +26,7 @@ function authorized(req: Request): boolean {
   return req.headers.get("x-tool-secret") === secret;
 }
 
-/** Flatten a segment into what a voice agent needs to read + ask. */
+/** Legacy: flatten a segment into what the old agent prompt expected. */
 function segmentForAgent(segmentId?: string) {
   const r = actionGetSegment(segmentId);
   const s = r.segment;
@@ -27,41 +41,69 @@ function segmentForAgent(segmentId?: string) {
     keyPoints: s.keyPoints,
     altExplanation: s.altExplanation,
     deeper: s.deeper,
-    questions: s.checkpoint.map((q) => ({
-      questionId: q.id,
-      prompt: q.prompt,
-      type: q.type,
-      options: q.options ?? [],
-    })),
+    questions: s.checkpoint.map((q) => ({ questionId: q.id, prompt: q.prompt, type: q.type, options: q.options ?? [] })),
   };
 }
+
+const str = (v: unknown) => (typeof v === "string" ? v : v == null ? "" : String(v));
 
 export async function POST(req: Request, { params }: Params) {
   if (!authorized(req)) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const { tool } = await params;
   const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
+  const mode: Mode = body.mode === "text" ? "text" : "voice";
+  const t0 = Date.now();
   try {
+    let out: unknown;
     switch (tool) {
+      // ----- cursor tools -----
+      case "next":
+        out = actionNext({ peek: body.peek === true });
+        break;
+      case "explain":
+        out = actionExplain(str(body.how ?? body.aspect));
+        break;
+      case "answer":
+        out = await actionAnswer(str(body.text ?? body.a ?? body.answer), mode);
+        break;
+      case "ask":
+        out = await actionAsk(str(body.question ?? body.q));
+        break;
+      case "goto":
+        out = actionGoto(str(body.target ?? body.where));
+        break;
+      case "where_am_i":
+        out = actionWhereAmI();
+        break;
+      case "interrupted":
+        out = actionInterrupted();
+        break;
+      case "end_trip":
+      case "stop": {
+        const r = actionEndTripSpoken();
+        const { summary, ...reply } = r;
+        out = { ...reply, ...summary, spoken: reply.say };
+        break;
+      }
+      // ----- legacy tools -----
       case "get_segment":
-        return NextResponse.json(segmentForAgent(body.segmentId as string | undefined));
-      case "grade_answer": {
-        const r = await actionGrade(String(body.questionId), String(body.answer ?? ""), "voice");
-        return NextResponse.json(r);
-      }
+        out = segmentForAgent(body.segmentId as string | undefined);
+        break;
+      case "grade_answer":
+        out = await actionGrade(String(body.questionId), str(body.answer), mode);
+        break;
       case "complete_segment":
-        return NextResponse.json(actionCompleteSegment(String(body.segmentId)));
-      case "end_trip": {
-        const s = actionEndTrip();
-        return NextResponse.json({
-          ...s,
-          spoken: `Trip done. ${s.segmentIds.length} segment${s.segmentIds.length === 1 ? "" : "s"}, ${s.correct} of ${s.total} correct. You are ${s.modulePct} percent through the chapter.`,
-        });
-      }
+        out = actionCompleteSegment(String(body.segmentId));
+        break;
       default:
         return NextResponse.json({ error: `unknown tool ${tool}` }, { status: 404 });
     }
+    const ms = Date.now() - t0;
+    if (ms > 50 || tool === "ask" || tool === "answer") console.log(`[tool] ${tool} ${ms}ms`);
+    return NextResponse.json(out);
   } catch (e) {
-    return NextResponse.json({ error: (e as Error).message }, { status: 400 });
+    console.error(`[tool] ${tool} error: ${(e as Error).message}`);
+    return NextResponse.json({ error: (e as Error).message, kind: "say", say: "Something went wrong there. Say go to carry on.", loc: "", more: false }, { status: 400 });
   }
 }
 

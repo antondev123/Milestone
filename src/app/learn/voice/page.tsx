@@ -26,7 +26,7 @@ export default function VoiceMode() {
   return (
     <div className="flex flex-1 flex-col gap-3">
       <p className="text-xs text-slate-400">
-        {plan.segmentIds.length} segment{plan.segmentIds.length > 1 ? "s" : ""} planned · ~{plan.estMinutes} min · hands-free
+        {plan.segmentIds.length} part{plan.segmentIds.length > 1 ? "s" : ""} planned · ~{plan.estMinutes} min · hands-free
       </p>
       <VoiceAgent plan={plan} onTripEnd={(tripId) => router.push(`/trip/${tripId}/summary`)} />
     </div>

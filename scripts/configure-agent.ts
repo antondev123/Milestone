@@ -1,6 +1,9 @@
 // Push the full agent config from docs/ELEVENLABS.md to ElevenLabs via API.
 // Idempotent: reuses tools with the same name, patches the agent in place.
 // Usage: node --env-file=.env.local scripts/configure-agent.ts
+//
+// Design: the SERVER owns the learner's position. The agent never receives or sends an id.
+// Every tool returns {"t": "<words>"}; the agent speaks them verbatim. See src/lib/cursor.ts.
 const key = process.env.ELEVENLABS_API_KEY;
 const agentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID;
 if (!key || !agentId) {
@@ -18,67 +21,89 @@ async function api<T>(method: string, path: string, body?: unknown): Promise<T> 
 }
 
 const str = (description: string) => ({ type: "string", description });
+const LOOKUP_TIMEOUT = 6; // pure server lookups: fail fast rather than stall the call
+const LLM_TIMEOUT = 20; // answer/ask call Claude
 
-const TOOLS = [
+export const TOOLS = [
   {
-    name: "get_segment",
-    description: "Fetch the lesson segment to read and its checkpoint questions. Call with no segmentId for the first segment of the trip.",
-    parameters: { type: "object", properties: { segmentId: str("Segment id like sample/m1/s2. Omit for the trip's first segment.") }, required: [] },
+    name: "next",
+    description: "Continue the lesson. Call it to start after the learner says go, whenever you hear \"continue\", and after any explanation or answer. Say the returned t word for word.",
+    parameters: { type: "object", properties: {}, required: [] },
+    timeout: LOOKUP_TIMEOUT,
   },
   {
-    name: "grade_answer",
-    description: "Grade the learner's spoken answer to a checkpoint question. Returns correct (boolean) and feedback to read aloud.",
-    parameters: {
-      type: "object",
-      properties: { questionId: str("From get_segment questions[].questionId"), answer: str("The learner's answer, verbatim") },
-      required: ["questionId", "answer"],
-    },
+    name: "explain",
+    description: "Another angle on the current point. how = \"again\" for repeat / say that again / read the options again; \"simpler\" for explain differently / I don't get it; \"deeper\" for tell me more / go deeper; \"example\" for give me an example.",
+    parameters: { type: "object", properties: { how: { type: "string", enum: ["again", "simpler", "deeper", "example"], description: "again | simpler | deeper | example" } }, required: ["how"] },
+    timeout: LOOKUP_TIMEOUT,
   },
   {
-    name: "complete_segment",
-    description: "Mark a segment finished after its questions. Returns the next segment id or tripDone.",
-    parameters: { type: "object", properties: { segmentId: str("The segment that was just finished") }, required: ["segmentId"] },
+    name: "answer",
+    description: "Submit the learner's reply to the checkpoint question you just asked. Pass their words verbatim, including a letter like \"B\" or \"I don't know\". Never judge the answer yourself.",
+    parameters: { type: "object", properties: { text: str("The learner's answer, verbatim") }, required: ["text"] },
+    timeout: LLM_TIMEOUT,
+  },
+  {
+    name: "ask",
+    description: "The learner asked a question about the subject that is not an answer to a checkpoint. Pass it verbatim. The course answers it from the book.",
+    parameters: { type: "object", properties: { question: str("The learner's question, verbatim") }, required: ["question"] },
+    timeout: LLM_TIMEOUT,
+  },
+  {
+    name: "goto",
+    description: "Move somewhere else: \"go to chapter four\", \"section two point five\", \"next chapter\", \"next part\", \"skip\", \"take me to the quiz\", \"quiz me on chapter three\", \"go back\", \"the bit about Mintzberg\". Pass the learner's words verbatim.",
+    parameters: { type: "object", properties: { target: str("What the learner said, verbatim") }, required: ["target"] },
+    timeout: LOOKUP_TIMEOUT,
+  },
+  {
+    name: "where_am_i",
+    description: "Say where the learner is in the course and how far along: \"where am I\", \"what's next\", \"what's left\", \"how am I doing\".",
+    parameters: { type: "object", properties: {}, required: [] },
+    timeout: LOOKUP_TIMEOUT,
   },
   {
     name: "end_trip",
-    description: "End the trip and get a spoken progress summary. Call when the plan is finished or the learner says they are done.",
+    description: "End the trip and get the spoken progress summary. Call on \"I'm done\", \"I've arrived\", \"stop\".",
     parameters: { type: "object", properties: {}, required: [] },
+    timeout: LOOKUP_TIMEOUT,
   },
 ];
 
-const FIRST_MESSAGE = `Ready when you are. {{trip_segments}} segments fit in this trip. Say "go" and I'll pick up where you left off.`;
+export const FIRST_MESSAGE = `{{greeting}}`;
 
-const PROMPT = `You are a hands-free tutor for someone driving to work. They cannot look at a screen. Keep every turn short: 1–3 sentences unless you are reading a lesson segment.
+export const PROMPT = `You read a course aloud to someone who is driving. They cannot look at a screen. Speech only: no markdown, no lists, no emojis, no "sure", no "great question".
 
-TRIP: {{trip_segments}} segment(s), about {{trip_minutes}} minutes. First segment id: {{first_segment_id}}. Resume position: {{resume_position}} ("start" = read the segment, "checkpoint" = they already heard it, go straight to the questions).
+The server owns their place in the course. You never track or name chapters, sections, parts or ids. Every tool returns a field "t". Say "t" aloud, word for word, and nothing else. Do not summarise, shorten or add to it.
 
-LOOP, for each segment:
-1. Call get_segment (with segmentId, or no argument for the first one). It returns script, keyPoints, altExplanation, deeper, and questions.
-2. If position is "start": read the script aloud in pieces of 2 to 3 sentences. After each piece, pause briefly and continue without asking permission. Read the whole script this way. Do not summarise it. Do not add filler like "great question". Never say the script in one go.
-3. Then ask each question in order, one at a time. For mcq, read the options. Wait for the answer.
-4. Call grade_answer with questionId and the learner's words verbatim. Speak the feedback it returns. If wrong on the first try, offer one retry; then move on.
-5. After the last question call complete_segment with the segmentId. If tripDone is false, say "next up" and continue with nextSegmentId. If tripDone is true, call end_trip and read its "spoken" field, then say goodbye.
+START: when they say go (or anything like it), call next and say its t.
+READING: after you finish saying a block, wait. When you hear "continue", call next again.
+QUESTIONS: when t ends with a question and options, wait for their answer, then call answer with their words verbatim and say the t you get back. Never grade an answer yourself.
 
-COMMANDS, at any moment, even mid-sentence:
-- "repeat" / "say that again": read the keyPoints, then carry on.
-- "explain differently" / "I don't get it": read altExplanation, then carry on.
-- "go deeper" / "tell me more": read deeper, then carry on.
-- "skip": skip the rest of this segment's script and go to its questions. If already in questions, skip to complete_segment.
-- "I'm done" / "stop" / "I've arrived": call end_trip immediately, read its spoken summary, say goodbye.
+COMMANDS, act the moment you hear one, even mid-sentence:
+- go, continue, carry on, next -> next
+- repeat, say that again, read the options again -> explain(how "again")
+- explain differently, I don't get it, simpler -> explain(how "simpler")
+- go deeper, tell me more -> explain(how "deeper")
+- give me an example -> explain(how "example")
+- skip, move on, next part, next chapter, go to chapter four, section two point five, take me to the quiz, quiz me, go back, take me to the bit about X -> goto(target: their words)
+- where am I, what's next, what's left, how am I doing -> where_am_i
+- hold on, wait, pause -> say "Holding." and stop. When they say continue, call next.
+- I'm done, I've arrived, stop -> end_trip, say its t, then a short goodbye.
+
+ANYTHING ELSE IS A QUESTION, NOT A MISHEARING. If they say something that is not a command and not an answer to an open question, call ask with their words verbatim and say its t. Follow-ups are more ask calls. When they say continue, call next.
 
 RULES:
-- Never grade an answer yourself. Always call grade_answer.
-- Never invent lesson content. Only read what the tools return.
-- If the learner is quiet for a while, ask "still with me?" once, then continue.
-- No markdown, no lists, no emojis. This is speech.
-- The transcript may contain mishearings. If a user turn looks like nonsense, treat it as a request to explain the current point differently, do not comment on the words themselves.`;
+- You may only speak words that came from a tool's t, plus "okay", "holding" and "goodbye".
+- One tool call at a time. If a tool errors, say "let me get back to that" and call next.
+- If a turn is garbled, call explain(how "again"). Never comment on the words.
+- After you finish speaking, wait. Do not ask "shall I continue".`;
 
 // 1. tools: reuse by name, else create
 type ToolRow = { id: string; tool_config: { name: string } };
 const existing = await api<{ tools: ToolRow[] }>("GET", "/tools");
 const toolIds: string[] = [];
 for (const t of TOOLS) {
-  const config = { type: "client", ...t, expects_response: true, response_timeout_secs: 20, disable_interruptions: false };
+  const config = { type: "client", name: t.name, description: t.description, parameters: t.parameters, expects_response: true, response_timeout_secs: t.timeout, disable_interruptions: false };
   const found = existing.tools.find((x) => x.tool_config.name === t.name);
   if (found) {
     await api("PATCH", `/tools/${found.id}`, { tool_config: config });
@@ -100,12 +125,12 @@ await api("PATCH", `/agents/${agentId}`, {
       first_message: FIRST_MESSAGE,
       language: "en",
       dynamic_variables: {
-        dynamic_variable_placeholders: { trip_minutes: 10, trip_segments: 2, first_segment_id: "sample/m1/s1", resume_position: "start" },
+        dynamic_variable_placeholders: { greeting: "Ready when you are. Say go.", trip_id: "none" },
       },
       prompt: {
         prompt: PROMPT,
         llm: LLM,
-        temperature: 0.3,
+        temperature: 0.2,
         ...(/gpt-5|claude/.test(LLM) ? { reasoning_effort: "low" } : {}),
         enable_reasoning_summary: false,
         max_tokens: -1,
@@ -117,8 +142,16 @@ await api("PATCH", `/agents/${agentId}`, {
     asr: {
       quality: "high",
       provider: "scribe_realtime",
-      // bias transcription toward our voice commands and SA finance vocabulary
-      keywords: ["repeat", "explain differently", "explain that differently", "skip", "go deeper", "I'm done", "I've arrived", "go", "rand", "SARS", "UIF", "PAYE", "stokvel", "taxi", "compound interest", "credit score", "tax bracket", "budget"],
+      // bias transcription toward our commands, chapter numbers and the book's proper nouns
+      keywords: [
+        "go", "continue", "carry on", "repeat", "say that again", "explain differently", "explain that differently", "I don't get it",
+        "go deeper", "tell me more", "give me an example", "skip", "move on", "next part", "next chapter",
+        "where am I", "what's next", "what's left", "how am I doing",
+        "go to chapter", "take me to chapter", "take me to the quiz", "quiz me", "go back", "hold on", "pause",
+        "I'm done", "I've arrived",
+        "chapter one", "chapter two", "chapter three", "chapter four", "chapter five", "chapter six",
+        "Mintzberg", "Kotter", "Taylor", "Fayol", "Weber", "Hawthorne", "satisficing", "bounded rationality", "escalation of commitment", "groupthink",
+      ],
     },
     vad: { background_voice_detection: true }, // ignore radio / passengers
     tts: { model_id: "eleven_flash_v2" }, // English agents must use flash v2; v2_5 is the multilingual variant
@@ -130,17 +163,20 @@ await api("PATCH", `/agents/${agentId}`, {
       turn_timeout: 10,
       interruption_ignore_terms: ["mm", "mhm", "uh huh", "okay", "ok", "yeah", "right"], // backchannel, not barge-in
       soft_timeout_config: {
-        timeout_seconds: 5,
-        message: "Let me check that.",
+        timeout_seconds: 2.5, // lands inside the Claude wait for answer/ask; at 5 s it never fired
+        message: "One sec.",
         additional_soft_timeout_messages: ["Nearly there."],
         use_llm_generated_message: false,
         randomize_fillers: false,
         disable_until_first_user_message: true,
       },
     },
-    conversation: { max_duration_seconds: 3600 },
+    conversation: { max_duration_seconds: 2400 },
+  },
+  platform_settings: {
+    overrides: { conversation_config_override: { agent: { first_message: true, prompt: { prompt: false } } } },
   },
 });
-console.log(`agent ${agentId}: configured with ${LLM}, ${toolIds.length} tools`);
+console.log(`agent ${agentId}: configured with ${LLM}, ${toolIds.length} tools, first message override enabled`);
 
 export {};

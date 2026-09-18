@@ -155,6 +155,61 @@ export interface ActiveTrip {
   completedSegmentIds: string[]; // done so far this trip
 }
 
+// ---------- Cursor: the server-owned position inside the course ----------
+// The voice agent never tracks position. Every tool reads and mutates this.
+
+export type CursorPhase = "read" | "ask" | "done";
+
+export interface Cursor {
+  segmentId: string;
+  blockIdx: number; // which ~150-word block of the script is current
+  served: boolean; // the current block/question has been sent at least once
+  heard: boolean; // it was not interrupted (client posts `interrupted` on barge-in)
+  phase: CursorPhase; // read = serving blocks, ask = serving checkpoint qIdx, done = segment finished
+  qIdx: number;
+  attempt: number; // attempts on the current question
+  detour?: { topic: string; turns: number; startedAt: string; offered: boolean };
+  quiz?: { quizId: string; qIdx: number; attempt: number; correct: number }; // chapter quiz in progress
+  returnStack: { segmentId: string; blockIdx: number }[]; // for "take me back"
+  lastReply?: ToolReply; // idempotency + "repeat"
+  lastAt?: string; // ISO of the last served reply
+  updatedAt: string;
+}
+
+export interface Detour {
+  at: string;
+  segmentId: string;
+  question: string;
+  topic: string;
+}
+
+export interface Bookmark {
+  at: string;
+  sectionId: string;
+  label: string;
+  question?: string;
+}
+
+export interface QuizResult {
+  chapterId: string;
+  correct: number;
+  total: number;
+  at: string;
+}
+
+/** The one shape every tool returns. `say` is spoken verbatim; nothing else reaches the agent LLM. */
+export interface ToolReply {
+  kind: "read" | "ask" | "say" | "end";
+  say: string;
+  loc: string; // "2.5 · part 1/2 · q2" — for logs and the text UI, never spoken
+  more: boolean; // true = the client should auto-continue with next() once speech ends
+  options?: string[]; // mcq options (text mode renders buttons; voice has them inside `say`)
+  correct?: boolean;
+  tripId?: string;
+  segmentId?: string;
+  offer?: { sectionId: string; say: string }; // ask() found a better section; goto on "yes"
+}
+
 export interface Progress {
   userId: string;
   courseId: string;
@@ -166,6 +221,11 @@ export interface Progress {
   lastTripAt: string | null;
   trips: TripSummary[];
   activeTrip?: ActiveTrip;
+  cursor?: Cursor;
+  detours?: Detour[];
+  bookmarks?: Bookmark[];
+  pendingQuizzes?: string[]; // chapter ids whose quiz was offered but not taken
+  quizResults?: QuizResult[];
 }
 
 // ---------- Session plan (ephemeral) ----------
@@ -175,6 +235,7 @@ export interface Plan {
   segmentIds: string[];
   estMinutes: number;
   startAt: ResumePointer;
+  greeting?: string; // server-composed opening line, spoken verbatim by the agent
 }
 
 // ---------- API payloads ----------
