@@ -22,7 +22,7 @@ Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`
 - Tutor: "Back in chapter two, Managerial Decision-Making. Section two point five, part one of seven. Here we go." Then it starts reading on its own.
 
 ## Beat 2, the first minute (80 s)
-- It reads the book: "There are a number of barriers to effective decision-making… Bounded rationality is the idea that for complex issues we cannot be completely rational…" Two blocks, a short breath between them. Nothing to read on screen. "Every word is the textbook's. Nothing is paraphrased."
+- It reads the book: "There are a number of barriers to effective decision-making… Bounded rationality is the idea that for complex issues we cannot be completely rational…" One block, no breath: part 1 is read in one go. Nothing to read on screen. "Every word is the textbook's. Nothing is paraphrased."
 
 ## Beat 3, the checks (70 s)
 - "Quick check. Why does the book say managers cannot make completely rational decisions on complex issues?"
@@ -33,7 +33,7 @@ Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`
 - It moves on by itself: "Part two of seven, Escalation of commitment. Given the lack of complete information, managers don't always make the right decision initially…"
 - About ten seconds in, **interrupt mid-sentence**: **"Is that the same thing as the sunk cost fallacy?"**
   It stops. Two or three sentences from the book's context (the deeper note for this part links escalation of commitment to sunk costs), ending "Milestone: First question from the road." "It answered from the book, not the internet. And it still knows where we were."
-- Say **"continue"**. "Back to Escalation of commitment." It re-reads the block from the top and carries on through the software-package story to "…willing to reevaluate decisions and change direction when appropriate."
+- Say **"continue"**. "Back to Escalation of commitment." It re-reads the block from the top (blocks are ~250 words, so up to ~100 s) and carries on through the software-package story to "…willing to reevaluate decisions and change direction when appropriate."
 - Optional, if time: **"where am I"** → "Chapter two… section two point five, part two of seven…".
 - "Quick check. What is escalation of commitment, and why is it hard to avoid?" Answer: **"Sticking with a bad decision even as it keeps getting worse, because admitting you were wrong feels harder than staying the course."**
 

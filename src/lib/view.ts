@@ -2,13 +2,12 @@
 // text and voice pages show. Position comes from the cursor engine; every number comes from
 // the course manifest or logged trips. Nothing is mocked.
 import { chapterOf, type Chapter, type Course, type Mode, type Progress, type TripSummary } from "@/types/lesson";
-import { blocks } from "./chunk";
+import { blocks, WORDS_PER_MIN } from "./chunk";
 import { loadSegmentFull } from "./course";
 import { milestoneLabel } from "./milestones";
 
 export const LEARNER_NAME = "Thandi";
 const TZ = "Africa/Johannesburg";
-const WORDS_PER_MIN = 150;
 
 /** Where the learner is: the cursor when there is one, else the resume mirror. */
 export function hereId(progress: Progress): string {

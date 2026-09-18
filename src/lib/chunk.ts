@@ -1,8 +1,12 @@
-// Split a spoken script into read-sized blocks (~150 words, ~60 s of speech) on sentence boundaries.
+// Split a spoken script into read-sized blocks (~250 words, ~100 s of speech) on sentence boundaries.
 // Pure and deterministic, so the same script always yields the same block indices.
+// Each block is one agent turn in Listen mode, and every turn boundary is a short silence, so bigger
+// blocks mean fewer gaps; the cost is a longer re-read after a barge-in.
 
-export const TARGET_WORDS = 150;
-const MIN_TAIL_WORDS = 40;
+export const TARGET_WORDS = 250;
+const MIN_TAIL_WORDS = 60;
+/** Reading speed behind every time estimate (Resume card, the Dial's ring creep). */
+export const WORDS_PER_MIN = 150;
 
 export function sentences(text: string): string[] {
   const out: string[] = [];
