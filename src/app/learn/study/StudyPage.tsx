@@ -367,9 +367,9 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
                 <span className="text-sm font-semibold">Picked up where you stopped {carriedFrom === "voice" ? "listening" : "reading"}</span>
               </div>
             )}
-            <Reader title={seg.title} blocks={index} pos={audioOn ? pos : null} audioOn={audioOn} onTapSentence={(p) => player.seek(p, { play: true })} onAsk={(s) => openAsk(s)}>
+            <Reader title={seg.title} label={leg ? `${leg.section} ${leg.sectionTitle}` : undefined} blocks={index} pos={audioOn ? pos : null} audioOn={audioOn} onTapSentence={(p) => player.seek(p, { play: true })} onAsk={(s) => openAsk(s)}>
               {!desktop && (
-                <div ref={checkRef} className="mt-10 scroll-mt-[76px] border-t border-rule pt-8 lg:hidden">
+                <div ref={checkRef} className="mt-10 scroll-mt-[76px] border-t-2 border-ink pt-6 lg:hidden">
                   {checkOpen ? (
                     checkpoint()
                   ) : (

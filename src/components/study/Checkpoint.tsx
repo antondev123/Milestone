@@ -146,7 +146,7 @@ export function Checkpoint({
                     } ${missed ? "" : "disabled:opacity-80"}`}
                   >
                     {o}
-                    {isRight && <CheckIcon size={22} color="#E0A419" />}
+                    {isRight && <CheckIcon size={22} color="var(--color-gold)" />}
                   </button>
                 );
               })}

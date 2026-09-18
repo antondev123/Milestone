@@ -129,7 +129,7 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
       />
 
       <div className="h-1 overflow-hidden rounded-sm bg-track" aria-hidden="true">
-        <div className="h-1 bg-ink transition-[width] duration-300" style={{ width: `${leg ? (leg.n / leg.of) * 100 : 0}%` }} />
+        <div className="h-1 bg-ink transition-[width] duration-[420ms] ease-out" style={{ width: `${leg ? (leg.n / leg.of) * 100 : 0}%` }} />
       </div>
 
       {carriedFromVoice && (
@@ -177,7 +177,7 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
         <div ref={endRef} />
       </div>
 
-      <div className="sticky bottom-0 -mx-6 flex flex-col gap-3 border-t border-rule bg-ground px-6 pt-3 pb-2">
+      <div className="sticky bottom-0 -mx-6 flex flex-col gap-3 border-t-2 border-ink bg-ground px-6 pt-3 pb-2">
         <SignalNotice show={trouble} />
 
         {asking && options.length > 0 && (
@@ -284,7 +284,7 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
           </div>
         )}
 
-        <div className="flex items-center justify-between text-sm text-muted">
+        <div className="flex items-center justify-between border-t border-rule text-sm text-muted">
           <span>Get off any time. Your place is saved.</span>
           <button onClick={finish} disabled={busy} className="min-h-11 font-semibold text-ink underline underline-offset-4">
             End trip

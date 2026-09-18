@@ -1,0 +1,13 @@
+/* Milestone brand tokens */
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap");
+
+:root {
+  --ms-ink: #14201B;        /* primary dark: text, logo, dark surfaces */
+  --ms-sand: #F4EFE6;       /* primary light background */
+  --ms-yellow: #F2B705;     /* accent: the pin, highlights, progress. Not for text on light backgrounds */
+  --ms-sand-deep: #EAE3D6;  /* secondary surface, cards */
+  --ms-road: #3A4A43;       /* muted dark: borders on dark, secondary text on dark */
+  --ms-muted: #4A5550;      /* secondary text on light */
+
+  --ms-font: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+}

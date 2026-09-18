@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
-/* Carry tokens. See docs/DESIGN.md §2. Gold is for fills, dots and bars only: never text on light grounds. */
+/* Milestone brand tokens (docs/brand/milestone-brand, DESIGN.md §2). Gold is for fills, dots and bars only: never text on light grounds. */
 @theme {
-  --color-ground: #f5f2ec;
-  --color-panel: #ede7db;
-  --color-ink: #16324f;
-  --color-ink-deep: #0e2238;
-  --color-gold: #e0a419;
-  --color-muted: #5c6570;
-  --color-rule: #d6ccba;
-  --color-track: #ddd4c4;
-  --color-ink-raised: #22425f;
-  --color-ink-track: #2e4e6c;
-  --color-muted-on-ink: #b8c3cf;
+  --color-ground: #f4efe6; /* brand sand */
+  --color-panel: #eae3d6; /* brand sand-deep */
+  --color-ink: #14201b; /* brand ink */
+  --color-ink-deep: #0c1511;
+  --color-gold: #f2b705; /* brand yellow */
+  --color-muted: #4a5550; /* brand muted */
+  --color-rule: #d9d0c0;
+  --color-track: #dcd4c5;
+  --color-ink-raised: #22312a;
+  --color-ink-track: #3a4a43; /* brand road */
+  --color-muted-on-ink: #b7c2bb;
 
   --font-display: var(--font-fraunces), Georgia, serif;
   --font-sans: var(--font-public-sans), "Helvetica Neue", sans-serif;
@@ -62,6 +62,56 @@ body {
 }
 .fade-up {
   animation: fade-up 220ms ease-out both;
+}
+
+/* Route line (RouteLine): on every load the ink line fills stop by stop to where you are.
+   Delays are set inline per stop; everything else on the page is already there. */
+@keyframes route-seg {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes route-pop {
+  0% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes route-ring {
+  from {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+@keyframes route-fade {
+  from {
+    opacity: 0;
+  }
+}
+.route-seg {
+  animation: route-seg 110ms linear both;
+}
+.route-pop {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: route-pop 260ms cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+.route-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: route-ring 700ms ease-out 2 both;
+}
+.route-fade {
+  animation: route-fade 200ms ease-out both;
 }
 
 @media (prefers-reduced-motion: reduce) {
