@@ -8,6 +8,7 @@ import { milestoneLabel } from "@/lib/milestones";
 import { routeState, tripMinutes } from "@/lib/view";
 import { BackLink, Screen, TopBar } from "@/components/carry/Chrome";
 import { RouteLine } from "@/components/carry/RouteLine";
+import { Group } from "@/components/carry/Group";
 import { CheckIcon, HeadphonesIcon, LinesIcon } from "@/components/carry/Icons";
 
 export const dynamic = "force-dynamic";
@@ -37,6 +38,8 @@ export default async function Summary({ params }: { params: Promise<{ id: string
   const totalSegs = chapter.segments.length;
   const doneInChapter = progress.segmentsCompleted.filter((sid) => sid.startsWith(chapter.id + "/")).length;
   const route = routeState(chapter, progress, (n) => `Next: leg ${n}`);
+  // the furthest stop this trip finished gets the gold tick as the route fills
+  const justDone = chapter.segments.reduce((at, s, i) => (trip.segmentIds.includes(s.id) ? i : at), -1);
   const pendingQuiz = progress.pendingQuizzes?.[0]?.split("/c")[1];
 
   return (
@@ -63,28 +66,22 @@ export default async function Summary({ params }: { params: Promise<{ id: string
         </div>
       )}
 
-      <dl className="grid grid-cols-3 gap-3">
-        <Stat big={String(trip.segmentIds.length)} small={`leg${trip.segmentIds.length === 1 ? "" : "s"} done`} />
-        <Stat big={`${trip.correct}/${trip.total}`} small="checks right" />
-        <Stat big={String(trip.streakDays)} small={`day streak`} />
-      </dl>
+      <Group>
+        <dl className="grid grid-cols-3">
+          <Stat big={String(trip.segmentIds.length)} small={`leg${trip.segmentIds.length === 1 ? "" : "s"} done`} first />
+          <Stat big={`${trip.correct}/${trip.total}`} small="checks right" />
+          <Stat big={String(trip.streakDays)} small={`day streak`} />
+        </dl>
+      </Group>
 
-      <div className="flex flex-col gap-3">
-        <div className="flex items-baseline justify-between gap-4">
-          <div className="font-display text-xl font-semibold">
-            Chapter {chapter.number}: {chapter.shortTitle}
-          </div>
-          <div className="shrink-0 text-[15px] text-muted">
-            {doneInChapter} of {totalSegs} legs
-          </div>
-        </div>
-        <RouteLine route={route} currentWord="next" />
+      <Group label={`Chapter ${chapter.number}: ${chapter.shortTitle}`} aside={`${doneInChapter} of ${totalSegs} legs`}>
+        <RouteLine route={route} currentWord="next" justDone={justDone >= 0 ? justDone : undefined} />
         <ul className="flex flex-col">
           {chapter.segments.map((s, i) => {
             const done = progress.segmentsCompleted.includes(s.id);
             const thisTrip = trip.segmentIds.includes(s.id);
             return (
-              <li key={s.id} className={`flex min-h-11 items-center gap-3 border-t border-rule text-[15px] last:border-b ${done ? "" : "text-muted"}`}>
+              <li key={s.id} className={`flex min-h-11 items-center gap-3 border-b border-rule text-[15px] ${done ? "" : "text-muted"}`}>
                 <span className="w-5 shrink-0">{done ? <CheckIcon size={18} /> : <span className="sr-only">Not done</span>}</span>
                 <span className="flex-1">
                   Leg {i + 1}. {s.title}
@@ -94,17 +91,18 @@ export default async function Summary({ params }: { params: Promise<{ id: string
             );
           })}
         </ul>
-      </div>
+      </Group>
 
       {trip.explored && trip.explored.length > 0 && (
-        <div className="flex flex-col gap-1 rounded-[20px] bg-panel p-[18px]">
-          <div className="text-[15px] font-semibold">You explored</div>
+        <Group label="You explored" gap="gap-1">
           <ul className="text-[15px]">
             {trip.explored.map((t) => (
-              <li key={t}>{t}</li>
+              <li key={t} className="flex min-h-11 items-center border-b border-rule">
+                {t}
+              </li>
             ))}
           </ul>
-        </div>
+        </Group>
       )}
 
       {pendingQuiz && (
@@ -115,26 +113,27 @@ export default async function Summary({ params }: { params: Promise<{ id: string
       )}
 
       {(trip.mastered.length > 0 || trip.weak.length > 0) && (
-        <div className="grid grid-cols-2 gap-3">
-          <div className="flex flex-col gap-1 rounded-[20px] bg-panel p-[18px]">
-            <div className="text-[15px] font-semibold">Solid</div>
+        <Group>
+          <div className="grid grid-cols-2">
+          <div className="flex flex-col gap-1 pr-3.5">
+            <div className="text-sm font-semibold text-muted">Solid</div>
             <ul className="text-[15px]">{trip.mastered.length ? trip.mastered.map((t) => <li key={t}>{pretty(t)}</li>) : <li className="text-muted">Keep going</li>}</ul>
           </div>
-          <div className="flex flex-col gap-1 rounded-[20px] bg-panel p-[18px]">
-            <div className="text-[15px] font-semibold">Worth another look</div>
+          <div className="flex flex-col gap-1 border-l border-rule pl-3.5">
+            <div className="text-sm font-semibold text-muted">Worth another look</div>
             <ul className="text-[15px]">{trip.weak.length ? trip.weak.map((t) => <li key={t}>{pretty(t)}</li>) : <li className="text-muted">Nothing yet</li>}</ul>
           </div>
-        </div>
+          </div>
+        </Group>
       )}
 
-      <div className="flex flex-col gap-1">
-        <div className="text-[15px] text-muted">Next leg picks up at</div>
+      <Group label="Next leg picks up at" gap="gap-1.5">
         <div className="text-[17px] font-semibold">
           {nextSection ? `${nextSection.number} ${nextSection.title}, ` : ""}
           {nextSeg?.title ?? "Course complete"}
           {progress.resume.position === "checkpoint" && nextSeg ? ", check" : ""}
         </div>
-      </div>
+      </Group>
 
       {course.license && <p className="text-sm text-muted">{course.license.attribution}</p>}
 
@@ -157,9 +156,9 @@ export default async function Summary({ params }: { params: Promise<{ id: string
   );
 }
 
-function Stat({ big, small }: { big: string; small: string }) {
+function Stat({ big, small, first = false }: { big: string; small: string; first?: boolean }) {
   return (
-    <div className="flex flex-col gap-1 rounded-[20px] bg-panel p-4">
+    <div className={`flex flex-col gap-1 py-1 ${first ? "" : "border-l border-rule pl-3.5"}`}>
       <dt className="order-2 text-sm text-muted">{small}</dt>
       <dd className="order-1 font-display text-[34px] leading-none font-semibold">{big}</dd>
     </div>

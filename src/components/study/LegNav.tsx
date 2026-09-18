@@ -11,7 +11,7 @@ export type LegLink = { id: string; caption: string }; // caption: "1.2 · Title
 export function LegNav({ prev, next, primaryNext, disabled, onGo }: { prev: LegLink | null; next: LegLink | null; primaryNext: boolean; disabled?: boolean; onGo: (id: string) => void }) {
   const outlined = "flex min-h-[60px] w-full items-center justify-center rounded-2xl border-2 border-ink px-4 text-[17px] font-semibold disabled:opacity-40";
   return (
-    <nav aria-label="Legs" className="mt-10 flex flex-col gap-4 border-t border-rule pt-6">
+    <nav aria-label="Legs" className="mt-10 flex flex-col gap-4 border-t-2 border-ink pt-4">
       <div className="grid grid-cols-2 gap-3">
         <div className="flex flex-col gap-1.5">
           <button type="button" disabled={disabled || !prev} onClick={() => prev && onGo(prev.id)} className={outlined}>

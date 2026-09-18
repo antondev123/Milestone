@@ -5,6 +5,7 @@ import { DEFAULT_COURSE_ID, loadCourse } from "@/lib/course";
 import { courseFinished, currentChapter, milestoneRows, routeState, tripRows } from "@/lib/view";
 import { BackLink, Screen, TopBar } from "@/components/carry/Chrome";
 import { RouteLine } from "@/components/carry/RouteLine";
+import { Group } from "@/components/carry/Group";
 
 export const dynamic = "force-dynamic";
 
@@ -46,51 +47,40 @@ export default function ProgressPage() {
         </div>
       )}
 
-      <div className="flex flex-col gap-1">
-        <div className="text-[17px] text-muted">Learned in transit</div>
+      <Group label="Learned in transit" gap="gap-2">
         <div className="font-display text-[60px] leading-none font-semibold tracking-[-0.02em]">{minutes} min</div>
         <div className="text-[17px] text-muted">
           {rows.length === 0 ? "Your first finished trip will show up here." : `over ${rows.length} trip${rows.length === 1 ? "" : "s"}, without setting aside any extra time`}
         </div>
         {position && <div className="text-[17px] font-semibold">{position}</div>}
-      </div>
+      </Group>
 
-      <div className="flex flex-col gap-3">
-        <div className="flex items-baseline justify-between gap-4">
-          <div className="font-display text-xl font-semibold">
-            Chapter {chapter.number}: {chapter.shortTitle}
-          </div>
-          <div className="shrink-0 text-[15px] text-muted">
-            {done} of {route.total} legs done
-          </div>
-        </div>
+      <Group label={`Chapter ${chapter.number}: ${chapter.shortTitle}`} aside={`${done} of ${route.total} legs done`}>
         <RouteLine route={route} currentWord="next" />
         <Link href="/course" className="flex min-h-11 items-center self-start text-[15px] font-semibold underline underline-offset-4">
           All chapters
         </Link>
-      </div>
+      </Group>
 
       {milestones.length > 0 && (
-        <div className="flex flex-col">
-          <h2 className="pb-2 text-[17px] font-semibold">Milestones</h2>
+        <Group label={<h2>Milestones</h2>} gap="gap-1">
           <ul>
             {milestones.map((m) => (
-              <li key={m.id} className="flex min-h-14 items-center gap-3 border-t border-rule py-2 last:border-b">
+              <li key={m.id} className="flex min-h-14 items-center gap-3 border-b border-rule py-2">
                 <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-gold ring-2 ring-ink" aria-hidden="true" />
                 <span className="flex-1 text-base font-semibold">{m.label}</span>
                 <span className="shrink-0 text-sm text-muted">{m.when}</span>
               </li>
             ))}
           </ul>
-        </div>
+        </Group>
       )}
 
       {rows.length > 0 && (
-        <div className="flex flex-col">
-          <h2 className="pb-2 text-[17px] font-semibold">Your trips</h2>
+        <Group label={<h2>Your trips</h2>} gap="gap-1">
           <ul>
             {rows.map((r) => (
-              <li key={r.id} className="flex min-h-14 items-center justify-between gap-4 border-t border-rule py-2 last:border-b">
+              <li key={r.id} className="flex min-h-14 items-center justify-between gap-4 border-b border-rule py-2">
                 <div className="flex flex-col gap-0.5">
                   <span className="text-base font-semibold">{r.when}</span>
                   <span className="text-sm text-muted">{r.what}</span>
@@ -99,7 +89,7 @@ export default function ProgressPage() {
               </li>
             ))}
           </ul>
-        </div>
+        </Group>
       )}
 
       <div className="mt-auto">

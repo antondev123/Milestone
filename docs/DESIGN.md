@@ -80,6 +80,16 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 ## 3. Components
 
+**Groups and separators ("timetable").** Light and dark screens are grouped like a printed timetable, not with cards. Every group opens with a **2px rule** (ink on light, muted-on-ink on dark) and, where it helps, a **group label** (14/600, muted) with an optional right-aligned note (14, muted, tabular numbers, e.g. "4 of 13 legs done"). Rows inside a group are split by **1px hairlines** (`rule`, `ink-track` on dark). Side-by-side figures (the summary's stats, Solid / Worth another look) share one ruled row split by vertical hairlines. Panel fills stay for things you tap (answer buttons, the Study mode button, the ask field), not for grouping. Built with `Group`, `GroupLabel` and `Hairline` in `src/components/carry/Group.tsx`. Kept as they are: the feedback box (outline, now with a hairline above the source line), the gold milestone card on the summary, and the outlined "Quiz waiting" link.
+
+**Motion.** Nothing important waits for an animation: text, buttons and the resume fragment are on screen at first paint. The moving parts:
+- **Route line, every load:** the route is drawn dotted with empty stops, then the ink line fills stop by stop to where you are (110 ms a leg), each finished stop pops ink, the current stop pops gold and sends out two soft gold rings. Pure CSS (`route-*` classes in `globals.css`), so it runs on server pages.
+- **Leg just finished (summary):** the same fill; the furthest stop the trip finished pops a little bigger with a gold tick as the line passes it. No full-screen takeover.
+- **Read quietly:** the 4px leg bar eases to its width (420 ms).
+- **Listen:** the dial's gold ring sweeps in from empty on load (700 ms), then moves once per part as before. The voice strip stays the only continuous motion.
+- **Check / Study checkpoint:** feedback settles in (fade up, 220 ms).
+- Reduced motion shows every end state at once.
+
 **Top bar** (44px tall): back chevron on the left (44×44, `aria-label="Back to course"`), leg label in the centre ("Leg 3 of 8", 15/600), mode pill on the right.
 
 **Mode pill:** 44px tall, 2px outline in the text colour, icon plus label. Read mode shows "Listen instead" with a headphones icon. Listen mode shows "Read instead" with a lines icon. Tapping it switches mode **without** changing the learner's position.
@@ -90,13 +100,13 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 - "Read quietly" / "Short text, tap to answer" (gold)
 - "Listen" / "Audio, answer out loud or tap" (ink)
 
-**Route line** (SVG, 342×48): 8 stops spaced 46px apart, y = 16.
+**Route line** (SVG, 342×48): one stop per leg, spaced to fit, y = 16. Animated fill on load: see Motion above.
 - Finished stop: ink circle, radius 7, joined by a solid ink line (3px).
 - Current stop: gold circle, radius 11, with a 3px ink ring, and a label below it (13/600).
 - Upcoming stop: ground circle, radius 6, with a 2px muted ring, joined by a dashed line (2px, dash 4 6).
 - Give it an `aria-label` that describes the state, e.g. "Legs 1 and 2 done, leg 3 in progress, 5 legs to go".
 
-**Resume card:** panel fill, radius 20, padding 22. It holds a context line ("You stopped mid-sentence on your last trip"), then the cut-off fragment in Fraunces italic starting with "…", then the time left in the leg.
+**Resume block:** a ruled group, no card. The context line is the group label ("Your last trip stopped here"), then the cut-off fragment in Fraunces italic starting with "…", a hairline, then the time left in the leg.
 
 **Pick-up marker (Read mode):** a 10px gold dot with a 2px ink ring, followed by "Picked up where your last trip ended" (14/600). The sentence just before it is shown in muted at 17px, so the reader can find their place.
 
@@ -108,7 +118,7 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 **Milestone card (Summary):** panel fill, radius 20, padding 18. "Milestone reached" (15, muted), then one row per milestone: the 10px gold dot with a 2px ink ring and the label at 17/600. On Progress, a "Milestones" list uses the trip-row layout (dot and label left, day right). Milestones are named stops earned from logged data (`src/lib/milestones.ts`), awarded once, only for what that trip did. No badges, no points, no emoji.
 
-**Trip row (Progress):** 56px tall, with hairlines above and below. The left side shows the day and part of day (16/600) over what was covered and in which mode (14, muted). The right side shows the minutes (16/600).
+**Trip row (Progress):** 56px tall, with a hairline below (the group rule is above the first). The left side shows the day and part of day (16/600) over what was covered and in which mode (14, muted). The right side shows the minutes (16/600).
 
 **Icons:** 24px inline stroke SVGs, stroke width 2, round caps and joins, using `currentColor`. There are five, with their paths:
 - chevron: `M15 18l-6-6 6-6`
@@ -121,7 +131,7 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 ## 4. Screens
 
-**1. Resume.** Wordmark and a "Your progress" link, then "Morning, Thandi" and the heading "Pick up where your last trip ended." Next come the course name, legs done and the route line, then the resume card. The two mode buttons are pinned to the bottom.
+**1. Resume.** Wordmark with Settings and "Your progress" links. Three ruled groups: the chapter (label "Chapter 2: …", "n of N legs done", the route line), where you stopped (the resume block), and, pinned to the bottom, "How are you studying today?" with the Read quietly / Listen / Study buttons. No greeting or screen heading: the route and the cut-off sentence are the headline. A finished course shows "You finished the course." in the middle group.
 
 **2. Read mode.** Top bar, a 4px progress bar for the current leg, the leg title, the previous sentence in muted text, the pick-up marker, then the lesson in short paragraphs (about 40 words each). At the bottom: a "Check my understanding" button with "Get off any time. Your place is saved." underneath.
 

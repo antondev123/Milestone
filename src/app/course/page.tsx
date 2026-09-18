@@ -45,7 +45,7 @@ export default function CourseMap() {
           const state = ch.segments.length === 0 ? "Text only for now" : pct === 100 ? "Done" : `${pct}%`;
           const score = quizScore(ch.id);
           return (
-            <details key={ch.id} open={isHere} className="border-t border-rule last:border-b">
+            <details key={ch.id} open={isHere} className={`last:border-b last:border-rule ${isHere ? "border-t-2 border-ink" : "border-t border-rule"}`}>
               <summary className="flex min-h-14 cursor-pointer items-center gap-3 py-2">
                 <span className={`flex-1 text-base font-semibold ${ch.segments.length ? "" : "text-muted"}`}>
                   {ch.number}. {ch.title}
@@ -81,7 +81,7 @@ export default function CourseMap() {
                         </span>
                       );
                       return (
-                        <li key={s.id}>
+                        <li key={s.id} className="border-b border-rule">
                           {s.segments.length ? (
                             <Link href={`/learn/study?goto=${encodeURIComponent(`section ${s.number}`)}`} className="block">
                               {inner}
@@ -95,7 +95,7 @@ export default function CourseMap() {
                       );
                     })}
                   {ch.quizFile && (
-                    <li>
+                    <li className="border-b border-rule">
                       <Link href={`/learn/text?goto=${encodeURIComponent(`quiz me on chapter ${ch.number}`)}`} className="flex min-h-11 items-center gap-3 text-[15px]">
                         <span className="flex-1">Chapter quiz</span>
                         <span className="shrink-0 text-sm text-muted">{score ? `${score.correct} of ${score.total}` : pending.has(ch.id) ? "Waiting for you" : "6 questions"}</span>

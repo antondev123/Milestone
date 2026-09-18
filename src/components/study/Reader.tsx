@@ -11,6 +11,7 @@ const TOP_H = 60; // px, sticky top bar plus its hairline
 
 export function Reader({
   title,
+  label,
   blocks,
   pos,
   audioOn,
@@ -19,6 +20,8 @@ export function Reader({
   children,
 }: {
   title: string;
+  /** Section the leg belongs to, shown over the title ("2.5 Barriers to …"). */
+  label?: string;
   blocks: BlockIndex[];
   pos: Position | null;
   audioOn: boolean;
@@ -80,7 +83,11 @@ export function Reader({
   return (
     <div ref={root} className="relative">
       {rule && <div aria-hidden="true" className="absolute -left-4 w-[3px] rounded-sm bg-gold transition-[top,height] duration-200" style={rule} />}
-      <h1 className="mb-6 font-display text-[34px] leading-[1.12] font-semibold tracking-[-0.015em]">{title}</h1>
+      <div className="mb-6 flex flex-col gap-2.5">
+        <div className="h-0.5 bg-ink" aria-hidden="true" />
+        {label && <div className="text-sm font-semibold text-muted">{label}</div>}
+        <h1 className="font-display text-[34px] leading-[1.12] font-semibold tracking-[-0.015em]">{title}</h1>
+      </div>
       {blocks.map((b, bi) => (
         <p key={bi} className="mb-5 text-[19px] leading-[1.6]">
           {b.sentences.map((s, si) => {

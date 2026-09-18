@@ -64,6 +64,56 @@ body {
   animation: fade-up 220ms ease-out both;
 }
 
+/* Route line (RouteLine): on every load the ink line fills stop by stop to where you are.
+   Delays are set inline per stop; everything else on the page is already there. */
+@keyframes route-seg {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes route-pop {
+  0% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes route-ring {
+  from {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+@keyframes route-fade {
+  from {
+    opacity: 0;
+  }
+}
+.route-seg {
+  animation: route-seg 110ms linear both;
+}
+.route-pop {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: route-pop 260ms cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+.route-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: route-ring 700ms ease-out 2 both;
+}
+.route-fade {
+  animation: route-fade 200ms ease-out both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;

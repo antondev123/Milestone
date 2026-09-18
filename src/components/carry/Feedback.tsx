@@ -14,6 +14,7 @@ export function Feedback({
     <div role="status" className={`flex flex-col gap-2 rounded-2xl border-2 p-[18px] ${dark ? "border-muted-on-ink" : "border-ink"}`}>
       <div className="font-display text-[22px] font-semibold">{correct ? "That's right." : "Not quite."}</div>
       {text && <p className="text-[17px] leading-normal">{text}</p>}
+      <div className={`h-px ${dark ? "bg-ink-track" : "bg-rule"}`} aria-hidden="true" />
       <div className={`text-sm ${dark ? "text-muted-on-ink" : "text-muted"}`}>{source}</div>
     </div>
   );

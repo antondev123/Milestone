@@ -1,10 +1,14 @@
 // The route line is the brand: one stop per leg (docs/DESIGN.md §3).
 // Laid out on the 342×48 canvas; stop spacing stretches to fit however many legs the course has.
+// On every load the whole route is drawn dotted with empty stops, then the ink line fills stop by
+// stop to where you are (110 ms a leg) and the current stop pops gold. Pure CSS, so it also runs
+// on server-rendered pages; reduced motion shows the end state at once.
 import type { RouteState } from "@/lib/view";
 
 const W = 342;
 const Y = 16;
 const PAD = 13;
+const STEP_MS = 110;
 
 function describe(r: RouteState, currentWord: string): string {
   const done = r.done.map((d, i) => (d ? i + 1 : 0)).filter(Boolean);
@@ -18,43 +22,77 @@ function describe(r: RouteState, currentWord: string): string {
   return parts.join(", ");
 }
 
-export function RouteLine({ route, currentWord = "in progress" }: { route: RouteState; currentWord?: string }) {
+export function RouteLine({
+  route,
+  currentWord = "in progress",
+  justDone,
+}: {
+  route: RouteState;
+  currentWord?: string;
+  /** 0-based stop finished on the trip being shown: it gets a gold tick as the line passes it. */
+  justDone?: number;
+}) {
   const n = Math.max(1, route.total);
   const step = n === 1 ? 0 : (W - PAD * 2) / (n - 1);
   const x = (i: number) => PAD + i * step;
-  // solid ink up to the furthest finished-or-current stop, dashed after it
+  // solid ink up to the furthest finished-or-current stop
   const lastSolid = route.current ?? route.done.lastIndexOf(true);
+  const at = (i: number) => ({ animationDelay: `${i * STEP_MS}ms` });
   // keep the label on the canvas: hug the stop's outer edge at either end of the line
   const cx = route.current === null ? 0 : x(route.current);
   const anchor = cx < 40 ? "start" : cx > W - 40 ? "end" : "middle";
   const labelX = anchor === "start" ? cx - 12 : anchor === "end" ? cx + 12 : cx;
+  const seg = step + 2;
 
   return (
     <svg width="100%" viewBox={`0 0 ${W} 48`} role="img" aria-label={describe(route, currentWord)} className="block max-w-[342px] overflow-visible">
-      {lastSolid > 0 && <line x1={x(0)} y1={Y} x2={x(lastSolid)} y2={Y} stroke="var(--color-ink)" strokeWidth={3} strokeLinecap="round" />}
-      {lastSolid < n - 1 && (
+      <line x1={x(0)} y1={Y} x2={x(n - 1)} y2={Y} stroke="var(--color-muted)" strokeWidth={2} strokeDasharray="4 6" strokeLinecap="round" />
+      {route.done.map((_, i) => (
+        <circle key={`o${i}`} cx={x(i)} cy={Y} r={6} fill="var(--color-ground)" stroke="var(--color-muted)" strokeWidth={2} />
+      ))}
+      {Array.from({ length: Math.max(0, lastSolid) }, (_, i) => (
         <line
-          x1={x(Math.max(0, lastSolid))}
+          key={`s${i}`}
+          className="route-seg"
+          style={{ ...at(i), strokeDasharray: seg, strokeDashoffset: seg }}
+          x1={x(i)}
           y1={Y}
-          x2={x(n - 1)}
+          x2={x(i + 1)}
           y2={Y}
-          stroke="var(--color-muted)"
-          strokeWidth={2}
-          strokeDasharray="4 6"
+          stroke="var(--color-ink)"
+          strokeWidth={3}
           strokeLinecap="round"
         />
-      )}
+      ))}
       {route.done.map((d, i) =>
-        i === route.current ? (
-          <circle key={i} cx={x(i)} cy={Y} r={11} fill="var(--color-gold)" stroke="var(--color-ink)" strokeWidth={3} />
-        ) : d ? (
-          <circle key={i} cx={x(i)} cy={Y} r={7} fill="var(--color-ink)" />
-        ) : (
-          <circle key={i} cx={x(i)} cy={Y} r={6} fill="var(--color-ground)" stroke="var(--color-muted)" strokeWidth={2} />
-        ),
+        d && i !== route.current ? (
+          i === justDone ? (
+            <g key={`d${i}`}>
+              <circle className="route-pop" style={at(i)} cx={x(i)} cy={Y} r={9} fill="var(--color-ink)" />
+              <path
+                className="route-pop"
+                style={{ animationDelay: `${i * STEP_MS + 60}ms` }}
+                d={`M${x(i) - 4} ${Y}l3 3 5-6`}
+                fill="none"
+                stroke="var(--color-gold)"
+                strokeWidth={2.5}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </g>
+          ) : (
+            <circle key={`d${i}`} className="route-pop" style={at(i)} cx={x(i)} cy={Y} r={7} fill="var(--color-ink)" />
+          )
+        ) : null,
+      )}
+      {route.current !== null && (
+        <>
+          <circle className="route-ring" style={{ animationDelay: `${route.current * STEP_MS + 120}ms` }} cx={cx} cy={Y} r={11} fill="none" stroke="var(--color-gold)" strokeWidth={3} />
+          <circle className="route-pop" style={at(route.current)} cx={cx} cy={Y} r={11} fill="var(--color-gold)" stroke="var(--color-ink)" strokeWidth={3} />
+        </>
       )}
       {route.label && route.current !== null && (
-        <text x={labelX} y={44} textAnchor={anchor} fontSize={13} fontWeight={600} fill="var(--color-ink)" style={{ fontFamily: "var(--font-sans)" }}>
+        <text className="route-fade" style={at(route.current)} x={labelX} y={44} textAnchor={anchor} fontSize={13} fontWeight={600} fill="var(--color-ink)" fontFamily="var(--font-sans)">
           {route.label}
         </text>
       )}
