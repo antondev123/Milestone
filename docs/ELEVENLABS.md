@@ -143,6 +143,6 @@ Declare these in the agent's dynamic variables section (defaults don't matter, t
 
 1. `npm run dev`, open `/learn/voice`, pick 5 min, Start talking. Allow mic.
 2. Agent should greet with the segment count. Say "go".
-3. Interrupt mid-script with "explain differently". It should stop and read the analogy.
+3. Interrupt mid-script with "explain differently". The tutor should go quiet within a syllable of you speaking and the orb should stop glowing at the same moment (local ducking); then it reads the analogy at full volume. Clap once while it reads: expect a ~1 s dip and a smooth return, not a stop. Add `?debug=1` to the URL to see the mic meter and duck phase.
 4. Answer a question vaguely ("um, saving I think"). Should be rejected with a nudge.
 5. Say "I'm done". Should read a summary, and the app should navigate to the summary page ~4 s later.
