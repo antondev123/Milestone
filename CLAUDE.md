@@ -41,7 +41,7 @@ Hackathon, 36 hours, 2026-09-18 to 2026-09-19. Theme: "Travel — the journey, n
 - Node 24 runs `.ts` scripts directly. No tsx, no ts-node.
 - Next.js 16 App Router. Route params are Promises: `const { id } = await params`.
 - Restart `npm run dev` after editing `.env.local`. Env is not hot-reloaded.
-- `npm run demo:reset` wipes progress; `npm run demo:reset -- --seed` puts the demo user mid-chapter-2 with a streak. Do one before every rehearsal.
+- `npm run demo:stage` is the stage reset: wipes progress, seeds the position (chapter 1 and 2.1–2.4 done) and arms the fixed Listen demo (the next Listen trip is 2.5 parts 1–2 and ends itself; runs once). `npm run demo:reset` wipes; `-- --seed` seeds position only. Do one before every rehearsal.
 - The course manifest (`course.json`) is always in memory; segment prose lives in `sections/*.json` and is loaded lazily. Never send whole sections to a model at runtime; the manifest `toc.md` is the LLM-facing table of contents.
 - Grading: MCQ is local string match, open answers go to Claude via `src/lib/grader.ts`. `ANTHROPIC_MODEL` controls the model, default `claude-sonnet-5`.
 - Voice tools are client tools in `src/components/VoiceAgent.tsx` calling `/api/tools/<name>`. The same route works as a webhook if someone reconfigures the agent.
@@ -64,7 +64,8 @@ Hackathon, 36 hours, 2026-09-18 to 2026-09-19. Theme: "Travel — the journey, n
 | Speech tools (voice agent + text mode) | `src/app/api/tools/[tool]/route.ts` |
 | Voice mode | `src/app/learn/voice/page.tsx`, `src/components/VoiceAgent.tsx` |
 | Summary card | `src/app/trip/[id]/summary/page.tsx` |
-| Chapter 1 verbatim legs (PDF text layer, not ingested) | `data/courses/pom/verbatim/`, `scripts/verbatim-chapter.ts` (`npm run course:verbatim`) |
+| Verbatim legs: chapter 1 (PDF text layer) and 2.5 (section markdown), not ingested | `data/courses/pom/verbatim/cNN.json`, `scripts/verbatim-chapter.ts` (`npm run course:verbatim`) |
+| Stage demo (fixed Listen trip, reset command) | `src/lib/demo.ts`, `scripts/demo-reset.ts --stage`, `docs/DEMO.md` |
 | Course data (Principles of Management) | `data/courses/pom/` — see its README; `source/` markdown, `sections/` lessons, `course.json` manifest |
 | Course loaders (manifest + lazy sections) | `src/lib/course.ts` |
 | Book parser / ingest / validator | `scripts/parse-book.ts`, `scripts/ingest.ts`, `scripts/validate-course.ts` |

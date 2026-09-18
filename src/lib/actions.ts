@@ -12,6 +12,7 @@ import { resolveTarget } from "./navigate";
 import { askBook } from "./ask";
 import { quickIntent } from "./intent";
 import { carrySession, closeSession, openSession } from "./log/log";
+import { demoArmed, demoPlan } from "./demo";
 
 const userId = DEMO_USER_ID;
 const courseId = DEFAULT_COURSE_ID;
@@ -24,10 +25,14 @@ export function actionReset(): Progress {
   return resetProgress(userId, courseId);
 }
 
-/** Start an open-ended trip at the cursor. It runs until the learner ends it (or the course runs out). */
+/**
+ * Start an open-ended trip at the cursor. It runs until the learner ends it (or the course runs out).
+ * Listen with the stage demo armed (`npm run demo:stage`) gets the fixed demo trip instead.
+ */
 export function actionStartSession(mode: Mode): Plan {
   const course = loadCourse(courseId);
   const progress = getProgress(userId, courseId);
+  if (mode === "voice" && demoArmed(progress)) return startDemo(course, progress, mode);
   const plan = planTrip(course, progress, mode);
   // the cursor is the source of truth for position; the plan starts where it points
   const c = cursor.ensureCursor(course, progress);
@@ -38,6 +43,27 @@ export function actionStartSession(mode: Mode): Plan {
   plan.greeting = say.greeting(course, progress, plan.startAt.segmentId);
   startTrip(progress, plan, mode);
   loadSegmentFull(courseId, plan.startAt.segmentId); // warm the first leg
+  openSession(plan, mode);
+  return plan;
+}
+
+/**
+ * Stage demo: the fixed two-leg trip that ends itself (cursor.serveNext honours a non-empty plan).
+ * Always starts from the top of the first leg, so a reload before the end gives the identical run;
+ * an abandoned trip is dropped without a summary. The flag is consumed when this trip ends.
+ */
+function startDemo(course: ReturnType<typeof loadCourse>, progress: Progress, mode: Mode): Plan {
+  delete progress.activeTrip;
+  const plan = demoPlan(progress);
+  const c = cursor.ensureCursor(course, progress);
+  cursor.moveTo(c, plan.startAt.segmentId);
+  delete c.lastReply;
+  delete c.detour;
+  delete c.quiz;
+  plan.greeting = say.greeting(course, progress, plan.startAt.segmentId);
+  progress.demo!.tripId = plan.tripId;
+  startTrip(progress, plan, mode);
+  for (const id of plan.segmentIds) loadSegmentFull(courseId, id);
   openSession(plan, mode);
   return plan;
 }

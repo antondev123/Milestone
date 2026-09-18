@@ -51,8 +51,9 @@ function commit(course: Course, progress: Progress, c: Cursor, reply: ToolReply)
   c.lastReply = reply;
   c.lastAt = new Date().toISOString();
   c.updatedAt = c.lastAt;
-  // mirror for the planner / summary page
-  progress.resume = { segmentId: c.segmentId, position: c.phase === "ask" ? "checkpoint" : "start" };
+  // mirror for the planner / summary page; once a part is done, completeSegment has already pointed
+  // resume at the next part, and the summary's "Next leg picks up at" must not fall back to this one
+  if (c.phase !== "done") progress.resume = { segmentId: c.segmentId, position: c.phase === "ask" ? "checkpoint" : "start" };
   saveProgress(progress);
   return reply;
 }
@@ -144,8 +145,11 @@ export function serveNext(course: Course, progress: Progress, opts: { peek?: boo
     return opts.peek ? r : commit(course, progress, c, r);
   }
 
-  // phase done → next segment in course order, or the end of the course
+  // phase done → next segment in course order, or the end of the course. A fixed plan (the stage
+  // demo, src/lib/demo.ts) lists its legs; past the last one the trip ends itself.
   const from = say.place(course, c.segmentId);
+  const planned = progress.activeTrip?.segmentIds ?? [];
+  if (planned.length && planned.indexOf(c.segmentId) === planned.length - 1) return endReply(course, progress, c, opts.peek);
   const nxtId = nextSegmentId(course, c.segmentId);
   if (!nxtId) return endReply(course, progress, c, opts.peek);
   const to = say.place(course, nxtId);

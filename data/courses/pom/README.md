@@ -17,5 +17,6 @@ Ingest more: `node --env-file=.env.local scripts/ingest.ts pom --chapters 4-6` (
 
 - `source/cNN/cNN-sMM.md` — cleaned section text with learning objectives, concept checks (with the book's answers where it gives them), key terms on the summary section. Edit these if the parse is wrong, then re-ingest.
 - `sections/cNN-sMM.json` — spoken lessons: 1–5 parts per section (`round(words/700)`), each with script, key points, alternative explanation, deeper dive, example, 2–3 checkpoint questions.
+- `verbatim/cNN.json` — the book's own words instead of an ingested paraphrase (`model: "verbatim"`). Each leg is a `start`/`end` slice of the raw text plus authored title, key points, explanations and questions. Raw text is `verbatim/cNN.txt` (PDF text layer, chapter 1) when present, otherwise the section's `source/` markdown (2.5, no PDF needed). `npm run course:verbatim` rebuilds every spec and updates `course.json`; `npm run ingest` skips these sections unless `--force`, which would replace them with a paraphrase again.
 - `chapters/cNN-quiz.json` — chapter quiz from the book's review questions.
 - `ingest.log.jsonl` — every Claude call with tokens and cost.

@@ -1,40 +1,41 @@
 // OFFLINE: serve a chapter as the book's own words instead of an ingested adaptation.
-// Leg text is sliced from the PDF text layer (verbatim/cNN.txt) and cleaned of layout noise;
-// nothing is paraphrased. Titles, key points and check questions are authored in verbatim/cNN.json.
-// Writes sections/cNN-sMM.json in the same shape as scripts/ingest.ts and updates course.json.
+// Leg text is sliced from the PDF text layer (verbatim/cNN.txt) when that file exists, otherwise from the
+// section's parsed markdown (source/cNN/cNN-sMM.md), and cleaned of layout noise; nothing is paraphrased.
+// Titles, key points and check questions are authored in verbatim/cNN.json. One spec per chapter; build
+// runs every spec it finds. Writes sections/cNN-sMM.json in the same shape as scripts/ingest.ts and
+// updates course.json.
 //
 //   node scripts/verbatim-chapter.ts extract "<path to Principles of Management.pdf>"   (chapter 1 → verbatim/c01.txt)
 //   node scripts/verbatim-chapter.ts build                                               (npm run course:verbatim)
 //
-// Why not source/cNN/*.md: parse-book.ts treats every "> **" line as a figure caption, which drops
-// real prose in 1.3 (most of Decisional Roles) and 1.4 (the levels of management). The raw text
-// layer keeps it. Sections written here get ingest's sourceHash, so `npm run ingest` skips them
+// Why not source/cNN/*.md for chapter 1: parse-book.ts treats every "> **" line as a figure caption, which
+// drops real prose in 1.3 (most of Decisional Roles) and 1.4 (the levels of management). The raw text layer
+// keeps it. Sections whose markdown parsed cleanly (2.5) are cut from the markdown instead, so no PDF is
+// needed to rebuild them. Sections written here get ingest's sourceHash, so `npm run ingest` skips them
 // unless --force. Never called on the request path.
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Course, Question, SectionLesson, Segment } from "../src/types/lesson.ts";
 import { orderMcqs } from "./mcq-order.ts";
 
 const DIR = join("data", "courses", "pom");
-const CHAPTER = 1;
 const pad = (n: number | string) => String(n).padStart(2, "0");
-const RAW = join(DIR, "verbatim", `c${pad(CHAPTER)}.txt`);
-const SPEC = join(DIR, "verbatim", `c${pad(CHAPTER)}.json`);
+const rawPath = (chapter: number) => join(DIR, "verbatim", `c${pad(chapter)}.txt`);
 const WORDS_PER_MIN = 150;
 const sha = (s: string) => createHash("sha1").update(s).digest("hex").slice(0, 12); // same as scripts/ingest.ts
 
 interface LegSpec {
   title: string;
   section: string; // "1.3"
-  start: string; // exact text where the leg begins in cNN.txt
+  start: string; // exact text where the leg begins in the raw text
   end: string; // exact text where the next part begins (not included)
   drop?: (string | [string, string])[]; // regex, or [regex, replacement]: captions, headings, exhibit references
   keyPoints: string[];
   altExplanation: string;
   deeper: string;
-  checkpoint: Omit<Question, "id">[];
+  checkpoint: (Omit<Question, "id" | "source"> & { source?: Question["source"] })[]; // source "book" = the book's own concept check
 }
 
 function extract(pdf: string) {
@@ -42,8 +43,8 @@ function extract(pdf: string) {
   const start = text.indexOf("1.1: Introduction\n\n(Credit");
   const end = text.indexOf(" 2: MANAGERIAL DECISION-MAKING", start);
   if (start < 0 || end < 0) throw new Error("chapter 1 markers not found; has the PDF changed?");
-  writeFileSync(RAW, text.slice(start, end));
-  console.log(`extract: wrote ${RAW} (${end - start} chars)`);
+  writeFileSync(rawPath(1), text.slice(start, end));
+  console.log(`extract: wrote ${rawPath(1)} (${end - start} chars)`);
 }
 
 /** Layout noise → plain spoken prose. */
@@ -65,18 +66,45 @@ function clean(slice: string, drop: LegSpec["drop"] = []): string {
     .trim();
 }
 
+// straight quotes: simpler markers, and speech engines read them the same
+const straight = (s: string) => s.replace(/\r\n/g, "\n").replace(/[‘’]/g, "'").replace(/[“”]/g, '"');
+
+/** Without the PDF text layer: the section's parsed markdown body, headings and blockquotes out, concept checks off. */
+function sectionMarkdown(sourceFile: string): string {
+  const md = straight(readFileSync(join(DIR, sourceFile), "utf8"));
+  const body = md.split(/^## Body\s*$/m)[1] ?? md;
+  return body
+    .split(/^## Concept Check\s*$/m)[0]
+    .replace(/^#{1,6} .*$/gm, "\n")
+    .replace(/^> .*$/gm, "\n")
+    .replace(/ — /g, ", ") // em dashes read as a pause
+    .replace(/ \. \. \. /g, "... ");
+}
+
 function build() {
-  // straight quotes: simpler markers, and speech engines read them the same
-  const raw = readFileSync(RAW, "utf8").replace(/\r\n/g, "\n").replace(/[‘’]/g, "'").replace(/[“”]/g, '"');
-  const spec = JSON.parse(readFileSync(SPEC, "utf8")) as { legs: LegSpec[] };
   const manifestPath = join(DIR, "course.json");
   const course = JSON.parse(readFileSync(manifestPath, "utf8")) as Course;
+  const specs = readdirSync(join(DIR, "verbatim"))
+    .filter((f) => /^c\d\d\.json$/.test(f))
+    .sort()
+    .map((f) => JSON.parse(readFileSync(join(DIR, "verbatim", f), "utf8")) as { chapter: number; legs: LegSpec[] });
+  for (const spec of specs) buildChapter(course, spec.chapter, spec.legs);
+
+  // same manifest bookkeeping as scripts/ingest.ts saveManifest()
+  for (const ch of course.chapters) ch.segments = ch.sections.flatMap((s) => s.segments);
+  course.estimatedMinutes = Math.round(course.chapters.flatMap((c) => c.segments).reduce((a, s) => a + s.durationSec + s.checkpoint.length * 45, 0) / 60);
+  writeFileSync(manifestPath, JSON.stringify({ ...course, modules: undefined }, null, 2) + "\n");
+}
+
+function buildChapter(course: Course, CHAPTER: number, legsSpec: LegSpec[]) {
   const chapter = course.chapters.find((c) => c.number === CHAPTER);
   if (!chapter) throw new Error(`chapter ${CHAPTER} not in manifest`);
+  const pdfLayer = existsSync(rawPath(CHAPTER)) ? straight(readFileSync(rawPath(CHAPTER), "utf8")) : null;
 
   for (const section of chapter.sections) {
-    const legs = spec.legs.filter((l) => l.section === section.number);
+    const legs = legsSpec.filter((l) => l.section === section.number);
     if (!legs.length) continue;
+    const raw = pdfLayer ?? sectionMarkdown(section.sourceFile);
     const segments: Segment[] = legs.map((leg, i) => {
       const a = raw.indexOf(leg.start);
       const b = raw.indexOf(leg.end, a + leg.start.length);
@@ -94,7 +122,7 @@ function build() {
         keyPoints: leg.keyPoints,
         altExplanation: leg.altExplanation,
         deeper: leg.deeper,
-        checkpoint: leg.checkpoint.map((q, j) => ({ id: `${id}/q${j + 1}`, ...q, source: "generated" as const })),
+        checkpoint: leg.checkpoint.map((q, j) => ({ id: `${id}/q${j + 1}`, ...q, source: q.source ?? ("generated" as const) })),
       };
     });
     orderMcqs(segments.flatMap((g) => g.checkpoint));
@@ -118,12 +146,7 @@ function build() {
       checkpoint: g.checkpoint.map((q) => ({ id: q.id, type: q.type, topic: q.topic })),
     }));
   }
-
-  // same manifest bookkeeping as scripts/ingest.ts saveManifest()
-  for (const ch of course.chapters) ch.segments = ch.sections.flatMap((s) => s.segments);
-  course.estimatedMinutes = Math.round(course.chapters.flatMap((c) => c.segments).reduce((a, s) => a + s.durationSec + s.checkpoint.length * 45, 0) / 60);
-  writeFileSync(manifestPath, JSON.stringify({ ...course, modules: undefined }, null, 2) + "\n");
-  console.log(`build: chapter ${CHAPTER} → ${chapter.sections.flatMap((s) => s.segments).length} legs`);
+  console.log(`build: chapter ${CHAPTER} (${pdfLayer ? "PDF text layer" : "section markdown"}) → ${chapter.sections.flatMap((s) => s.segments).length} legs`);
 }
 
 const [cmd, arg] = process.argv.slice(2);

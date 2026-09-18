@@ -1,37 +1,58 @@
-# DEMO script (target: 3 min, each beat < 60 s)
+# DEMO script: the stage run (about 6 minutes, hands-free)
 
-Before: `npm run demo:reset -- --seed` (position only: chapter 1 done, chapter 2 through 2.4; no trips, answers or streak), then `npm run dev`. The Progress screen and trip rows show logged trips only (docs/DESIGN.md §5), so after seeding do one real rehearsal trip **in Read mode** and end it (that earns "First trip" and keeps "First hands-free trip" for Beat 2). Phone or narrow window, mic allowed in Chrome. Tabs open: `/` (Resume) and `/course`; open `/learn/text` and `/learn/voice` from there when the beat calls for them (each starts a trip the moment it opens, so do not pre-open them). `/course` is one tap from Progress ("All chapters"). Rehearse once; the seed makes every run identical.
+One fixed trip, the book's own words, the same every time. Section 2.5 of OpenStax *Principles of Management*, "Barriers to Effective Decision-Making": about a minute and a half on bounded rationality, two checks (one open, one multiple choice), two minutes on escalation of commitment with a live question in the middle, one more check, then the trip ends itself into the summary with the first milestones.
 
-## Beat 0 — the line (12 s)
+## Before
+
+```bash
+npm run demo:stage
+npm run dev
+```
+
+`demo:stage` wipes progress, seeds the position (chapter 1 done, chapter 2 through 2.4, no trips, answers or streak) and arms the demo. Trips are open-ended everywhere else; the armed demo makes the **next Listen trip** exactly 2.5 parts 1 and 2, ending on its own after part 2. It runs **once**: after the summary, Listen is an ordinary open-ended trip from 2.5 part 3. Run `demo:stage` again for the next person. Moving somewhere else in Study or Read before the demo (cursor off 2.5 part 1) also disarms it.
+
+Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`. Do not pre-open `/learn/voice`: it starts the trip the moment it opens.
+
+## Beat 0, the line (12 s)
 "Half of South Africa's workers commute by public transport, and most start courses they never finish. This is a real textbook, OpenStax Principles of Management, eighteen chapters, cut into commute-sized parts. We turn the trip into the lesson."
 
-## Beat 1 — the map, then the taxi (45 s)
-- `/course`. "Eighteen chapters, a hundred and forty-four sections. Nothing is locked. Chapter one done, chapter two thirty-one percent. You're here: 2.5, part one of three, about three more commutes to finish the chapter."
-- Tap **Resume 2.5**. No trip-length screen: the tutor greets at once, "Back in chapter two… Section two point five, part one of three. Here we go." Tap **Continue** once.
-- Type in the Ask box: **"is satisficing the same as being lazy?"** → grounded answer, ending "Milestone: First question from the road." Then tap **Continue**: "Back to Why We Can Never Fully Decide…" "That detour came from the book, and it resumed exactly where we were."
-- Tap **Skip**, **Continue**, tap the answer (**Escalation of commitment**, the taxi-minibus story you just heard). Tap **End trip**. Don't dwell.
+## Beat 1, land and go (10 s)
+- `/` shows *Chapter 2: Managerial Decision-Making, 4 of 17 legs done* and the resume card. "Chapter one done, four legs into chapter two. I'm driving, so: Listen."
+- Tap **Listen**. The Dial: Topic, Section and the ring, no words. Tap the **dial**, the only tap.
+- Tutor: "Back in chapter two, Managerial Decision-Making. Section two point five, part one of seven. Here we go." Then it starts reading on its own.
 
-## Beat 2 — driving, voice mode (75 s) ← the heart
-- Open `/learn/voice`. "Now I'm driving. Same book, same position." Tap the **dial**, that is the only tap. The screen shows Topic, Section and the ring only, no words: "Nothing to read while I drive. Two buttons."
-- Agent (server-composed): "Back in chapter two, Managerial Decision-Making. Section two point five… Here we go." It starts reading on its own.
-- Interrupt with **"where am I"** → "Chapter two… section two point five, part one of three. Chapter is thirty-one percent done, about three more commutes." "It knows. I never touched the screen."
-- Say **"continue"**. It reads, pauses, keeps reading on its own. After ~10 s, **interrupt mid-sentence**: **"how does this apply to running a taxi business?"**
-  - It stops. Three sentences from the book. "One sec" fills the gap while Claude thinks.
-  - Say **"continue"** → "Back to Why We Can Never Fully Decide…" "It didn't lose its place. The server knows which block we were on; the agent only ever hears the words it should say."
-- Say **"go to chapter one"** → "Going to chapter one, Managing and Performing…" The Topic line, dots and ring change on screen.
-- Say **"take me to the chapter one quiz"** → "Chapter one quiz, six questions. First: according to Henry Mintzberg, what are the three major roles managers perform?" "That's the book's own review question." Answer in your own words. Graded by Claude, spoken back. (Milestones land as they happen: the first checkpoint you pass in this trip ends with "Milestone: First hands-free trip", a fanfare earcon and the label on the state line, then reading carries on. A section end is named aloud, "Section two point five, …, done. Next, …", with a rising earcon. Nothing stops.)
-- Say **"I'm done, I've arrived."** (Or hold **End** for a second.)
+## Beat 2, the first minute (80 s)
+- It reads the book: "There are a number of barriers to effective decision-making… Bounded rationality is the idea that for complex issues we cannot be completely rational…" Two blocks, a short breath between them. Nothing to read on screen. "Every word is the textbook's. Nothing is paraphrased."
 
-## Beat 3 — the artefact (30 s)
-- Summary lands: legs done, checks right, day streak, **Milestone reached: First hands-free trip**, the chapter route line, **You explored: decision-making in a taxi business**, quiz waiting, **Next leg picks up at 2.5 …**.
-- "You arrive with progress, not an episode. Curiosity counts as progress too. And the milestones only come from what you actually did on the road."
+## Beat 3, the checks (70 s)
+- "Quick check. Why does the book say managers cannot make completely rational decisions on complex issues?"
+  Answer in your own words, for example: **"Because you can't know every alternative or what each one leads to, and even if you could, you don't have the time or the head space to process it all."** Claude grades it (about 4 s, "One sec" covers it) and speaks one sentence back. Try a weak one in rehearsal ("because it's complicated") to see it rejected and offered once more.
+- "According to the passage, why is nonrational decision-making especially common with nonprogrammed decisions? A, … B, … C, … D, …" The right one is **"New ground, so we do not know what to ask"**. Say the letter, or the words: **"the new ground one"**. Graded locally, instant. "That's right", then "Part done. Milestone: First trip. First hands-free trip." with the fanfare earcon and the label on the state line. Reading carries on.
 
-## Beat 4 — how it's built (18 s)
-- "A whole textbook goes in: one free parse, then one Claude pass per section turns it into spoken parts with checkpoints, and the book's own review questions become the chapter quizzes. At runtime the server owns your position and feeds the models only the block you're on; the ElevenLabs agent just talks. Claude Haiku answers questions from the book with cached context, Sonnet grades. Next.js."
+## Beat 4, the second minute and the live question (2.5 min)
+- It moves on by itself: "Part two of seven, Escalation of commitment. Given the lack of complete information, managers don't always make the right decision initially…"
+- About ten seconds in, **interrupt mid-sentence**: **"Is that the same thing as the sunk cost fallacy?"**
+  It stops. Two or three sentences from the book's context (the deeper note for this part links escalation of commitment to sunk costs), ending "Milestone: First question from the road." "It answered from the book, not the internet. And it still knows where we were."
+- Say **"continue"**. "Back to Escalation of commitment." It re-reads the block from the top and carries on through the software-package story to "…willing to reevaluate decisions and change direction when appropriate."
+- Optional, if time: **"where am I"** → "Chapter two… section two point five, part two of seven…".
+- "Quick check. What is escalation of commitment, and why is it hard to avoid?" Answer: **"Sticking with a bad decision even as it keeps getting worse, because admitting you were wrong feels harder than staying the course."**
+
+## Beat 5, arrival (30 s)
+- Part 2 was the last planned leg, so the trip ends itself. Tutor: "Trip done. Two parts, three of three right. Chapter is thirty-five percent finished. Milestone: day one of your streak. You explored escalation of commitment and sunk costs. Next leg picks up at two point five, Barriers to Effective Decision-Making."
+- The summary lands: the gold **milestone card** on top (Day one of your streak, First trip, First hands-free trip, First question from the road, and Clean run if all three checks were right first time), then legs done, checks right, day streak, the chapter route line, "You explored", and *Next leg picks up at 2.5 …, Time constraints and uncertainty*.
+- "You arrive with progress, not an episode. Curiosity counts as progress. And every one of those milestones came from what just happened on the road."
+
+## Beat 6, how it's built (18 s)
+- "A whole textbook goes in. Chapter one and this section are the book's own text, cut on its headings; the rest is one Claude pass per section into spoken parts with checkpoints. At runtime the server owns your position and feeds the models only the block you're on; the ElevenLabs agent just talks. Claude Haiku answers questions from the book with cached context, Sonnet grades. Next.js."
+
+## Extras if the room wants more
+- **"go to chapter one"** → the Topic line and ring change. **"take me to the chapter one quiz"** → the book's own review questions, graded and spoken back. **"I'm done."** ends the trip from anywhere.
+- Study mode (`/learn/study`): the same section as a page, read aloud with the words highlighted, tap a sentence and ask about it.
+- Tap **Listen** again after the summary: an ordinary open-ended trip from 2.5 part 3. The demo does not repeat until `npm run demo:stage`.
 
 ## Fallbacks
-- Mic or ElevenLabs fails: "let me show the taxi version" and do Beat 2 in Read mode with the chips (same tools, same position). Or `/learn/voice?text=1`: the same agent without audio, reading on its own (no way to give commands there; the Dial has no text box).
-- `goto` picks the wrong section: use an exact number, "go to section two point five".
-- `ask` slow: the "One sec" filler covers ~3 s; if it times out the tutor says "I couldn't check that one, say go" and reading resumes.
-- Grading API down (or no `ANTHROPIC_API_KEY`): MCQs still grade locally, spoken picks included ("it's escalation of commitment"); open answers fall back to keyword matching, which is lenient and accepts the rehearsed answers.
-- Reset between rehearsals: `npm run demo:reset -- --seed` (or `DELETE /api/progress` for a fresh start).
+- Mic or ElevenLabs fails: Read mode (`/learn/text`) has the same content and tools with typed commands; a Read trip is open-ended, so tap **End trip** after part 2. `/learn/voice?text=1` runs the real agent without audio but takes no commands (the Dial is hands-free).
+- Grading API down (no `ANTHROPIC_API_KEY`): MCQs grade locally; open answers fall back to keyword matching, which is lenient and accepts the answers above.
+- `ask` slow: the "One sec" filler covers ~3 s; on a timeout the tutor says "I couldn't check that one, say go" and reading resumes.
+- The trip does not end after part 2: the demo was not armed (someone browsed away or it already ran). Say "I'm done", run `npm run demo:stage`, reload.
+- Timing: the run is about six minutes with unhurried answers. Answering briskly and interrupting early in part two keeps it near five.

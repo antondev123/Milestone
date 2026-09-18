@@ -132,6 +132,7 @@ export function endTrip(course: Course, progress: Progress): TripSummary {
   summary.milestones = [...new Set([...(active?.milestones ?? []), ...atEnd])];
   progress.trips.push(summary);
   delete progress.activeTrip;
+  if (progress.demo?.tripId === tripId) delete progress.demo; // the stage demo runs once; Listen shows the picker next
   saveProgress(progress);
   return summary;
 }

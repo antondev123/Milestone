@@ -18,6 +18,14 @@ export default function ProgressPage() {
   const route = routeState(chapter, progress, (n) => `Next: leg ${n}`);
   const done = route.done.filter(Boolean).length;
   const complete = courseFinished(course, progress);
+  // position on the map: chapters finished and legs done, from segmentsCompleted (not from trips)
+  const doneSet = new Set(progress.segmentsCompleted);
+  const chaptersDone = course.chapters.filter((c) => c.segments.length > 0 && c.segments.every((s) => doneSet.has(s.id))).length;
+  const legsDone = progress.segmentsCompleted.length;
+  const position =
+    legsDone === 0
+      ? null
+      : `${chaptersDone > 0 ? `${chaptersDone} chapter${chaptersDone === 1 ? "" : "s"} finished, ` : ""}${legsDone} leg${legsDone === 1 ? "" : "s"} done on the map`;
 
   return (
     <Screen gap="gap-[26px]">
@@ -36,6 +44,7 @@ export default function ProgressPage() {
         <div className="text-[17px] text-muted">
           {rows.length === 0 ? "Your first finished trip will show up here." : `over ${rows.length} trip${rows.length === 1 ? "" : "s"}, without setting aside any extra time`}
         </div>
+        {position && <div className="text-[17px] font-semibold">{position}</div>}
       </div>
 
       <div className="flex flex-col gap-3">

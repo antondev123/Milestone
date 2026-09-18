@@ -2,7 +2,7 @@
   "id": "pom",
   "title": "Principles of Management",
   "description": "The OpenStax Principles of Management textbook, transposed into commute-sized audio lessons with checkpoints.",
-  "estimatedMinutes": 184,
+  "estimatedMinutes": 192,
   "license": {
     "name": "CC BY 4.0",
     "url": "https://creativecommons.org/licenses/by/4.0/",
@@ -595,76 +595,128 @@
           "segments": [
             {
               "id": "pom/c2/s5/g1",
-              "title": "Why We Can Never Fully Decide",
-              "durationSec": 160,
+              "title": "Bounded rationality",
+              "durationSec": 80,
               "sectionId": "pom/c2/s5",
               "checkpoint": [
                 {
                   "id": "pom/c2/s5/g1/q1",
-                  "type": "mcq",
-                  "topic": "escalation-of-commitment"
+                  "type": "open",
+                  "topic": "bounded-rationality"
                 },
                 {
                   "id": "pom/c2/s5/g1/q2",
-                  "type": "open",
-                  "topic": "time-constraints-heuristics"
-                },
-                {
-                  "id": "pom/c2/s5/g1/q3",
-                  "type": "open",
-                  "topic": "decision-barriers-overview"
+                  "type": "mcq",
+                  "topic": "nonprogrammed-decisions"
                 }
               ]
             },
             {
               "id": "pom/c2/s5/g2",
-              "title": "Our Own Minds Get in the Way",
-              "durationSec": 165,
+              "title": "Escalation of commitment",
+              "durationSec": 123,
               "sectionId": "pom/c2/s5",
               "checkpoint": [
                 {
                   "id": "pom/c2/s5/g2/q1",
                   "type": "open",
-                  "topic": "confirmation-bias"
-                },
-                {
-                  "id": "pom/c2/s5/g2/q2",
-                  "type": "mcq",
-                  "topic": "reactive-reflective-systems"
-                },
-                {
-                  "id": "pom/c2/s5/g2/q3",
-                  "type": "open",
-                  "topic": "reducing-bias"
+                  "topic": "escalation-of-commitment"
                 }
               ]
             },
             {
               "id": "pom/c2/s5/g3",
-              "title": "When Conflict Helps and Hurts",
-              "durationSec": 183,
+              "title": "Time constraints and uncertainty",
+              "durationSec": 86,
               "sectionId": "pom/c2/s5",
               "checkpoint": [
                 {
                   "id": "pom/c2/s5/g3/q1",
                   "type": "open",
-                  "topic": "process-vs-relationship-conflict"
+                  "topic": "time-constraints-heuristics"
                 },
                 {
                   "id": "pom/c2/s5/g3/q2",
                   "type": "mcq",
+                  "topic": "uncertainty"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s5/g4",
+              "title": "Similar-to-me and confirmation bias",
+              "durationSec": 104,
+              "sectionId": "pom/c2/s5",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s5/g4/q1",
+                  "type": "mcq",
+                  "topic": "similar-to-me-bias"
+                },
+                {
+                  "id": "pom/c2/s5/g4/q2",
+                  "type": "open",
+                  "topic": "confirmation-bias"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s5/g5",
+              "title": "Why beliefs resist change",
+              "durationSec": 90,
+              "sectionId": "pom/c2/s5",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s5/g5/q1",
+                  "type": "open",
+                  "topic": "reactive-reflective-systems"
+                },
+                {
+                  "id": "pom/c2/s5/g5/q2",
+                  "type": "mcq",
+                  "topic": "reducing-bias"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s5/g6",
+              "title": "Conflict",
+              "durationSec": 171,
+              "sectionId": "pom/c2/s5",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s5/g6/q1",
+                  "type": "mcq",
                   "topic": "process-vs-relationship-conflict"
                 },
                 {
-                  "id": "pom/c2/s5/g3/q3",
+                  "id": "pom/c2/s5/g6/q2",
+                  "type": "open",
+                  "topic": "process-vs-relationship-conflict"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s5/g7",
+              "title": "Nadella's transformation of Microsoft",
+              "durationSec": 189,
+              "sectionId": "pom/c2/s5",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s5/g7/q1",
                   "type": "open",
                   "topic": "nadella-microsoft-culture"
+                },
+                {
+                  "id": "pom/c2/s5/g7/q2",
+                  "type": "open",
+                  "topic": "decision-barriers-overview"
                 }
               ]
             }
           ],
           "lessonFile": "sections/c02-s05.json",
-          "sourceHash": "6f7631b23e06"
+          "sourceHash": "40c206b3fd07"
         },
         {
           "id": "pom/c2/s6",
@@ -1031,70 +1083,122 @@
         },
         {
           "id": "pom/c2/s5/g1",
-          "title": "Why We Can Never Fully Decide",
-          "durationSec": 160,
+          "title": "Bounded rationality",
+          "durationSec": 80,
           "sectionId": "pom/c2/s5",
           "checkpoint": [
             {
               "id": "pom/c2/s5/g1/q1",
-              "type": "mcq",
-              "topic": "escalation-of-commitment"
+              "type": "open",
+              "topic": "bounded-rationality"
             },
             {
               "id": "pom/c2/s5/g1/q2",
-              "type": "open",
-              "topic": "time-constraints-heuristics"
-            },
-            {
-              "id": "pom/c2/s5/g1/q3",
-              "type": "open",
-              "topic": "decision-barriers-overview"
+              "type": "mcq",
+              "topic": "nonprogrammed-decisions"
             }
           ]
         },
         {
           "id": "pom/c2/s5/g2",
-          "title": "Our Own Minds Get in the Way",
-          "durationSec": 165,
+          "title": "Escalation of commitment",
+          "durationSec": 123,
           "sectionId": "pom/c2/s5",
           "checkpoint": [
             {
               "id": "pom/c2/s5/g2/q1",
               "type": "open",
-              "topic": "confirmation-bias"
-            },
-            {
-              "id": "pom/c2/s5/g2/q2",
-              "type": "mcq",
-              "topic": "reactive-reflective-systems"
-            },
-            {
-              "id": "pom/c2/s5/g2/q3",
-              "type": "open",
-              "topic": "reducing-bias"
+              "topic": "escalation-of-commitment"
             }
           ]
         },
         {
           "id": "pom/c2/s5/g3",
-          "title": "When Conflict Helps and Hurts",
-          "durationSec": 183,
+          "title": "Time constraints and uncertainty",
+          "durationSec": 86,
           "sectionId": "pom/c2/s5",
           "checkpoint": [
             {
               "id": "pom/c2/s5/g3/q1",
               "type": "open",
-              "topic": "process-vs-relationship-conflict"
+              "topic": "time-constraints-heuristics"
             },
             {
               "id": "pom/c2/s5/g3/q2",
               "type": "mcq",
+              "topic": "uncertainty"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s5/g4",
+          "title": "Similar-to-me and confirmation bias",
+          "durationSec": 104,
+          "sectionId": "pom/c2/s5",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s5/g4/q1",
+              "type": "mcq",
+              "topic": "similar-to-me-bias"
+            },
+            {
+              "id": "pom/c2/s5/g4/q2",
+              "type": "open",
+              "topic": "confirmation-bias"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s5/g5",
+          "title": "Why beliefs resist change",
+          "durationSec": 90,
+          "sectionId": "pom/c2/s5",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s5/g5/q1",
+              "type": "open",
+              "topic": "reactive-reflective-systems"
+            },
+            {
+              "id": "pom/c2/s5/g5/q2",
+              "type": "mcq",
+              "topic": "reducing-bias"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s5/g6",
+          "title": "Conflict",
+          "durationSec": 171,
+          "sectionId": "pom/c2/s5",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s5/g6/q1",
+              "type": "mcq",
               "topic": "process-vs-relationship-conflict"
             },
             {
-              "id": "pom/c2/s5/g3/q3",
+              "id": "pom/c2/s5/g6/q2",
+              "type": "open",
+              "topic": "process-vs-relationship-conflict"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s5/g7",
+          "title": "Nadella's transformation of Microsoft",
+          "durationSec": 189,
+          "sectionId": "pom/c2/s5",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s5/g7/q1",
               "type": "open",
               "topic": "nadella-microsoft-culture"
+            },
+            {
+              "id": "pom/c2/s5/g7/q2",
+              "type": "open",
+              "topic": "decision-barriers-overview"
             }
           ]
         },

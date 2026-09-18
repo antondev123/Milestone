@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "ingest": "node --env-file=.env.local scripts/ingest.ts pom --chapters 1-3",
     "demo:reset": "node scripts/demo-reset.ts",
+    "demo:stage": "node scripts/demo-reset.ts --stage",
     "ledger": "node --env-file=.env.local scripts/ledger.ts",
     "sessions": "node --env-file-if-exists=.env.local --no-warnings=ExperimentalWarning scripts/sessions.ts",
     "agent:configure": "node --env-file=.env.local scripts/configure-agent.ts",

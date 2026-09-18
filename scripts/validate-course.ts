@@ -48,7 +48,7 @@ for (const ch of course.chapters) {
       if (!ID.test(g.id)) err(`${g.id}: bad id`);
       if (g.sectionId !== s.id) err(`${g.id}: sectionId ${g.sectionId} != ${s.id}`);
       if (s.segments[i]?.id !== g.id) err(`${g.id}: manifest order mismatch`);
-      if (g.durationSec < 120 || g.durationSec > 400) warn(`${g.id}: durationSec ${g.durationSec}`);
+      if (g.durationSec < 60 || g.durationSec > 400) warn(`${g.id}: durationSec ${g.durationSec}`);
       if (/[#*_`]|\bExhibit\b|\bFigure \d|�/.test(g.script)) err(`${g.id}: script has markdown/exhibit/mojibake`);
       if (/[a-z][.,;]\d{1,3}\b/.test(g.script)) warn(`${g.id}: possible glued footnote digit`);
       if (g.keyPoints.length < 2 || g.keyPoints.length > 4) warn(`${g.id}: keyPoints ${g.keyPoints.length}`);
