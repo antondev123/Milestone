@@ -5,7 +5,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { BackLink, Pill, SignalNotice, TopBar } from "@/components/carry/Chrome";
+import { BackLink, ModePill, Pill, SignalNotice, TopBar } from "@/components/carry/Chrome";
 import { CheckIcon, HeadphonesIcon, SpeakerIcon } from "@/components/carry/Icons";
 import { persist, postJSON } from "@/components/carry/net";
 import { installErrorLog, setLogSession } from "@/lib/log/client";
@@ -13,7 +13,6 @@ import { AssistantFab, AssistantSheet } from "@/components/study/AssistantSheet"
 import { AssistantThread, type Message } from "@/components/study/AssistantThread";
 import { Checkpoint, type StudyQuestion } from "@/components/study/Checkpoint";
 import { LegNav, type LegLink } from "@/components/study/LegNav";
-import { PhoneButton, PhonePreview } from "@/components/study/PhonePreview";
 import { ReadAloudStrip } from "@/components/study/ReadAloudStrip";
 import { Reader } from "@/components/study/Reader";
 import { SectionPicker, type PickerManifest } from "@/components/study/SectionPicker";
@@ -54,7 +53,6 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   const [asking, setAsking] = useState(false);
   const [trouble, setTrouble] = useState(false);
   const [booting, setBooting] = useState(true);
-  const [phone, setPhone] = useState(false); // desktop-only phone preview (iframe), remembered across reloads
   const lastMarked = useRef<string>("");
   const checkRef = useRef<HTMLDivElement>(null);
   // one Checkpoint instance: phone inline or desktop column, never both (each would POST `check`)
@@ -236,28 +234,11 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
     await arrive(id, completed);
   }
 
-  // restore an open preview on reload; never inside the preview frame itself (it shares localStorage)
-  useEffect(() => {
-    if (window.self !== window.top) return;
-    try {
-      if (localStorage.getItem(PHONE_KEY) === "1") setPhone(true);
-    } catch {}
-  }, []);
-
-  function openPhone() {
-    player.pause(); // the frame shares the server cursor; do not read aloud in both
-    setPhone(true);
-    try {
-      localStorage.setItem(PHONE_KEY, "1");
-    } catch {}
+  /** Hands-off carries this trip over (`?carry=1`); the Dial picks up at the block marked here. */
+  function goHandsOff() {
+    player.pause();
+    router.push("/learn/voice?carry=1");
   }
-
-  const closePhone = useCallback(() => {
-    setPhone(false);
-    try {
-      localStorage.removeItem(PHONE_KEY);
-    } catch {}
-  }, []);
 
   async function endSession() {
     player.pause();
@@ -296,7 +277,13 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
       left={<BackLink href="/" />}
       title={leg ? `Leg ${leg.n} of ${leg.of} · ${leg.section}` : courseTitle}
       onTitleClick={seg ? () => setPickerOpen(true) : undefined}
-      right={<Pill icon={<SpeakerIcon size={18} off={!audioOn} />} label={audioOn ? "Read aloud" : "Audio off"} pressed={audioOn} onClick={toggleAudio} />}
+      right={
+        <div className="flex items-center gap-2">
+          {/* icon only on phones so the leg title keeps its room */}
+          <ModePill to="hands-off" onClick={goHandsOff} compact />
+          <Pill icon={<SpeakerIcon size={18} off={!audioOn} />} label={audioOn ? "Read aloud" : "Audio off"} pressed={audioOn} onClick={toggleAudio} compact />
+        </div>
+      }
     />
   );
 
@@ -331,7 +318,6 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
         >
           Check my understanding
         </button>
-        <PhoneButton onClick={openPhone} />
       </div>
       {/* the middle is one flex region; whatever is inside owns the single scroll (the thread, or the checkpoint) */}
       <div className="flex min-h-0 flex-1 flex-col">
@@ -406,17 +392,6 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
         </AssistantSheet>
         <SectionPicker open={pickerOpen} onClose={() => setPickerOpen(false)} manifest={manifest} hereSection={section} completed={completed} busy={booting} onPick={jumpToSection} />
       </StudyLayout>
-    <PhonePreview open={phone} onClose={closePhone} src={phoneSrc()} />
     </>
   );
-}
-
-const PHONE_KEY = "study:phone";
-
-// Same route and query (keeps ?goto=), flagged so the embedded page can tell it is a preview.
-function phoneSrc(): string {
-  if (typeof window === "undefined") return "/learn/study?frame=1";
-  const q = new URLSearchParams(window.location.search);
-  q.set("frame", "1");
-  return `/learn/study?${q}`;
 }

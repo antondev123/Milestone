@@ -38,26 +38,28 @@ export function TopBar({ left, title, right, onTitleClick }: { left: React.React
   );
 }
 
-/** Outlined 44px pill: icon plus a short label. */
-export function Pill({ icon, label, onClick, dark = false, pressed }: { icon: React.ReactNode; label: string; onClick: () => void; dark?: boolean; pressed?: boolean }) {
+/** Outlined 44px pill: icon plus a short label. `compact`: icon only below `lg` (the label stays as the accessible name). */
+export function Pill({ icon, label, onClick, dark = false, pressed, compact = false }: { icon: React.ReactNode; label: string; onClick: () => void; dark?: boolean; pressed?: boolean; compact?: boolean }) {
   return (
     <button
       type="button"
       onClick={onClick}
       aria-pressed={pressed}
-      className={`flex min-h-11 items-center gap-2 rounded-[22px] border-2 px-4 whitespace-nowrap text-[15px] font-semibold ${
+      aria-label={compact ? label : undefined}
+      title={compact ? label : undefined}
+      className={`flex min-h-11 items-center gap-2 rounded-[22px] border-2 whitespace-nowrap text-[15px] font-semibold ${compact ? "min-w-11 justify-center lg:px-4" : "px-4"} ${
         dark ? "border-ground text-ground" : "border-ink text-ink"
       }`}
     >
       {icon}
-      {label}
+      {compact ? <span className="hidden lg:inline">{label}</span> : label}
     </button>
   );
 }
 
 /** "Hands-off instead" / "Hands-on instead". Switching never moves the learner's place. */
-export function ModePill({ to, onClick, dark = false }: { to: "hands-off" | "hands-on"; onClick: () => void; dark?: boolean }) {
-  return <Pill icon={to === "hands-off" ? <HeadphonesIcon size={18} /> : <BookIcon size={18} />} label={to === "hands-off" ? "Hands-off instead" : "Hands-on instead"} onClick={onClick} dark={dark} />;
+export function ModePill({ to, onClick, dark = false, compact = false }: { to: "hands-off" | "hands-on"; onClick: () => void; dark?: boolean; compact?: boolean }) {
+  return <Pill icon={to === "hands-off" ? <HeadphonesIcon size={18} /> : <BookIcon size={18} />} label={to === "hands-off" ? "Hands-off instead" : "Hands-on instead"} onClick={onClick} dark={dark} compact={compact} />;
 }
 
 export function SignalNotice({ show, dark = false }: { show: boolean; dark?: boolean }) {
