@@ -9,7 +9,7 @@ All amounts in rands. FX R16.26/USD on 2026-09-18. Refresh live numbers with `np
 | ElevenLabs | Creator, R358/month (US$22) for 100k credits, account shows 131k | 2,708 credits (R9.69) | 128,292 credits (R459) | 2026-10-18 |
 | Anthropic | Pay as you go | see below | prepaid balance not visible via API, check console.anthropic.com | n/a |
 
-Credit price: R0.0036 per credit. Voice runs about 500 credits per minute, so roughly **R1.80 per minute of conversation**, LLM included. **~262 minutes of voice left** this month.
+Credit price: R0.0036 per credit. Voice runs about 500 credits per minute, so roughly **R1.80 per minute of conversation**, plus LLM passthrough (~R0.20/min before the cursor refactor, ~R0.12/min after; the 71 s call was 597 credits **plus** $0.015 LLM). Text-only agent sessions (`/learn/voice?text=1`) cost LLM passthrough only. **~262 minutes of voice left** this month.
 
 ## Spend log
 
@@ -27,7 +27,7 @@ Credit price: R0.0036 per credit. Voice runs about 500 credits per minute, so ro
 
 - 3-minute rehearsal: R5.40. Twenty rehearsals: R108.
 - Ingesting one textbook section (1–5 parts): R0.40–R1.90. Chapters 1–3: R19. The whole 18-chapter book: about R110 (R55 on the Batch API).
-- A grade on Sonnet 5: about R0.03. Grading is never the cost problem.
+- A grade on Sonnet 5: about R0.03. A curiosity question (`ask`, Haiku, cached): about R0.015 after the first in a section (R0.10 for the first, which writes the cache). Anthropic is under 1% of a voice trip.
 - Hard cap to stay under on ElevenLabs: keep 20,000 credits (about 40 min) in reserve for demo day.
 
 ## How to update

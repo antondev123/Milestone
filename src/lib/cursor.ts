@@ -1,0 +1,379 @@
+// The server-owned cursor: where the learner is in the course, and the state machine the
+// speech tools drive. The agent LLM never sees ids; it only speaks `reply.say`.
+import {
+  allSegments,
+  parentId,
+  type Course,
+  type Cursor,
+  type Progress,
+  type Question,
+  type Segment,
+  type ToolReply,
+} from "@/types/lesson";
+import { blocks } from "./chunk";
+import { loadChapterQuiz, loadQuestionFull, loadSegmentFull } from "./course";
+import { gradeAnswer } from "./grader";
+import { completeSegment, recordCheckpoint } from "./progress";
+import * as say from "./say";
+import { saveProgress } from "./store";
+
+const DEDUPE_MS = 900;
+
+export function ensureCursor(course: Course, progress: Progress): Cursor {
+  if (progress.cursor && allSegments(course).some((s) => s.id === progress.cursor!.segmentId)) return progress.cursor;
+  const segId = progress.resume.segmentId || allSegments(course)[0]?.id;
+  progress.cursor = {
+    segmentId: segId,
+    blockIdx: 0,
+    served: false,
+    heard: true,
+    phase: progress.resume.position === "checkpoint" ? "ask" : "read",
+    qIdx: 0,
+    attempt: 0,
+    returnStack: [],
+    updatedAt: new Date().toISOString(),
+  };
+  return progress.cursor;
+}
+
+function loc(course: Course, c: Cursor): string {
+  const p = say.place(course, c.segmentId);
+  if (!p) return c.segmentId;
+  const where = c.quiz ? `quiz q${c.quiz.qIdx + 1}` : c.phase === "ask" ? `q${c.qIdx + 1}` : c.phase === "done" ? "done" : `block ${c.blockIdx + 1}`;
+  return `${p.section.number} · part ${p.partIndex}/${p.partCount} · ${where}`;
+}
+
+function commit(course: Course, progress: Progress, c: Cursor, reply: ToolReply): ToolReply {
+  reply.loc = reply.loc || loc(course, c);
+  reply.segmentId = c.segmentId;
+  c.lastReply = reply;
+  c.lastAt = new Date().toISOString();
+  c.updatedAt = c.lastAt;
+  // mirror for the planner / summary page
+  progress.resume = { segmentId: c.segmentId, position: c.phase === "ask" ? "checkpoint" : "start" };
+  saveProgress(progress);
+  return reply;
+}
+
+function segmentFull(courseId: string, id: string): Segment {
+  const s = loadSegmentFull(courseId, id);
+  if (!s) throw new Error(`segment ${id} has no lesson content`);
+  return s;
+}
+
+/** Move the cursor to the start of a segment. */
+export function moveTo(c: Cursor, segmentId: string, phase: Cursor["phase"] = "read"): void {
+  c.segmentId = segmentId;
+  c.blockIdx = 0;
+  c.served = false;
+  c.heard = true;
+  c.phase = phase;
+  c.qIdx = 0;
+  c.attempt = 0;
+  delete c.detour;
+  delete c.quiz;
+}
+
+function nextSegmentId(course: Course, progress: Progress, segmentId: string): { id: string | null; planned: boolean } {
+  const trip = progress.activeTrip;
+  if (trip) {
+    const i = trip.segmentIds.indexOf(segmentId);
+    if (i >= 0) return { id: trip.segmentIds[i + 1] ?? null, planned: true };
+  }
+  const segs = allSegments(course);
+  const i = segs.findIndex((s) => s.id === segmentId);
+  return { id: segs[i + 1]?.id ?? null, planned: false };
+}
+
+// ---------- next ----------
+
+export function serveNext(course: Course, progress: Progress, opts: { peek?: boolean } = {}): ToolReply {
+  const c = ensureCursor(course, progress);
+  // idempotency: a second `next` inside the dedupe window re-serves the same reply
+  if (c.lastReply && c.lastAt && Date.now() - new Date(c.lastAt).getTime() < DEDUPE_MS && !opts.peek) return c.lastReply;
+
+  // returning from a detour: re-anchor and re-serve the interrupted block
+  if (c.detour) {
+    const p = say.place(course, c.segmentId);
+    delete c.detour;
+    if (c.phase === "read") {
+      c.heard = false;
+      const r = readBlock(course, progress, c, `Back to ${p?.segment.title ?? "it"}. `);
+      return opts.peek ? r : commit(course, progress, c, r);
+    }
+    if (c.phase === "ask") {
+      const r = askQuestion(course, progress, c, "Back to the question. ");
+      return opts.peek ? r : commit(course, progress, c, r);
+    }
+  }
+
+  // chapter quiz in progress
+  if (c.quiz) {
+    const r = quizQuestion(course, progress, c);
+    return opts.peek ? r : commit(course, progress, c, r);
+  }
+
+  if (c.phase === "read") {
+    const seg = segmentFull(course.id, c.segmentId);
+    const bl = blocks(seg.script);
+    if (c.served && c.heard) {
+      if (c.blockIdx + 1 < bl.length) c.blockIdx += 1;
+      else {
+        c.phase = "ask";
+        c.qIdx = 0;
+        c.attempt = 0;
+        c.served = false;
+        const r = askQuestion(course, progress, c, "Quick check. ");
+        return opts.peek ? r : commit(course, progress, c, r);
+      }
+    }
+    const r = readBlock(course, progress, c, c.served && !c.heard ? "Back to it. " : "");
+    return opts.peek ? r : commit(course, progress, c, r);
+  }
+
+  if (c.phase === "ask") {
+    const r = askQuestion(course, progress, c, c.served && !c.heard ? "Again. " : "");
+    return opts.peek ? r : commit(course, progress, c, r);
+  }
+
+  // phase done → next segment or end
+  const from = say.place(course, c.segmentId);
+  const nxt = nextSegmentId(course, progress, c.segmentId);
+  if (!nxt.id || (nxt.planned && nxt.id === null)) {
+    return endReply(course, progress, c, opts.peek);
+  }
+  if (progress.activeTrip && nxt.planned === false && !progress.activeTrip.segmentIds.includes(c.segmentId)) {
+    // off-plan (after a goto): keep going in course order
+  }
+  const to = say.place(course, nxt.id);
+  if (!to) return endReply(course, progress, c, opts.peek);
+  const chapterChanged = from && from.chapter.id !== to.chapter.id;
+  let prefix = say.boundary(from, to) + " ";
+  if (chapterChanged && from) {
+    const quiz = loadChapterQuiz(course.id, from.chapter.id);
+    if (quiz) {
+      progress.pendingQuizzes ??= [];
+      if (!progress.pendingQuizzes.includes(from.chapter.id)) progress.pendingQuizzes.push(from.chapter.id);
+      prefix = say.chapterDone(from.chapter, true) + say.chapterIntro(to) + " ";
+    }
+  }
+  if (!opts.peek) moveTo(c, nxt.id);
+  const cc = opts.peek ? { ...c, segmentId: nxt.id, blockIdx: 0, served: false, heard: true, phase: "read" as const, qIdx: 0, attempt: 0 } : c;
+  const r = readBlock(course, progress, cc, prefix);
+  return opts.peek ? r : commit(course, progress, c, r);
+}
+
+function endReply(course: Course, progress: Progress, c: Cursor, peek?: boolean): ToolReply {
+  const r: ToolReply = { kind: "end", say: "That is everything planned for this trip. Say I'm done to finish, or go to keep going.", loc: loc(course, c), more: false };
+  return peek ? r : commit(course, progress, c, r);
+}
+
+function readBlock(course: Course, progress: Progress, c: Cursor, prefix: string): ToolReply {
+  const seg = segmentFull(course.id, c.segmentId);
+  const bl = blocks(seg.script);
+  const first = c.blockIdx === 0 && !c.served;
+  const p = say.place(course, c.segmentId);
+  const intro = first && !prefix && p ? say.partIntro(p) + " " : "";
+  c.served = true;
+  c.heard = true;
+  return {
+    kind: "read",
+    say: `${prefix}${intro}${bl[c.blockIdx] ?? ""}`.trim(),
+    loc: loc(course, c),
+    more: true,
+  };
+}
+
+function currentQuestion(course: Course, c: Cursor): Question | undefined {
+  if (c.quiz) return loadChapterQuiz(course.id, parentId(c.quiz.quizId))?.questions[c.quiz.qIdx];
+  return segmentFull(course.id, c.segmentId).checkpoint[c.qIdx];
+}
+
+function askQuestion(course: Course, progress: Progress, c: Cursor, prefix: string): ToolReply {
+  const q = currentQuestion(course, c);
+  if (!q) {
+    c.phase = "done";
+    return serveNext(course, progress, { peek: true });
+  }
+  c.served = true;
+  c.heard = true;
+  return { kind: "ask", say: `${prefix}${say.question(q.prompt, q.options)}`.trim(), loc: loc(course, c), more: false, options: q.options };
+}
+
+function quizQuestion(course: Course, progress: Progress, c: Cursor): ToolReply {
+  const quiz = loadChapterQuiz(course.id, parentId(c.quiz!.quizId));
+  const q = quiz?.questions[c.quiz!.qIdx];
+  if (!quiz || !q) {
+    // quiz finished
+    const res = c.quiz!;
+    progress.quizResults ??= [];
+    progress.quizResults.push({ chapterId: quiz?.chapterId ?? parentId(res.quizId), correct: res.correct, total: quiz?.questions.length ?? res.qIdx, at: new Date().toISOString() });
+    progress.pendingQuizzes = (progress.pendingQuizzes ?? []).filter((id) => id !== quiz?.chapterId);
+    delete c.quiz;
+    c.heard = false;
+    return { kind: "say", say: `Quiz done. ${say.num(res.correct)} of ${say.num(quiz?.questions.length ?? res.qIdx)} right. Back to the lesson.`, loc: loc(course, c), more: true };
+  }
+  c.served = true;
+  c.heard = true;
+  const intro = c.quiz!.qIdx === 0 && c.quiz!.attempt === 0 ? "First: " : "";
+  return { kind: "ask", say: `${intro}${say.question(q.prompt, q.options)}`, loc: loc(course, c), more: false, options: q.options };
+}
+
+// ---------- answer ----------
+
+export async function answer(course: Course, progress: Progress, text: string, mode: "voice" | "text"): Promise<ToolReply> {
+  const c = ensureCursor(course, progress);
+  const q = currentQuestion(course, c);
+  if (!q || (c.phase !== "ask" && !c.quiz)) {
+    return commit(course, progress, c, { kind: "say", say: "There is no question open right now. Say go to carry on.", loc: loc(course, c), more: false });
+  }
+  const result = await gradeAnswer(q, text);
+  recordCheckpoint(progress, q, text, result.correct, result.feedback, mode);
+  const attempt = c.quiz ? ++c.quiz.attempt : ++c.attempt;
+  const retry = !result.correct && attempt === 1;
+  if (c.quiz) {
+    if (result.correct) c.quiz.correct += 1;
+    if (!retry) {
+      c.quiz.qIdx += 1;
+      c.quiz.attempt = 0;
+    }
+    const more = !retry;
+    return commit(course, progress, c, { kind: "say", say: retry ? `${result.feedback} Try once more.` : result.feedback, loc: loc(course, c), more, correct: result.correct });
+  }
+  if (retry) {
+    return commit(course, progress, c, { kind: "say", say: `${result.feedback} Try once more.`, loc: loc(course, c), more: false, correct: false });
+  }
+  c.qIdx += 1;
+  c.attempt = 0;
+  c.served = false;
+  const seg = segmentFull(course.id, c.segmentId);
+  if (c.qIdx >= seg.checkpoint.length) {
+    completeSegment(course, progress, c.segmentId);
+    c.phase = "done";
+    // completeSegment moved progress.resume; the cursor stays on this segment until next()
+    const nxt = nextSegmentId(course, progress, c.segmentId);
+    const tail = nxt.id ? " Part done." : " Part done.";
+    return commit(course, progress, c, { kind: "say", say: `${result.feedback}${tail}`, loc: loc(course, c), more: true, correct: result.correct });
+  }
+  return commit(course, progress, c, { kind: "say", say: result.feedback, loc: loc(course, c), more: true, correct: result.correct });
+}
+
+// ---------- explain ----------
+
+export type Aspect = "again" | "simpler" | "deeper" | "example";
+
+export function explain(course: Course, progress: Progress, how: Aspect): ToolReply {
+  const c = ensureCursor(course, progress);
+  if (how === "again") {
+    if (c.lastReply && (c.lastReply.kind === "ask" || c.quiz)) return commit(course, progress, c, { ...c.lastReply, say: c.lastReply.say.replace(/^(Again\. |Quick check\. )/, ""), more: false });
+    if (c.phase === "read") {
+      const seg = segmentFull(course.id, c.segmentId);
+      // key points are the "repeat" content; then reading resumes on the current block
+      c.heard = false;
+      return commit(course, progress, c, { kind: "say", say: `The main points so far. ${seg.keyPoints.join(" ")}`, loc: loc(course, c), more: true });
+    }
+    return commit(course, progress, c, { ...(c.lastReply ?? { kind: "say", say: "Say go to continue.", loc: loc(course, c), more: false }) });
+  }
+  const seg = segmentFull(course.id, c.segmentId);
+  const text = how === "simpler" ? seg.altExplanation : how === "deeper" ? seg.deeper : seg.example || seg.altExplanation;
+  const more = c.phase === "read"; // resume reading afterwards; if on a question, wait for the answer
+  return commit(course, progress, c, { kind: "say", say: text, loc: loc(course, c), more });
+}
+
+// ---------- interrupted ----------
+
+export function interrupted(course: Course, progress: Progress): void {
+  const c = ensureCursor(course, progress);
+  c.heard = false;
+  c.updatedAt = new Date().toISOString();
+  saveProgress(progress);
+}
+
+// ---------- where am I ----------
+
+export function whereAmI(course: Course, progress: Progress): ToolReply {
+  const c = ensureCursor(course, progress);
+  const r: ToolReply = { kind: "say", say: say.whereAmI(course, progress, c.segmentId, c.phase), loc: loc(course, c), more: false };
+  // do not overwrite lastReply (so "again" still repeats the lesson content)
+  saveProgress(progress);
+  return r;
+}
+
+// ---------- goto ----------
+
+export function gotoSegment(course: Course, progress: Progress, segmentId: string, via: string): ToolReply {
+  const c = ensureCursor(course, progress);
+  const to = say.place(course, segmentId);
+  if (!to) return commit(course, progress, c, { kind: "say", say: "That part is not available yet.", loc: loc(course, c), more: false });
+  c.returnStack.push({ segmentId: c.segmentId, blockIdx: c.blockIdx });
+  if (c.returnStack.length > 5) c.returnStack.shift();
+  moveTo(c, segmentId);
+  const line = via === "relative" && to.section.id === say.place(course, c.returnStack.at(-1)!.segmentId)?.section.id ? say.partIntro(to) : say.chapterIntro(to);
+  return commit(course, progress, c, { kind: "say", say: `Going to ${line}`, loc: loc(course, c), more: true });
+}
+
+export function gotoBack(course: Course, progress: Progress): ToolReply {
+  const c = ensureCursor(course, progress);
+  const prev = c.returnStack.pop();
+  if (!prev) return commit(course, progress, c, { kind: "say", say: "There is nowhere to go back to yet.", loc: loc(course, c), more: false });
+  const p = say.place(course, prev.segmentId);
+  moveTo(c, prev.segmentId);
+  c.blockIdx = prev.blockIdx;
+  return commit(course, progress, c, { kind: "say", say: `Back to ${p ? say.partIntro(p) : "where you were."}`, loc: loc(course, c), more: true });
+}
+
+export function skip(course: Course, progress: Progress): ToolReply {
+  const c = ensureCursor(course, progress);
+  if (c.quiz) {
+    c.quiz.qIdx += 1;
+    c.quiz.attempt = 0;
+    return commit(course, progress, c, { kind: "say", say: "Skipping that one.", loc: loc(course, c), more: true });
+  }
+  if (c.phase === "read") {
+    c.phase = "ask";
+    c.qIdx = 0;
+    c.attempt = 0;
+    c.served = false;
+    return commit(course, progress, c, { kind: "say", say: "Skipping to the questions.", loc: loc(course, c), more: true });
+  }
+  if (c.phase === "ask") {
+    completeSegment(course, progress, c.segmentId);
+    c.phase = "done";
+    return commit(course, progress, c, { kind: "say", say: "Skipping the questions.", loc: loc(course, c), more: true });
+  }
+  return commit(course, progress, c, { kind: "say", say: "Moving on.", loc: loc(course, c), more: true });
+}
+
+export function startQuiz(course: Course, progress: Progress, chapterId: string): ToolReply {
+  const c = ensureCursor(course, progress);
+  const quiz = loadChapterQuiz(course.id, chapterId);
+  if (!quiz) return commit(course, progress, c, { kind: "say", say: "That chapter has no quiz yet.", loc: loc(course, c), more: false });
+  c.quiz = { quizId: quiz.id, qIdx: 0, attempt: 0, correct: 0 };
+  c.heard = false; // when the quiz ends, re-read the current block
+  return commit(course, progress, c, { kind: "say", say: `Chapter ${say.num(Number(chapterId.split("/c")[1]))} quiz, ${say.num(quiz.questions.length)} questions.`, loc: loc(course, c), more: true });
+}
+
+// ---------- detour bookkeeping (the answer itself comes from ask.ts) ----------
+
+export function beginDetour(course: Course, progress: Progress, question: string, topic: string): Cursor {
+  const c = ensureCursor(course, progress);
+  if (!c.detour) c.detour = { topic, turns: 0, startedAt: new Date().toISOString(), offered: false };
+  c.detour.turns += 1;
+  c.detour.topic = topic;
+  progress.detours ??= [];
+  progress.detours.push({ at: new Date().toISOString(), segmentId: c.segmentId, question, topic });
+  return c;
+}
+
+export function commitReply(course: Course, progress: Progress, reply: ToolReply): ToolReply {
+  const c = ensureCursor(course, progress);
+  return commit(course, progress, c, reply);
+}
+
+/** Context for grounded Q&A: current segment + section metadata. */
+export function contextFor(course: Course, progress: Progress) {
+  const c = ensureCursor(course, progress);
+  const seg = segmentFull(course.id, c.segmentId);
+  const p = say.place(course, c.segmentId);
+  return { cursor: c, segment: seg, place: p };
+}

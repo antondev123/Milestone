@@ -112,6 +112,7 @@ export function endTrip(course: Course, progress: Progress): TripSummary {
     weak,
     modulePct: Math.round((doneInChapter / moduleSegs) * 100),
     streakDays: progress.streakDays,
+    explored: [...new Set((progress.detours ?? []).filter((d) => d.at >= startedAt).map((d) => d.topic))],
   };
   progress.trips.push(summary);
   delete progress.activeTrip;
