@@ -36,3 +36,15 @@ Updated: 2026-09-18 (keys added, pipeline verified live)
 - Grading latency: Sonnet 5 at low effort is ~4 s. If it drags in voice, switch ANTHROPIC_MODEL to claude-haiku-4-5 for grading only.
 - Restart `npm run dev` after editing .env.local; Next does not hot-reload env.
 - Client tools (browser) vs webhook tools (dashboard): the component uses client tools so localhost works without ngrok. Configure them as type Client in the dashboard.
+
+## Costs (tracked 2026-09-18)
+- ElevenLabs: first 71 s voice call = 597 credits, LLM passthrough $0.015. Budget ~500 credits/min of conversation. Check with the script in scratchpad or the dashboard's Conversations tab.
+- Anthropic: ingest ~ $0.08 per run (3.7k in / 7.1k out on Sonnet 5). Each open-answer grade ~ $0.002; now logged to the dev console as `[grade] …`.
+- Nothing runs unless someone is talking to it. Idle costs zero.
+
+## Speech pickup tuning (applied via configure-agent.ts)
+- ASR: Scribe v2 Realtime, quality high, 18 keyword boosts (commands + SA finance terms).
+- Turn detection: turn_v3, eagerness eager, speculative turn on.
+- VAD background voice filter on (radio, passengers).
+- Backchannel words ("mm", "okay", "yeah") do not trigger barge-in.
+- Untested levers left: `turn_eagerness: "patient"` if it cuts you off; headset mic in the car.

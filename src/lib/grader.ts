@@ -74,6 +74,9 @@ LEARNER ANSWER: ${answer}`,
       },
     ],
   });
+  const u = res.usage;
+  const usd = (u.input_tokens * 2 + u.output_tokens * 10) / 1_000_000; // claude-sonnet-5 list price
+  console.log(`[grade] ${MODEL} in=${u.input_tokens} out=${u.output_tokens} ~$${usd.toFixed(4)}`);
   if (res.stop_reason !== "end_turn") {
     return { correct: false, feedback: "I could not grade that. Let us try once more." };
   }

@@ -113,10 +113,21 @@ await api("PATCH", `/agents/${agentId}`, {
         enable_parallel_tool_calls: false,
       },
     },
+    asr: {
+      quality: "high",
+      provider: "scribe_realtime",
+      // bias transcription toward our voice commands and SA finance vocabulary
+      keywords: ["repeat", "explain differently", "explain that differently", "skip", "go deeper", "I'm done", "I've arrived", "go", "rand", "SARS", "UIF", "PAYE", "stokvel", "taxi", "compound interest", "credit score", "tax bracket", "budget"],
+    },
+    vad: { background_voice_detection: true }, // ignore radio / passengers
     tts: { model_id: "eleven_flash_v2" }, // English agents must use flash v2; v2_5 is the multilingual variant
     turn: {
       mode: "turn",
+      turn_model: "turn_v3",
+      turn_eagerness: "eager", // driver commands are short; respond fast
+      speculative_turn: true, // start the LLM before end-of-turn is certain
       turn_timeout: 10,
+      interruption_ignore_terms: ["mm", "mhm", "uh huh", "okay", "ok", "yeah", "right"], // backchannel, not barge-in
       soft_timeout_config: {
         timeout_seconds: 5,
         message: "Let me check that.",
@@ -130,3 +141,5 @@ await api("PATCH", `/agents/${agentId}`, {
   },
 });
 console.log(`agent ${agentId}: configured with ${LLM}, ${toolIds.length} tools`);
+
+export {};
