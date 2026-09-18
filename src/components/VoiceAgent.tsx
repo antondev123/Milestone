@@ -85,7 +85,8 @@ function Inner({ plan, onTripEnd }: { plan: Plan; onTripEnd: (tripId: string) =>
         <p className="text-sm text-slate-400">
           {conv.status === "disconnected" && "Ready"}
           {conv.status === "connecting" && "Connecting…"}
-          {live && (conv.isSpeaking ? "Tutor speaking. Just talk to interrupt." : "Listening…")}
+          {live && conv.isMuted && "Mic muted. Tutor keeps talking; unmute to answer."}
+          {live && !conv.isMuted && (conv.isSpeaking ? "Tutor speaking. Just talk to interrupt." : "Listening…")}
           {conv.status === "error" && "Error"}
         </p>
         <p className="mt-1 text-xs text-slate-500">
@@ -111,16 +112,28 @@ function Inner({ plan, onTripEnd }: { plan: Plan; onTripEnd: (tripId: string) =>
           🎙️ Start talking
         </button>
       ) : (
-        <button
-          onClick={async () => {
-            conv.endSession();
-            const s = await api<{ tripId: string }>(`/api/tools/end_trip`, {});
-            onTripEnd(s.tripId);
-          }}
-          className="rounded-xl bg-slate-800 px-5 py-4 text-lg font-semibold"
-        >
-          End trip
-        </button>
+        <div className="flex gap-3">
+          {/* Mic-only mute: the session stays open and the tutor's audio keeps streaming. */}
+          <button
+            onClick={() => conv.setMuted(!conv.isMuted)}
+            aria-pressed={conv.isMuted}
+            className={`flex-1 rounded-xl px-5 py-4 text-lg font-semibold ${
+              conv.isMuted ? "bg-amber-500 text-slate-950" : "bg-slate-800"
+            }`}
+          >
+            {conv.isMuted ? "🔇 Unmute" : "🎤 Mute"}
+          </button>
+          <button
+            onClick={async () => {
+              conv.endSession();
+              const s = await api<{ tripId: string }>(`/api/tools/end_trip`, {});
+              onTripEnd(s.tripId);
+            }}
+            className="flex-1 rounded-xl bg-slate-800 px-5 py-4 text-lg font-semibold"
+          >
+            End trip
+          </button>
+        </div>
       )}
     </div>
   );
