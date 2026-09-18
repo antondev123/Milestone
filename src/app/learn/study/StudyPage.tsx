@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BackLink, ModePill, Pill, SignalNotice, TopBar } from "@/components/carry/Chrome";
-import { CheckIcon, HeadphonesIcon, SpeakerIcon } from "@/components/carry/Icons";
+import { CheckIcon, HeadphonesIcon, SpeakerIcon, StopIcon } from "@/components/carry/Icons";
 import { persist, postJSON } from "@/components/carry/net";
 import { installErrorLog, setLogSession } from "@/lib/log/client";
 import { AssistantFab, AssistantSheet } from "@/components/study/AssistantSheet";
@@ -327,12 +327,10 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
         <Link href="/learn/voice?carry=1" className="flex min-h-10 items-center gap-2 font-semibold">
           <HeadphonesIcon size={18} /> Switch to Hands-off
         </Link>
-        <div className="flex items-center justify-between gap-3">
-          <span className="text-muted">Your progress carries over.</span>
-          <button type="button" onClick={endSession} className="min-h-9 text-muted underline underline-offset-4">
-            End session
-          </button>
-        </div>
+        <span className="text-muted">Your progress carries over.</span>
+        <button type="button" onClick={endSession} className={`mt-2 ${END_BUTTON} min-h-11 text-[15px]`}>
+          <StopIcon size={18} /> End session
+        </button>
       </div>
     </>
   );
@@ -374,14 +372,14 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
                 </div>
               )}
               {legNav}
+              <button type="button" onClick={endSession} className={`mt-4 ${END_BUTTON} min-h-[60px] text-[17px] lg:hidden`}>
+                <StopIcon size={20} /> End session
+              </button>
               <div className="mt-10 flex flex-col gap-2 border-t border-rule pt-5 text-[14px] lg:hidden">
                 <Link href="/learn/voice?carry=1" className="flex min-h-10 items-center gap-2 font-semibold">
                   <HeadphonesIcon size={18} /> Switch to Hands-off
                 </Link>
                 <span className="text-muted">On the move? Your progress carries over.</span>
-                <button type="button" onClick={endSession} className="self-start text-muted underline underline-offset-4">
-                  End session
-                </button>
               </div>
             </Reader>
           </>
@@ -395,3 +393,6 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
     </>
   );
 }
+
+/** Outlined, full width: ending is always one clear tap, never the primary (docs/DESIGN.md §3). */
+const END_BUTTON = "flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-ink px-4 font-semibold";
