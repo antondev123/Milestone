@@ -8,6 +8,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BackLink, Pill, SignalNotice, TopBar } from "@/components/carry/Chrome";
 import { CheckIcon, HeadphonesIcon, SpeakerIcon } from "@/components/carry/Icons";
 import { persist, postJSON } from "@/components/carry/net";
+import { installErrorLog, setLogSession } from "@/lib/log/client";
 import { AssistantFab, AssistantSheet } from "@/components/study/AssistantSheet";
 import { AssistantThread, type Message } from "@/components/study/AssistantThread";
 import { Checkpoint, type StudyQuestion } from "@/components/study/Checkpoint";
@@ -84,6 +85,9 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
       else if (p0.activeTrip.mode !== "study") await persist(() => postJSON("/api/session", { carry: true, mode: "study" }), setTrouble);
       if (gotoTarget) await tool("goto", { target: gotoTarget });
       const p = (await persist(() => fetch("/api/progress").then((r) => r.json() as Promise<Progress>), setTrouble)) as Progress;
+      // session log: browser errors land in the trip's timeline (src/lib/log)
+      installErrorLog();
+      setLogSession(p.activeTrip?.tripId ?? null);
       const id = p.cursor?.segmentId ?? p.resume.segmentId;
       const block = p.cursor?.segmentId === id && p.cursor.phase === "read" ? p.cursor.blockIdx : 0;
       lastMarked.current = `${id}/${block}`;

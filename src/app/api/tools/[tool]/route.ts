@@ -18,6 +18,8 @@ import {
   actionNext,
   actionWhereAmI,
 } from "@/lib/actions";
+import { logEvent } from "@/lib/log/log";
+import { scheduleSync } from "@/lib/log/eleven";
 import type { Mode } from "@/types/lesson";
 
 type Params = { params: Promise<{ tool: string }> };
@@ -45,6 +47,16 @@ function segmentForAgent(segmentId?: string) {
     deeper: s.deeper,
     questions: s.checkpoint.map((q) => ({ questionId: q.id, prompt: q.prompt, type: q.type, options: q.options ?? [] })),
   };
+}
+
+/** One timeline row per tool call: what came in, what was said back, how long it took. */
+function logToolCall(sessionId: string | null, tool: string, mode: Mode, req: Record<string, unknown>, out: unknown, ms: number, ok: boolean, error?: string) {
+  const r = (out ?? {}) as Record<string, unknown>;
+  const reply = ok
+    ? { kind: r.kind, say: typeof r.say === "string" ? r.say : undefined, loc: r.loc, more: r.more, correct: typeof r.correct === "boolean" ? r.correct : undefined, segmentId: r.segmentId, qIdx: r.qIdx, offer: r.offer }
+    : undefined;
+  const { mode: _mode, ...body } = req;
+  logEvent("tool_call", { tool, mode, req: body, reply, ms, ok, error }, { sessionId: sessionId ?? undefined });
 }
 
 const str = (v: unknown) => (typeof v === "string" ? v : v == null ? "" : String(v));
@@ -92,7 +104,10 @@ export async function POST(req: Request, { params }: Params) {
         const r = actionEndTripSpoken();
         const { summary, ...reply } = r;
         out = { ...reply, ...summary, spoken: reply.say };
-        break;
+        // the trip is gone from progress by now, so pass the session id explicitly
+        logToolCall(summary.tripId, tool, mode, body, out, Date.now() - t0, true);
+        if (mode === "voice") scheduleSync(summary.tripId);
+        return NextResponse.json(out);
       }
       // ----- legacy tools -----
       case "get_segment":
@@ -109,9 +124,11 @@ export async function POST(req: Request, { params }: Params) {
     }
     const ms = Date.now() - t0;
     if (ms > 50 || tool === "ask" || tool === "answer") console.log(`[tool] ${tool} ${ms}ms`);
+    logToolCall(null, tool, mode, body, out, ms, true);
     return NextResponse.json(out);
   } catch (e) {
     console.error(`[tool] ${tool} error: ${(e as Error).message}`);
+    logToolCall(null, tool, mode, body, null, Date.now() - t0, false, (e as Error).message);
     return NextResponse.json({ error: (e as Error).message, kind: "say", say: "Something went wrong there. Say go to carry on.", loc: "", more: false }, { status: 400 });
   }
 }

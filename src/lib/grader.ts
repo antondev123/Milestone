@@ -1,6 +1,7 @@
 // Answer grading. MCQ is local string match. Open answers go to Claude with the rubric.
 import Anthropic from "@anthropic-ai/sdk";
 import type { GradeResponse, Question } from "@/types/lesson";
+import { logLlm } from "./log/log";
 
 const MODEL = process.env.ANTHROPIC_MODEL ?? "claude-sonnet-5";
 
@@ -61,6 +62,7 @@ const schema = {
 } as const;
 
 async function llmGrade(question: Question, answer: string): Promise<GradeResponse> {
+  const t0 = Date.now();
   const res = await anthropic().messages.create({
     model: MODEL,
     max_tokens: 300,
@@ -80,6 +82,7 @@ LEARNER ANSWER: ${answer}`,
   const u = res.usage;
   const usd = (u.input_tokens * 2 + u.output_tokens * 10) / 1_000_000; // claude-sonnet-5 list price
   console.log(`[grade] ${MODEL} in=${u.input_tokens} out=${u.output_tokens} ~$${usd.toFixed(4)}`);
+  logLlm({ provider: "anthropic", purpose: "grade", model: res.model, in: u.input_tokens, out: u.output_tokens, ms: Date.now() - t0, usd, requestId: res.id, meta: { questionId: question.id, answer, stop: res.stop_reason } });
   if (res.stop_reason !== "end_turn") {
     return { correct: false, feedback: "I could not grade that. Let us try once more." };
   }
@@ -100,6 +103,7 @@ const hintSchema = {
 /** One nudge towards the right idea for a wrong MCQ pick, never naming the answer. Fixed line if Claude is unavailable. */
 async function mcqHint(question: Question, picked: string): Promise<string> {
   if (!process.env.ANTHROPIC_API_KEY) return HINT_FALLBACK;
+  const t0 = Date.now();
   try {
     const res = await anthropic().messages.create({
       model: MODEL,
@@ -121,6 +125,7 @@ NOTES: ${question.rubric}`,
     const u = res.usage;
     const usd = (u.input_tokens * 2 + u.output_tokens * 10) / 1_000_000;
     console.log(`[hint] ${MODEL} in=${u.input_tokens} out=${u.output_tokens} ~$${usd.toFixed(4)}`);
+    logLlm({ provider: "anthropic", purpose: "hint", model: res.model, in: u.input_tokens, out: u.output_tokens, ms: Date.now() - t0, usd, requestId: res.id, meta: { questionId: question.id, picked } });
     if (res.stop_reason !== "end_turn") return HINT_FALLBACK;
     const text = res.content.find((b) => b.type === "text")?.text ?? "{}";
     const hint = String((JSON.parse(text) as { hint?: string }).hint ?? "").trim();

@@ -10,6 +10,7 @@ import * as cursor from "./cursor";
 import * as say from "./say";
 import { resolveTarget } from "./navigate";
 import { askBook } from "./ask";
+import { carrySession, closeSession, openSession } from "./log/log";
 
 const userId = DEMO_USER_ID;
 const courseId = DEFAULT_COURSE_ID;
@@ -36,6 +37,7 @@ export function actionStartSession(minutes: number, mode: Mode): Plan {
   startTrip(progress, plan, minutes, mode);
   // warm the section cache for this trip
   for (const id of plan.segmentIds) loadSegmentFull(courseId, id);
+  openSession(plan, minutes, mode);
   return plan;
 }
 
@@ -54,13 +56,15 @@ export function actionCarryTrip(mode: Mode): Plan | null {
   saveProgress(progress);
   const elapsed = (Date.now() - new Date(trip.startedAt).getTime()) / 60_000;
   const left = Math.max(1, Math.round(trip.minutes - elapsed));
-  return {
+  const plan: Plan = {
     tripId: trip.tripId,
     segmentIds: trip.segmentIds,
     estMinutes: left,
     startAt: progress.resume,
     greeting: say.carryOn(left),
   };
+  carrySession(plan, mode);
+  return plan;
 }
 
 // ---------- legacy segment API (text mode PR A, old agent tools) ----------
@@ -105,7 +109,9 @@ export function actionCompleteSegment(segmentId: string): { nextSegmentId: strin
 
 export function actionEndTrip(): TripSummary {
   const course = loadCourse(courseId);
-  return endTrip(course, getProgress(userId, courseId));
+  const summary = endTrip(course, getProgress(userId, courseId));
+  closeSession(summary);
+  return summary;
 }
 
 // ---------- cursor tools (voice agent + text mode) ----------
@@ -216,6 +222,7 @@ export function actionEndTripSpoken(): ToolReply & { summary: TripSummary } {
   const course = loadCourse(courseId);
   const progress = getProgress(userId, courseId);
   const summary = endTrip(course, progress);
+  closeSession(summary);
   delete progress.cursor?.lastReply;
   return { kind: "end", say: say.tripEnd(progress, course, summary), loc: "end", more: false, tripId: summary.tripId, summary };
 }

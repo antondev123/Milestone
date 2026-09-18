@@ -9,6 +9,8 @@ primary_region = "jnb"
   PORT = "3000"
   # read-aloud cache on the volume so a block is billed once per deploy, not once per machine restart
   TTS_CACHE_DIR = "/app/data/progress/tts"
+  # session log (SQLite + recordings) on the volume too
+  LOG_DIR = "/app/data/progress/logs"
 
 [http_service]
   internal_port = 3000
