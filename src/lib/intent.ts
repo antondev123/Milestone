@@ -3,7 +3,7 @@
 // `looksLikeQuestion` keeps the grader's local MCQ shortcut from treating "what does escalation of
 // commitment mean?" as a pick. Everything else is decided by the grader's classify+grade call.
 
-export type QuickIntent = "repeat" | "skip" | "goto" | "hold" | "where" | "giveup";
+export type QuickIntent = "repeat" | "resume" | "skip" | "goto" | "hold" | "where" | "giveup";
 
 function norm(s: string): string {
   return s.toLowerCase().replace(/[’']/g, "'").replace(/[^a-z0-9'?. ]/g, " ").replace(/\s+/g, " ").trim();
@@ -11,6 +11,8 @@ function norm(s: string): string {
 
 const RULES: [QuickIntent, RegExp][] = [
   ["repeat", /^(um |uh |sorry |wait |hang on |hold on |can you |could you |please |just )*(repeat|say (that|it) again|read (that|it|the options|the question|the choices) again|what (was|were) the (options|choices|question)|what was (option|choice|the)? ?[a-d]( again)?)\b/],
+  // coming back from a chat: `next` re-asks the question ("Back to the question.") rather than grading the words
+  ["resume", /^(um |uh |okay |ok |right |yes |yeah |no |let'?s |just )*(continue|carry on|go on|back to the (question|lesson)|(go |get )?back to it)( please| now)?\.?$/],
   ["skip", /^(um |uh |just )*(skip( this( one)?| it| that)?|move on|next question|pass on this)\b/],
   // whole utterance only: "wait, what was option B" is a repeat, "hold on, is it C?" is an answer
   ["hold", /^(um |uh |just )*(hold on|wait|pause|hang on|one (sec|second|moment|minute)|give me a (sec|second|moment|minute))( a (sec|second|moment|minute))?( please)?\.?$/],

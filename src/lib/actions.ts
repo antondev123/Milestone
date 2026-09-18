@@ -195,6 +195,10 @@ export async function actionAnswer(text: string, mode: Mode): Promise<ToolReply>
   switch (quick) {
     case "repeat":
       return { ...cursor.explain(course, progress, "again"), intent: "command" };
+    case "resume":
+      // back from a chat (or a plain "continue" said to the question): next closes the detour and re-asks
+      if (!study) return { ...actionNext(), intent: "command" };
+      break;
     case "giveup":
       return cursor.answer(course, progress, text, mode, { giveup: true });
     case "skip":
@@ -267,29 +271,34 @@ export function actionGoto(target: string): ToolReply {
   }
 }
 
-const recentAsks = new Map<string, { q: string; a: string }[]>();
+/** Every chat turn ends by handing the choice back; the wording rotates so it does not sound canned. */
+function chatTail(turn: number, questionOpen: boolean): string {
+  if (questionOpen) return turn === 1 ? "Want to go back to the question, or keep chatting?" : turn % 2 === 0 ? "Back to the question, or keep going?" : "Ready for the question again, or more on this?";
+  if (turn === 1) return "Want to get back to the lesson, or keep chatting?";
+  return turn % 2 === 0 ? "Back to the lesson, or keep going?" : "Carry on with the lesson, or more on this?";
+}
 
 /**
+ * Off-script chat. The learner stepped out of the reading loop; the model sees the part read so far,
+ * the questions asked and answered, and the chat history at this position (cursor.detour). Every
+ * reply ends by offering the lesson back; `next` closes the detour ("Back to <part>.").
  * context: a sentence the learner tapped (study mode) — prepended for the model, not stored.
- * detour=false (study mode): no spoken detour bookkeeping and no "Say continue" tail.
+ * detour=false (study mode): the page owns navigation, so no spoken tail.
  */
 export async function actionAsk(question: string, opts: { context?: string; detour?: boolean } = {}): Promise<ToolReply> {
   const course = loadCourse(courseId);
   const progress = getProgress(userId, courseId);
-  const { cursor: c, segment, place } = cursor.contextFor(course, progress);
-  const key = `${userId}:${c.segmentId}`;
-  const recent = recentAsks.get(key) ?? [];
+  const { segment, place } = cursor.contextFor(course, progress);
+  const history = cursor.chatHistory(course, progress);
   let result;
   try {
     const asked = opts.context ? `About this sentence from the passage: "${opts.context}"\n\n${question}` : question;
-    result = await askBook(course, segment, place, asked, recent);
+    result = await askBook(course, segment, place, cursor.lessonSoFar(course, progress), asked, history);
   } catch (e) {
     console.error(`[ask] failed: ${(e as Error).message}`);
-    return cursor.commitReply(course, progress, { kind: "say", say: "I could not check that one right now. Say go to carry on.", loc: "", more: false });
+    return cursor.commitReply(course, progress, { kind: "say", say: "I could not get to that one right now. Ask again, or say continue to carry on.", loc: "", more: false });
   }
-  recent.push({ q: question, a: result.answer });
-  recentAsks.set(key, recent.slice(-3));
-  const cur = cursor.beginDetour(course, progress, question, result.topic);
+  const cur = cursor.beginDetour(course, progress, question, result.answer, result.topic);
   let sayText = result.answer;
   let offer: ToolReply["offer"];
   if (result.jumpTo && result.jumpTo !== place?.section.id) {
@@ -299,12 +308,9 @@ export async function actionAsk(question: string, opts: { context?: string; deto
       sayText += ` ${offer.say}`;
     }
   }
-  // "First question from the road" is earned here, so it is spoken before the continue tail
+  // "First question from the road" is earned here, so it is spoken before the tail
   const reply = cursor.withMilestones(course, progress, { kind: "say", say: sayText, loc: "", more: false, offer });
-  if (cur && !cur.detour!.offered && !offer) {
-    cur.detour!.offered = true;
-    reply.say += cursor.questionOpen(course, progress) ? " Say continue to get back to the question." : " Say continue when you are ready.";
-  }
+  if (opts.detour !== false && !offer) reply.say += ` ${chatTail(cur.detour!.turns, cursor.questionOpen(course, progress))}`;
   return cursor.commitReply(course, progress, reply);
 }
 

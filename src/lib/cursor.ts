@@ -11,6 +11,7 @@ import {
   type Segment,
   type ToolReply,
 } from "@/types/lesson";
+import type { LessonSoFar } from "./ask";
 import { blocks } from "./chunk";
 import { loadChapterQuiz, loadQuestionFull, loadSegmentFull } from "./course";
 import { gradeAnswer, revealLine } from "./grader";
@@ -291,7 +292,7 @@ export async function answer(course: Course, progress: Progress, text: string, m
     return commit(course, progress, c, { kind: "say", say: "There is no question open right now. Say go to carry on.", loc: loc(course, c), more: false });
   }
   const first = (c.quiz ? c.quiz.attempt : c.attempt) === 0;
-  const result = opts.giveup ? { correct: false, feedback: revealLine(q), intent: "giveup" as const } : await gradeAnswer(q, text, { reveal: !first });
+  const result = opts.giveup ? { correct: false, feedback: revealLine(q), intent: "giveup" as const } : await gradeAnswer(q, text, { reveal: !first, chatting: !!c.detour });
   if (result.intent && result.intent !== "answer" && result.intent !== "giveup") {
     // not an answer: leave the question open, burn nothing
     return { kind: "say", say: "", loc: loc(course, c), more: false, intent: result.intent, segmentId: c.segmentId };
@@ -436,14 +437,49 @@ export function startQuiz(course: Course, progress: Progress, chapterId: string)
 
 // ---------- detour bookkeeping (the answer itself comes from ask.ts) ----------
 
-export function beginDetour(course: Course, progress: Progress, question: string, topic: string): Cursor {
+const CHAT_HISTORY = 6;
+
+export function beginDetour(course: Course, progress: Progress, question: string, answer: string, topic: string): Cursor {
   const c = ensureCursor(course, progress);
-  if (!c.detour) c.detour = { topic, turns: 0, startedAt: new Date().toISOString(), offered: false };
+  if (!c.detour) c.detour = { topic, turns: 0, startedAt: new Date().toISOString(), history: [] };
   c.detour.turns += 1;
   c.detour.topic = topic;
+  c.detour.history = [...(c.detour.history ?? []), { q: question, a: answer }].slice(-CHAT_HISTORY);
   progress.detours ??= [];
   progress.detours.push({ at: new Date().toISOString(), segmentId: c.segmentId, question, topic });
   return c;
+}
+
+/** The chat so far at this position (empty once the cursor has moved on). */
+export function chatHistory(course: Course, progress: Progress): { q: string; a: string }[] {
+  return ensureCursor(course, progress).detour?.history ?? [];
+}
+
+/**
+ * What the learner has heard and done in the current part, for the chat model: blocks read so far,
+ * the rest of the part, the questions asked here (checkpoint or quiz) and their attempts at them.
+ */
+export function lessonSoFar(course: Course, progress: Progress): LessonSoFar {
+  const c = ensureCursor(course, progress);
+  const seg = segmentFull(course.id, c.segmentId);
+  const bl = blocks(seg.script);
+  // during a checkpoint the whole part has been read; mid-read, the current block counts as heard
+  const upto = c.phase === "read" ? (c.served ? c.blockIdx + 1 : c.blockIdx) : bl.length;
+  const questions: Question[] = c.quiz
+    ? (loadChapterQuiz(course.id, parentId(c.quiz.quizId))?.questions ?? []).slice(0, c.quiz.qIdx + 1)
+    : c.phase === "ask"
+      ? seg.checkpoint.slice(0, c.qIdx + 1)
+      : c.phase === "done"
+        ? seg.checkpoint
+        : [];
+  const ids = new Set(questions.map((q) => q.id));
+  const since = progress.activeTrip?.startedAt ?? ""; // this trip's attempts only, not a rerun's from last week
+  return {
+    readSoFar: bl.slice(0, upto).join("\n"),
+    unread: bl.slice(upto).join("\n"),
+    questions,
+    attempts: progress.checkpoints.filter((a) => ids.has(a.questionId) && a.at >= since),
+  };
 }
 
 export function commitReply(course: Course, progress: Progress, reply: ToolReply): ToolReply {

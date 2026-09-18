@@ -16,7 +16,9 @@ This creates the seven client tools and patches the agent with everything below.
 
 **Reading loop.** `next` returns one sentence-aligned block of about 150 words (~60 s of speech) with `more: true`. When the agent finishes speaking (`onModeChange → listening`) and nothing interrupted it, the client waits 700 ms and sends a text turn `"continue"`, so the agent calls `next` again. `sendContextualUpdate` does not trigger a turn, so it is not used for this. Barge-in (`onInterruption`, or any real user transcript) cancels the pending continue and POSTs `interrupted`; the server then re-reads the current block after the driver's command, prefixed "Back to it."
 
-**Free-form questions** go to `ask` → `src/lib/ask.ts` → Claude Sonnet 5 (`ANTHROPIC_ASK_MODEL`) with the current part, section objectives, key terms and the table of contents (three cached prompt blocks). The answer is ≤ 3 sentences. The agent never answers from its own knowledge. The ElevenLabs knowledge base is deliberately not used (its snippets would sit in the agent context for the rest of the call).
+**Chat (anything off-script)** goes to `ask` → `src/lib/ask.ts` → Claude Sonnet 5 (`ANTHROPIC_ASK_MODEL`) with the table of contents, the part read so far, the checkpoint questions asked here and the learner's answers to them, and the chat so far at this position (`Cursor.detour.history`, last 6 turns) — three cached prompt blocks. It is a conversation, not a lookup: the model uses the book first but may range beyond it (examples, opinions, "what did I get wrong"), stays under ~80 spoken words, and the server ends every turn with an offer ("Want to get back to the lesson, or keep chatting?" / "…or back to the question?"). The learner stays in the chat until a return command (continue, carry on, back to the lesson, back to the question) → `next`, which re-anchors ("Back to <part>." / "Back to the question."). The agent LLM never answers from its own knowledge. The ElevenLabs knowledge base is deliberately not used (its snippets would sit in the agent context for the rest of the call).
+
+**No auto-continue across a learner turn.** The client arms "continue" only from a tool reply with `more: true`, and disarms it the moment a real learner transcript arrives or while a tool is in flight (`thinkingRef`). Before this, the agent's filler while `ask` ran ("Looking into your question now") ended, the 700 ms timer fired "continue", and the answer was spoken over by the next block. The prompt also forbids fillers; the soft-timeout "One sec." covers the wait.
 
 **Navigation** goes to `goto` with the learner's words verbatim → `src/lib/navigate.ts` (chapter/section numbers, next/back/skip, quiz, then a lexical match over titles, key terms and objectives).
 
@@ -40,7 +42,8 @@ The live text is `PROMPT` in `scripts/configure-agent.ts`. Its load-bearing line
 
 - "Every tool returns a field `t`. Say `t` aloud, word for word, and nothing else."
 - "You may only speak words that came from a tool's `t`, plus okay, holding and goodbye."
-- "Anything else is a question, not a mishearing" → `ask`.
+- "Anything else is chat, not a mishearing" → `ask`, and stays in `ask` until a return command → `next`.
+- "While a tool is running, say nothing" (fillers used to trigger the client's auto-continue).
 - After speaking, wait; never ask "shall I continue".
 
 ## 4. Tools (all type **Client**, wait for response ON)
@@ -50,7 +53,7 @@ The live text is `PROMPT` in `scripts/configure-agent.ts`. Its load-bearing line
 | `next` | – | next block / next question / next part / return from a detour | 6 s |
 | `explain` | `how`: `again` \| `simpler` \| `deeper` \| `example` | key points / altExplanation / deeper / example, zero LLM | 6 s |
 | `answer` | `text` (verbatim) | whatever was said to an open question: unmistakable commands are dispatched locally, Claude classifies the rest (answer / question / command / give-up) and grades only an answer; hint on the first miss, answer on the second; questions and commands are routed and the question stays open | 20 s |
-| `ask` | `question` (verbatim) | grounded answer from the book (Sonnet 5), records a detour | 20 s |
+| `ask` | `question` (verbatim) | chat turn in context (Sonnet 5): book first, general knowledge allowed, chat history at this position; ends with the "back to the lesson, or keep chatting?" offer; records a detour | 20 s |
 | `goto` | `target` (verbatim) | chapter N / N.M / next part / next chapter / skip / back / quiz / topic | 6 s |
 | `where_am_i` | – | chapter, section, part, chapter %, commutes left, what is next | 6 s |
 | `end_trip` | – | ends the trip, spoken summary | 6 s |
@@ -69,7 +72,7 @@ Text-only rehearsal without a mic: open `/learn/voice?text=1` and tap the dial. 
 2. Agent greets with the server line ("Back in chapter one… Here we go") and starts reading by itself: the client arms auto-continue before the session, so the first `listening` sends "continue" and the agent calls `next`. No "go" needed.
 3. It reads a block, pauses ~1 s, and continues on its own. Interrupt mid-block with "explain that differently". The tutor should go quiet within a syllable of you speaking and the orb should stop glowing at the same moment (local ducking, `src/components/useBargeInDucking.ts`); then it gives the analogy at full volume and continues reading the interrupted block ("Back to it."). Clap once while it reads: expect a ~1 s dip and a smooth return, not a stop. Add `?debug=1` to the URL to see the mic meter and duck phase.
 4. At a question, answer with a letter or in your own words. Vague open answers are rejected with a nudge.
-5. Ask something off-script ("how does this apply to a taxi business?"). Answer comes from the book; "continue" re-anchors.
+5. Interrupt a block with something off-script ("how does this apply to a taxi business?"). No "continue" should appear in the session log between your words and the `ask` reply; the answer is spoken and ends with the offer. Say "yes" or a follow-up → another `ask`, with memory of the last turn. After a wrong checkpoint answer, "what did I get wrong?" names your actual answer. "Back to the lesson" / "continue" re-anchors ("Back to <part>.").
 6. "Where am I" → chapter, section, part, percent, commutes left.
 7. "Go to chapter two" → jumps. "Take me to the chapter one quiz" → the book's review questions.
 8. "I'm done" → spoken summary, then the app navigates to the summary page ~4 s later.
