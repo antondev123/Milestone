@@ -12,6 +12,7 @@ Updated: 2026-09-18 (keys added, pipeline verified live)
 - Session planner (`src/lib/planner.ts`), progress store (JSON file + memory fallback), grader (MCQ local, open via Claude, keyword fallback without key).
 - Trip summary page `/trip/[id]/summary`, verified.
 - docs/DEMO.md first draft with the interruption beat.
+- Voice mode: mic mute/unmute button (mic-only; session and tutor audio keep streaming). Not yet exercised in a live call.
 
 ## Verified with live keys (2026-09-18)
 - Anthropic key + `claude-sonnet-5`: ingest and grading. Grader rejects vague answers, accepts paraphrase, handles spoken MCQ ("thirteen hundred rand"). ~3.5–4.5 s per grade; acceptable for voice, watch it in rehearsal.
