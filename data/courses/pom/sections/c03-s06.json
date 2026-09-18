@@ -34,12 +34,12 @@
           "prompt": "What was Fayol's principle of unity of command mainly meant to prevent?",
           "type": "mcq",
           "options": [
-            "Workers receiving conflicting instructions from multiple bosses",
             "Workers earning too much overtime pay",
+            "Companies expanding too quickly",
             "Managers hiring family members",
-            "Companies expanding too quickly"
+            "Conflicting orders from more than one boss"
           ],
-          "answer": "Workers receiving conflicting instructions from multiple bosses",
+          "answer": "Conflicting orders from more than one boss",
           "rubric": "Correct answer identifies confusion from multiple supervisors as the problem unity of command solves.",
           "topic": "unity-of-command",
           "source": "generated"
@@ -94,8 +94,8 @@
           "type": "mcq",
           "options": [
             "Merit and qualification",
-            "Family connections and birth status",
             "Personal friendship with the manager",
+            "Family connections and birth status",
             "Seniority in age only"
           ],
           "answer": "Merit and qualification",

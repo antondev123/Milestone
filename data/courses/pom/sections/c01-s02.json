@@ -24,9 +24,9 @@
           "prompt": "In Kotter's study, how much of their time did the average manager spend working alone?",
           "type": "mcq",
           "options": [
-            "About 50%",
             "About 75%",
-            "Just 25%"
+            "Just 25%",
+            "About 50%"
           ],
           "answer": "Just 25%",
           "rubric": "Kotter found the average manager spent just 25% of the time working alone, mostly at home, on airplanes or commuting.",

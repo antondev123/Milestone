@@ -43,10 +43,10 @@
           "prompt": "A first-line supervisor orders too much perishable stock for her department. Which negative outcome is most directly linked to this decision?",
           "type": "mcq",
           "options": [
-            "Increased expenses from wasted supplies",
+            "Loss of shareholder confidence",
             "Missed opportunity for a new product line",
             "Government fines for pollution",
-            "Loss of shareholder confidence"
+            "Increased expenses from wasted supplies"
           ],
           "answer": "Increased expenses from wasted supplies",
           "rubric": "Correct option is increased expenses from wasted supplies, matching the text's example of costly, perishable over-ordering.",
@@ -85,12 +85,12 @@
           "prompt": "According to the text, why might 'maximizing shareholder wealth' be a short-sighted justification for a harmful decision?",
           "type": "mcq",
           "options": [
-            "It can lead to boycotts, bad publicity, or fines that harm the firm later",
-            "It is illegal in most countries",
-            "It always reduces short-term profit immediately",
-            "Shareholders never actually want more wealth"
+            "It can bring boycotts, bad publicity or fines later",
+            "The law forbids putting profit first",
+            "Shareholder wealth is too hard to measure",
+            "Shareholders mostly want dividends, not growth"
           ],
-          "answer": "It can lead to boycotts, bad publicity, or fines that harm the firm later",
+          "answer": "It can bring boycotts, bad publicity or fines later",
           "rubric": "Correct answer identifies long-term harms like boycotts, bad publicity, or government fines resulting from prioritising short-term shareholder wealth over other stakeholders.",
           "topic": "ethics-in-decisions",
           "source": "generated"

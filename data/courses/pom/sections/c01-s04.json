@@ -24,8 +24,8 @@
           "prompt": "According to classical management theory, what is the most direct reports a manager can reasonably handle?",
           "type": "mcq",
           "options": [
-            "Seven",
             "Twelve",
+            "Seven",
             "Thirty"
           ],
           "answer": "Seven",
@@ -65,8 +65,8 @@
           "type": "mcq",
           "options": [
             "Middle managers",
-            "First-line managers",
-            "Executive managers"
+            "Executive managers",
+            "First-line managers"
           ],
           "answer": "First-line managers",
           "rubric": "First-line managers supervise rank-and-file employees and carry out day-to-day activities within departments.",
@@ -104,9 +104,9 @@
           "prompt": "Which kind of skill stays important at all three levels of management?",
           "type": "mcq",
           "options": [
-            "Technical skills",
+            "Human relations skills",
             "Conceptual skills",
-            "Human relations skills"
+            "Technical skills"
           ],
           "answer": "Human relations skills",
           "rubric": "Human relations skills, or people skills, remain important for success at all three levels of the hierarchy.",

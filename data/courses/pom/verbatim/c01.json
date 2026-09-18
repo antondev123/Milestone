@@ -21,9 +21,9 @@
           "prompt": "According to Hannaway, what is wrong with the textbook list of planning, organizing and controlling?",
           "type": "mcq",
           "options": [
-            "It only applies to senior managers",
+            "It only applies to senior managers in big firms",
             "It does not describe what managers actually do",
-            "It leaves out reporting"
+            "It leaves out reporting and budgeting"
           ],
           "answer": "It does not describe what managers actually do",
           "rubric": "Hannaway found that these activities \"do not, in fact, describe what managers do\"; at best they describe vague objectives managers keep trying to reach.",

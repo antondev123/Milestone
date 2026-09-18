@@ -15,6 +15,7 @@ import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Course, Question, SectionLesson, Segment } from "../src/types/lesson.ts";
+import { orderMcqs } from "./mcq-order.ts";
 
 const DIR = join("data", "courses", "pom");
 const CHAPTER = 1;
@@ -96,6 +97,7 @@ function build() {
         checkpoint: leg.checkpoint.map((q, j) => ({ id: `${id}/q${j + 1}`, ...q, source: "generated" as const })),
       };
     });
+    orderMcqs(segments.flatMap((g) => g.checkpoint));
     const file = `sections/c${pad(CHAPTER)}-s${pad(section.number.split(".")[1])}.json`;
     const lesson: SectionLesson = {
       id: section.id,

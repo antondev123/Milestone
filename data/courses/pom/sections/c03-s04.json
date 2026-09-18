@@ -34,10 +34,10 @@
           "prompt": "According to Adam Smith, what is the main benefit of dividing labor into specialized tasks?",
           "type": "mcq",
           "options": [
-            "It eliminates the need for any coordination",
             "It reduces cost and training time per worker",
-            "It guarantees higher worker wages",
-            "It removes the need for factories"
+            "It lets each worker learn every task",
+            "It makes coordination between workers easier",
+            "It guarantees higher worker wages"
           ],
           "answer": "It reduces cost and training time per worker",
           "rubric": "Correct answer must identify reduced costs and reduced training time as the benefit.",
@@ -85,10 +85,10 @@
           "prompt": "Why did workers in early factories sometimes sabotage a coworker who produced too much?",
           "type": "mcq",
           "options": [
+            "They preferred working at home",
             "They feared high output meant fewer jobs for everyone",
-            "They wanted higher wages for themselves only",
             "They disliked the factory owner personally",
-            "They preferred working at home"
+            "They wanted higher wages for themselves only"
           ],
           "answer": "They feared high output meant fewer jobs for everyone",
           "rubric": "Correct answer must reflect that workers believed there was a fixed amount of work and feared job losses from high output.",

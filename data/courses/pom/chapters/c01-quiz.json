@@ -42,11 +42,11 @@
     },
     {
       "id": "pom/c1/quiz/q5",
-      "prompt": "Why might management be considered an occupation rather than a formal profession?",
+      "prompt": "How does a manager's job change with the department or function they work in?",
       "type": "open",
-      "answer": "Unlike professions such as law or medicine, management lacks a universal licensing requirement or standardized body of certified knowledge, and managers often learn through experience and informal role modeling rather than a single formal credentialing process.",
-      "rubric": "Must convey that management lacks formal licensing/standard credentialing found in true professions and is often learned through experience rather than uniform certification.",
-      "topic": "management-as-occupation",
+      "answer": "The emphasis shifts by department: manufacturing managers focus on products, controlling and supervising; marketing managers on customer relations and external contact; accounting and finance managers on long-range planning, controlling and monitoring performance indicators; human resource managers on consulting, coordination and external contacts.",
+      "rubric": "Must say that the mix or emphasis of managerial activities differs by department or function, with at least one correct example, such as marketing managers focusing on customers and external contact or manufacturing managers on controlling and supervising.",
+      "topic": "management-by-function",
       "source": "book"
     },
     {
@@ -54,7 +54,7 @@
       "prompt": "What daily pressures and trends are reshaping the demands placed on modern managers?",
       "type": "open",
       "answer": "Managers face fragmented, mostly verbal workdays with competing demands from employees, customers, and shareholders that must be prioritized by urgency, and downsizing has increased the number of direct reports, making efficiency and stronger entrepreneurial and leadership skills essential.",
-      "rubric": "Must mention fragmented/verbal nature of work, competing demands needing prioritization, and increased span of control from downsizing driving need for efficiency and leadership.",
+      "rubric": "Must mention at least two of: the workday is fragmented and mostly spent talking with people; competing demands must be prioritised; downsizing and flatter organisations mean many more direct reports, which makes efficiency a core skill.",
       "topic": "modern-management-pressures",
       "source": "book"
     }

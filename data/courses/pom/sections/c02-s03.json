@@ -43,10 +43,10 @@
           "prompt": "Which part of the brain is more involved in the reactive decision-making system?",
           "type": "mcq",
           "options": [
-            "Prefrontal cortex",
-            "Basal ganglia and amygdala",
+            "Hippocampus",
             "Cerebellum",
-            "Hippocampus"
+            "Prefrontal cortex",
+            "Basal ganglia and amygdala"
           ],
           "answer": "Basal ganglia and amygdala",
           "rubric": "Correct answer is basal ganglia and amygdala, matching the text's description of the reactive system's brain regions.",

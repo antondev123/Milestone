@@ -65,6 +65,15 @@ for (const ch of course.chapters) {
         if (!q.topic) err(`${q.id}: no topic`);
       });
     });
+    // answer-position giveaways: models put the right option first, and make it the longest
+    const mcqs = lesson.segments.flatMap((g) => g.checkpoint).filter((q) => q.type === "mcq" && q.options?.includes(q.answer));
+    if (mcqs.length >= 2) {
+      const at = new Set(mcqs.map((q) => q.options!.indexOf(q.answer)));
+      if (at.size === 1) warn(`${s.id}: every mcq answer is option ${String.fromCharCode(65 + [...at][0])}`);
+    }
+    for (const q of mcqs) {
+      if (q.options!.every((o) => o === q.answer || o.length + 10 <= q.answer.length)) warn(`${q.id}: answer is much longer than every other option`);
+    }
   }
   if (ch.quizFile) {
     if (!existsSync(join(dir, ch.quizFile))) err(`${ch.id}: quizFile missing`);

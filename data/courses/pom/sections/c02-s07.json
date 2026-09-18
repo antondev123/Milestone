@@ -52,10 +52,10 @@
           "prompt": "Which term describes a group member deliberately assigned to challenge and criticise the group's ideas?",
           "type": "mcq",
           "options": [
-            "Devil's advocate",
             "Satisficer",
             "Stakeholder",
-            "Reactive thinker"
+            "Reactive thinker",
+            "Devil's advocate"
           ],
           "answer": "Devil's advocate",
           "rubric": "Correct answer is 'Devil's advocate'; must select this exact option.",

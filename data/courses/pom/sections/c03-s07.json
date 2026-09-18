@@ -35,9 +35,9 @@
           "type": "mcq",
           "options": [
             "Production increased steadily",
-            "Production dropped sharply",
             "Production stayed exactly flat",
-            "Production became impossible to measure"
+            "Production became impossible to measure",
+            "Production dropped sharply"
           ],
           "answer": "Production increased steadily",
           "rubric": "Must select that production increased regardless of the variable manipulated.",
@@ -87,8 +87,8 @@
           "options": [
             "Material inducements",
             "Nonmaterial incentives",
-            "Working conditions",
-            "Pride in work"
+            "Pride in work",
+            "Working conditions"
           ],
           "answer": "Nonmaterial incentives",
           "rubric": "Must select nonmaterial incentives as the recognition-based reward type.",
@@ -136,12 +136,12 @@
           "prompt": "In Follett's Harvard library example about the window, what made the final solution an example of integration rather than compromise?",
           "type": "mcq",
           "options": [
+            "One person gave in completely to the other",
             "Both people opened the window halfway",
-            "They took turns opening and closing it",
-            "They found a solution satisfying both without splitting the difference",
-            "One person gave in completely to the other"
+            "Both needs were met, nothing was split",
+            "They took turns opening and closing it"
           ],
-          "answer": "They found a solution satisfying both without splitting the difference",
+          "answer": "Both needs were met, nothing was split",
           "rubric": "Must select the option describing a fully satisfying solution for both parties rather than a half measure.",
           "topic": "follett-window-example",
           "source": "generated"
