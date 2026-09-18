@@ -40,6 +40,7 @@ The ingested lessons for chapters 1–3 are committed, so `npm run dev` works wi
 | `npm run demo:reset` | Delete all progress files so the demo starts fresh (`-- --seed` for a mid-course rehearsal state) |
 | `npm run agent:configure` | Push the ElevenLabs agent config (prompt, tools, ASR) from `scripts/configure-agent.ts` |
 | `npm run ledger` | Spend and credits left, in rands. Log kept in `docs/LEDGER.md` |
+| `npm run deploy:fly` | Deploy to Fly.io from `.env.local` (secrets + build args). Setup in `docs/DEPLOY.md` |
 | `npm run typecheck` | `tsc --noEmit` |
 
 Scripts are plain `.ts` run directly by Node 24 (type stripping). No `tsx`/`ts-node` needed.
