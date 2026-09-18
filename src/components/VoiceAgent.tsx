@@ -4,8 +4,9 @@
 // The same tools also exist as server webhooks at /api/tools/<name> if you prefer
 // to configure them in the dashboard as webhooks. See docs/ELEVENLABS.md.
 import { ConversationProvider, useConversation } from "@elevenlabs/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { Plan } from "@/types/lesson";
+import { useBargeInDucking } from "./useBargeInDucking";
 
 type Line = { who: "you" | "agent"; text: string };
 
@@ -45,14 +46,25 @@ function Inner({ plan, onTripEnd }: { plan: Plan; onTripEnd: (tripId: string) =>
   const [lines, setLines] = useState<Line[]>([]);
   const [err, setErr] = useState<string | null>(null);
   const agentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID;
+  // ?debug=1 shows the mic/duck meter for calibrating thresholds in rehearsal
+  const [debugOn] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug"));
 
+  // The ducking hook needs `conv`, and `conv` needs these callbacks: bridge with a ref.
+  const ducking = useRef<ReturnType<typeof useBargeInDucking> | null>(null);
   const conv = useConversation({
     onMessage: (m) => {
       const msg = m as unknown as { message: string; source: "user" | "ai" | "agent" };
       setLines((prev) => [...prev, { who: msg.source === "user" ? "you" : "agent", text: msg.message }]);
+      if (msg.source !== "user") ducking.current?.onAgentStarts();
+    },
+    onInterruption: () => ducking.current?.onInterruption(),
+    onModeChange: ({ mode }) => {
+      if (mode === "speaking") ducking.current?.onAgentStarts();
     },
     onError: (message) => setErr(message),
   });
+  ducking.current = useBargeInDucking(conv, debugOn);
+  const { ducked, debug } = ducking.current;
 
   function start() {
     if (!agentId) {
@@ -73,25 +85,32 @@ function Inner({ plan, onTripEnd }: { plan: Plan; onTripEnd: (tripId: string) =>
   }
 
   const live = conv.status === "connected";
+  // `ducked` flips the orb the instant we hear the driver; isSpeaking lags by a few hundred ms
+  const tutorTalking = conv.isSpeaking && !ducked;
 
   return (
     <div className="flex flex-1 flex-col gap-4">
       <div className="rounded-2xl bg-slate-900 p-5 text-center">
         <div
           className={`mx-auto mb-3 h-24 w-24 rounded-full transition-all ${
-            !live ? "bg-slate-700" : conv.isSpeaking ? "scale-110 bg-emerald-400 shadow-[0_0_40px_10px_rgba(52,211,153,0.4)]" : "bg-emerald-700"
+            !live ? "bg-slate-700" : tutorTalking ? "scale-110 bg-emerald-400 shadow-[0_0_40px_10px_rgba(52,211,153,0.4)]" : "bg-emerald-700"
           }`}
         />
         <p className="text-sm text-slate-400">
           {conv.status === "disconnected" && "Ready"}
           {conv.status === "connecting" && "Connecting…"}
           {live && conv.isMuted && "Mic muted. Tutor keeps talking; unmute to answer."}
-          {live && !conv.isMuted && (conv.isSpeaking ? "Tutor speaking. Just talk to interrupt." : "Listening…")}
+          {live && !conv.isMuted && (tutorTalking ? "Tutor speaking. Just talk to interrupt." : "Listening…")}
           {conv.status === "error" && "Error"}
         </p>
         <p className="mt-1 text-xs text-slate-500">
           Say: repeat · explain differently · skip · go deeper · I&apos;m done
         </p>
+        {debugOn && live && (
+          <p className="mt-2 font-mono text-[11px] text-amber-300">
+            in {debug.input.toFixed(3)} · floor {debug.floor.toFixed(3)} · ratio {debug.ratio.toFixed(2)} · out {debug.output.toFixed(3)} · {debug.phase.toUpperCase()}
+          </p>
+        )}
       </div>
 
       {err && <p className="rounded-xl bg-rose-900/50 px-4 py-2 text-sm text-rose-100">{err}</p>}
