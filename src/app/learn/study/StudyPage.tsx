@@ -62,12 +62,17 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   }, []);
 
   // boot: a study session, optional goto from the course map, then the segment under the cursor
+  const booted = useRef(false); // Strict Mode runs effects twice; a second goto would push the return stack again
   useEffect(() => {
+    if (booted.current) return;
+    booted.current = true;
     let live = true;
     (async () => {
       fetch("/api/course").then((r) => r.json()).then((m: Manifest) => live && setManifest(m));
       const p0 = (await persist(() => fetch("/api/progress").then((r) => r.json() as Promise<Progress>), setTrouble)) as Progress;
-      if (!p0.activeTrip || p0.activeTrip.mode !== "study") await persist(() => postJSON("/api/session", { minutes: 45, mode: "study" }), setTrouble);
+      // mid-trip from Listen or Read: keep that trip (same id and clock); otherwise open a study session
+      if (!p0.activeTrip) await persist(() => postJSON("/api/session", { minutes: 45, mode: "study" }), setTrouble);
+      else if (p0.activeTrip.mode !== "study") await persist(() => postJSON("/api/session", { carry: true, mode: "study" }), setTrouble);
       if (gotoTarget) await tool("goto", { target: gotoTarget });
       const p = (await persist(() => fetch("/api/progress").then((r) => r.json() as Promise<Progress>), setTrouble)) as Progress;
       if (!live) return;
@@ -273,7 +278,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
       )}
       <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">{asideTab === "check" && checkOpen ? checkpoint : assistant()}</div>
       <div className="mt-4 flex flex-col gap-2 border-t border-rule pt-4 text-[14px]">
-        <Link href="/learn/voice" className="flex min-h-10 items-center gap-2 font-semibold">
+        <Link href="/learn/voice?carry=1" className="flex min-h-10 items-center gap-2 font-semibold">
           <HeadphonesIcon size={18} /> Switch to Listen mode
         </Link>
         <span className="text-muted">Listening on the go? Your place carries over.</span>
@@ -313,7 +318,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
               )}
             </div>
             <div className="mt-10 flex flex-col gap-2 border-t border-rule pt-5 text-[14px] lg:hidden">
-              <Link href="/learn/voice" className="flex min-h-10 items-center gap-2 font-semibold">
+              <Link href="/learn/voice?carry=1" className="flex min-h-10 items-center gap-2 font-semibold">
                 <HeadphonesIcon size={18} /> Switch to Listen mode
               </Link>
               <span className="text-muted">Listening on the go? Your place carries over.</span>
