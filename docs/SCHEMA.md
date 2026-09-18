@@ -130,6 +130,8 @@ TripSummary                      the progress artefact
   modulePct    0–100, segments completed in the CURRENT CHAPTER / chapter segments
   streakDays   snapshot at trip end
   explored?    detour topics (PR B)
+  milestones?  milestone ids first earned on this trip, e.g. "first-hands-free", "chapter-2", "quiz-1"
+               (rules and labels in src/lib/milestones.ts; awarded once, only for what this trip did)
 
 ActiveTrip { tripId, startedAt, minutes, mode, segmentIds (planned), completedSegmentIds }
 ```
@@ -178,6 +180,7 @@ Cursor
 
 Progress +=  cursor?, detours[] {at, segmentId, question, topic}, bookmarks[], pendingQuizzes[] (chapter ids), quizResults[]
 TripSummary += explored[]   detour topics this trip
+TripSummary += milestones[] milestone ids first earned on this trip
 Plan += greeting            server-composed opening line
 
 ToolReply { kind: "read"|"ask"|"say"|"end", say, loc, more, options?, correct?, tripId?, segmentId?, offer?, qIdx? }

@@ -12,6 +12,7 @@ import {
   type Progress,
   type TripSummary,
 } from "@/types/lesson";
+import { awardMilestones } from "./milestones";
 import { saveProgress } from "./store";
 
 export function startTrip(progress: Progress, plan: Plan, minutes: number, mode: Mode): Progress {
@@ -117,6 +118,15 @@ export function endTrip(course: Course, progress: Progress): TripSummary {
     streakDays: progress.streakDays,
     explored: [...new Set((progress.detours ?? []).filter((d) => d.at >= startedAt).map((d) => d.topic))],
   };
+  summary.milestones = awardMilestones({
+    course,
+    progress,
+    mode: summary.mode,
+    completedSegmentIds: summary.segmentIds,
+    checks: thisTrip,
+    detours: (progress.detours ?? []).filter((d) => d.at >= startedAt),
+    quizzes: (progress.quizResults ?? []).filter((q) => q.at >= startedAt),
+  });
   progress.trips.push(summary);
   delete progress.activeTrip;
   saveProgress(progress);

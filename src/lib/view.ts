@@ -4,6 +4,7 @@
 import { chapterOf, type Chapter, type Course, type Mode, type Progress, type TripSummary } from "@/types/lesson";
 import { blocks } from "./chunk";
 import { loadSegmentFull } from "./course";
+import { milestoneLabel } from "./milestones";
 
 export const LEARNER_NAME = "Thandi";
 const TZ = "Africa/Johannesburg";
@@ -204,6 +205,24 @@ export function tripRows(course: Course, progress: Progress): TripRow[] {
             ? `Chapter ${chapters[0]}, ${listLegs(finished.map((l) => l.n))}`
             : `${finished.length} legs across chapters ${chapters.join(" and ")}`;
       return { id: t.tripId, when: `${weekday} ${partOfDay(hour)}`, what: `${what}, ${modeVerb(t.mode)}`, minutes: tripMinutes(t) };
+    })
+    .reverse();
+}
+
+// ---------- milestones (earned at trip end, see src/lib/milestones.ts) ----------
+
+export interface MilestoneRow {
+  id: string;
+  label: string;
+  when: string; // "Wednesday morning", the trip that earned it
+}
+
+/** Newest first, like the trip list. */
+export function milestoneRows(progress: Progress): MilestoneRow[] {
+  return progress.trips
+    .flatMap((t) => {
+      const { weekday, hour } = zoned(t.endedAt);
+      return (t.milestones ?? []).map((id) => ({ id, label: milestoneLabel(id), when: `${weekday} ${partOfDay(hour)}` }));
     })
     .reverse();
 }

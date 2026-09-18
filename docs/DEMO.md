@@ -1,6 +1,6 @@
 # DEMO script (target: 3 min, each beat < 60 s)
 
-Before: `npm run demo:reset -- --seed` (position only: chapter 1 done, chapter 2 through 2.4; no trips, answers or streak), then `npm run dev`. The Progress screen and trip rows show logged trips only (docs/DESIGN.md §5), so after seeding do one real rehearsal trip and end it. Phone or narrow window, mic allowed in Chrome. Tabs open: `/` (Resume), `/learn/text`, `/learn/voice` on the picker. `/course` is one tap from Progress ("All chapters"). Rehearse once; the seed makes every run identical.
+Before: `npm run demo:reset -- --seed` (position only: chapter 1 done, chapter 2 through 2.4; no trips, answers or streak), then `npm run dev`. The Progress screen and trip rows show logged trips only (docs/DESIGN.md §5), so after seeding do one real rehearsal trip **in Read mode** and end it (that earns "First trip" and keeps "First hands-free trip" for Beat 2). Phone or narrow window, mic allowed in Chrome. Tabs open: `/` (Resume), `/learn/text`, `/learn/voice` on the picker. `/course` is one tap from Progress ("All chapters"). Rehearse once; the seed makes every run identical.
 
 ## Beat 0 — the line (12 s)
 "Half of South Africa's workers commute by public transport, and most start courses they never finish. This is a real textbook, OpenStax Principles of Management, eighteen chapters, cut into commute-sized parts. We turn the trip into the lesson."
@@ -23,8 +23,8 @@ Before: `npm run demo:reset -- --seed` (position only: chapter 1 done, chapter 2
 - Say **"I'm done, I've arrived."** (Or hold **End** for a second.)
 
 ## Beat 3 — the artefact (30 s)
-- Summary lands: legs done, checks right, day streak, the chapter route line, **You explored: decision-making in a taxi business**, quiz waiting, **Next leg picks up at 2.5 …**.
-- "You arrive with progress, not an episode. Curiosity counts as progress too."
+- Summary lands: legs done, checks right, day streak, **Milestone reached: First hands-free trip**, the chapter route line, **You explored: decision-making in a taxi business**, quiz waiting, **Next leg picks up at 2.5 …**.
+- "You arrive with progress, not an episode. Curiosity counts as progress too. And the milestones only come from what you actually did on the road."
 
 ## Beat 4 — how it's built (18 s)
 - "A whole textbook goes in: one free parse, then one Claude pass per section turns it into spoken parts with checkpoints, and the book's own review questions become the chapter quizzes. At runtime the server owns your position and feeds the models only the block you're on; the ElevenLabs agent just talks. Claude Haiku answers questions from the book with cached context, Sonnet grades. Next.js."
