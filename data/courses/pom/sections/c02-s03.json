@@ -1,66 +1,129 @@
 {
   "id": "pom/c2/s3",
   "title": "How the Brain Processes Information to Make Decisions - Reflective and Reactive Systems",
-  "sourceHash": "4e97a7b2e527",
-  "model": "claude-sonnet-5",
+  "sourceHash": "945342632341",
+  "model": "verbatim",
   "segments": [
     {
       "id": "pom/c2/s3/g1",
-      "title": "Reflective and Reactive Decision Systems",
-      "durationSec": 187,
+      "title": "Reactive decision-making",
+      "durationSec": 102,
       "sectionId": "pom/c2/s3",
-      "script": "Picture two taxi drivers on the same route. One has driven this exact taxi rank to town road for fifteen years. When a pothole suddenly appears, or a car cuts in from a side street, he swerves and brakes without even thinking about it. His hands and feet just know what to do. That is your brain's reactive system at work: quick, intuitive, driven by habit and emotion, and controlled by older, more primitive parts of the brain, the basal ganglia and amygdala. Now picture that same driver sitting down at the end of the month trying to decide whether to buy a new taxi engine or fix the old one. He pulls out his notebook, checks the fuel costs, asks his mechanic, compares prices, and thinks it through carefully. That is the reflective system: logical, analytical, slow, and deliberate, run mainly by the prefrontal cortex, the part of the brain behind your forehead. Here is the important part. Scientists tell us the brain can only use one of these systems at a time, not both together. And neither system is automatically better than the other, it depends on the situation. If a shopkeeper at a spaza shop sees someone reaching under the counter suspiciously, she does not sit down and weigh pros and cons, she reacts instantly, and that reaction could save her life. Experienced managers, like a taxi association chairperson who has settled route disputes for years, often make fast decisions that feel like gut instinct, but really that gut feeling is built from years of pattern recognition. On the other hand, big, unfamiliar decisions, like whether to expand a stokvel into a formal investment club, need the slow, careful reflective route, not a rushed one. The tricky part is emotion. Strong feelings, whether excitement or anger, pull us toward the fast reactive system even when the decision deserves careful thought. Think about buying something on impulse at Shoprite because it was on special, then regretting it when you check your bank balance. That is emotion hijacking your decision-making. Good managers do not ignore emotions though, because emotions carry useful signals, especially about right and wrong. The skill of noticing, understanding, and managing your own emotions and other people's emotions is called emotional intelligence. A manager with strong emotional intelligence at a Joburg clinic, for example, can sense when a team is stressed after a difficult shift and knows to pause before making a big staffing decision, rather than reacting in frustration. Emotional intelligence blends self-awareness, self-control, empathy for others, and social skill in managing relationships. It is not something you either have or do not have, it is a muscle you build with practice, and it helps you know when to trust your gut and when to slow down and think things through properly.",
+      "script": "The human brain processes information for decision-making using one of two routes: a reflective system and a reactive (or reflexive) system. The reflective system is logical, analytical, deliberate, and methodical, while the reactive system is quick, impulsive, and intuitive, relying on emotions or habits to provide cues for what to do next. Research in neuropsychology suggests that the brain can only use one system at a time for processing information [Darlow & Sloman] and that the two systems are directed by different parts of the brain. The prefrontal cortex is more involved in the reflective system, and the basal ganglia and amygdala (more primitive parts of the brain, from an evolutionary perspective) are more involved in the reactive system. We tend to assume that the logical, analytical route leads to superior decisions, but whether this is accurate depends on the situation. The quick, intuitive route can be lifesaving; when we suddenly feel intense fear, a fight-or-flight response kicks in that leads to immediate action without methodically weighing all possible options and their consequences. Additionally, experienced managers can often make decisions very quickly because experience or expertise has taught them what to do in a given situation. These managers might not be able to explain the logic behind their decision, and will instead say they just went with their \"gut,\" or did what \"felt\" right. Because the manager has faced a similar situation in the past and has figured out how to deal with it, the brain shifts immediately to the quick, intuitive decision-making system.",
       "keyPoints": [
-        "The brain uses two decision systems, reflective and reactive, and only one operates at a time",
-        "The reactive system is fast and intuitive, useful for danger or for experienced experts, but risky for big novel decisions",
-        "The reflective system is slow, logical and better for important or unfamiliar decisions",
-        "Emotional intelligence means managing your own and others' emotions so you know when to react and when to reflect"
+        "The brain uses one of two routes for decisions: a reflective system and a reactive, or reflexive, system",
+        "The reflective system is logical, analytical, deliberate and methodical; the reactive system is quick, impulsive and intuitive",
+        "The prefrontal cortex drives the reflective system, while the basal ganglia and amygdala drive the reactive system",
+        "The quick, reactive route can be lifesaving in fear responses, and lets experienced managers act fast on developed expertise"
       ],
-      "altExplanation": "Think of your brain like a taxi that has two gears, a fast gear and a slow gear. The fast gear, the reactive system, lets you swerve around a pothole without thinking, using instinct built from experience. The slow gear, the reflective system, is for navigating unfamiliar roads with a map, checking each turn carefully. You cannot drive in both gears at once. A skilled driver knows which gear the road demands. Similarly, a skilled manager knows when a decision needs instant reaction, like handling a sudden complaint from an angry customer, and when it needs the slow gear, like deciding whether to close a branch. Choosing the wrong gear, rushing a big decision or overthinking an emergency, causes problems.",
-      "deeper": "Neuropsychology research, including work by Darlow and Sloman, shows these two systems are not just metaphors but are tied to distinct brain regions, with the prefrontal cortex handling reflective processing and the basal ganglia and amygdala handling reactive processing. This matters for managers because it explains why stress and time pressure change decision quality. Under intense pressure, the brain naturally shifts toward the reactive system, even for decisions that deserve careful analysis, which is why organizations build in cooling off periods before major decisions, such as retrenchments or large purchases. It also explains why expertise matters so much in fast paced roles. What looks like lucky instinct in an experienced manager is often compressed reflective thinking from past situations, now running on autopilot. The danger is when reactive shortcuts are applied to genuinely novel problems, since patterns from the past may not fit. This is why emotional intelligence sits alongside the two systems in the chapter, because managing emotional arousal is often the deciding factor in which system takes control of a given decision.",
-      "example": "A branch manager at a bank in Durban gets a furious call from a client whose card was blocked. Her first impulse is to snap back defensively, a reactive response fuelled by irritation. Recognising this, she takes a breath, waits a moment, and reflectively considers the client's history and the bank's policy before responding calmly with a solution. By managing her emotional reaction and switching to the reflective system, she resolves the complaint professionally instead of escalating it.",
+      "altExplanation": "The brain has two separate ways to decide, and it only runs one at a time. One is slow and careful, the other fast and gut-driven. Neither is automatically the better route: a fast, experience-based call can beat a slow one, especially when the situation is familiar.",
+      "deeper": "The reflective and reactive systems map onto different brain regions: the prefrontal cortex for reflective, deliberate thought, and the more evolutionarily primitive basal ganglia and amygdala for reactive, emotion- or habit-driven responses. This is why an experienced manager's fast 'gut' call is not guesswork: it is the reactive system applying a pattern the brain has already learned from a similar past situation.",
       "checkpoint": [
         {
           "id": "pom/c2/s3/g1/q1",
           "prompt": "Explain the two systems used by the brain in decision-making.",
           "type": "open",
           "answer": "The brain processes information to make decisions using one of two systems: either the logical, rational (reflective) system or the quick, reactive system. The reflective system is better for significant and important decisions; these generally should not be rushed. However, the reactive system can be lifesaving when time is of the essence, and it can be much more efficient when based on developed experience and expertise.",
-          "rubric": "Answer must name both systems (reflective and reactive), describe reflective as logical/analytical/methodical and better for important decisions, and describe reactive as quick/intuitive and useful in urgent situations or when based on experience/expertise.",
+          "rubric": "Must name both systems (reflective: logical, analytical, better for significant decisions; reactive: quick, intuitive, useful when speed matters or when based on experience) and give at least one reason each is used.",
           "topic": "reflective-reactive-systems",
           "source": "book"
         },
         {
           "id": "pom/c2/s3/g1/q2",
-          "prompt": "What is emotional intelligence, and why is it important for decision-making?",
-          "type": "open",
-          "answer": "Emotional intelligence is the ability to recognize, understand, pay attention to, and manage one's own emotions and the emotions of others. It involves self-awareness, self-regulation, empathy, and social skills. It is important because effective decision-making relies on both logic and emotions, and managers who understand their own and others' emotions can use that awareness to guide better individual and group decision-making.",
-          "rubric": "Answer must define emotional intelligence as recognizing and managing one's own and others' emotions, mention at least two of self-awareness, self-regulation, empathy, or social skills, and explain its importance as helping managers make better decisions or manage group decision-making.",
-          "topic": "emotional-intelligence",
-          "source": "book"
-        },
-        {
-          "id": "pom/c2/s3/g1/q3",
-          "prompt": "Which part of the brain is more involved in the reactive decision-making system?",
+          "prompt": "Why can experienced managers often make fast decisions without being able to explain their logic?",
           "type": "mcq",
           "options": [
-            "Hippocampus",
-            "Cerebellum",
-            "Prefrontal cortex",
-            "Basal ganglia and amygdala"
+            "Experience lets the brain shift to quick, intuitive processing",
+            "They consult multiple stakeholders before deciding",
+            "They rely on emotional intelligence to read stakeholders",
+            "They follow a fixed, step-by-step decision procedure"
           ],
-          "answer": "Basal ganglia and amygdala",
-          "rubric": "Correct answer is basal ganglia and amygdala, matching the text's description of the reactive system's brain regions.",
-          "topic": "reflective-reactive-systems",
+          "answer": "Experience lets the brain shift to quick, intuitive processing",
+          "rubric": "Must select the option about experience or expertise letting the brain shift straight to the quick, intuitive (reactive) system.",
+          "topic": "reactive-decision-making",
+          "source": "generated"
+        }
+      ]
+    },
+    {
+      "id": "pom/c2/s3/g2",
+      "title": "Reflective decision-making",
+      "durationSec": 63,
+      "sectionId": "pom/c2/s3",
+      "script": "The quick route is not always the best decision-making path to take, however. When faced with novel and complex situations, it is better to process available information logically, analytically, and methodically. As a manager, you need to think about whether a situation requires not a fast, \"gut\" reaction, but some serious thought prior to making a decision. It is especially important to pay attention to your emotions, because strong emotions can make it difficult to process information rationally. Successful managers recognize the effects of emotions and know to wait and address a volatile situation after their emotions have calmed down. Intense emotions, whether positive or negative, tend to pull us toward the quick, reactive route of decision making. Have you ever made a large \"impulse\" purchase that you were excited about, only to regret it later? This speaks to the power our emotions exert on our decision-making. Big decisions should generally not be made impulsively, but reflectively.",
+      "keyPoints": [
+        "Novel and complex situations call for logical, analytical, methodical processing rather than a fast gut reaction",
+        "Strong emotions, positive or negative, make it harder to process information rationally",
+        "Successful managers wait and address a volatile situation only after their emotions have calmed down",
+        "Intense emotions pull us toward the quick, reactive route, so big decisions should be made reflectively, not impulsively"
+      ],
+      "altExplanation": "Some decisions deserve the slow route: work through the situation logically instead of trusting the first gut feeling. That matters most when emotions are running high, because strong feelings, good or bad, pull us toward acting fast rather than thinking it through.",
+      "deeper": "The passage's impulse-purchase example shows how the reactive route can misfire even outside high-stakes management decisions: strong emotion, not the size of the decision, is what pulls us toward acting quickly. The practical rule that follows is to notice the emotional intensity of a situation and deliberately delay big or novel decisions until that intensity has passed.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s3/g2/q1",
+          "prompt": "Why does the book say big decisions should be made reflectively rather than impulsively?",
+          "type": "open",
+          "answer": "Because intense emotions, whether positive or negative, tend to pull us toward the quick, reactive route, and acting on that impulse can lead to choices we later regret, like an impulse purchase. Novel and complex situations instead call for processing information logically, analytically, and methodically.",
+          "rubric": "Must say strong emotion pulls decision-making toward the fast, reactive route with a risk of regret, and that novel or complex situations need logical, methodical (reflective) processing instead.",
+          "topic": "reflective-decision-making",
           "source": "generated"
         },
         {
-          "id": "pom/c2/s3/g1/q4",
-          "prompt": "Why might a manager choose to delay a decision until after strong emotions have settled?",
-          "type": "open",
-          "answer": "Because intense emotions, positive or negative, pull decision-makers toward the fast reactive system, which can lead to impulsive choices; waiting allows the reflective system to take over for a more logical, well-considered decision.",
-          "rubric": "Answer must state that strong emotions push people toward reactive/impulsive decisions and that waiting allows more logical or reflective processing before deciding.",
-          "topic": "emotions-decision-making",
+          "id": "pom/c2/s3/g2/q2",
+          "prompt": "According to the passage, when is the quick, gut reaction not the best path to take?",
+          "type": "mcq",
+          "options": [
+            "When the decision affects only individual outcomes",
+            "When situations are novel and complex",
+            "When a manager has already faced a similar situation",
+            "When stakeholders have no stake in the outcome"
+          ],
+          "answer": "When situations are novel and complex",
+          "rubric": "Must select the option naming novel and complex situations as calling for reflective rather than quick, gut decision-making.",
+          "topic": "reflective-decision-making",
           "source": "generated"
+        }
+      ]
+    },
+    {
+      "id": "pom/c2/s3/g3",
+      "title": "Emotions and emotional intelligence",
+      "durationSec": 108,
+      "sectionId": "pom/c2/s3",
+      "script": "Being aware of the role emotions play in decision-making does not mean that we should ignore them. Emotions can serve as powerful signals about what we should do, especially in situations with ethical implications. You can read more about this particular type of decision-making in the Ethics in Practice box later in this chapter. Thinking through how we feel about the possible options, and why we feel that way, can greatly enhance our decision-making. Effective decision-making, then, relies on both logic and emotions. For this reason, the concept of emotional intelligence has become popular as a characteristic of effective managers. Emotional intelligence is the ability to recognize, understand, pay attention to, and manage one's own emotions and the emotions of others. It involves self-awareness and self-regulation, essentially, this is a toggling back and forth between emotions and logic so that we analyze and understand our own emotions and then exert the necessary control to manage them as appropriate for the situation. Emotional intelligence also involves empathy, the ability to understand other peoples' emotions (and an interest in doing so). Finally, emotional intelligence involves social skills to manage the emotional aspects of relationships with others. Managers who are aware of their own emotions can think through what their emotions mean in a given situation and use that information to guide their decision-making. Managers who are aware of the emotions of others can also utilize that information to help groups function more effectively and engage in better group decision-making. While emotional intelligence seems to come easily to some people, it is something that we can develop and improve on with practice.",
+      "keyPoints": [
+        "Being aware of emotions in decision-making does not mean ignoring them; emotions can be powerful signals, especially in ethical situations",
+        "Effective decision-making relies on both logic and emotion, which is why emotional intelligence matters for managers",
+        "Emotional intelligence is recognizing, understanding, attending to and managing one's own emotions and other people's emotions",
+        "It involves self-awareness, self-regulation, empathy and social skills, and can be developed and improved with practice"
+      ],
+      "altExplanation": "Emotions are not the enemy of good decisions; they are information. The skill is noticing what you and others feel, understanding why, and then using logic to decide what to do about it. That back-and-forth between feeling and reasoning is what the book calls emotional intelligence.",
+      "deeper": "The passage lists four components of emotional intelligence: self-awareness, self-regulation, empathy, and social skills, framed as a toggling between emotion and logic rather than a replacement of one by the other. Because it can be developed with practice, it is treated as a learnable managerial skill rather than a fixed trait, which is why it comes up repeatedly as a way managers can offset bias and improve group decision-making.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s3/g3/q1",
+          "prompt": "What does emotional intelligence involve, according to the passage?",
+          "type": "mcq",
+          "options": [
+            "Following a fixed, programmed decision procedure",
+            "Weighing outcomes across every stakeholder group",
+            "Recognizing and managing one's own and others' emotions",
+            "Reacting quickly based on gut instinct alone"
+          ],
+          "answer": "Recognizing and managing one's own and others' emotions",
+          "rubric": "Must select the option about recognizing, understanding and managing one's own and other people's emotions.",
+          "topic": "emotional-intelligence",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c2/s3/g3/q2",
+          "prompt": "What is emotional intelligence, and why is it important for decision-making?",
+          "type": "open",
+          "answer": "Emotional intelligence is the ability to recognize, understand, pay attention to, and manage one's own emotions and the emotions of others, involving self-awareness, self-regulation, empathy, and social skills. It matters for decision-making because effective decisions rely on both logic and emotion, so understanding how and why we feel can improve decisions we make alone or in groups.",
+          "rubric": "Must define emotional intelligence as recognizing, understanding or managing one's own and others' emotions (naming at least one of self-awareness, self-regulation, empathy or social skills), and connect it to decision-making relying on both logic and emotion.",
+          "topic": "emotional-intelligence",
+          "source": "book"
         }
       ]
     }

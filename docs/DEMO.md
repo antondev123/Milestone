@@ -17,7 +17,7 @@ Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`
 "Half of South Africa's workers commute by public transport, and most start courses they never finish. This is a real textbook, OpenStax Principles of Management, eighteen chapters, cut into commute-sized parts. We turn the trip into the lesson."
 
 ## Beat 1, land and go (10 s)
-- `/` shows *Chapter 2: Managerial Decision-Making, 4 of 17 legs done* and the resume card. "Chapter one done, four legs into chapter two. I'm driving, so: Listen."
+- `/` shows *Chapter 2: Managerial Decision-Making, 11 of 31 legs done* and the resume card. "Chapter one done, a third of chapter two. I'm driving, so: Listen."
 - Tap **Listen**. The Dial: Topic, Section and the ring, no words. Tap the **dial**, the only tap.
 - Tutor: "Back in chapter two, Managerial Decision-Making. Section two point five, part one of seven. Here we go." Then it starts reading on its own.
 
@@ -38,12 +38,12 @@ Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`
 - "Quick check. What is escalation of commitment, and why is it hard to avoid?" Answer: **"Sticking with a bad decision even as it keeps getting worse, because admitting you were wrong feels harder than staying the course."**
 
 ## Beat 5, arrival (30 s)
-- Part 2 was the last planned leg, so the trip ends itself. Tutor: "Trip done. Two parts, three of three right. Chapter is thirty-five percent finished. Milestone: day one of your streak. You explored escalation of commitment and sunk costs. Next leg picks up at two point five, Barriers to Effective Decision-Making."
+- Part 2 was the last planned leg, so the trip ends itself. Tutor: "Trip done. Two parts, three of three right. Chapter is forty-two percent finished. Milestone: day one of your streak. You explored escalation of commitment and sunk costs. Next leg picks up at two point five, Barriers to Effective Decision-Making."
 - The summary lands: the gold **milestone card** on top (Day one of your streak, First trip, First hands-free trip, First question from the road, and Clean run if all three checks were right first time), then legs done, checks right, day streak, the chapter route line, "You explored", and *Next leg picks up at 2.5 …, Time constraints and uncertainty*.
 - "You arrive with progress, not an episode. Curiosity counts as progress. And every one of those milestones came from what just happened on the road."
 
 ## Beat 6, how it's built (18 s)
-- "A whole textbook goes in. Chapter one and this section are the book's own text, cut on its headings; the rest is one Claude pass per section into spoken parts with checkpoints. At runtime the server owns your position and feeds the models only the block you're on; the ElevenLabs agent just talks. Claude Haiku answers questions from the book with cached context, Sonnet grades. Next.js."
+- "A whole textbook goes in. Chapters one and two are the book's own text, cut on its headings; the rest is one Claude pass per section into spoken parts with checkpoints. At runtime the server owns your position and feeds the models only the block you're on; the ElevenLabs agent just talks. Claude Haiku answers questions from the book with cached context, Sonnet grades. Next.js."
 
 ## Extras if the room wants more
 - **"go to chapter one"** → the Topic line and ring change. **"take me to the chapter one quiz"** → the book's own review questions, graded and spoken back. **"I'm done."** ends the trip from anywhere.

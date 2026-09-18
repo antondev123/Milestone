@@ -1,31 +1,30 @@
 {
   "id": "pom/c2/s2",
   "title": "Overview of Managerial Decision-Making",
-  "sourceHash": "a36a52a836da",
-  "model": "claude-sonnet-5",
+  "sourceHash": "843ac88d9c77",
+  "model": "verbatim",
   "segments": [
     {
       "id": "pom/c2/s2/g1",
-      "title": "Why Decisions Matter to Everyone",
-      "durationSec": 155,
+      "title": "Stakeholders and the cost of poor decisions",
+      "durationSec": 102,
       "sectionId": "pom/c2/s2",
-      "script": "Think about the last time you had to make a call that affected other people, maybe deciding which route your taxi should take when the highway is jammed, or whether to restock your spaza shop before month end when money is tight. That is decision-making in a nutshell, thinking through the possible options and picking one. Managers do this all day, every day, and their choices ripple out to what we call stakeholders, which simply means everyone touched by the organization, the owners, the workers, the customers buying bread at Shoprite, the suppliers, even the community living near the factory. A big decision by a company's top team, like whether Eskom should invest in a new power station, can shape the future of thousands of people. But even a small decision by a supervisor, like a shift boss at a mine deciding how many workers to schedule for the week, matters a lot to the people directly involved. Get it wrong and you might have too few hands and missed targets, or too many hands and wasted wages. Order too much stock and it expires or ties up cash you needed elsewhere, order too little and customers walk away disappointed. And when decisions affect how people are managed, poor choices bring frustration, low morale, and workers leaving, which costs the business dearly in retraining and lost knowledge. Now here is the tricky part, deciding when you have enough information to actually decide. A good manager, much like a taxi driver judging whether to wait for one more passenger or leave now, has to weigh patience against urgency. Wait too long gathering information and you miss the opportunity, the passenger finds another taxi. Move too fast without checking the road ahead and you might drive into trouble that could have been avoided. Effective decision makers know they will not always get it right, and that is fine, what matters is noticing quickly when something is not working and correcting course, rather than stubbornly continuing just to protect your pride. This willingness to admit and fix mistakes quickly is often what separates a strong manager from a weak one, because in real life, unlike a school test, there usually is no single correct answer waiting to be discovered, only better and worse paths forward given the information you have.",
+      "script": "Decision-making is the action or process of thinking through possible options and selecting one. It is important to recognize that managers are continually making decisions, and that the quality of their decision-making has an impact, sometimes quite significant, on the effectiveness of the organization and its stakeholders. Stakeholders are all the individuals or groups that are affected by an organization (such as customers, employees, shareholders, etc.). Members of the top management team regularly make decisions that affect the future of the organization and all its stakeholders, such as deciding whether to pursue a new technology or product line. A good decision can enable the organization to thrive and survive long-term, while a poor decision can lead a business into bankruptcy. Managers at lower levels of the organization generally have a smaller impact on the organization's survival, but can still have a tremendous impact on their department and its workers. Consider, for example, a first-line supervisor who is charged with scheduling workers and ordering raw materials for her department. Poor decision-making by lower-level managers is unlikely to drive the entire firm out of existence, but it can lead to many adverse outcomes such as: reduced productivity if there are too few workers or insufficient supplies, increased expenses if there are too many workers or too many supplies, particularly if the supplies have a limited shelf life or are costly to store, and frustration among employees, reduced morale, and increased turnover (which can be costly for the organization) if the decisions involve managing and training workers.",
       "keyPoints": [
-        "Decision-making means thinking through options and choosing one, and managers do it constantly",
-        "Stakeholders are everyone affected by a decision, not just owners",
-        "Good decisions help the organisation and its people thrive, poor ones cause real harm like wasted stock or high staff turnover",
-        "Effective managers judge when enough information has been gathered and are willing to correct course quickly"
+        "Decision-making is the process of thinking through options and selecting one",
+        "Stakeholders are all the individuals or groups affected by an organization, such as customers, employees and shareholders",
+        "Top managers' decisions can make an organization thrive or drive it into bankruptcy; lower-level managers have a smaller but still real impact",
+        "Poor decisions by a first-line manager can lead to reduced productivity, increased expenses, or frustration and turnover among employees"
       ],
-      "altExplanation": "Picture a stokvel treasurer deciding how to invest the group's monthly contributions. She cannot wait forever to gather every possible fact about which investment is safest, because the money needs to grow, but she also cannot rush into a scheme without checking it out, because everyone in the group is relying on her judgement. Every choice she makes affects the other members, not just herself. That is exactly the position managers are in, constantly balancing patience against urgency, knowing that other people's wellbeing depends on getting the timing and the judgement right, and being ready to switch plans if new information shows the first choice was wrong.",
-      "deeper": "The tension between waiting for more information and acting decisively links closely to a concept called bounded rationality, which says decision makers can never have complete information or unlimited mental capacity to process everything perfectly. Because of this, managers are always operating with imperfect knowledge, which is precisely why judging when to stop gathering information and start deciding becomes such a critical skill. Related to this is the psychological difficulty of reversing course once a decision has been made, sometimes called escalation of commitment, where people keep pouring resources into a failing plan simply because they already invested in it and do not want to admit it was wrong. Effective managers guard against this by building in regular checkpoints where they honestly reassess whether the original decision still makes sense given what they now know, treating a change of plan as a sign of good judgement rather than a personal failure. This mindset also connects to why organisations value managers who can tolerate ambiguity and uncertainty, since perfect information is rarely available and delaying a decision indefinitely can be just as costly as acting too hastily.",
-      "example": "A spaza shop owner in Soweto notices bread sales dropping. She could wait weeks studying customer patterns before changing anything, but her shelves would keep losing money in the meantime. Instead she quickly tries stocking a cheaper brand for two weeks, watches the results, and when sales barely improve she switches back to the original supplier and adjusts her prices slightly. She did not wait for perfect certainty, and she was willing to admit the first fix did not work, correcting course before losing more customers or cash flow.",
+      "altExplanation": "Decisions are not only a top-management concern. A CEO's choice can decide whether the whole company survives, while a supervisor's choice about staffing or supplies decides whether her own department runs smoothly. Both kinds of decisions have real stakeholders who feel the results.",
+      "deeper": "The chapter returns to this stakeholder idea when it discusses ethics: because decisions affect customers, employees, shareholders and others, managers cannot treat a choice as purely their own. The later sections on decision-making barriers, such as bounded rationality and time pressure, explain why even well-intentioned managers still produce some of these adverse outcomes.",
       "checkpoint": [
         {
           "id": "pom/c2/s2/g1/q1",
           "prompt": "What are some positive outcomes of decision-making for an organization? What are some possible negative outcomes?",
           "type": "open",
-          "answer": "Managers are constantly making decisions, and those decisions often have significant impacts and implications for both the organization and its stakeholders. Managerial decision-making is often characterized by complexity, incomplete information, and time constraints, and there is rarely one right answer. Sometimes there are multiple good options (or multiple bad options), and the manager must try to decide which will generate the most positive outcomes (or the fewest negative outcomes). Managers must weigh the possible consequences of each decision and recognize that there are often multiple stakeholders with conflicting needs and preferences so that it often will be impossible to satisfy everyone. Finally, managerial decision-making can sometimes have ethical implications, and these should be contemplated before reaching a final decision.",
-          "rubric": "Answer must mention that decisions have significant impact on organisation and stakeholders, that decisions involve complexity/incomplete information/time pressure, that there is rarely a single right answer, and that ethical implications may be involved.",
+          "answer": "A good decision can help an organization thrive and survive long-term, while a poor decision can drive it into bankruptcy. At lower levels, a poor decision is less likely to threaten the whole firm but can still cause reduced productivity, increased expenses, or frustration, low morale and turnover among employees.",
+          "rubric": "Must give at least one positive outcome (organization thrives or survives) and at least one negative outcome (bankruptcy, reduced productivity, increased expenses, or employee frustration/turnover), not just a vague 'good or bad things happen'.",
           "topic": "decision-outcomes",
           "source": "book"
         },
@@ -33,75 +32,173 @@
           "id": "pom/c2/s2/g1/q2",
           "prompt": "In addition to the owners of a business, who are some of the other stakeholders that managers should consider when making decisions?",
           "type": "open",
-          "answer": "Other stakeholders include employees, customers, suppliers, and members of the community in which the organization is located.",
-          "rubric": "Must name at least three of: employees, customers, suppliers, community members, shareholders, in addition to owners.",
+          "answer": "Stakeholders also include customers, employees, and shareholders, along with any other individuals or groups affected by the organization's decisions.",
+          "rubric": "Must name at least two groups besides owners, drawn from customers, employees, or shareholders (or 'other groups affected by the organization').",
           "topic": "stakeholders",
           "source": "book"
-        },
-        {
-          "id": "pom/c2/s2/g1/q3",
-          "prompt": "A first-line supervisor orders too much perishable stock for her department. Which negative outcome is most directly linked to this decision?",
-          "type": "mcq",
-          "options": [
-            "Loss of shareholder confidence",
-            "Missed opportunity for a new product line",
-            "Government fines for pollution",
-            "Increased expenses from wasted supplies"
-          ],
-          "answer": "Increased expenses from wasted supplies",
-          "rubric": "Correct option is increased expenses from wasted supplies, matching the text's example of costly, perishable over-ordering.",
-          "topic": "decision-outcomes",
-          "source": "generated"
         }
       ]
     },
     {
       "id": "pom/c2/s2/g2",
-      "title": "No Multiple Choice, Only Judgement",
-      "durationSec": 174,
+      "title": "Deciding when to decide",
+      "durationSec": 96,
       "sectionId": "pom/c2/s2",
-      "script": "If you ever sat a school exam, you know the comfort of multiple choice, one option is correct and the rest are wrong, and you just need to find it. Managerial decision-making almost never works that way, and understanding this difference is one of the most important things you can learn about how organisations actually operate. Imagine a taxi association deciding on new routes into town. There might be two or three genuinely good options, one that saves time but costs more in fuel, another that is cheaper but slower, and it is not obvious which is best, because it depends on which outcome you value more. Other times, a manager is stuck choosing between bad options, like a clinic manager in Joburg who has too few nurses and must decide which department gets short-staffed today, knowing that any choice will cause some harm somewhere. In situations like these, the manager's job is not to find the hidden correct answer, because there is not one, but to weigh the consequences carefully and choose the option that does the most good or the least damage, given everyone involved. This becomes even harder because different stakeholders often want different things. Workers might want higher wages, customers want lower prices, and owners want bigger profits, and a single decision usually cannot fully satisfy all three at once. Someone is often left a bit disappointed no matter what a manager chooses, and part of being an effective manager is accepting that reality without becoming paralysed by it. Sometimes these decisions carry an ethical weight too, touching on right and wrong rather than just business efficiency. A tempting shortcut is to justify a harmful decision by saying it maximises profit for the owners, but this reasoning is often short-sighted, because customers who feel mistreated may boycott a business, communities harmed by pollution may protest, and government regulators may step in with fines, all of which damage the business in the long run anyway. The story of New Belgium Brewing shows the flip side of this coin, a company that chose to pursue environmental responsibility alongside profit, even paying more for wind-generated electricity instead of cheaper coal power, because its founders cared about doing right by the planet as much as brewing good beer. Far from ruining the business, this commitment to sustainability, recycling water, generating biogas from waste, and involving employees in decisions, has been linked to strong financial performance and a highly motivated workforce. It shows that thinking beyond simple profit maximisation, and genuinely weighing the interests of all stakeholders, can actually be good business as well as good ethics.",
+      "script": "While some decisions are simple, a manager's decisions are often complex ones that involve a range of options and uncertain outcomes. When deciding among various options and uncertain outcomes, managers need to gather information, which leads them to another necessary decision: how much information is needed to make a good decision? Managers frequently make decisions without complete information; indeed, one of the hallmarks of an effective leader is the ability to determine when to hold off on a decision and gather more information, and when to make a decision with the information at hand. Waiting too long to make a decision can be as harmful for the organization as reaching a decision too quickly. Failing to react quickly enough can lead to missed opportunities, yet acting too quickly can lead to organizational resources being poorly allocated to projects with no chance of success. Effective managers must decide when they have gathered enough information and must be prepared to change course if additional information becomes available that makes it clear that the original decision was a poor one. For individuals with fragile egos, changing course can be challenging because admitting to a mistake can be harder than forging ahead with a bad plan. Effective managers recognize that given the complexity of many tasks, some failures are inevitable. They also realize that it's better to minimize a bad decision's impact on the organization and its stakeholders by recognizing it quickly and correcting it.",
       "keyPoints": [
-        "Unlike a multiple-choice test, management decisions rarely have one clearly correct answer",
-        "Managers often choose between multiple good options or minimise harm among multiple bad options",
-        "Different stakeholders want different things, so satisfying everyone is often impossible",
-        "Considering ethics and long-term stakeholder wellbeing, not just short-term profit, can also strengthen the business"
+        "Managers rarely have complete information, so an effective leader must decide when to gather more and when to act",
+        "Waiting too long can mean missed opportunities; acting too quickly can waste resources on projects with no chance of success",
+        "Effective managers stay ready to change course if new information shows the original decision was poor",
+        "Admitting a mistake can feel harder than continuing with a bad plan, especially for people with fragile egos"
       ],
-      "altExplanation": "Think of a family stokvel deciding how to spend a windfall payout. There is no answer key telling them the one right choice. Buying food for a celebration pleases some members, saving it for emergencies pleases others, and investing it pleases a third group. No matter what the committee decides, someone will feel their preference was ignored. That is exactly what a manager faces multiplied many times over, weighing genuinely different, valid interests and accepting that a perfect, universally pleasing answer usually does not exist, only a reasoned judgement call.",
-      "deeper": "This idea connects to the broader theme of bounded rationality, since managers rarely have perfect information about every stakeholder's true preferences or every possible consequence of a decision, which is part of why there is no single correct answer waiting to be found. It also touches on satisficing, the tendency to choose the first acceptable option rather than exhaustively searching for the theoretically perfect one, because searching endlessly for a perfect answer that pleases every stakeholder would paralyse the organisation. The ethics angle matters too, because framing profit maximisation as the only goal can blind a manager to long-term risks like reputational damage, regulatory penalties, or losing customer trust, all of which eventually hurt profitability anyway. Companies like New Belgium Brewing demonstrate that treating employees, communities, and the environment as legitimate stakeholders, not obstacles to profit, can be woven into everyday decisions, from sourcing energy to handling waste, without sacrificing financial success, and in fact research suggests sustainability-focused firms often perform better financially over time than those that ignore these wider interests.",
-      "example": "A supermarket manager at a Shoprite branch must decide whether to keep the store open late during load-shedding using a costly diesel generator, or close early and disappoint customers doing evening shopping. There is no textbook right answer, staying open pleases customers but eats into profit and burns extra fuel, closing early saves money but frustrates shoppers who rely on the store after work. The manager weighs which group's frustration will cost the business less in the long run and makes a judgement call, knowing either choice will leave someone unhappy.",
+      "altExplanation": "There are two ways to get the timing of a decision wrong: deciding too soon, before you understand the situation, or deciding too late, after the chance to act has passed. The skill the book describes is judging when you have enough information to move.",
+      "deeper": "This links to the barriers to decision-making discussed later in the chapter: because managers face real time constraints and incomplete information, waiting for certainty is not an option, and heuristics or shortcuts often fill the gap. The willingness to change course described here is also the opposite of escalation of commitment, where a manager keeps following a decision simply because it has already been made.",
       "checkpoint": [
         {
           "id": "pom/c2/s2/g2/q1",
+          "prompt": "Why does the passage say that waiting too long to decide can be just as harmful as deciding too quickly?",
+          "type": "open",
+          "answer": "Waiting too long can cause the organization to miss opportunities, while deciding too quickly can lead to resources being poorly allocated to projects that have no real chance of success. Both timing mistakes carry real costs for the organization.",
+          "rubric": "Must mention both risks: missed opportunities from waiting too long, and resources wasted on doomed projects from deciding too quickly. Naming only one side is partial.",
+          "topic": "timing-of-decisions",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c2/s2/g2/q2",
+          "prompt": "According to the passage, what makes it hard for some managers to change course after a decision turns out to be poor?",
+          "type": "mcq",
+          "options": [
+            "They cannot picture every possible alternative",
+            "Admitting a mistake feels harder than continuing",
+            "They rely on a shortcut instead of new evidence",
+            "They want to avoid conflict with their team"
+          ],
+          "answer": "Admitting a mistake feels harder than continuing",
+          "rubric": "Must select the option about admitting a mistake being harder than forging ahead with a bad plan, especially for people with fragile egos.",
+          "topic": "changing-course",
+          "source": "generated"
+        }
+      ]
+    },
+    {
+      "id": "pom/c2/s2/g3",
+      "title": "Not a multiple-choice test",
+      "durationSec": 151,
+      "sectionId": "pom/c2/s2",
+      "script": "It's also worth noting that making decisions as a manager is not at all like taking a multiple-choice test: with a multiple-choice test there is always one right answer. This is rarely the case with management decisions. Sometimes a manager is choosing between multiple good options, and it's not clear which will be the best. Other times there are multiple bad options, and the task is to minimize harm. Often there are individuals in the organization with competing interests, and the manager must make decisions knowing that someone will be upset no matter what decision is reached. Sometimes managers are asked to make decisions that go beyond just upsetting someone, they may be asked to make decisions in which harm could be caused to others. These decisions have ethical or moral implications. Ethics and morals refer to our beliefs about what is right vs. wrong, good vs. evil, virtuous vs. corrupt. Implicitly, ethics and morals relate to our interactions with and impact on others, if we never had to interact with another creature, we would not have to think about how our behaviors affected other individuals or groups. All managers, however, make decisions that impact others. It is therefore important to be mindful about whether our decisions have a positive or a negative impact. \"Maximizing shareholder wealth\" is often used as a rationalization for placing the importance of short-term profits over the needs of others who will be affected by a decision, such as employees, customers, or local citizens (who might be affected, for example, by environmental decisions). Maximizing shareholder wealth is often a short-sighted decision, however, because it can harm the organization's financial viability in the future. Bad publicity, customers boycotting the organization, and government fines are all possible long-term outcomes when managers make choices that cause harm in order to maximize shareholder wealth. More importantly, increasing the wealth of shareholders is not an acceptable reason for causing harm to others. As you can see from these brief examples, management is not for the faint of heart! It can, however, be incredibly rewarding to be in a position to make decisions that have a positive impact on an organization and its stakeholders. We see a great example of this in the Sustainability and Responsible Management box.",
+      "keyPoints": [
+        "Unlike a multiple-choice test, management decisions rarely have one clearly right answer",
+        "Managers often choose between multiple good options, multiple bad options, or competing stakeholder interests",
+        "Some decisions carry ethical or moral implications about right versus wrong and good versus harmful",
+        "'Maximizing shareholder wealth' can be a short-sighted rationalization if it causes bad publicity, boycotts, or fines"
+      ],
+      "altExplanation": "A test question has a key you can check your answer against; a management decision does not. Sometimes every option available is flawed, or helping one stakeholder means disappointing another, so the manager's job is to weigh outcomes rather than find the single correct one.",
+      "deeper": "The ethical point here connects back to the stakeholder idea from the start of the section: because decisions affect customers, employees and communities, treating short-term shareholder gain as the only goal ignores the same stakeholders the chapter opened with. This is also the first place the chapter shows a decision that cannot be judged by outcome alone, since a harmful choice can still happen to work out financially in the short run.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s2/g3/q1",
           "prompt": "How is managerial decision-making different from a multiple-choice test?",
           "type": "open",
-          "answer": "With a multiple-choice test there is always one right answer, but this is rarely the case with management decisions. Sometimes a manager is choosing between multiple good options and it is not clear which will be best, other times there are multiple bad options and the task is to minimize harm, and often stakeholders have competing interests so someone will be upset no matter the decision.",
-          "rubric": "Must state that multiple choice has one correct answer while management decisions rarely do, and mention either choosing among multiple good/bad options or competing stakeholder interests meaning not everyone can be satisfied.",
+          "answer": "A multiple-choice test always has one right answer, but management decisions rarely do. Managers often choose between multiple good options, multiple bad options, or the competing interests of different people, so someone may be unhappy no matter what is decided.",
+          "rubric": "Must state that, unlike a test, there is often no single correct answer, and mention multiple good/bad options or competing interests as the reason. A bare 'it's harder' is not enough.",
           "topic": "no-single-right-answer",
           "source": "book"
         },
         {
-          "id": "pom/c2/s2/g2/q2",
-          "prompt": "According to the text, why might 'maximizing shareholder wealth' be a short-sighted justification for a harmful decision?",
+          "id": "pom/c2/s2/g3/q2",
+          "prompt": "Why does the passage call 'maximizing shareholder wealth' a short-sighted rationalization?",
           "type": "mcq",
           "options": [
-            "It can bring boycotts, bad publicity or fines later",
-            "The law forbids putting profit first",
-            "Shareholder wealth is too hard to measure",
-            "Shareholders mostly want dividends, not growth"
+            "It ignores information that is hard to gather",
+            "It keeps managers from changing course later",
+            "It can bring bad publicity, boycotts, and fines",
+            "It relies on shortcuts instead of full analysis"
           ],
-          "answer": "It can bring boycotts, bad publicity or fines later",
-          "rubric": "Correct answer identifies long-term harms like boycotts, bad publicity, or government fines resulting from prioritising short-term shareholder wealth over other stakeholders.",
-          "topic": "ethics-in-decisions",
+          "answer": "It can bring bad publicity, boycotts, and fines",
+          "rubric": "Must select the option about long-term harm such as bad publicity, customers boycotting the organization, or government fines.",
+          "topic": "ethics-and-shareholder-wealth",
+          "source": "generated"
+        }
+      ]
+    },
+    {
+      "id": "pom/c2/s2/g4",
+      "title": "Doing well and doing good",
+      "durationSec": 89,
+      "sectionId": "pom/c2/s2",
+      "script": "The focus of a manager or a business owner is often primarily on doing well (making a profit). Sometimes, though, organizational leaders choose to pursue two big goals at once: doing well, and simultaneously doing good (benefiting society in some way). Why? Generally because they think it's an important thing to do. The business provides an opportunity to pursue another goal that the founders, owners, or managers are also passionate about. In the case of New Belgium Brewing, the company's cofounders, Jeff Lebesch and Kim Jordan, were passionate about two things: making great beer and environmental stewardship. So it should come as no surprise that their brewery is dedicated to reducing its environmental footprint. The brewery has created a culture that fosters sustainability in a wide range of ways, such as by giving employees a bicycle on their one-year anniversary as a way to encourage them to ride bicycles to work. The organization is also active in advocacy efforts, such as the \"Save the Colorado\" (river) campaign, and it works hard to promote responsible decision-making when it comes to environmental issues. In fact, in 1999, following an employee vote, the brewery began to purchase all of its electricity from wind power, even though it was more expensive than electricity from coal-burning power plants (which meant reduced profitability and less money for employee bonuses).",
+      "keyPoints": [
+        "Some organizational leaders pursue two goals at once: doing well financially and doing good for society",
+        "New Belgium Brewing's cofounders were passionate about both making great beer and environmental stewardship",
+        "The brewery built a culture of sustainability, including giving employees bicycles and joining river advocacy efforts",
+        "In 1999, following an employee vote, the brewery chose to buy wind power even though it was more expensive"
+      ],
+      "altExplanation": "New Belgium's founders treated the business as a vehicle for something they also cared about beyond profit. The wind-power decision shows what that commitment costs in practice: the company knowingly accepted lower profitability, and smaller employee bonuses, to act on its environmental values.",
+      "deeper": "This is the chapter's concrete example of the ethical decision-making idea from the previous section: a decision that trades some short-term profit for a longer-term or broader good. The employee vote before switching to wind power also shows stakeholders, in this case employees, being brought directly into a managerial decision rather than just being affected by it.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s2/g4/q1",
+          "prompt": "According to the passage, why did New Belgium Brewing switch to purchasing wind power even though it was more expensive?",
+          "type": "open",
+          "answer": "The brewery's cofounders were passionate about environmental stewardship, and in 1999, after an employee vote, the company chose to buy all of its electricity from wind power even though it cost more and meant reduced profitability and smaller employee bonuses.",
+          "rubric": "Must mention the founders' commitment to environmental stewardship and that the company accepted a higher cost or lower profitability, ideally noting the employee vote.",
+          "topic": "sustainability-decision",
           "source": "generated"
         },
         {
-          "id": "pom/c2/s2/g2/q3",
-          "prompt": "Describe one way New Belgium Brewing pursued environmental goals alongside profit, and explain why this reflects considering stakeholders beyond owners.",
+          "id": "pom/c2/s2/g4/q2",
+          "prompt": "What best describes the two goals New Belgium's cofounders pursued together?",
+          "type": "mcq",
+          "options": [
+            "Reducing uncertainty in every decision they made",
+            "Avoiding conflict and building team consensus",
+            "Cutting costs and maximizing shareholder wealth",
+            "Making great beer and protecting the environment"
+          ],
+          "answer": "Making great beer and protecting the environment",
+          "rubric": "Must select the option naming both making great beer and environmental stewardship or protection.",
+          "topic": "doing-well-and-doing-good",
+          "source": "generated"
+        }
+      ]
+    },
+    {
+      "id": "pom/c2/s2/g5",
+      "title": "Sustainability pays off",
+      "durationSec": 130,
+      "sectionId": "pom/c2/s2",
+      "script": "While the brewery still relies primarily on wind power, it also now generates a portion of its electricity onsite, some from rooftop solar panels, and even more from biogas, the methane gas byproduct that is created by microbes in the brewery's water treatment plant. The company cleans the wastewater generated from beer production, and in doing so it generates the biogas, which is captured and used for energy to help run the brewery. Brewing is water intensive, so New Belgium works hard to reduce water consumption and to recycle the water that it does use. The company also reduces other types of waste by selling used grain, hops, and yeast to local ranchers for cattle feed. The company, which has been employee owned since 2013, also works with the local utility through a Smart Meter program to reduce their energy consumption at peak times. All of these efforts at doing good must come at a cost, right? Actually, research shows that companies that are committed to sustainability have superior financial performance, on average, relative to those that are not. In coming up with creative ways to reduce, reuse, and recycle, employees often also find ways to save money (like using biogas). In addition, organizations that strive to do good are often considered attractive and desirable places to work (especially by people who have similar values) and are also valued by the surrounding communities. As a result, employees in those organizations tend to be extremely committed to them, with high levels of engagement, motivation, and productivity. Indeed, it seems clear that the employees at the New Belgium Brewery are passionate about where they work and what they do. This passion generates value for the organization and proves that it is, in fact, possible to do well while having also made the decision to do good. And in the case of New Belgium Brewery, that means working to protect the environment while also making delicious beer.",
+      "keyPoints": [
+        "New Belgium now generates some of its own electricity onsite, from rooftop solar and biogas made from treating its wastewater",
+        "The company reduces water use and sells leftover grain, hops and yeast to local ranchers for cattle feed",
+        "Research shows that companies committed to sustainability tend to have superior financial performance on average",
+        "Organizations that do good are often seen as attractive places to work, with more engaged and committed employees"
+      ],
+      "altExplanation": "Sustainability here is not framed as charity that costs the business. Treating wastewater produces usable energy, selling waste grain brings in money, and workers who share the company's values tend to stay and perform better, so the environmental and financial goals reinforce each other.",
+      "deeper": "This closes the New Belgium example by answering the question the chapter poses about ethical decisions: doing good does not have to conflict with doing well. The link between sustainability and financial performance also supports the earlier point that 'maximizing shareholder wealth' at the expense of other stakeholders is often short-sighted, since the passage shows the opposite strategy performing well financially.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s2/g5/q1",
+          "prompt": "Does the passage say that pursuing sustainability comes at a financial cost to New Belgium Brewing? Explain.",
           "type": "open",
-          "answer": "New Belgium Brewing purchased wind power despite higher cost, recycled water, used biogas from waste, and involved employees in decisions like the electricity vote, showing consideration for employees, the environment, and community rather than only maximising owner profit.",
-          "rubric": "Must give at least one concrete practice (wind power, biogas, water recycling, employee vote) and connect it to considering stakeholders other than owners such as employees, community, or environment.",
-          "topic": "stakeholders",
+          "answer": "No. The passage says research shows companies committed to sustainability have superior financial performance on average, and that finding creative ways to reduce, reuse and recycle often saves the company money while also attracting committed and engaged employees.",
+          "rubric": "Must state that sustainability is not shown as costing the business and give a reason, such as better average financial performance, cost savings from reuse, or more engaged and committed employees.",
+          "topic": "sustainability-and-performance",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c2/s2/g5/q2",
+          "prompt": "According to the passage, what byproduct does New Belgium capture from treating its brewery wastewater?",
+          "type": "mcq",
+          "options": [
+            "Biogas that is used for energy",
+            "Grain that is sold to local ranchers",
+            "Wind power bought from the utility",
+            "Electricity from rooftop solar panels"
+          ],
+          "answer": "Biogas that is used for energy",
+          "rubric": "Must select biogas as the byproduct captured from treating wastewater and used for energy.",
+          "topic": "biogas-from-wastewater",
           "source": "generated"
         }
       ]

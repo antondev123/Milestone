@@ -1,75 +1,129 @@
 {
   "id": "pom/c2/s7",
   "title": "Group Decision-Making",
-  "sourceHash": "150a709658e6",
-  "model": "claude-sonnet-5",
+  "sourceHash": "0bb76e3c67f7",
+  "model": "verbatim",
   "segments": [
     {
       "id": "pom/c2/s7/g1",
-      "title": "Making Better Decisions Together",
-      "durationSec": 175,
+      "title": "Advantages of group decisions",
+      "durationSec": 129,
       "sectionId": "pom/c2/s7",
-      "script": "Think about a taxi association meeting where the drivers, the owners, and the route marshals all sit down to decide on new fares. One person alone could decide, but bringing everyone in usually leads to a stronger outcome, because each person sees the route, the passengers, and the costs differently. That is the heart of group decision-making. When you gather people with different backgrounds, knowledge, and experience, you get more ideas on the table, a process often called brainstorming, where the goal is simply to generate as many options as possible before judging any of them. A hiring panel at a Shoprite branch made up only of men might unconsciously favour male applicants, but a mixed panel of men and women tends to cancel out that bias and choose based on merit instead. Groups also help because people who are part of the decision, like committee members in a stokvel deciding how payouts will work, feel more ownership and commitment to whatever is agreed, because they helped shape it. But groups are not automatically better. Sometimes a group reaches agreement too quickly without real debate, which is called groupthink. This can happen in a close-knit stokvel or work team where nobody wants to upset the good relationship they have built, so they simply nod along even when they have doubts. Other times, one loud or powerful voice, maybe a taxi association chairperson, dominates the room and shuts down anyone who disagrees, a pattern known as suppression of dissent. When that happens, the group loses the very benefit it was meant to provide, because only one perspective actually gets heard. A good manager builds quality into the group from the start. First, choose members who bring different knowledge and viewpoints rather than a group of people who all think alike. Second, appoint someone to act as a devil's advocate, whose job is to challenge the group's thinking on purpose, poke holes in the logic, and force deeper discussion before anyone settles on an answer. Third, actively invite quieter members to speak, so that one strong personality does not swallow the room. Finally, when conflict grows too personal, such as two committee members clashing over old grievances rather than the actual issue, a manager should redirect everyone toward common ground, shared goals, shared values, or a shared history, to keep the group working with each other instead of against each other. Handled well, group decision-making becomes one of the most powerful tools a manager has, turning a room of different opinions into a decision that is sharper, fairer, and more widely supported than anything one person could produce alone.",
+      "script": "Involving more people in the decision-making process can greatly improve the quality of a manager's decisions and outcomes. However, involving more people can also increase conflict and generate other challenges. We turn now to the advantages and disadvantages of group decision-making. An advantage to involving groups in decision-making is that you can incorporate different perspectives and ideas. For this advantage to be realized, however, you need a diverse group. In a diverse group, the different group members will each tend to have different preferences, opinions, biases, and stereotypes. Because a variety of viewpoints must be negotiated and worked through, group decision-making creates additional work for a manager, but (provided the group members reflect different perspectives) it also tends to reduce the effects of bias on the outcome. For example, a hiring committee made up of all men might end up hiring a larger proportion of male applicants (simply because they tend to prefer people who are more similar to themselves). But with a hiring committee made up of an equal number of men and women, the bias should be cancelled out, resulting in more applicants being hired based on their qualifications rather than their physical attributes. Having more people involved in decision-making is also beneficial because each individual brings unique information or knowledge to the group, as well as different perspectives on the problem. Additionally, having the participation of multiple people will often lead to more options being generated and to greater intellectual stimulation as group members discuss the available options. Brainstorming is a process of generating as many solutions or options as possible and is a popular technique associated with group decision-making. All of these factors can lead to superior outcomes when groups are involved in decision-making. Furthermore, involving people who will be affected by a decision in the decision-making process will allow those individuals to have a greater understanding of the issues or problems and a greater commitment to the solutions.",
       "keyPoints": [
-        "Diverse groups reduce individual bias and generate more options through brainstorming",
-        "Groupthink and suppression of dissent can cancel out the benefits of group input",
-        "A devil's advocate and encouraging everyone to speak improve decision quality",
-        "Finding common ground helps manage personality conflict within groups"
+        "Involving more people can improve decisions but also increase conflict and other challenges",
+        "A diverse group brings different preferences, opinions, biases and stereotypes, which tends to cancel out individual bias",
+        "Each member brings unique information and perspective, which generates more options and more intellectual stimulation",
+        "People affected by a decision understand the issues better and commit more to the solution when they helped make it"
       ],
-      "altExplanation": "Picture cooking a big pot of soup for a family gathering where each relative adds one ingredient from their own kitchen. The soup ends up richer than anything one cook could make alone, because of the variety. But if one loud uncle insists his ingredient is the only one that matters and shouts down anyone who suggests something else, the soup suffers, and so does the meal. Or if everyone is too polite to say the soup needs more salt because they don't want to offend the cook, it stays bland. A good host tastes carefully, invites everyone to add their flavour, and even asks one relative to challenge the recipe on purpose before it's served. That is exactly how a manager should run a decision-making group.",
-      "deeper": "The tension in group decision-making comes from a trade-off between process gains and process losses. Process gains happen when the group's combined knowledge, diverse viewpoints, and mutual stimulation produce a better answer than any single member could reach, this is why diverse hiring panels or mixed community committees often outperform lone decision makers. Process losses happen when social dynamics get in the way of good thinking, through groupthink, dominance by a powerful member, or destructive relationship conflict that focuses on personalities rather than the task. Notice the difference between relationship conflict, which damages trust and cooperation, and process conflict, which is a healthy disagreement about the best way to do something and can actually sharpen a decision. Managers who understand this distinction know that some friction is good, arguing about methods, while personal friction, arguing about people, needs to be defused quickly by returning the group's attention to shared goals and common ground.",
-      "example": "A small clinic in Soweto needed to decide how to reduce patient waiting times. The manager formed a group with a nurse, a receptionist, a cleaner, and a community health worker, deliberately choosing people with different daily experiences of the clinic. She asked the cleaner, usually the quietest voice, to act as devil's advocate and question every proposed solution. The group generated several options through brainstorming, avoided quick agreement, and eventually redesigned the queuing system in a way no single staff member would have thought of alone.",
+      "altExplanation": "Groups help decisions in two ways. A mixed group balances out any one person's blind spots, and more people means more facts, more angles, and more ideas on the table. People also buy into a decision more when they had a hand in making it.",
+      "deeper": "The hiring-committee example shows bias cancelling out only when the group is actually diverse; a group that is uniform in background will not correct for the majority's preferences. This is why the book pairs the case for group decision-making with the later warning that a group's quality depends on how it is formed, not just on there being more people in the room.",
       "checkpoint": [
         {
           "id": "pom/c2/s7/g1/q1",
-          "prompt": "Explain why group decision-making can be more effective than individual decision-making.",
-          "type": "open",
-          "answer": "Groups can make better decisions than individuals because group members can contribute more knowledge and a diversity of perspectives. Groups will tend to generate more options as well, which can lead to better solutions. Also, having people involved in making decisions that will affect them can improve their attitudes about the decision that is made. However, groups sometimes fail to generate added value in the decision-making process as a result of groupthink, conflict, or suppression of dissent. Managers can improve the quality of group decision-making in a number of ways. First, when forming the group, the manager should ensure that the individual group members are diverse in terms of knowledge and perspectives. The manager may also want to assign a devil's advocate to discourage groupthink. Managers should also encourage all group members to contribute their ideas and opinions, and they should not allow a single voice to dominate. Finally, they should not allow personality conflicts to derail group processes.",
-          "rubric": "Answer must mention that groups combine diverse knowledge and perspectives, generate more options, and increase commitment among those affected, while also noting risks like groupthink, conflict, or suppression of dissent that can offset these benefits.",
-          "topic": "group-decision-advantages",
-          "source": "book"
+          "prompt": "According to the passage, what is brainstorming?",
+          "type": "mcq",
+          "options": [
+            "Assigning one member to argue against the group",
+            "Settling for the first option that is good enough",
+            "Generating as many solutions or options as possible",
+            "Escalating commitment to an earlier group decision"
+          ],
+          "answer": "Generating as many solutions or options as possible",
+          "rubric": "Must select the option defining brainstorming as generating as many solutions or options as possible.",
+          "topic": "brainstorming",
+          "source": "generated"
         },
         {
           "id": "pom/c2/s7/g1/q2",
-          "prompt": "What are some things that can prevent groups from making good decisions?",
+          "prompt": "Explain why group decision-making can be more effective than individual decision-making.",
           "type": "open",
-          "answer": "Groupthink, where members avoid voicing concerns to preserve harmony, and suppression of dissent, where a powerful individual discourages others from sharing differing opinions, can both prevent a group from getting the full benefit of diverse input, leading to poorer decisions.",
-          "rubric": "Answer must name at least two of: groupthink, suppression of dissent, or destructive personality/relationship conflict, and explain that these stop members from voicing genuine opinions or concerns.",
-          "topic": "group-decision-disadvantages",
+          "answer": "Group decision-making draws on more knowledge and a wider diversity of perspectives than any one person has, and it generates more options through discussion. It also builds greater commitment in the people who took part in making the decision.",
+          "rubric": "Must mention at least one of: more knowledge or diversity of perspectives, more options generated through discussion, or greater commitment from people who helped make the decision. A bare 'it's better' with no mechanism is not enough.",
+          "topic": "group-vs-individual-decisions",
           "source": "book"
-        },
+        }
+      ]
+    },
+    {
+      "id": "pom/c2/s7/g2",
+      "title": "Disadvantages of group decisions",
+      "durationSec": 62,
+      "sectionId": "pom/c2/s7",
+      "script": "Group decision-making is not without challenges. Some groups get bogged down by conflict, while others go to the opposite extreme and push for agreement at the expense of quality discussions. Groupthink occurs when group members choose not to voice their concerns or objections because they would rather keep the peace and not annoy or antagonize others. Sometimes groupthink occurs because the group has a positive team spirit and camaraderie, and individual group members don't want that to change by introducing conflict. It can also occur because past successes have made the team complacent. Often, one individual in the group has more power or exerts more influence than others and discourages those with differing opinions from speaking up (suppression of dissent) to ensure that only their own ideas are implemented. If members of the group are not really contributing their ideas and perspectives, however, then the group is not getting the benefits of group decision-making.",
+      "keyPoints": [
+        "Some groups get bogged down in conflict, others push for agreement at the expense of quality discussion",
+        "Groupthink: members hold back concerns or objections to keep the peace and avoid antagonising others",
+        "Groupthink can come from a positive team spirit members do not want to disturb, or from complacency after past success",
+        "A dominant member can discourage others from speaking up, so the group loses the benefit of multiple perspectives"
+      ],
+      "altExplanation": "Two different problems can spoil a group decision. Groupthink is the group agreeing too easily because nobody wants to break the good mood. Suppression of dissent is one strong voice crowding out everyone else's ideas. Either way, the group stops actually using its members' different perspectives.",
+      "deeper": "Groupthink and suppression of dissent both remove the diversity of viewpoints that section 2.7 says makes group decisions valuable in the first place, just for different reasons: groupthink is a self-imposed silence to preserve harmony, while suppression of dissent is imposed by someone with more power or influence. The book's later section on forming a quality group, with a devil's advocate and encouragement to speak up, responds directly to these two failure modes.",
+      "checkpoint": [
         {
-          "id": "pom/c2/s7/g1/q3",
-          "prompt": "As a manager, what can you do to enhance the quality of group decision-making?",
-          "type": "open",
-          "answer": "A manager can form diverse groups, assign a devil's advocate to reduce groupthink, encourage every member to speak up and contribute, and help members find common ground to reduce personality conflict.",
-          "rubric": "Answer must include at least three of: selecting diverse members, assigning a devil's advocate, encouraging participation from all members, and helping the group find common ground to manage conflict.",
-          "topic": "group-decision-improvement",
-          "source": "book"
-        },
-        {
-          "id": "pom/c2/s7/g1/q4",
-          "prompt": "Which term describes a group member deliberately assigned to challenge and criticise the group's ideas?",
+          "id": "pom/c2/s7/g2/q1",
+          "prompt": "In the passage, what does suppression of dissent mean?",
           "type": "mcq",
           "options": [
-            "Satisficer",
-            "Stakeholder",
-            "Reactive thinker",
-            "Devil's advocate"
+            "The group settles for the first workable option",
+            "A member is assigned to argue against the group's plan",
+            "Members avoid conflict to keep the group's mood positive",
+            "A powerful member discourages others from voicing differing views"
           ],
-          "answer": "Devil's advocate",
-          "rubric": "Correct answer is 'Devil's advocate'; must select this exact option.",
-          "topic": "devils-advocate",
+          "answer": "A powerful member discourages others from voicing differing views",
+          "rubric": "Must select the option about a more powerful or influential member discouraging others with differing opinions from speaking up.",
+          "topic": "suppression-of-dissent",
           "source": "generated"
         },
         {
-          "id": "pom/c2/s7/g1/q5",
-          "prompt": "Describe the difference between process conflict and relationship conflict in a group setting.",
+          "id": "pom/c2/s7/g2/q2",
+          "prompt": "What are some things that can prevent groups from making good decisions?",
           "type": "open",
-          "answer": "Process conflict is disagreement about the best way to complete a task and is constructive, while relationship conflict is based on personal or personality differences and tends to be destructive.",
-          "rubric": "Answer must state that process conflict is task-focused and constructive, while relationship conflict is personality-based and destructive to the group.",
-          "topic": "process-vs-relationship-conflict",
+          "answer": "Groups can fail to make good decisions because of groupthink, where members hold back concerns to keep the peace, or because a dominant member suppresses dissent and discourages others from speaking up. Unmanaged conflict can also derail the discussion.",
+          "rubric": "Must name at least one of: groupthink, suppression of dissent by a dominant or influential member, or excessive/unmanaged conflict, as a reason groups fail to decide well.",
+          "topic": "group-decision-pitfalls",
+          "source": "book"
+        }
+      ]
+    },
+    {
+      "id": "pom/c2/s7/g3",
+      "title": "Forming a quality group",
+      "durationSec": 126,
+      "sectionId": "pom/c2/s7",
+      "script": "Effective managers will try to ensure quality group decision-making by forming groups with diverse members so that a variety of perspectives will contribute to the process. They will also encourage everyone to speak up and voice their opinions and thoughts prior to the group reaching a decision. Sometimes groups will also assign a member to play the devil's advocate in order to reduce groupthink. The devil's advocate intentionally takes on the role of critic. Their job is to point out flawed logic, to challenge the group's evaluations of various alternatives, and to identify weaknesses in proposed solutions. This pushes the other group members to think more deeply about the advantages and disadvantages of proposed solutions before reaching a decision and implementing it. The methods we've just described can all help ensure that groups reach good decisions, but what can a manager do when there is too much conflict within a group? In this situation, managers need to help group members reduce conflict by finding some common ground, areas in which they can agree, such as common interests, values, beliefs, experiences, or goals. Keeping a group focused on a common goal can be a very worthwhile tactic to keep group members working with rather than against one another. Decision-making is a crucial daily activity for managers. Decisions range from small and simple, with straightforward answers, to big and complex, with little clarity about what the best choice will be. Being an effective manager requires learning how to successfully navigate all kinds of decisions. Expertise, which develops gradually through learning and experience, generally improves managerial decision-making, but managers rarely rely solely on their own expertise. They also conduct research and collect information from others; they pay attention to their own biases and to ethical implications; and they think critically about the information that they have received to make decisions that will benefit the organization and its stakeholders.",
+      "keyPoints": [
+        "Effective managers form groups with diverse members and encourage everyone to speak up before a decision is reached",
+        "A devil's advocate is assigned to critique the group's logic, evaluations and proposed solutions, reducing groupthink",
+        "When conflict runs too high, managers help members find common ground: shared interests, values, beliefs, experiences or goals",
+        "Decisions range from small and simple to big and complex; expertise helps, but managers also research, watch their biases, and think critically"
+      ],
+      "altExplanation": "A quality group is built, not just assembled: pick diverse members, get everyone talking, and let someone play devil's advocate to stress-test the thinking. When a group gets stuck in conflict, refocusing on shared ground keeps people working with each other instead of against each other. Managers then bring their own research, self-awareness and critical thinking to the final call.",
+      "deeper": "The devil's advocate role is a deliberate structural fix for groupthink: rather than hoping someone objects naturally, the group assigns the job of objecting to a specific person, which makes dissent expected rather than awkward. Finding common ground addresses conflict without suppressing it, by redirecting the group's attention to interests they already share. The conclusion ties the whole chapter together: expertise, research, awareness of bias, and critical thinking are all inputs, not substitutes, for a manager's judgment.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s7/g3/q1",
+          "prompt": "When a group has too much conflict, what does the book say managers should help members find?",
+          "type": "mcq",
+          "options": [
+            "Common ground, such as shared interests, values or goals",
+            "A programmed decision rule to skip the discussion",
+            "A devil's advocate to intensify the debate",
+            "A single dominant voice to settle the disagreement"
+          ],
+          "answer": "Common ground, such as shared interests, values or goals",
+          "rubric": "Must select the option about finding common ground or shared interests, values, beliefs, experiences or goals.",
+          "topic": "reducing-group-conflict",
           "source": "generated"
+        },
+        {
+          "id": "pom/c2/s7/g3/q2",
+          "prompt": "As a manager, what can you do to enhance the quality of group decision-making?",
+          "type": "open",
+          "answer": "Managers can form the group with diverse members, encourage everyone to speak up before a decision is made, and assign a devil's advocate to challenge the group's thinking and reduce groupthink. When conflict is high, they can also help members find common ground.",
+          "rubric": "Must name at least two of: forming a diverse group, encouraging members to speak up, assigning a devil's advocate, or helping members find common ground.",
+          "topic": "improving-group-decisions",
+          "source": "book"
         }
       ]
     }
