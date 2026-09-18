@@ -4,7 +4,7 @@ Hackathon, 36 hours, 2026-09-18 to 2026-09-19. Theme: "Travel — the journey, n
 
 ## Git workflow, non-negotiable
 
-1. **Never commit to `main` directly.** `main` is the demo branch. It must run at all times.
+1. **Never commit to `main` directly.** `main` is the demo branch. It must run at all times. The repo is private on a free plan so GitHub cannot enforce this; it is on you.
 2. **One branch per person per task**, named `<name>/<short-task>`, e.g. `anton/voice-prompt-tuning`, `thabo/summary-polish`. Branch from a fresh `main`:
    ```bash
    git checkout main && git pull && git checkout -b <name>/<task>

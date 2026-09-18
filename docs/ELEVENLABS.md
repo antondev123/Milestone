@@ -1,5 +1,20 @@
 # ElevenLabs agent configuration
 
+## 0. Step by step (15 min)
+
+1. Go to elevenlabs.io → **Agents** (left sidebar) → **New agent** → **Blank agent**. Name it **Commute Tutor**.
+2. **Agent tab**: paste the **First message** from §2 and the **System prompt** from §3. Set language English.
+3. Still on Agent tab, find **Dynamic variables** and add four placeholders with any default: `trip_minutes` = 10, `trip_segments` = 2, `first_segment_id` = sample/m1/s1, `resume_position` = start. The app overwrites these on connect; without placeholders the prompt shows raw `{{...}}`.
+4. **Voice tab**: pick a voice. Set **TTS model** to **Eleven Flash v2.5**.
+5. **LLM**: pick the fastest option offered (Gemini Flash or GPT-4o-mini class). Temperature low, around 0.3.
+6. **Tools**: click **Add tool** four times. For each, set **Tool type = Client**, then Name, Description and Parameters exactly as in §4 (Data type, Identifier, Required, Description per parameter). Tick **Wait for response** on all four. Timeout 20 s.
+7. **Advanced / Conversation**: enable **interruptions** (barge-in). Turn timeout 10 s. Max duration 3600 s.
+8. **Security tab**: leave the agent **public** (no auth). Under **Allowlist**, add `localhost:3000` if a field is offered, otherwise leave empty.
+9. Copy the **Agent ID** (top of the agent page or the code snippet in the **Widget** tab, looks like `agent_xxxx`).
+10. Paste it into `.env.local` as `NEXT_PUBLIC_ELEVENLABS_AGENT_ID=agent_xxxx`, restart `npm run dev`, open http://localhost:3000/learn/voice, and run the checklist in §6.
+
+If a tab or label has moved, the fields are the same; search the agent page for the label.
+
 Everything you need to set in the dashboard (Conversational AI → Agents → Create). Once done, paste the agent ID into `.env.local` as `NEXT_PUBLIC_ELEVENLABS_AGENT_ID`.
 
 ## 1. Agent basics
