@@ -1,149 +1,197 @@
 {
   "id": "sample",
   "title": "Intro to Personal Finance in South Africa",
-  "description": "Budgeting, interest, credit scores and tax, in four commute-sized segments.",
-  "estimatedMinutes": 14,
+  "description": "A four-part audio lesson covering budgeting, interest, credit scores, and tax basics for South African commuters, with practical local examples using rand, taxis, and SARS.",
+  "estimatedMinutes": 20,
   "modules": [
     {
       "id": "sample/m1",
-      "title": "Money basics",
+      "title": "Personal Finance Fundamentals",
       "segments": [
         {
           "id": "sample/m1/s1",
-          "title": "A budget that survives month-end",
-          "durationSec": 130,
-          "script": "Most of us know roughly what we earn, but very few of us know where it goes. A budget is not a punishment. It is a plan for your money, so that your money does not make plans for you. Start with three numbers. First, your take-home pay, the amount that actually lands in your account after tax and UIF. Second, your fixed costs: rent, transport, airtime, debit orders, black tax, school fees. These do not move much from month to month. Third, everything else: groceries, data, weekends, the small things that add up. A simple rule to start with is fifty, thirty, twenty. Fifty percent of take-home pay goes to needs, thirty to wants, and twenty to saving or paying off debt. In South Africa, where a taxi to work and back can eat fifteen to twenty percent of a salary, your split will look different. The point is not the exact numbers. The point is that every rand has a job before the month starts. The most common mistake is budgeting for a perfect month. Real months have a funeral, a car problem, a cousin's wedding. So put a line in your budget called surprises, and give it something every month, even fifty rand. When the surprise comes, you have a place to take the money from that is not your rent. And before you change anything, track for one month. Use your bank app's transaction history. Do not guess. Most people find one or two categories that shock them, and that is where the first easy win is.",
+          "title": "Building a budget that survives month-end",
+          "durationSec": 151,
+          "script": "Most of us know roughly what we earn, but very few of us actually know where it goes by the time month-end hits. Think about a budget not as a punishment but as a plan for your money, so your money doesn't end up making plans for you instead. Start with three numbers. First, your take-home pay, the amount that actually lands in your bank account after tax and UIF have been taken out. Second, your fixed costs, things like rent, taxi fare or petrol, airtime, debit orders, black tax you send home, and school fees. These don't move much from month to month. Third, everything else, groceries at Shoprite, data bundles, weekends out, all those small things that quietly add up. A simple starting rule is fifty, thirty, twenty. Fifty percent of your take-home pay goes to needs, thirty percent to wants, and twenty percent to saving or paying off debt. Here in South Africa, where transport alone can eat fifteen to twenty percent of a salary, your split will probably look different, and that's fine. The real point isn't hitting exact numbers, it's that every single rand has a job before the month even starts. The most common mistake people make is budgeting for a perfect month that never actually happens. Real life brings a funeral to attend, a car that suddenly needs a new part, a cousin's wedding you can't skip. So build in a line item called surprises, and feed it something every month, even if it's just fifty rand. Then when the surprise arrives, you've got a place to pull money from that isn't your rent or your electricity. Before you change anything about how you spend, track it for one full month first. Open your bank app, look at your actual transaction history, and don't guess. Almost everyone who does this finds one or two categories that genuinely shock them, whether it's takeaways or airtime top-ups, and that shock is exactly where your first easy win is hiding. Once you see it clearly, cutting back there feels far less painful than cutting back somewhere you actually value. Building a budget this way, grounded in real numbers rather than good intentions, is what lets it survive contact with an actual, messy month.",
           "keyPoints": [
-            "Three numbers: take-home pay, fixed costs, everything else",
-            "50/30/20: needs, wants, saving or debt",
-            "Budget a 'surprises' line every month",
-            "Track one real month before changing anything"
+            "A budget assigns every rand a job before the month starts, using take-home pay, fixed costs, and everything else",
+            "The 50/30/20 rule splits take-home pay into needs, wants, and saving or debt repayment, adjusted for local costs like transport",
+            "Include a small 'surprises' line every month so unexpected costs don't eat into rent or essentials",
+            "Track one full month of real transactions before changing your spending habits"
           ],
-          "altExplanation": "Think of your salary as a taxi full of passengers. Every rand is a passenger, and every passenger needs a destination before the taxi leaves the rank. Rent gets off first, then transport, then groceries. If you leave passengers with no destination, they get off wherever, usually at the Spur or the bottle store. The surprises line is the passenger you keep on board in case someone needs a lift to a funeral. Tracking a month is just checking where the passengers actually got off last time.",
-          "deeper": "The fifty thirty twenty split comes from a US book, and it assumes housing is around thirty percent of income. In many South African households transport plus housing is already over fifty percent, so a more honest local version is often sixty, twenty, twenty, or even seventy, twenty, ten. What matters is that the saving or debt slice is never zero. Stokvels are a budgeting tool many people already use without calling it that: a fixed monthly contribution that is socially hard to skip. If you are in one, count it as saving in your budget, and check whether the payout month lines up with your biggest annual expense, like school fees in January.",
+          "altExplanation": "Think of your salary like a taxi rank at month-end, full of commuters, that's your money, and each one needs to know exactly which taxi, meaning which expense, they're getting into before the rank empties out. If you don't assign them, some will wander off into random taxis, wasted rand you can't account for. A budget is simply the rank marshal, directing each rand to rent, to groceries, to savings, before chaos sets in. And just like a rank always has a few people who missed their taxi and need a backup plan, your budget needs a small reserve for surprises, so an unexpected cost doesn't force you to pull someone out of the rent taxi.",
+          "deeper": "Beyond the basics, it helps to separate budgeting into zero-based and percentage-based approaches. Zero-based budgeting means every rand of income is allocated to a category, including savings, until nothing is left unassigned, which is stricter than the 50/30/20 rule but gives tighter control. Many South Africans also deal with irregular income, for example commission-based sales jobs or piece work, in which case budgeting off your lowest expected month rather than your average month protects you from shortfalls. Digital tools like bank apps from Capitec, FNB, or Standard Bank now auto-categorise spending, which speeds up the one-month tracking exercise considerably. It's also worth building a separate, smaller emergency fund alongside your monthly surprises line, ideally three months of fixed costs, since a job loss or major medical event needs more cushioning than a wedding gift.",
           "checkpoint": [
             {
               "id": "sample/m1/s1/q1",
-              "prompt": "In the fifty thirty twenty rule, what does the twenty stand for?",
+              "prompt": "In the 50/30/20 rule, what does the 20 represent?",
               "type": "mcq",
-              "options": ["Transport", "Saving or paying off debt", "Wants and entertainment", "Rent"],
-              "answer": "Saving or paying off debt",
-              "rubric": "Twenty percent goes to saving or paying off debt.",
-              "topic": "budgeting"
+              "options": [
+                "Fixed costs like rent and transport",
+                "Saving and/or paying off debt",
+                "Discretionary wants like weekends out",
+                "Tax and UIF deductions"
+              ],
+              "answer": "Saving and/or paying off debt",
+              "rubric": "The 20 in 50/30/20 is allocated to saving or debt repayment, not needs or wants.",
+              "topic": "budgeting-ratio"
             },
             {
               "id": "sample/m1/s1/q2",
-              "prompt": "Why should a budget have a surprises line?",
+              "prompt": "Why should a budget include a 'surprises' line?",
               "type": "open",
-              "answer": "Because real months have unplanned costs, and having money set aside means the surprise does not come out of essentials like rent.",
-              "rubric": "Must mention that unexpected or unplanned costs happen AND that the line stops them coming out of essential money. Reject answers that only say 'to be safe' or 'for emergencies' with no reason.",
-              "topic": "budgeting"
+              "answer": "Because real months have unplanned costs, and having a place to take that money from stops it coming out of essentials like rent.",
+              "rubric": "Must mention that unexpected/unplanned expenses happen and that the surprises line prevents essential costs (like rent) from being disrupted.",
+              "topic": "surprises-buffer"
+            },
+            {
+              "id": "sample/m1/s1/q3",
+              "prompt": "What should you do for one month before changing your spending?",
+              "type": "open",
+              "answer": "Track actual transactions using your bank history, without guessing.",
+              "rubric": "Must state tracking real/actual spending via bank statements or app history, and must mention not guessing or estimating.",
+              "topic": "tracking-spending"
             }
           ]
         },
         {
           "id": "sample/m1/s2",
-          "title": "Interest works for you or against you",
-          "durationSec": 140,
-          "script": "Interest is the price of money over time. When you save, the bank pays you. When you borrow, you pay the bank. Same idea, pointing in opposite directions. Simple interest is calculated only on the original amount. Put one thousand rand in an account paying ten percent simple interest, and you earn one hundred rand every year. After three years you have one thousand three hundred. Compound interest is calculated on the original amount plus the interest you have already earned. Same one thousand rand at ten percent, compounded yearly. After year one you have one thousand one hundred. In year two you earn ten percent of one thousand one hundred, which is one hundred and ten, so now you have one thousand two hundred and ten. Year three takes you to one thousand three hundred and thirty one. The gap grows every single year. Over ten years the difference is over five hundred rand on that one thousand. Over thirty years it is thousands. This is why starting early matters more than starting big. A twenty-five year old saving five hundred rand a month will usually end up with more at sixty than a thirty-five year old saving a thousand a month, because the early money gets ten extra years of compounding. Now the flip side. Debt compounds too, just against you. Store cards and payday loans in South Africa can charge over twenty percent a year. Paying only the minimum on a store card means most of your payment goes to interest, and the balance barely moves. So if you have savings earning five percent and a store card charging twenty-two, paying off the card is the better return. You cannot find a savings account that beats twenty-two percent.",
+          "title": "Interest: the thing that works for you or against you",
+          "durationSec": 171,
+          "script": "Interest is simply the price of money over time. When you save, the bank pays you interest for letting them use your money. When you borrow, you pay the bank for letting you use theirs. It's the same idea, just pointing in opposite directions, and understanding which direction it's pointing for you is one of the most valuable financial skills you can have. Let's look at simple interest first. Simple interest is calculated only on the original amount you put in. If you deposit one thousand rand at ten percent simple interest per year, you earn exactly one hundred rand every single year, no more. After three years, you'd have one thousand three hundred rand. Straightforward. Compound interest works differently, and this is where things get powerful. It's calculated on the original amount plus whatever interest has already been earned. Take that same one thousand rand at ten percent, but compounded yearly. After year one, you have one thousand one hundred rand. In year two, you earn ten percent of one thousand one hundred, which is one hundred and ten rand, giving you one thousand two hundred and ten. By year three, you're at one thousand three hundred and thirty one rand. Notice the gap between simple and compound keeps widening every single year. Stretch this out over ten years, and the difference on just one thousand rand is already over five hundred rand. Over thirty years, we're talking thousands of rand of difference from the exact same starting amount. This is exactly why starting early matters far more than starting big. A twenty-five year old who saves five hundred rand a month will usually end up with more money at sixty than a thirty-five year old saving double that, a thousand rand a month, simply because that early money gets ten extra years to compound. Time does the heavy lifting, not the size of your monthly contribution. Now flip this around to debt, because compounding works against you just as powerfully. Store cards and payday loans in South Africa can charge over twenty percent a year, and that interest compounds against you exactly like your savings compound for you. If you only pay the minimum on a store card, most of that payment is swallowed by interest, and the actual balance barely moves month to month. So if you're holding both savings and expensive debt at the same time, paying down that debt first is usually the smarter move, because you're guaranteed to save more in interest than you'd earn leaving money in a savings account.",
           "keyPoints": [
-            "Simple interest: earned only on the original amount",
-            "Compound interest: earned on original plus interest already earned",
-            "Starting early beats starting big",
-            "Expensive debt compounds against you, so pay it before saving"
+            "Interest is the price of money over time, earned when you save and paid when you borrow",
+            "Compound interest grows on the original amount plus previously earned interest, so the gap versus simple interest widens every year",
+            "Starting to save early beats saving large amounts later, because time lets compounding do the work",
+            "Expensive debt like store cards, often over 20% a year, compounds against you, so paying it off usually beats leaving money in low-interest savings"
           ],
-          "altExplanation": "Picture a mielie field. Simple interest is planting the same ten seeds every season and eating the whole harvest. Compound interest is planting the ten seeds, then replanting part of every harvest, so each season the field is bigger than the last. The first few seasons look almost the same. By season ten the compound field is twice the size. Debt is the same field, except someone else is harvesting it and you are the one buying seeds.",
-          "deeper": "Banks quote a nominal annual rate but compound monthly or daily, which makes the effective rate slightly higher. A store card at twenty-two percent nominal compounded monthly is effectively about twenty-four percent a year. The National Credit Act caps interest on most consumer credit, but unsecured loans and credit cards can still legally charge over twenty percent, and short-term loans can be even higher once fees are included. The rule of seventy-two is a handy shortcut: divide seventy-two by the interest rate to get the years it takes money to double. At eight percent, savings double in nine years. At twenty-four percent, debt doubles in three.",
+          "altExplanation": "Picture planting a mielie field. Simple interest is like harvesting the exact same size crop every single season from the exact same seeds, no growth in the seed stock itself. Compound interest is like replanting your harvest along with your original seeds each season, so the field itself keeps getting bigger, and next season's harvest comes from a bigger field than before. The field snowballs over time. Debt is the same field working against you: an unpaid store card balance replants its own extra seeds of interest onto what you owe, so the debt field grows even if you're not spending another rand.",
+          "deeper": "In South Africa, the concept of the 'in duplum rule' is worth knowing when it comes to debt: by law, once unpaid interest on a debt equals the outstanding capital amount, interest may stop accumulating until you make a payment, which offers some protection against runaway compounding on things like unpaid loans in default. On the savings side, unit trusts and retirement annuities generally compound returns automatically through reinvestment of dividends and growth, which is part of why financial advisors stress starting a retirement annuity or tax-free savings account as early as your twenties, even with small contributions. It's also worth knowing that the National Credit Act caps the maximum interest rates lenders may charge on different credit types in South Africa, which limits, but doesn't eliminate, how aggressively store cards and payday-style loans can compound against low-income borrowers.",
           "checkpoint": [
             {
               "id": "sample/m1/s2/q1",
-              "prompt": "One thousand rand at ten percent simple interest for three years gives you how much?",
+              "prompt": "R1000 at 10% simple interest for 3 years gives you how much?",
               "type": "mcq",
-              "options": ["One thousand three hundred", "One thousand three hundred and thirty one", "One thousand one hundred", "Three thousand"],
-              "answer": "One thousand three hundred",
-              "rubric": "Simple interest earns one hundred each year, so one thousand three hundred after three years.",
-              "topic": "simple-interest"
+              "options": [
+                "R1210",
+                "R1300",
+                "R1331",
+                "R1100"
+              ],
+              "answer": "R1300",
+              "rubric": "Simple interest only accrues on the original R1000, so 10% (R100) per year for 3 years adds R300 to the original amount.",
+              "topic": "simple-interest-calc"
             },
             {
               "id": "sample/m1/s2/q2",
-              "prompt": "In your own words, why does compound interest grow faster than simple interest?",
+              "prompt": "Explain in your own words why compound interest grows faster than simple interest.",
               "type": "open",
               "answer": "Because each period's interest is calculated on the original amount plus the interest already earned, so the base keeps growing.",
-              "rubric": "Must express that interest is earned on previously earned interest, or that the base amount grows each period. Reject 'because it compounds' or 'because it is more' with no mechanism.",
-              "topic": "compound-interest"
+              "rubric": "Must state that compound interest is calculated on the growing balance (original plus previously earned interest), not just the original amount.",
+              "topic": "compound-vs-simple"
             },
             {
               "id": "sample/m1/s2/q3",
-              "prompt": "You have five thousand rand in savings at five percent and a store card charging twenty-two percent. What should you do with the money?",
+              "prompt": "You have R5000 in savings earning 5% and a store card charging 22%. Which should you use the money for and why?",
               "type": "open",
-              "answer": "Pay off the store card, because the debt costs more than the savings earn.",
-              "rubric": "Must say pay the card or the debt AND give the reason that the debt rate is higher than the savings rate. Reject answers that only say 'pay the debt' with no comparison.",
-              "topic": "debt-vs-saving"
+              "answer": "Pay the store card, because the debt costs more than the savings earn.",
+              "rubric": "Must recommend paying off the store card debt and must justify it by comparing the higher debt interest rate to the lower savings interest rate.",
+              "topic": "debt-vs-savings-priority"
             }
           ]
         },
         {
           "id": "sample/m1/s3",
-          "title": "Your credit score follows you",
-          "durationSec": 125,
-          "script": "A credit score is a number, usually somewhere between zero and about seven hundred and fifty depending on the bureau, that summarises how reliably you have repaid money in the past. Lenders look at it. Landlords look at it. Sometimes employers look at it. In South Africa the main bureaus are TransUnion, Experian, and Compuscan, and you are entitled to one free credit report from each of them every year. So what builds a good score? Paying accounts on time, every time, even small ones like a cellphone contract. Keeping the amount you owe on a credit card well below the limit, ideally under thirty percent. And having a long history of accounts in good standing. What damages it? Missed payments. Accounts handed over to debt collectors. Judgments. And applying for lots of credit in a short time, because every application is recorded, and a burst of applications looks like someone in trouble. Two practical tips. First, if you have never borrowed, you have what is called a thin file, and lenders cannot see anything at all. A small cellphone contract or a clothing account, paid in full and on time every month, is a cheap way to build a history. Second, check your report once a year. Errors are common. And an account on your report that you never opened is a sign of fraud you want to catch early, not when you apply for a home loan.",
+          "title": "Your credit score and why it follows you",
+          "durationSec": 159,
+          "script": "A credit score is a number, usually somewhere between zero and about seven hundred and fifty depending on which bureau calculates it, and it summarises how reliably you've repaid money in the past. Lenders look at it before approving a loan, landlords sometimes check it before handing you keys, and even some employers glance at it during hiring. In South Africa, the main credit bureaus are TransUnion, Experian, and Compuscan, and here's something many people don't realise, you are legally entitled to one free credit report from each of these bureaus every single year. That's three free checks a year, at no cost, and most people never use even one of them. Let's talk about what actually builds a good score. Paying your accounts on time, every time, even the small ones like a cellphone contract, matters a lot. Keeping the amount you owe on credit cards well below your limit also helps, ideally staying under thirty percent of whatever your limit is. And simply having a long history of accounts that you've managed well over time builds trust with lenders. Now the flip side, what damages your score. Missed payments are the obvious one. Accounts that get handed over to debt collectors hurt badly. Judgments against you in court are serious and long-lasting. And applying for lots of credit in a short space of time also hurts, because every single application gets recorded, even if you're rejected, and a flurry of applications signals risk to anyone looking at your file. Here are two practical tips you can act on this week. First, if you've never borrowed anything in your life, you might actually have what's called a thin file, meaning there simply isn't enough history for lenders to judge you by. In that case, a small cellphone contract or a clothing account that you pay off in full, on time, every single month, is a cheap and low-risk way to start building a real credit history. Second, check your credit report once a year, using one of those free reports you're entitled to. Errors happen more often than you'd think, and if you spot an account on your report that you never opened, that's often an early warning sign of fraud, and catching it early can save you a massive headache down the line, including protecting your ability to get a home loan or car finance later.",
           "keyPoints": [
-            "Score summarises how reliably you have repaid money",
-            "Builds it: on-time payments, low card balance, long history",
-            "Damages it: missed payments, collections, many applications",
-            "One free report per bureau per year; check for errors"
+            "A credit score summarises how reliably you've repaid debt, and is checked by lenders, landlords, and sometimes employers",
+            "You get one free credit report per year from each of TransUnion, Experian, and Compuscan",
+            "On-time payments, low card balances relative to limit, and long account history build a good score, while missed payments, collections, judgments, and frequent credit applications damage it",
+            "A small account like a cellphone contract can help build a thin credit file if you've never borrowed before"
           ],
-          "altExplanation": "Your credit score is like a reference from every landlord you have ever had, all rolled into one number. Pay on time and the reference says reliable. Miss payments and it says risky. Apply for ten places in one week and it says desperate. If you have never rented, there is no reference at all, which is almost as bad as a bad one. A small account paid perfectly is how you get your first good reference.",
-          "deeper": "Each bureau scores slightly differently, so your number will not match across TransUnion, Experian and Compuscan, but the direction will. Negative information stays on your report for a set time: missed payments for about two years, judgments for five, and a debt review flag until you receive a clearance certificate. Under the National Credit Act you can dispute an incorrect entry and the bureau must investigate within twenty business days. Prescribed debt is a related idea: most unsecured debt that has not been paid, acknowledged, or pursued in court for three years can no longer be legally collected, and it is illegal for collectors to pursue it.",
+          "altExplanation": "Think of your credit score like your reputation at the local stokvel or a community savings group. If you always pay your contribution on time, month after month, people trust you and are happy to lend you more when you need it. If you skip payments, or borrow from three different people in the same week looking desperate, word gets around and people become cautious about lending to you. The credit bureaus are basically keeping that reputation record formally, across your cellphone contract, your credit card, your car loan, so that any future lender can check your track record without having to personally know you.",
+          "deeper": "It's worth knowing that in South Africa, the National Credit Regulator oversees credit bureaus and lenders to ensure fair practice, and if you believe information on your credit report is incorrect, you have the legal right to dispute it directly with the bureau, which must investigate within a set timeframe. Also relevant is the concept of reckless lending: credit providers are legally required to assess your ability to repay before granting credit, and if they fail to do this properly, a court can later declare the credit agreement reckless, which can reduce or cancel your obligation to repay. Debt review, a formal process under the National Credit Act, is another option for people who are over-indebted, where a debt counsellor restructures your repayments with creditors, though it does significantly limit your ability to access new credit while under review.",
           "checkpoint": [
             {
               "id": "sample/m1/s3/q1",
-              "prompt": "How many free credit reports are you entitled to from each bureau per year?",
-              "type": "mcq",
-              "options": ["None", "One", "Three", "Unlimited"],
-              "answer": "One",
-              "rubric": "One free report per bureau per year.",
-              "topic": "credit-report"
+              "prompt": "Name one thing that improves your credit score.",
+              "type": "open",
+              "answer": "Paying accounts on time, keeping card balance under about 30% of the limit, or having a long history of good accounts.",
+              "rubric": "Must mention at least one specific score-improving behaviour: on-time payments, low balance relative to limit (around 30%), or long positive account history.",
+              "topic": "credit-score-builders"
             },
             {
               "id": "sample/m1/s3/q2",
+              "prompt": "How many free credit reports are you entitled to from each bureau per year?",
+              "type": "mcq",
+              "options": [
+                "One",
+                "Two",
+                "Three",
+                "Unlimited"
+              ],
+              "answer": "One",
+              "rubric": "South African consumers are entitled to one free credit report per year from each bureau (TransUnion, Experian, Compuscan).",
+              "topic": "free-credit-report"
+            },
+            {
+              "id": "sample/m1/s3/q3",
               "prompt": "Why does applying for a lot of credit in a short time hurt your score?",
               "type": "open",
-              "answer": "Each application is recorded on your report, and many applications in a short time signal to lenders that you might be in financial trouble.",
-              "rubric": "Must mention that applications are recorded or visible, AND that many of them signal risk or desperation to lenders. Reject 'because it looks bad' alone.",
-              "topic": "credit-score"
+              "answer": "Each application is recorded and many applications signal risk to lenders.",
+              "rubric": "Must state that applications are recorded/tracked and that multiple applications in a short time signal risk or desperation to lenders.",
+              "topic": "credit-applications-risk"
             }
           ]
         },
         {
           "id": "sample/m1/s4",
-          "title": "Tax basics: what SARS takes and gives back",
-          "durationSec": 135,
-          "script": "If you earn a salary, your employer deducts PAYE, pay as you earn, every month and sends it to SARS. That is an estimate of your annual tax, spread across twelve months. The tax year runs from the first of March to the end of February, and at the end of it you may need to file a return so SARS can check whether you paid the right amount. You do not pay tax on every rand. There is a tax threshold, and below it you owe nothing. Above it, tax works in brackets. The first slice of income is taxed at a low rate, the next slice at a higher rate, and so on. A common misunderstanding is that a raise can push all your income into a higher bracket. It cannot. Only the rand above each bracket line is taxed at the higher rate. So a raise never leaves you with less take-home pay. Now, things that reduce your tax. Retirement annuity and pension contributions are deductible up to a limit, so saving for retirement lowers your bill today. Medical aid gives you a monthly tax credit. And tax-free savings accounts let you save up to a yearly limit with no tax on the interest or growth. This is one of the best deals SARS offers, and most people under thirty have never used one. Filing is done through eFiling or the SARS app. If your employer sent your IRP5 and you have no other income, SARS often auto-assesses you, and you just confirm. If you are owed a refund, it usually arrives within a few days.",
+          "title": "Tax basics: what SARS actually takes and gives back",
+          "durationSec": 178,
+          "script": "If you earn a salary, your employer deducts something called PAYE, which stands for pay as you earn, every single month, and sends that money straight to SARS on your behalf. This is essentially an estimate of your total annual tax, just spread evenly across twelve months so you're not hit with one massive bill at the end of the year. The tax year in South Africa runs from the first of March to the end of February, and at the end of that year, you may need to file a tax return so SARS can check whether you actually paid the correct amount, not too much, not too little. Here's something important to understand, you don't pay tax on every single rand you earn. There's a tax threshold, and below that threshold, you owe nothing at all. Above the threshold, tax works in brackets, meaning the first slice of your income gets taxed at a low rate, the next slice at a slightly higher rate, and so on up the ladder. A really common misunderstanding is thinking that earning more, say getting a raise that pushes you into a higher bracket, means all of your income suddenly gets taxed at that higher rate. That is simply not true. Only the rand amount that falls above each bracket line gets taxed at the higher rate, everything below that line stays taxed at the lower rates it always was. Now let's talk about what actually reduces your tax bill. Contributions to a retirement annuity or a pension fund are deductible up to a certain limit, which means saving for your retirement also lowers what you owe SARS today, a genuine win-win. Medical aid contributions give you a monthly tax credit automatically. And if you had significant medical expenses during the year that your medical scheme didn't cover, some of that can also be claimed back. Then there's the tax-free savings account, which lets you save up to a set limit every year with absolutely no tax charged on the interest, dividends, or growth inside it, and there's a lifetime limit as well. This is honestly one of the best financial deals SARS offers ordinary South Africans, and yet most people under thirty have never opened one. Filing your return itself is done through eFiling or the SARS MobiApp. If your employer has already submitted your IRP5 and you have no other income sources, SARS will often auto-assess you automatically, and all you need to do is confirm the figures are correct. If it turns out you're actually due a refund, it usually lands in your account within just a few days of that assessment being finalised.",
           "keyPoints": [
-            "PAYE is monthly tax deducted by your employer",
-            "Tax works in brackets: only income above each line is taxed higher",
-            "Retirement contributions, medical credits and TFSAs reduce tax",
-            "Auto-assessment on eFiling or the app if you only have an IRP5"
+            "PAYE is tax deducted monthly by your employer as an estimate of your annual tax, spread across the year",
+            "Tax brackets only apply to the income above each threshold line, not your entire income",
+            "Retirement annuity contributions, medical aid credits, and tax-free savings accounts all reduce what you owe or grow money tax-free",
+            "SARS often auto-assesses salaried workers with no other income via eFiling or the SARS MobiApp"
           ],
-          "altExplanation": "Think of brackets as a staircase, not a lift. Every rand you earn walks up the stairs, and each step charges a bit more than the one below. A raise adds a few rands at the top step. It does not carry the rands on the bottom steps up with it. So no, earning more never means keeping less.",
-          "deeper": "For the twenty twenty-five tax year the threshold for people under sixty-five is around ninety-five thousand rand a year, and there are seven brackets from eighteen percent up to forty-five percent. The tax-free savings limit is thirty-six thousand rand a year with a lifetime cap of five hundred thousand, and going over the annual limit is penalised at forty percent, so do not overshoot. Retirement contributions are deductible up to twenty-seven and a half percent of income, capped at three hundred and fifty thousand rand a year. Keep your IRP5, medical aid certificate and RA certificate together each year, because if SARS does ask for supporting documents you have twenty-one days to upload them.",
+          "altExplanation": "Think of your income like filling up different sized buckets at a communal tap. The first bucket, up to a certain level, fills for free, no tax at all. Once that bucket is full, the next bucket, a bit bigger, starts filling but at a low tax rate. Once that one's full too, the next bucket fills at a higher rate, and so on. Getting a raise just means you're now filling a slightly bigger bucket at the higher rate, but the water that already went into your earlier, cheaper buckets stays exactly where it was, taxed at the lower rate it always was. Nobody goes back and re-taxes your first buckets just because you filled a new one.",
+          "deeper": "Beyond salary earners, it's worth knowing that provisional taxpayers, people earning income SARS doesn't automatically see tax deducted from, such as freelancers, landlords renting out property, or small business owners, must submit provisional tax returns twice a year, in August and February, estimating and paying tax in advance rather than relying on monthly PAYE deductions. SARS also allows deductions for home office expenses under specific, fairly strict conditions if you work from home regularly. Additionally, South Africa uses a residence-based tax system for most purposes, meaning tax residents are generally taxed on worldwide income, though a foreign employment income exemption exists for South Africans working abroad under certain conditions, capped at a set rand amount per year. Keeping your tax certificates, like your IRP5 and medical aid tax certificate, organised throughout the year makes the March filing season far less stressful.",
           "checkpoint": [
             {
               "id": "sample/m1/s4/q1",
-              "prompt": "True or false: if a raise pushes you into a higher bracket, all of your income is taxed at the higher rate.",
+              "prompt": "What does PAYE stand for?",
               "type": "mcq",
-              "options": ["True", "False"],
-              "answer": "False",
-              "rubric": "Only the income above the bracket line is taxed at the higher rate.",
-              "topic": "tax-brackets"
+              "options": [
+                "Pay as you earn",
+                "Pay annual employee earnings",
+                "Personal annual yearly estimate",
+                "Provisional annual year end"
+              ],
+              "answer": "Pay as you earn",
+              "rubric": "PAYE is the monthly tax deduction system standing for pay as you earn.",
+              "topic": "paye-meaning"
             },
             {
               "id": "sample/m1/s4/q2",
-              "prompt": "Name one thing that reduces the tax you owe, and say how it works.",
+              "prompt": "True or false: if a raise pushes you into a higher bracket, all your income is taxed at the higher rate.",
+              "type": "mcq",
+              "options": [
+                "True",
+                "False"
+              ],
+              "answer": "False",
+              "rubric": "Only the income above the bracket threshold is taxed at the higher rate; income below the line keeps its original lower rate.",
+              "topic": "tax-bracket-misconception"
+            },
+            {
+              "id": "sample/m1/s4/q3",
+              "prompt": "Name one thing that reduces the tax you owe.",
               "type": "open",
-              "answer": "Retirement annuity contributions are deductible from your income, so you are taxed on less.",
-              "rubric": "Must name one of: retirement or pension contributions, medical aid credit, tax-free savings account, AND give a mechanism (deductible, credit, or no tax on growth). Reject answers that only name it with no explanation.",
+              "answer": "Retirement annuity or pension contributions, medical aid tax credit, or a tax-free savings account.",
+              "rubric": "Must name at least one specific deduction or credit: retirement annuity/pension contributions, medical aid credit, or tax-free savings account.",
               "topic": "tax-deductions"
             }
           ]
