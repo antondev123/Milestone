@@ -2,7 +2,8 @@
 // The assistant: a short thread over the `ask` tool, grounded on the current leg. A tapped
 // sentence rides along as context and is shown quoted above the composer until cleared.
 import { useEffect, useRef, useState } from "react";
-import { CloseIcon } from "@/components/carry/Icons";
+import { CloseIcon, MicIcon } from "@/components/carry/Icons";
+import { useDictation } from "./useDictation";
 import type { ToolReply } from "@/types/lesson";
 
 export type Message = { who: "you" | "tutor"; text: string; offer?: ToolReply["offer"] };
@@ -31,7 +32,12 @@ export function AssistantThread({
   dark?: boolean;
 }) {
   const [input, setInput] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
+  const mic = useDictation((text) => {
+    setInput((cur) => (cur ? `${cur} ${text}` : text));
+    inputRef.current?.focus();
+  });
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: "nearest" });
   }, [messages.length, busy]);
@@ -104,17 +110,39 @@ export function AssistantThread({
           submit(input);
         }}
       >
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={context ? "Ask about this sentence" : "Ask about this passage"}
-          aria-label="Ask a question"
-          className={`min-h-11 min-w-0 flex-1 rounded-xl border-2 bg-transparent px-3 text-[16px] ${dark ? "border-muted-on-ink placeholder:text-muted-on-ink" : "border-rule placeholder:text-muted"}`}
-        />
+        <div className="relative min-w-0 flex-1">
+          <input
+            ref={inputRef}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder={mic.state === "recording" ? "Listening…" : mic.state === "transcribing" ? "Transcribing…" : context ? "Ask about this sentence" : "Ask about this passage"}
+            aria-label="Ask a question"
+            className={`min-h-11 w-full rounded-xl border-2 bg-transparent pl-3 text-[16px] ${mic.supported ? "pr-11" : "pr-3"} ${dark ? "border-muted-on-ink placeholder:text-muted-on-ink" : "border-rule placeholder:text-muted"}`}
+          />
+          {mic.supported && (
+            <button
+              type="button"
+              onClick={mic.toggle}
+              disabled={busy || mic.state === "transcribing"}
+              aria-label={mic.state === "recording" ? "Stop and transcribe" : "Speak your question"}
+              aria-pressed={mic.state === "recording"}
+              className={`absolute top-1/2 right-1 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full disabled:opacity-60 ${
+                mic.state === "recording" ? "animate-pulse bg-gold text-ink" : dark ? "text-ground" : "text-ink"
+              }`}
+            >
+              <MicIcon size={20} />
+            </button>
+          )}
+        </div>
         <button type="submit" disabled={busy || !input.trim()} className="min-h-11 rounded-xl bg-ink px-4 text-[15px] font-bold text-ground disabled:opacity-60">
           Ask
         </button>
       </form>
+      {mic.error && (
+        <p className={`mt-1.5 text-[13px] ${muted}`} role="status">
+          {mic.error}
+        </p>
+      )}
     </div>
   );
 }

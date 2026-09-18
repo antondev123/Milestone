@@ -1,6 +1,6 @@
 # STATUS
 
-Updated: 2026-09-18 (play button fix for Dial and Study; app renamed to Milestone)
+Updated: 2026-09-18 (Study assistant mic dictation; play button fix for Dial and Study; app renamed to Milestone)
 
 ## Done
 - **App renamed to Milestone**: browser tab title and the Resume header. "Carry" stays as the name of the design palette and the `components/carry` folder.
