@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { DEFAULT_COURSE_ID } from "@/lib/course";
 import { blockAudio, TtsError } from "@/lib/tts";
+import { actionProgress } from "@/lib/actions";
+import { isVoiceId, resolveVoice } from "@/lib/voices";
 
 /**
  * GET /api/tts?segmentId=&blockIdx=          → { text, words, model, voice }   (generates + caches)
@@ -13,7 +15,9 @@ export async function GET(req: Request) {
   const blockIdx = Number(q.get("blockIdx") ?? 0);
   if (!segmentId || !Number.isInteger(blockIdx) || blockIdx < 0) return NextResponse.json({ reason: "segmentId and blockIdx required" }, { status: 400 });
   try {
-    const a = await blockAudio(DEFAULT_COURSE_ID, segmentId, blockIdx);
+    const asked = q.get("voice");
+    const voice = isVoiceId(asked) ? asked : resolveVoice(actionProgress());
+    const a = await blockAudio(DEFAULT_COURSE_ID, segmentId, blockIdx, voice);
     if (q.get("audio")) {
       return new Response(Buffer.from(a.audioBase64, "base64"), {
         headers: { "content-type": "audio/mpeg", "cache-control": "private, max-age=86400" },

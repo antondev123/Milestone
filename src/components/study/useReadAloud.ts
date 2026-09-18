@@ -31,17 +31,19 @@ export function nextSpeed(s: number): number {
   return SPEEDS[(SPEEDS.indexOf(s) + 1) % SPEEDS.length];
 }
 
-function ttsUrl(segmentId: string, block: number, audio = false): string {
-  return `/api/tts?segmentId=${encodeURIComponent(segmentId)}&blockIdx=${block}${audio ? "&audio=1" : ""}`;
+function ttsUrl(segmentId: string, block: number, voiceId: string | undefined, audio = false): string {
+  const voice = voiceId ? `&voice=${encodeURIComponent(voiceId)}` : "";
+  return `/api/tts?segmentId=${encodeURIComponent(segmentId)}&blockIdx=${block}${voice}${audio ? "&audio=1" : ""}`;
 }
 
 export function useReadAloud(opts: {
   segmentId: string | null;
   blockCount: number;
+  voiceId?: string; // learner's pick; fixed for the page's lifetime (changed on /settings)
   onBlockStart?: (block: number) => void;
   onFinished?: () => void;
 }): ReadAloud {
-  const { segmentId, blockCount, onBlockStart, onFinished } = opts;
+  const { segmentId, blockCount, voiceId, onBlockStart, onFinished } = opts;
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const metas = useRef(new Map<string, Promise<Meta>>());
   const meta = useRef<Meta | null>(null); // timings for the block currently in the element
@@ -64,7 +66,7 @@ export function useReadAloud(opts: {
       const key = `${segmentId}/${block}`;
       let p = metas.current.get(key);
       if (!p) {
-        p = fetch(ttsUrl(segmentId!, block)).then(async (r) => {
+        p = fetch(ttsUrl(segmentId!, block, voiceId)).then(async (r) => {
           const j = (await r.json()) as Meta & { reason?: string };
           if (!r.ok) throw new Error(j.reason || `Read-aloud failed (${r.status})`);
           return { text: j.text, words: j.words };
@@ -74,7 +76,7 @@ export function useReadAloud(opts: {
       }
       return p;
     },
-    [segmentId],
+    [segmentId, voiceId],
   );
 
   const audio = useCallback((): HTMLAudioElement => {
@@ -114,7 +116,7 @@ export function useReadAloud(opts: {
       setPos(cur.current);
       setBlockDuration(0);
       pendingSeek.current = null;
-      a.src = ttsUrl(segmentId, block, true);
+      a.src = ttsUrl(segmentId, block, voiceId, true);
       a.defaultPlaybackRate = speedRef.current;
       a.playbackRate = speedRef.current;
       a.load();
@@ -145,7 +147,7 @@ export function useReadAloud(opts: {
           a.pause();
         });
     },
-    [segmentId, blockCount, audio, fetchMeta],
+    [segmentId, voiceId, blockCount, audio, fetchMeta],
   );
 
   // element events, bound once

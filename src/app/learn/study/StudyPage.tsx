@@ -34,9 +34,10 @@ export interface StudyPageProps {
   courseTitle: string;
   gotoTarget: string | null;
   carriedFrom: "voice" | "text" | null;
+  voiceId?: string;
 }
 
-export default function StudyPage({ legs, source, courseTitle, gotoTarget, carriedFrom }: StudyPageProps) {
+export default function StudyPage({ legs, source, courseTitle, gotoTarget, carriedFrom, voiceId }: StudyPageProps) {
   const router = useRouter();
   const [manifest, setManifest] = useState<Manifest | null>(null);
   const [seg, setSeg] = useState<Loaded | null>(null);
@@ -107,6 +108,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   const player = useReadAloud({
     segmentId: seg?.id ?? null,
     blockCount: blockTexts.length,
+    voiceId,
     onBlockStart: (b) => {
       if (!seg) return;
       const key = `${seg.id}/${b}`;

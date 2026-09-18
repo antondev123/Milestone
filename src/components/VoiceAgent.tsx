@@ -56,9 +56,10 @@ type Props = {
   leg?: Leg; // where the learner is now; drives the Where block and the ring
   paused: boolean;
   onPausedChange: (paused: boolean) => void;
+  voiceId?: string; // learner's pick from /settings; undefined keeps the agent's dashboard voice
 };
 
-function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPausedChange }: Props) {
+function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPausedChange, voiceId }: Props) {
   const [err, setErr] = useState<string | null>(null);
   const [ctx, setCtx] = useState<number | null>(null);
   const [loc, setLoc] = useState<string>("");
@@ -316,7 +317,8 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       agentId,
       connectionType: textOnly.current ? "websocket" : "webrtc",
       textOnly: textOnly.current,
-      overrides: { agent: { firstMessage: greeting } },
+      // The agent must allow the tts.voice_id override (scripts/configure-agent.ts) or the session is refused.
+      overrides: { agent: { firstMessage: greeting }, ...(voiceId ? { tts: { voiceId } } : {}) },
       dynamicVariables: { greeting, trip_id: plan.tripId },
     });
   }

@@ -35,9 +35,8 @@ const memory = new Map<string, BlockAudio>();
 const inflight = new Map<string, Promise<BlockAudio>>();
 let fsWritable: boolean | null = null;
 
-function config() {
+function config(voice: string | undefined) {
   const key = process.env.ELEVENLABS_API_KEY;
-  const voice = process.env.ELEVENLABS_VOICE_ID;
   const model = process.env.ELEVENLABS_TTS_MODEL || "eleven_flash_v2_5";
   if (!key || !voice) throw new TtsError("Read-aloud is not configured (ELEVENLABS_API_KEY and ELEVENLABS_VOICE_ID)", 503);
   return { key, voice, model };
@@ -81,8 +80,8 @@ export function wordTimings(text: string, chars: string[], starts: number[], end
   return Array.from({ length: expected }, (_, i) => ({ start: (total * i) / expected, end: (total * (i + 1)) / expected }));
 }
 
-async function synthesize(text: string): Promise<BlockAudio> {
-  const { key, voice, model } = config();
+async function synthesize(text: string, voiceId: string | undefined): Promise<BlockAudio> {
+  const { key, voice, model } = config(voiceId);
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), 30_000);
   const t0 = Date.now();
@@ -112,9 +111,10 @@ async function synthesize(text: string): Promise<BlockAudio> {
   return { text, words, audioBase64: data.audio_base64, model, voice };
 }
 
-export async function blockAudio(courseId: string, segmentId: string, blockIdx: number): Promise<BlockAudio> {
+/** `voiceId` is the resolved voice (src/lib/voices.ts resolveVoice); it is part of the cache key. */
+export async function blockAudio(courseId: string, segmentId: string, blockIdx: number, voiceId: string | undefined): Promise<BlockAudio> {
   const text = blockText(courseId, segmentId, blockIdx);
-  const { voice, model } = config();
+  const { voice, model } = config(voiceId);
   const hash = createHash("sha1").update(`${text}\n${voice}\n${model}`).digest("hex").slice(0, 10);
   const p = cachePath(courseId, segmentId, blockIdx, hash);
   const mem = memory.get(p);
@@ -130,7 +130,7 @@ export async function blockAudio(courseId: string, segmentId: string, blockIdx: 
   }
   const pending = inflight.get(p);
   if (pending) return pending;
-  const job = synthesize(text)
+  const job = synthesize(text, voice)
     .then((audio) => {
       memory.set(p, audio);
       if (fsWritable !== false) {

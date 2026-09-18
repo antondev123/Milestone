@@ -17,7 +17,8 @@
     "parse:book": "node scripts/parse-book.ts --in data/courses/pom/raw/pom.txt --out data/courses/pom",
     "validate": "node scripts/validate-course.ts pom",
     "course:verbatim": "node scripts/verbatim-chapter.ts build",
-    "deploy:fly": "node --env-file=.env.local scripts/deploy-fly.ts"
+    "deploy:fly": "node --env-file=.env.local scripts/deploy-fly.ts",
+    "voices:sync": "node --env-file=.env.local scripts/voices.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.126.0",

@@ -30,6 +30,10 @@ This creates the seven client tools and patches the agent with everything below.
 
 `greeting` is composed server-side by `src/lib/say.ts` from the cursor (fresh start / resume mid-part / resume at a checkpoint) and sent both as a dynamic variable and as a `firstMessage` override. The agent never computes position. The greeting no longer asks the learner to say go: reading starts as soon as it is spoken (see §6 step 2).
 
+## 2b. Voice override
+
+The learner picks a voice on `/settings` (`Progress.voiceId`). Listen sends it as `overrides.tts.voiceId` on `startSession`; without a pick the agent's dashboard voice is used. `scripts/configure-agent.ts` enables `platform_settings.overrides.conversation_config_override.tts.voice_id`, without which the session is refused. The eight offered voices are frozen in `data/voices.json` by `npm run voices:sync` (`scripts/voices.ts`: top trending English library voices, added to the account, samples saved to `public/voices/`). Library voices must be added to the account before TTS or the agent can use them; a voice removed from the account breaks both surfaces for whoever picked it, so re-run the sync rather than deleting on the dashboard.
+
 ## 3. System prompt
 
 The live text is `PROMPT` in `scripts/configure-agent.ts`. Its load-bearing lines:
@@ -73,7 +77,7 @@ Text-only rehearsal without a mic: open `/learn/voice?text=1` and tap the dial. 
 
 ## 7. Study mode read-aloud (REST, not the agent)
 
-`/api/tts` calls `POST /v1/text-to-speech/{ELEVENLABS_VOICE_ID}/with-timestamps` with `ELEVENLABS_TTS_MODEL` (default `eleven_flash_v2_5`; the agent stays on `eleven_flash_v2`). It is not a conversation: no agent id, no tools, plain credits per character. A ~150-word block is ~900 characters and is cached on disk after the first play, so replaying chapter 1 costs nothing. Pick the voice on the dashboard Voices page; the default in `.env.example` is Alice (`Xb7hH8MSUJpSbSDYk0k2`).
+`/api/tts` calls `POST /v1/text-to-speech/{ELEVENLABS_VOICE_ID}/with-timestamps` with `ELEVENLABS_TTS_MODEL` (default `eleven_flash_v2_5`; the agent stays on `eleven_flash_v2`). It is not a conversation: no agent id, no tools, plain credits per character. A ~150-word block is ~900 characters and is cached on disk after the first play, so replaying chapter 1 costs nothing. `ELEVENLABS_VOICE_ID` is the fallback when the learner has not picked a voice on `/settings` (see §2b); the default in `.env.example` is Alice (`Xb7hH8MSUJpSbSDYk0k2`). The voice is part of the cache key, so each voice is synthesised once per block.
 
 ## 8. Study mode dictation (REST, not the agent)
 

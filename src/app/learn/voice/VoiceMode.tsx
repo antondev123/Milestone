@@ -10,7 +10,7 @@ import { ModePill, Screen, SignalNotice, TopBar } from "@/components/carry/Chrom
 import { ChevronIcon } from "@/components/carry/Icons";
 import { persist, postJSON } from "@/components/carry/net";
 
-export default function VoiceMode({ legs, carriedFromReading, startId, carrying }: { legs: LegIndex; carriedFromReading: boolean; startId: string; carrying: boolean }) {
+export default function VoiceMode({ legs, carriedFromReading, startId, carrying, voiceId }: { legs: LegIndex; carriedFromReading: boolean; startId: string; carrying: boolean; voiceId?: string }) {
   const router = useRouter();
   const [plan, setPlan] = useState<Plan | null>(null);
   const [trouble, setTrouble] = useState(false);
@@ -57,6 +57,7 @@ export default function VoiceMode({ legs, carriedFromReading, startId, carrying 
       ) : (
         <VoiceAgent
           plan={plan}
+          voiceId={voiceId}
           leg={legs[segmentId]}
           paused={paused}
           onPausedChange={setPaused}

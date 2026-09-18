@@ -29,7 +29,15 @@ export default function ProgressPage() {
 
   return (
     <Screen gap="gap-[26px]">
-      <TopBar left={<BackLink href="/" />} title="Your progress" />
+      <TopBar
+        left={<BackLink href="/" />}
+        title="Your progress"
+        right={
+          <Link href="/settings" className="flex min-h-11 items-center px-1 text-[15px] font-semibold underline underline-offset-4">
+            Settings
+          </Link>
+        }
+      />
 
       {complete && (
         <div className="flex items-center gap-2.5 rounded-xl bg-panel px-4 py-3">

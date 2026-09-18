@@ -174,9 +174,9 @@ await api("PATCH", `/agents/${agentId}`, {
     conversation: { max_duration_seconds: 7200 /* trips are open-ended; matches HARD_STOP_MS in VoiceAgent.tsx */ },
   },
   platform_settings: {
-    overrides: { conversation_config_override: { agent: { first_message: true, prompt: { prompt: false } } } },
+    overrides: { conversation_config_override: { agent: { first_message: true, prompt: { prompt: false } }, tts: { voice_id: true } } },
   },
 });
-console.log(`agent ${agentId}: configured with ${LLM}, ${toolIds.length} tools, first message override enabled`);
+console.log(`agent ${agentId}: configured with ${LLM}, ${toolIds.length} tools, first message + voice overrides enabled`);
 
 export {};
