@@ -111,7 +111,7 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
   if (!course || !plan)
     return (
       <Screen>
-        <p className="text-[17px] text-muted">Getting your place…</p>
+        <p className="text-[17px] text-muted">Getting your progress…</p>
       </Screen>
     );
 
@@ -285,7 +285,7 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
         )}
 
         <div className="flex items-center justify-between border-t border-rule text-sm text-muted">
-          <span>Get off any time. Your place is saved.</span>
+          <span>Get off any time. Your progress is saved.</span>
           <button onClick={finish} disabled={busy} className="min-h-11 font-semibold text-ink underline underline-offset-4">
             End trip
           </button>

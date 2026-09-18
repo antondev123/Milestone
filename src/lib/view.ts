@@ -72,7 +72,7 @@ export function currentChapter(course: Course, progress: Progress): Chapter {
   return chapterOf(course, hereId(progress)) ?? course.chapters.find((c) => c.segments.length) ?? course.chapters[0];
 }
 
-/** The last mode used, for "Your place carried over from reading". */
+/** The last mode used, for "Your progress carried over from reading". */
 export function lastMode(progress: Progress): Mode | null {
   return progress.activeTrip?.mode ?? progress.trips.at(-1)?.mode ?? null;
 }

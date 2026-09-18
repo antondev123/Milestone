@@ -67,7 +67,7 @@ export function SignalNotice({ show, dark = false }: { show: boolean; dark?: boo
       role="status"
       className={`rounded-xl px-4 py-3 text-[15px] font-medium ${dark ? "bg-ink-raised text-ground" : "bg-panel text-ink"}`}
     >
-      Lost signal. Your place is saved. Retrying.
+      Lost signal. Your progress is saved. Retrying.
     </div>
   );
 }

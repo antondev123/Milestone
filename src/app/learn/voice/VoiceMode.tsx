@@ -46,14 +46,14 @@ export default function VoiceMode({ legs, carriedFromReading, startId, carrying,
       {carriedFromReading && (
         <div className="flex items-center gap-2.5 self-start rounded-xl bg-ink-raised px-3.5 py-2.5 text-[15px]">
           <span className="h-2.5 w-2.5 rounded-full bg-gold" aria-hidden="true" />
-          Your place carried over from reading
+          Your progress carried over from reading
         </div>
       )}
 
       <SignalNotice show={trouble} dark />
 
       {!plan ? (
-        <p className="text-[17px] text-muted-on-ink">{carrying ? "Carrying your trip over…" : "Getting your place…"}</p>
+        <p className="text-[17px] text-muted-on-ink">{carrying ? "Carrying your trip over…" : "Getting your progress…"}</p>
       ) : (
         <VoiceAgent
           plan={plan}

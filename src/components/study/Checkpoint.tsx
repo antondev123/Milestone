@@ -112,7 +112,7 @@ export function Checkpoint({
       {done ? (
         <div className="fade-up flex flex-col gap-5">
           {feedback && <Feedback correct={feedback.correct} text={feedback.text} source={src} />}
-          <p className="text-[17px] leading-[1.6] text-muted">Your place is saved. Carry on whenever you like.</p>
+          <p className="text-[17px] leading-[1.6] text-muted">Your progress is saved. Carry on whenever you like.</p>
         </div>
       ) : !q ? (
         <p className="text-[17px] text-muted" role="status">
