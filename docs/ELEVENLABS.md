@@ -1,6 +1,16 @@
 # ElevenLabs agent configuration
 
-## 0. Step by step (15 min)
+## 0. Fastest path: run the script
+
+Create a blank agent in the dashboard, paste its ID into `.env.local`, then:
+
+```bash
+node --env-file=.env.local scripts/configure-agent.ts
+```
+
+This creates the four client tools and patches the agent with everything below. Rerun after editing the prompt in the script. Set `ELEVENLABS_LLM` to override the model. Note: English agents must use `eleven_flash_v2` (v2.5 is the multilingual variant), and Gemini rejects `reasoning_effort`.
+
+## 0b. Manual dashboard steps (if you prefer)
 
 1. Go to elevenlabs.io → **Agents** (left sidebar) → **New agent** → **Blank agent**. Name it **Commute Tutor**.
 2. **Agent tab**: paste the **First message** from §2 and the **System prompt** from §3. Set language English.

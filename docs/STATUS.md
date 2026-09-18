@@ -7,7 +7,7 @@ Updated: 2026-09-18 (keys added, pipeline verified live)
 - Task 2: docs/SCHEMA.md + src/types/lesson.ts (added `ActiveTrip` on Progress)
 - Task 3: Next.js 16 + TS + Tailwind 4 scaffold, README, .env.example, npm scripts (`dev`, `ingest`, `demo:reset`, `typecheck`). Runs on Node 24 with no tsx.
 - Task 4: scripts/ingest.ts (Claude Sonnet, structured JSON output, sanity checks). Sample course raw + a hand-authored lesson.json (4 segments, 9 questions) so the app runs before ingest. **Ingest run live with Sonnet 5: 4 segments, 12 questions, ~20 min. The committed lesson.json is now the ingested one.**
-- Task 5: ElevenLabs wiring: `VoiceAgent` component (ConversationProvider + client tools), `/api/tools/[tool]` webhook route (same four tools), docs/ELEVENLABS.md with prompt, first message, tool schemas, Flash TTS. **Not yet tested against a real agent.**
+- Task 5: ElevenLabs wiring: `VoiceAgent` component (ConversationProvider + client tools), `/api/tools/[tool]` webhook route (same four tools), docs/ELEVENLABS.md with prompt, first message, tool schemas, Flash TTS. Agent configured via `scripts/configure-agent.ts` (Gemini 2.5 Flash, Flash v2, 4 client tools). Live voice test pending.
 - Task 6: Text mode, verified end to end in the browser (plan → read → MCQ → open answer rejected/accepted → complete → summary).
 - Session planner (`src/lib/planner.ts`), progress store (JSON file + memory fallback), grader (MCQ local, open via Claude, keyword fallback without key).
 - Trip summary page `/trip/[id]/summary`, verified.
