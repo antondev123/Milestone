@@ -16,7 +16,7 @@ export function StudyLayout({ topBar, aside, strip, children }: { topBar: React.
             </div>
           )}
         </div>
-        <aside className="hidden border-l border-rule lg:sticky lg:top-0 lg:flex lg:h-dvh lg:flex-col lg:px-6 lg:pt-3 lg:pb-6">{aside}</aside>
+        <aside className="hidden border-l border-rule lg:sticky lg:top-0 lg:flex lg:h-dvh lg:flex-col lg:overflow-y-auto lg:px-6 lg:pt-3 lg:pb-6">{aside}</aside>
       </div>
     </div>
   );

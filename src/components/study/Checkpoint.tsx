@@ -19,6 +19,7 @@ export function Checkpoint({
   tool,
   onNextLeg,
   hasNextLeg,
+  inline = false,
 }: {
   segmentId: string;
   questions: StudyQuestion[];
@@ -28,6 +29,7 @@ export function Checkpoint({
   tool: (name: string, body?: Record<string, unknown>) => Promise<ToolReply>;
   onNextLeg: () => void;
   hasNextLeg: boolean;
+  inline?: boolean; // desktop column: no top rule, smaller titles (the phone flow puts it under the passage)
 }) {
   const [qIdx, setQIdx] = useState<number | null>(null);
   const [done, setDone] = useState(false);
@@ -82,8 +84,8 @@ export function Checkpoint({
   const q = qIdx != null ? questions[qIdx] : undefined;
 
   return (
-    <section className="mt-10 flex flex-col gap-5 border-t border-rule pt-8" aria-label="Check your understanding">
-      <h2 className="font-display text-[28px] leading-[1.15] font-semibold">{done ? `${legLabel} done` : "Check your understanding"}</h2>
+    <section className={`flex flex-col gap-5 ${inline ? "" : "mt-10 border-t border-rule pt-8"}`} aria-label="Check your understanding">
+      <h2 className={`font-display leading-[1.15] font-semibold ${inline ? "text-[24px]" : "text-[28px]"}`}>{done ? `${legLabel} done` : "Check your understanding"}</h2>
 
       {done ? (
         <>
@@ -100,7 +102,7 @@ export function Checkpoint({
           <div className="text-[14px] font-semibold text-muted">
             Question {qIdx! + 1} of {questions.length}
           </div>
-          <p className="font-display text-[24px] leading-[1.2] font-semibold">{q.prompt}</p>
+          <p className={`font-display leading-[1.2] font-semibold ${inline ? "text-[20px]" : "text-[24px]"}`}>{q.prompt}</p>
 
           {q.type === "mcq" && q.options ? (
             <div className="flex flex-col gap-2.5">

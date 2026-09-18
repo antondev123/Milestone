@@ -223,9 +223,11 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
     />
   );
 
-  const checkpoint = seg && checkOpen && (
-    <Checkpoint segmentId={seg.id} questions={seg.questions} source={source} section={section} legLabel={legLabel} tool={tool} onNextLeg={nextLeg} hasNextLeg={!!nextId} />
-  );
+  const checkpoint = (inline = false) =>
+    seg &&
+    checkOpen && (
+      <Checkpoint segmentId={seg.id} questions={seg.questions} source={source} section={section} legLabel={legLabel} tool={tool} onNextLeg={nextLeg} hasNextLeg={!!nextId} inline={inline} />
+    );
 
   const topBar = (
     <TopBar
@@ -254,34 +256,33 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
 
   const aside = (
     <>
-      <div className="mb-3 flex gap-2">
-        <button type="button" onClick={() => setAsideTab("ask")} aria-pressed={asideTab === "ask"} className={`min-h-10 rounded-full px-4 text-[14px] font-semibold ${asideTab === "ask" ? "bg-ink text-ground" : "bg-panel"}`}>
+      <div className="mb-4 flex shrink-0 gap-2">
+        <button type="button" onClick={() => setAsideTab("ask")} aria-pressed={asideTab === "ask"} className={`min-h-10 rounded-full px-4 text-[14px] font-semibold ${asideTab === "ask" ? "bg-ink text-ground" : "bg-panel text-ink"}`}>
           Ask
         </button>
         <button
           type="button"
           onClick={() => (checkOpen ? setAsideTab("check") : openCheck())}
           aria-pressed={asideTab === "check"}
-          className={`min-h-10 rounded-full px-4 text-[14px] font-semibold ${asideTab === "check" ? "bg-ink text-ground" : "bg-panel"}`}
+          className={`min-h-10 rounded-full px-4 text-[14px] font-semibold ${asideTab === "check" ? "bg-ink text-ground" : "bg-panel text-ink"}`}
         >
           Check my understanding
         </button>
       </div>
-      {audioOn && (
-        <div className="mb-4 rounded-2xl bg-panel px-4 py-3">
-          <div className="text-[12px] font-semibold text-muted">Reading now</div>
-          <div className="font-display text-[16px] leading-[1.4] italic">{curSentence ? curSentence.text : player.error ?? "Press play to hear this leg."}</div>
-        </div>
-      )}
-      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">{asideTab === "check" && checkOpen ? checkpoint : assistant()}</div>
-      <div className="mt-4 flex flex-col gap-2 border-t border-rule pt-4 text-[14px]">
+      {/* the middle is one flex region; whatever is inside owns the single scroll (the thread, or the checkpoint) */}
+      <div className="flex min-h-0 flex-1 flex-col">
+        {asideTab === "check" && checkOpen ? <div className="min-h-0 flex-1 overflow-y-auto">{checkpoint(true)}</div> : assistant()}
+      </div>
+      <div className="mt-3 flex shrink-0 flex-col gap-1 border-t border-rule pt-3 text-[14px]">
         <Link href="/learn/voice?carry=1" className="flex min-h-10 items-center gap-2 font-semibold">
           <HeadphonesIcon size={18} /> Switch to Listen mode
         </Link>
-        <span className="text-muted">Listening on the go? Your place carries over.</span>
-        <button type="button" onClick={endSession} className="self-start text-muted underline underline-offset-4">
-          End session
-        </button>
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-muted">Your place carries over.</span>
+          <button type="button" onClick={endSession} className="min-h-9 text-muted underline underline-offset-4">
+            End session
+          </button>
+        </div>
       </div>
     </>
   );
@@ -304,7 +305,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
           <Reader title={seg.title} blocks={index} pos={audioOn ? pos : null} audioOn={audioOn} onTapSentence={(p) => player.seek(p, { play: true })} onAsk={(s) => openAsk(s)}>
             <div ref={checkRef} className="lg:hidden">
               {checkOpen ? (
-                checkpoint
+                checkpoint()
               ) : (
                 <div className="mt-8 border-t border-rule pt-6">
                   <button type="button" onClick={openCheck} className="flex min-h-[60px] w-full items-center justify-center gap-3 rounded-2xl bg-gold px-5 text-lg font-bold text-ink">

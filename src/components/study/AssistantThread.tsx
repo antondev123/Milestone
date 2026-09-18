@@ -53,7 +53,8 @@ export function AssistantThread({
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto pb-3">
+      {/* the only scroll region: the thread. Quote, chips and composer sit below it at their natural height */}
+      <div className="flex min-h-[120px] flex-1 flex-col gap-3 overflow-y-auto pb-3">
         {messages.length === 0 && <p className={`text-[15px] ${muted}`}>Ask anything about this passage. Answers come from the book and say where.</p>}
         {messages.map((m, i) =>
           m.who === "you" ? (
@@ -83,7 +84,7 @@ export function AssistantThread({
       </div>
 
       {context && (
-        <div className="mb-2 flex items-start gap-2 rounded-xl bg-panel px-3 py-2 text-ink">
+        <div className="mb-2 flex shrink-0 items-start gap-2 rounded-xl bg-panel px-3 py-2 text-ink">
           <div className="min-w-0 flex-1 font-display text-[15px] leading-[1.4] italic">“{context}”</div>
           <button type="button" onClick={onClearContext} aria-label="Clear the selected sentence" className="-mr-1 flex h-8 w-8 shrink-0 items-center justify-center">
             <CloseIcon size={18} />
@@ -91,7 +92,7 @@ export function AssistantThread({
         </div>
       )}
 
-      <div className="-mx-1 mb-2 flex gap-2 overflow-x-auto px-1 py-0.5">
+      <div className="mb-2 flex shrink-0 gap-2 overflow-x-auto py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <button type="button" disabled={busy} className={chip} onClick={() => submit(context ? "Explain this sentence in plain words" : "Explain this passage in plain words")}>
           {context ? "Explain this sentence" : "Explain this"}
         </button>
@@ -104,7 +105,7 @@ export function AssistantThread({
       </div>
 
       <form
-        className="flex items-end gap-2"
+        className="flex shrink-0 items-end gap-2"
         onSubmit={(e) => {
           e.preventDefault();
           submit(input);
