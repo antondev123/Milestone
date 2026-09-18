@@ -54,7 +54,9 @@ export default function VoiceMode({ legs, source, carriedFromReading, startId }:
           source={source}
           legs={legs}
           onReply={(r: ToolReply) => r.segmentId && setSegmentId(r.segmentId)}
-          onTripEnd={(tripId) => router.push(`/trip/${tripId}/summary`)}
+          // Full navigation, not router.push: a fresh document drops the WebRTC/audio session for
+          // good and cannot race a client transition the SDK teardown may abort mid-flight.
+          onTripEnd={(tripId) => window.location.assign(`/trip/${tripId}/summary`)}
         />
       )}
     </Screen>

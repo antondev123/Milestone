@@ -1,6 +1,6 @@
 # STATUS
 
-Updated: 2026-09-18 (voice lessons auto-start after the greeting)
+Updated: 2026-09-18 (trip-end summary fix on Fly; voice lessons auto-start after the greeting)
 
 ## Done
 - Task 1: docs/OUTLINE.md
@@ -11,6 +11,7 @@ Updated: 2026-09-18 (voice lessons auto-start after the greeting)
 - Task 6: Text mode, verified end to end in the browser (plan → read → MCQ → open answer rejected/accepted → complete → summary).
 - Session planner (`src/lib/planner.ts`), progress store (JSON file + memory fallback), grader (MCQ local, open via Claude, keyword fallback without key).
 - Trip summary page `/trip/[id]/summary`, verified.
+- Trip end on Fly fixed: `end_trip` is idempotent (no 0-minute phantom trip on a second call), voice mode ends the session once through one guarded path, and the hop to the summary is a full navigation. Verified on localhost with a double-clicked End trip: one `end_trip` POST, one summary load, no console errors.
 - docs/DEMO.md first draft with the interruption beat.
 - Voice mode: mic mute/unmute button (mic-only; session and tutor audio keep streaming). Not yet exercised in a live call.
 - Fly.io deploy config: `fly.toml`, `Dockerfile` (Next standalone), `npm run deploy:fly`, `docs/DEPLOY.md`. One always-on machine in jnb with a volume for `data/progress`, so the file store works as on localhost. Standalone build verified locally (pages, `/api/session`, progress write, `demo-reset --seed`). Not yet pushed to Fly: needs `fly auth login` + `fly apps create` + volume, see DEPLOY.md.
