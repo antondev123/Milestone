@@ -174,7 +174,7 @@ Cursor
   served/heard  the block or question was sent; heard=false after a barge-in → re-read on the next `next`
   phase         "read" | "ask" (checkpoint qIdx) | "done" (part finished, next `next` moves on)
   qIdx, attempt
-  detour?       { topic, turns, startedAt, offered }  set by `ask`, popped by `next` ("Back to <part>.")
+  detour?       { topic, turns, startedAt, history[] {q, a} }  set by `ask` (history = last 6 chat turns), popped by `next` ("Back to <part>.")
   quiz?         { quizId, qIdx, attempt, correct }     chapter quiz in progress
   returnStack   previous positions for "go back"
   lastReply     for idempotent `next` (900 ms window) and "again"
@@ -201,7 +201,7 @@ Mode = "voice" | "text" | "study"   (study = hands-on reader; trips log as "stud
 | `next` | `{ peek?: true }` (peek warms the cache without moving) |
 | `explain` | `{ how: "again" \| "simpler" \| "deeper" \| "example" }` |
 | `answer` | `{ text, mode? }` |
-| `ask` | `{ question, context? }` (`context` = a tapped sentence, prepended for the model; `mode: "study"` skips the spoken detour and the "Say continue" tail) |
+| `ask` | `{ question, context? }` (`context` = a tapped sentence, prepended for the model; `mode: "study"` skips the spoken detour and the "back to the lesson, or keep chatting?" tail) |
 | `goto` | `{ target }` (spoken words) |
 | `where_am_i` | – |
 | `interrupted` | – (client barge-in signal) |

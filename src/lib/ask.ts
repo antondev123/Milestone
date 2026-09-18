@@ -1,7 +1,9 @@
-// Free-form questions answered from the book, server-side, on Claude Sonnet 5 with prompt caching.
-// Three cached blocks, stable → volatile: persona (1h) · table of contents (1h) · current section (5m).
+// Off-script chat, server-side, on Claude Sonnet 5 with prompt caching. The learner stepped out of the
+// reading loop; this is the model they talk to until they say continue. It sees the chapter, the part
+// read so far, the checkpoint questions and what the learner answered, plus the chat so far.
+// Three cached blocks, stable → volatile: persona (1h) · table of contents (1h) · lesson so far (5m).
 import Anthropic from "@anthropic-ai/sdk";
-import type { Course, Segment } from "@/types/lesson";
+import type { CheckpointResult, Course, Question, Segment } from "@/types/lesson";
 import { tocForPrompt } from "./course";
 import type { Place } from "./say";
 import { logLlm } from "./log/log";
@@ -17,11 +19,11 @@ function anthropic(): Anthropic {
 }
 
 // Byte-frozen: any interpolation here would silently kill the cache.
-const ASK_SYSTEM = `You answer a commuter's spoken question about a management textbook while they are on the road, mid-lesson. You can see the table of contents and the part of the course they are on right now.
+const ASK_SYSTEM = `You are a tutor talking with a commuter who paused a spoken management course to chat. You can see the table of contents, the part of the course they are on, what has been read so far, the checkpoint questions and the answers they gave. Treat that as shared memory: you were there.
 
-Answer ONLY from CONTEXT. If CONTEXT does not contain the answer but the table of contents shows a section that would, say so in one sentence and set jumpTo to that section id. If neither, say you are not sure and name the closest section.
+Answer what they actually said. Use the lesson material first. When they go beyond the book (a real-world example, an opinion, how this applies to their job, something adjacent, what they got wrong and why) answer from your own knowledge and the lesson history, and tie it back to the topic when that is natural. If they ask about something the table of contents covers later, say so briefly and set jumpTo to that section id. Never refuse a question because it is not in the text.
 
-Style: spoken English, at most three short sentences, roughly sixty words. Plain words, one concrete South African example if it helps. No lists, no markdown, no headings, no "as the text states", no "great question". Do not end with a question unless offering the jump. Never mention CONTEXT, ids, or that you are an AI. Also return "topic": two to five words naming what the question was about, for a progress card.`;
+Style: spoken English for someone driving, at most about eighty words, usually less. Plain words, one concrete example if it helps, South African where natural. No lists, no markdown, no headings, no "as the text states", no "great question". Do not end with a question: the course will offer to go back to the lesson after you. Never mention CONTEXT, ids, or that you are an AI. Also return "topic": two to five words naming what this turn was about, for a progress card.`;
 
 const schema = {
   type: "object",
@@ -42,9 +44,27 @@ export interface AskResult {
   ms: number;
 }
 
-function sectionBlock(course: Course, segment: Segment, place: Place | null): string {
+export type ChatTurn = { q: string; a: string };
+
+/** What the learner has heard and done in this part: the volatile context block. */
+export interface LessonSoFar {
+  readSoFar: string; // the blocks of the current part already read aloud
+  unread: string; // the rest of the part (still useful for "what comes next" answers)
+  questions: Question[]; // checkpoint or quiz questions the learner has been asked here
+  attempts: CheckpointResult[]; // their answers to those, oldest first
+}
+
+function lessonBlock(course: Course, segment: Segment, place: Place | null, sofar: LessonSoFar): string {
   const kt = place?.chapter.sections.flatMap((s) => s.keyTerms) ?? [];
   const neighbours = place ? place.section.segments.map((g) => `- ${g.title}`).join("\n") : "";
+  const byId = new Map(sofar.questions.map((q) => [q.id, q]));
+  const attempts = sofar.attempts
+    .map((a) => {
+      const q = byId.get(a.questionId);
+      return `- Q: ${q?.prompt ?? a.questionId}${q?.options?.length ? ` (options: ${q.options.join(" / ")})` : ""}\n  Learner answered: "${a.answer}" → ${a.correct ? "correct" : "wrong"}. Feedback given: ${a.feedback}${q ? `\n  Correct answer: ${q.answer}` : ""}`;
+    })
+    .join("\n");
+  const asked = sofar.questions.filter((q) => !sofar.attempts.some((a) => a.questionId === q.id)).map((q) => `- ${q.prompt}${q.options?.length ? ` (options: ${q.options.join(" / ")})` : ""} (not answered yet)`).join("\n");
   return `CONTEXT
 Chapter ${place?.chapter.number ?? "?"}: ${place?.chapter.title ?? ""}
 Section ${place?.section.number ?? "?"}: ${place?.section.title ?? ""} (section id ${place?.section.id ?? ""})
@@ -54,10 +74,14 @@ Parts of this section:
 ${neighbours}
 
 Current part: ${segment.title}
-${segment.script}
-
+Read aloud so far in this part:
+${sofar.readSoFar || "(nothing yet)"}
+${sofar.unread ? `\nNot read yet in this part:\n${sofar.unread}\n` : ""}
 Key points: ${segment.keyPoints.join(" ")}
 Deeper: ${segment.deeper}
+
+Checkpoint questions and the learner's answers in this part:
+${[attempts, asked].filter(Boolean).join("\n") || "(none asked yet)"}
 
 Key terms for this chapter:
 ${kt.map((k) => `- ${k.term}: ${k.definition}`).join("\n") || "(none)"}`;
@@ -67,21 +91,22 @@ export async function askBook(
   course: Course,
   segment: Segment,
   place: Place | null,
+  sofar: LessonSoFar,
   question: string,
-  recent: { q: string; a: string }[] = [],
+  history: ChatTurn[] = [],
 ): Promise<AskResult> {
   const t0 = Date.now();
   const res = await anthropic().messages.create({
     model: MODEL,
-    max_tokens: 260,
-    output_config: { effort: "low", format: { type: "json_schema", schema } }, // three spoken sentences; low keeps Sonnet near Haiku latency
+    max_tokens: 350,
+    output_config: { effort: "low", format: { type: "json_schema", schema } }, // a short spoken turn; low keeps Sonnet near Haiku latency
     system: [
       { type: "text", text: ASK_SYSTEM, cache_control: { type: "ephemeral", ttl: "1h" } },
       { type: "text", text: `TABLE OF CONTENTS (${course.title})\n${tocForPrompt(course.id)}`, cache_control: { type: "ephemeral", ttl: "1h" } },
-      { type: "text", text: sectionBlock(course, segment, place), cache_control: { type: "ephemeral" } },
+      { type: "text", text: lessonBlock(course, segment, place, sofar), cache_control: { type: "ephemeral" } },
     ],
     messages: [
-      ...recent.slice(-2).flatMap((r) => [
+      ...history.slice(-6).flatMap((r) => [
         { role: "user" as const, content: r.q },
         { role: "assistant" as const, content: JSON.stringify({ answer: r.a, topic: "" }) },
       ]),
@@ -93,7 +118,7 @@ export async function askBook(
   const cached = u.cache_read_input_tokens ?? 0;
   const usd = usdFor(MODEL, u);
   console.log(`[ask] ${MODEL} in=${u.input_tokens} cached=${cached} write=${u.cache_creation_input_tokens ?? 0} out=${u.output_tokens} ${ms}ms ~$${usd.toFixed(4)}`);
-  logLlm({ provider: "anthropic", purpose: "ask", model: res.model, in: u.input_tokens, cacheRead: cached, cacheWrite: u.cache_creation_input_tokens ?? 0, out: u.output_tokens, ms, usd, requestId: res.id, meta: { question, stop: res.stop_reason } });
+  logLlm({ provider: "anthropic", purpose: "ask", model: res.model, in: u.input_tokens, cacheRead: cached, cacheWrite: u.cache_creation_input_tokens ?? 0, out: u.output_tokens, ms, usd, requestId: res.id, meta: { question, turns: history.length + 1, stop: res.stop_reason } });
   const text = res.content.find((b) => b.type === "text")?.text ?? "{}";
   const parsed = JSON.parse(text) as { answer?: string; topic?: string; jumpTo?: string };
   return { answer: String(parsed.answer ?? "I am not sure about that one."), topic: String(parsed.topic ?? "a question"), jumpTo: parsed.jumpTo || undefined, cached, ms };

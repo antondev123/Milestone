@@ -89,6 +89,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const textOnly = useRef(false);
   const paused = useRef(false);
   const askingRef = useRef(false); // mirrors `asking` for the timers
+  const thinkingRef = useRef(false); // mirrors `thinking`: a tool is in flight, so no auto-continue
   const mutedBeforePause = useRef(false);
   const flashTimer = useRef<number | null>(null);
   const prevLeg = useRef<Leg | undefined>(leg);
@@ -154,12 +155,16 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       if (msg.source === "user" && msg.message === CONTINUE) return; // synthetic
       clientLog("transcript", { role: msg.source === "user" ? "user" : "agent", text: msg.message, eventId: msg.event_id });
       if (msg.source === "user") {
+        // The learner spoke: the server's next reply decides whether reading carries on (`more`).
+        // Without this, the agent's filler while `ask` runs would re-trigger "continue" and the
+        // answer would be spoken over by the next block.
         barged.current = true;
+        autoContinue.current = false;
         cancel();
       }
       if (msg.source !== "user") ducking.current?.onAgentStarts();
       // never auto-"continue" into an open question: the agent would grade the word as the answer
-      if (msg.source !== "user" && textOnly.current && autoContinue.current && !ended.current && !paused.current && !askingRef.current) {
+      if (msg.source !== "user" && textOnly.current && autoContinue.current && !ended.current && !paused.current && !askingRef.current && !thinkingRef.current) {
         cancel();
         timer.current = window.setTimeout(() => sendUser(CONTINUE), 1500);
       }
@@ -180,8 +185,9 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
         cancel();
         return;
       }
-      // listening: the agent stopped talking, either naturally or because it was cut off
-      if (!autoContinue.current || barged.current || ended.current || paused.current || askingRef.current) return;
+      // listening: the agent stopped talking, either naturally or because it was cut off.
+      // A tool in flight means this was a filler, not a block: wait for the reply.
+      if (!autoContinue.current || barged.current || ended.current || paused.current || askingRef.current || thinkingRef.current) return;
       timer.current = window.setTimeout(() => {
         if (barged.current || paused.current) return;
         sendUser(CONTINUE);
@@ -248,10 +254,12 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   };
   /** Every tool goes through here so the screen can show "One sec" while the server works. */
   const run = async (call: () => Promise<ToolReply>): Promise<string> => {
+    thinkingRef.current = true;
     setThinking(true);
     try {
       return absorb(await call());
     } finally {
+      thinkingRef.current = false;
       setThinking(false);
     }
   };

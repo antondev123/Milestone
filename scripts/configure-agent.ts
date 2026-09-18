@@ -27,7 +27,7 @@ const LLM_TIMEOUT = 20; // answer/ask call Claude
 export const TOOLS = [
   {
     name: "next",
-    description: "Continue the lesson. Call it whenever you hear \"continue\" (including right after your first message, which is how the lesson starts) or go, and after any explanation or answer. Say the returned t word for word.",
+    description: "Continue the lesson. Call it whenever you hear \"continue\" (including right after your first message, which is how the lesson starts), go, carry on, or back to the lesson / back to the question after a chat. Say the returned t word for word.",
     parameters: { type: "object", properties: {}, required: [] },
     timeout: LOOKUP_TIMEOUT,
   },
@@ -45,7 +45,7 @@ export const TOOLS = [
   },
   {
     name: "ask",
-    description: "The learner asked a question about the subject that is not an answer to a checkpoint. Pass it verbatim. The course answers it from the book.",
+    description: "Anything the learner says that is not a lesson command and not an answer to an open checkpoint: a question, a comment, an opinion, a follow-up, a complaint that you did not answer, or \"yes\" / \"keep chatting\" after being offered a chat. Pass it verbatim. The course replies in context and offers the lesson back.",
     parameters: { type: "object", properties: { question: str("The learner's question, verbatim") }, required: ["question"] },
     timeout: LLM_TIMEOUT,
   },
@@ -79,8 +79,10 @@ START: after your first message you will hear "continue" without the learner say
 READING: after you finish saying a block, wait. When you hear "continue", call next again.
 QUESTIONS: when t ends with a question and options, wait for their answer, then call answer with their words verbatim and say the t you get back. Never grade an answer yourself. If instead they ask something, give a command, or say they do not know, use ask, goto, explain or answer exactly as you would anywhere else. The question stays open; the next call to next brings it back.
 
+CHATTING: when the learner says anything that is not a command and not an answer to an open question, call ask with their words verbatim and say its t. The t ends by offering the lesson back. Whatever they say next is either a return command (continue, carry on, back to the lesson, back to the question, let's go on) -> next, or more chat (a follow-up, yes, keep chatting, a new question, a comment) -> ask again with their words verbatim. Stay in the chat as long as they want. Never answer from your own knowledge and never skip the ask.
+
 COMMANDS, act the moment you hear one, even mid-sentence:
-- go, continue, carry on, next -> next
+- go, continue, carry on, next, back to the lesson, back to the question, let's go on -> next
 - repeat, say that again, read the options again -> explain(how "again")
 - explain differently, I don't get it, simpler -> explain(how "simpler")
 - go deeper, tell me more -> explain(how "deeper")
@@ -90,10 +92,11 @@ COMMANDS, act the moment you hear one, even mid-sentence:
 - hold on, wait, pause -> say "Holding." and stop. When they say continue, call next.
 - I'm done, I've arrived, stop -> end_trip, say its t, then a short goodbye.
 
-ANYTHING ELSE IS A QUESTION, NOT A MISHEARING. If they say something that is not a command and not an answer to an open question, call ask with their words verbatim and say its t. Follow-ups are more ask calls. When they say continue, call next.
+ANYTHING ELSE IS CHAT, NOT A MISHEARING: call ask with their words verbatim.
 
 RULES:
 - You may only speak words that came from a tool's t, plus "okay", "holding" and "goodbye".
+- While a tool is running, say nothing. Never announce that you are checking, looking something up or wrapping up; the tool's t is your whole reply.
 - One tool call at a time. If a tool errors, say "let me get back to that" and call next.
 - If a turn is garbled, call explain(how "again"). Never comment on the words.
 - After you finish speaking, wait. Do not ask "shall I continue".`;
@@ -144,7 +147,7 @@ await api("PATCH", `/agents/${agentId}`, {
       provider: "scribe_realtime",
       // bias transcription toward our commands, chapter numbers and the book's proper nouns
       keywords: [
-        "go", "continue", "carry on", "repeat", "say that again", "explain differently", "explain that differently", "I don't get it",
+        "go", "continue", "carry on", "back to the lesson", "back to the question", "keep chatting", "repeat", "say that again", "explain differently", "explain that differently", "I don't get it",
         "go deeper", "tell me more", "give me an example", "skip", "move on", "next part", "next chapter",
         "where am I", "what's next", "what's left", "how am I doing",
         "go to chapter", "take me to chapter", "take me to the quiz", "quiz me", "go back", "hold on", "pause",

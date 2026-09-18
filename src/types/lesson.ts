@@ -170,7 +170,9 @@ export interface Cursor {
   phase: CursorPhase; // read = serving blocks, ask = serving checkpoint qIdx, done = segment finished
   qIdx: number;
   attempt: number; // attempts on the current question
-  detour?: { topic: string; turns: number; startedAt: string; offered: boolean };
+  // off-script chat: opened by `ask`, closed by `next`. history = the chat so far (last 6 turns), so
+  // follow-ups and "you didn't answer me" work; it resets when the cursor moves.
+  detour?: { topic: string; turns: number; startedAt: string; history: { q: string; a: string }[] };
   quiz?: { quizId: string; qIdx: number; attempt: number; correct: number }; // chapter quiz in progress
   returnStack: { segmentId: string; blockIdx: number; phase?: CursorPhase; qIdx?: number }[]; // for "take me back" (phase/qIdx: return to an open question)
   lastReply?: ToolReply; // idempotency + "repeat"

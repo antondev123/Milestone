@@ -27,6 +27,7 @@ function norm(s: string): string {
 
 export interface GradeOptions {
   reveal?: boolean; // second try (or give-up): a wrong answer gets the correct idea. First try: a hint that never names it.
+  chatting?: boolean; // an off-script chat is open: remarks and follow-ups are chat, only a clear attempt is graded
 }
 
 export async function gradeAnswer(question: Question, answer: string, opts: GradeOptions = {}): Promise<GradeResponse> {
@@ -124,7 +125,7 @@ const SYSTEM_HINT = `You handle what a commuter said, out loud or typed, right a
 
 First decide intent:
 - "answer": any attempt at the question, however hesitant, partial, informal, hedged or wrong ("um, bounded rationality?", "hold on, is it C?", "I think it's when you keep spending"). If an attempt is in there anywhere, it is an answer.
-- "question": they are asking about the material or for clarification instead of answering ("what does X mean?", "is it the same as sunk cost?", "what was option B?").
+- "question": they are asking about the material or for clarification instead of answering ("what does X mean?", "is it the same as sunk cost?", "what was option B?"), or making a remark, reaction or opinion about it rather than an attempt ("that seems a bit useless", "interesting", "my boss does exactly that").
 - "command": only navigation or control with no attempt in it ("go to chapter one", "skip", "hold on", "repeat").
 - "giveup": they say they do not know or ask to be told.
 
@@ -148,7 +149,7 @@ async function claudeGrade(question: Question, answer: string, opts: GradeOption
         content: `QUESTION: ${question.prompt}
 ${question.type === "mcq" ? `OPTIONS: ${(question.options ?? []).join(" | ")}\n` : ""}MODEL ANSWER: ${question.answer}
 RUBRIC: ${question.rubric}
-LEARNER SAID: ${answer}`,
+${opts.chatting ? 'NOTE: the learner was chatting off-script just before this and was offered to keep chatting or return to the question. A follow-up, remark or reaction is a "question"; only a clear attempt at the question is an "answer".\n' : ""}LEARNER SAID: ${answer}`,
       },
     ],
   });
