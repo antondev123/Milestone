@@ -1,8 +1,9 @@
 # STATUS
 
-Updated: 2026-09-18 (Study assistant mic dictation; play button fix for Dial and Study; app renamed to Milestone)
+Updated: 2026-09-18 (Study desktop column tidy; Study assistant mic dictation; play button fix for Dial and Study; app renamed to Milestone)
 
 ## Done
+- **Study desktop column tidy (post #15)**: on short windows the assistant column clipped the empty-state line under the quoted sentence, hid the chips and drew stray scrollbars. Cause: nested `overflow-y-auto` flex regions plus a `-mx-1` chip row. Now only the thread scrolls (min 120px), quote/chips/composer sit below it at natural height, chips swipe without a scrollbar, and the aside itself scrolls as a last resort. The "Reading now" card is gone on desktop (the strip, the page highlight and the quoted context already show that sentence). The checkpoint gets an `inline` prop for the column (no top rule, smaller titles); the phone flow is unchanged. Verified at 1280×560, 1280×900 and 375×812.
 - **App renamed to Milestone**: browser tab title and the Resume header. "Carry" stays as the name of the design palette and the `components/carry` folder.
 - Task 1: docs/OUTLINE.md
 - Task 2: docs/SCHEMA.md + src/types/lesson.ts (added `ActiveTrip` on Progress)
