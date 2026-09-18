@@ -1,233 +1,455 @@
 {
   "id": "pom/c2/s6",
   "title": "Improving the Quality of Decision-Making",
-  "sourceHash": "8bbc01a686ef",
-  "model": "claude-sonnet-5",
+  "sourceHash": "9b668e014821",
+  "model": "verbatim",
   "segments": [
     {
       "id": "pom/c2/s6/g1",
-      "title": "Experience and Quick Everyday Decisions",
-      "durationSec": 147,
+      "title": "Experience and better programmed decisions",
+      "durationSec": 94,
       "sectionId": "pom/c2/s6",
-      "script": "Think about a taxi driver who has been on the same Soweto to Joburg CBD route for fifteen years. He knows exactly when the traffic backs up near the taxi rank, which shortcuts to take when there is a protest blocking the N1, and how much to charge without even thinking about it. That is experience at work. The same thing happens with managers. The longer you manage a spaza shop or a small branch of a bank, the more patterns you start to recognize, and the faster and better your decisions become, especially for the small, repeated decisions that come up every day. These repeated decisions are called programmed decisions, because you can develop a set of rules or shortcuts for them. Two tools help here. The first is heuristics, which are just mental shortcuts built from past experience. If you have restocked bread and milk every Monday for three years, you no longer have to think hard about it, you just know the pattern. The second tool is satisficing, which means picking the first option that is good enough instead of hunting for the perfect one. Imagine you are buying tomatoes for your stokvel's monthly cook-up and you are in a hurry. You do not compare every stall in the market for the absolute cheapest price, you just grab a reasonably priced batch that looks fresh and move on. That is satisficing, and it saves you time on a decision that does not deserve more effort than that. The important thing to understand is that satisficing is not laziness, it is wisdom about where to spend your mental energy. A good manager reserves careful, slow analysis for decisions that really matter, like whether to take out a loan to expand the shop, and uses satisficing and heuristics for the small stuff, like which supplier delivers the vegetables on a normal Tuesday. Experience also teaches you which decisions actually need more time. A new manager might waste hours deciding on something trivial, while a manager with years behind them can sense immediately that a decision is low stakes and move through it quickly, saving their focus for the big nonprogrammed decisions that genuinely require systematic thought.",
+      "script": "Managers can use a variety of techniques to improve their decision-making by making better-quality decisions or making decisions more quickly. An often overlooked factor in effective decision-making is experience. Managers with more experience have generally learned more and developed greater expertise that they can draw on when making decisions. Experience helps managers develop methods and heuristics to quickly deal with programmed decisions and helps them know what additional information to seek out before making a nonprogrammed decision. In addition, experience enables managers to recognize when to minimize the time spent making decisions on issues that are not particularly important but must still be addressed. As discussed previously, heuristics are mental shortcuts that managers take when making programmed (routine, low-involvement) decisions. Another technique that managers use with these types of decisions is satisficing. When satisficing, a decision maker selects the first acceptable solution without engaging in additional effort to identify the best solution. We all engage in satisficing every day. For example, suppose you are shopping for groceries and you don't want to overspend. If you have plenty of time, you might compare prices and figure out the price by weight (or volume) to ensure that every item you select is the cheapest option. But if you are in a hurry, you might just select generic products, knowing that they are cheap enough. This allows you to finish the task quickly at a reasonably low cost.",
       "keyPoints": [
-        "Experience builds heuristics, or mental shortcuts, for routine decisions",
-        "Satisficing means choosing the first acceptable option rather than the best possible one",
-        "Programmed decisions are repeated and low-stakes, so speed matters more than perfection",
-        "Experienced managers know which decisions deserve careful analysis and which do not"
+        "Experience helps managers build heuristics for programmed decisions and know what information to seek for nonprogrammed ones",
+        "Satisficing means picking the first acceptable option instead of searching for the best one",
+        "Satisficing saves time and works well for low-stakes, routine choices, like a quick grocery trip",
+        "Managers use heuristics and satisficing together to move quickly through decisions that do not need deep analysis"
       ],
-      "altExplanation": "Picture a clinic nurse who has taken thousands of blood pressure readings. She does not need to consult a manual each time, her hands and eyes just know the routine, and she moves fast because the situation is familiar. That is exactly like satisficing and heuristics in management. You are not trying to find the theoretically perfect answer every single time, you are using patterns you have built up to make a decision that is good enough, quickly, so you can save your real thinking power for the rare, tricky cases that actually need it.",
-      "deeper": "Bounded rationality explains why satisficing and heuristics exist in the first place. No manager has unlimited time, unlimited information, or an unlimited ability to process every possible option, so completely rational decision-making is impossible in practice. Given this reality, satisficing becomes a rational response to an irrational world of limited resources. The danger is that satisficing and heuristics, while efficient, can also lock in bad habits if the environment changes. A heuristic built during load shedding stage two might completely fail during stage six, because the shortcut assumed conditions that no longer apply. Effective managers periodically test whether their shortcuts still hold, rather than running them on autopilot forever. They also recognize the difference between decisions where speed genuinely matters more than perfection, such as daily stock reordering, and decisions where the underlying situation has enough complexity or risk that skipping ahead to the first acceptable option could be genuinely costly, such as hiring a new manager or choosing a business partner.",
-      "example": "A branch manager at a Shoprite in Polokwane has to decide every morning how many loaves of bread to order. Rather than running detailed forecasts each time, she uses a simple rule built from years of experience, ordering more on month-end paydays and less midweek. This heuristic saves her hours every week and is almost always good enough, freeing her time for bigger decisions like staff scheduling or handling supplier disputes.",
+      "altExplanation": "Satisficing means settling for good enough rather than searching for the perfect option. It pairs naturally with heuristics: both are timesaving shortcuts suited to decisions that are not worth a lot of deliberation. Experience makes both sharper, because a manager who has seen a problem before recognizes it faster.",
+      "deeper": "Satisficing connects to bounded rationality from earlier in the chapter: because managers cannot process every alternative, settling for the first acceptable option is often the rational response to that limit, not a shortcut to be ashamed of. The chapter treats experience as a compounding advantage, since it sharpens the heuristics used for programmed decisions and tells a manager what information is worth chasing before tackling a nonprogrammed one.",
       "checkpoint": [
         {
           "id": "pom/c2/s6/g1/q1",
           "prompt": "Explain what satisficing is and when it may be a good strategy.",
           "type": "open",
-          "answer": "Satisficing is choosing the first acceptable solution rather than searching for the absolute best one, in order to save time. It is a good strategy for programmed, routine, low-stakes decisions where the cost of extra analysis outweighs the benefit of finding a marginally better option.",
-          "rubric": "Answer must state that satisficing means selecting the first acceptable option instead of the optimal one, mention that it saves time or effort, and note it is appropriate for routine or low-stakes/programmed decisions rather than important complex ones.",
+          "answer": "Satisficing means selecting the first acceptable solution instead of searching for the best possible one. It is a good strategy for programmed, low-stakes decisions where speed matters more than optimizing every detail, such as quickly picking a good-enough grocery item instead of comparing every price.",
+          "rubric": "Must define satisficing as choosing the first acceptable option rather than the optimal one, and say it fits routine or programmed, low-stakes decisions where time matters more than finding the best option. A bare 'it saves time' without the definition is not enough.",
           "topic": "satisficing",
           "source": "book"
         },
         {
           "id": "pom/c2/s6/g1/q2",
-          "prompt": "Which type of decision benefits most from heuristics and satisficing?",
+          "prompt": "According to the passage, what does experience help a manager do before making a nonprogrammed decision?",
           "type": "mcq",
           "options": [
-            "Major strategic nonprogrammed decisions",
-            "Ethical dilemmas involving stakeholders",
-            "Programmed, routine decisions",
-            "Decisions requiring group brainstorming"
+            "Rely only on heuristics instead of research",
+            "Skip the decision-making process entirely",
+            "Know what additional information to seek out",
+            "Avoid ever consulting other people"
           ],
-          "answer": "Programmed, routine decisions",
-          "rubric": "Correct option is programmed, routine decisions.",
-          "topic": "satisficing",
-          "source": "generated"
-        },
-        {
-          "id": "pom/c2/s6/g1/q3",
-          "prompt": "Why does bounded rationality make satisficing a reasonable approach rather than a lazy one?",
-          "type": "open",
-          "answer": "Because managers never have complete information, time, or processing ability to find the perfect option, so choosing a good-enough option is a realistic and efficient response to real-world limits.",
-          "rubric": "Must connect bounded rationality's limits on information, time, or cognitive capacity to why satisficing is a sensible response rather than laziness.",
-          "topic": "bounded-rationality",
+          "answer": "Know what additional information to seek out",
+          "rubric": "Must select the option about knowing what additional information to seek out.",
+          "topic": "experience-and-decisions",
           "source": "generated"
         }
       ]
     },
     {
       "id": "pom/c2/s6/g2",
-      "title": "Generating Many Good Alternatives",
-      "durationSec": 151,
+      "title": "Recognizing problems, generating alternatives",
+      "durationSec": 97,
       "sectionId": "pom/c2/s6",
-      "script": "When you face a big, unfamiliar decision, the kind with no ready-made rulebook, you need a different approach than satisficing. These are called nonprogrammed decisions, and the textbook lays out six steps for handling them well: recognizing that a decision is needed, generating multiple alternatives, analyzing those alternatives, selecting one, implementing it, and evaluating how it turned out afterward. Many managers rush through step two, generating alternatives, coming up with just two options and jumping straight to comparing them. Imagine the committee running a taxi association deciding how to deal with rising fuel costs. If they only consider raising fares or doing nothing, they have missed dozens of other possibilities, like forming a bulk fuel-buying agreement with other associations, adjusting routes to reduce distance, or negotiating with a fuel supplier for a fixed rate. The richer your pool of options, the better your final decision is likely to be. Two techniques help you generate more alternatives. First, talk to other people. Different people bring different life experiences and will see the problem from angles you have not considered. A mentor, especially someone more experienced, can suggest options you would never have thought of on your own. Second, be creative. Creativity is simply the generation of new or original ideas, and it is a skill you can build, not something only a few gifted people have. Brainstorming, where a group throws out as many ideas as possible without judging them too quickly, is one practical way to unlock creativity. Creative insight often comes when your mind is relaxed rather than tensely focused, which is why good ideas sometimes arrive in the shower or on a long drive rather than while staring hard at a spreadsheet. A manager trying to be creative will look at the problem from several angles, combine old information in new ways, look for patterns across different situations, and use imagination rather than sticking rigidly to how things have always been done. Both talking to others and being creative serve the same underlying goal: widening your net of possible solutions before you start narrowing down. Skipping this step is one of the most common ways that decision-making quality suffers in real organizations, because a good option that was never even considered can never be chosen.",
+      "script": "For situations in which the quality of the decision is more critical than the time spent on the decision, decision makers can use several tactics. As stated previously, nonprogrammed decisions should be addressed using a systematic process. We therefore discuss these tactics within the context of the decision-making steps. To review, the steps include the following: Recognize that a decision needs to be made. Generate multiple alternatives. Analyze the alternatives. Select an alternative. Implement the selected alternative. Evaluate its effectiveness. Step 1: Recognizing That a Decision Needs to Be Made Ineffective managers will sometimes ignore problems because they aren't sure how to address them. However, this tends to lead to more and bigger problems over time. Effective managers will be attentive to problems and to opportunities and will not shy away from making decisions that could make their team, department, or organization more effective and more successful. Step 2: Generating Multiple Alternatives Often a manager only spends enough time on Step 2 to generate two alternatives and then quickly moves to Step 3 in order to make a quick decision. A better solution may have been available, but it wasn't even considered. It's important to remember that for nonprogrammed decisions, you don't want to rush the process. Generating many possible options will increase the likelihood of reaching a good decision. Some tactics to help with generating more options include talking to other people (to get their ideas) and thinking creatively about the problem.",
       "keyPoints": [
-        "Nonprogrammed decisions are novel and need a full six-step process",
-        "Step two, generating alternatives, is often rushed and needs deliberate effort",
-        "Talking to others brings different perspectives and reduces personal bias",
-        "Creativity, a learnable skill, helps generate original alternatives"
+        "Nonprogrammed decisions should follow a systematic six-step process rather than being made quickly",
+        "Step 1 is recognizing that a decision needs to be made; ignoring problems lets them grow bigger over time",
+        "Step 2 is generating multiple alternatives; managers often stop at just two options and move on too fast",
+        "Generating many options, rather than settling early, increases the likelihood of reaching a good decision"
       ],
-      "altExplanation": "Think of fishing with a wide net versus a single line. If you only cast one line into the water, you might catch nothing, or something mediocre. A wide net gives you many possibilities to choose from, and you can pick the best catch. Generating alternatives in decision-making works the same way. If you only think of two options quickly, you limit yourself to whatever happened to come to mind first. Casting a wider net, by talking to colleagues and letting your imagination roam, means you are far more likely to catch a genuinely excellent solution rather than settling for the first two ideas that appeared.",
-      "deeper": "The six steps of the decision-making process are recognizing the need for a decision, generating multiple alternatives, analyzing alternatives, selecting one, implementing it, and evaluating its effectiveness. Skipping or rushing any single step weakens the whole chain. Step one, recognition, fails when managers avoid facing an obvious problem out of discomfort, letting it grow worse. Step two, generation, fails when managers stop at the first two obvious choices. Brainstorming works best when judgment is deliberately suspended during idea generation, because criticizing ideas too early kills the free flow of unusual suggestions that might turn out to be valuable once refined. Creativity is not mystical, it is the deliberate combination of existing knowledge in unfamiliar configurations, and it can be cultivated by exposing yourself to varied experiences, taking breaks from intense focus, and actively seeking out viewpoints unlike your own before settling on a shortlist of alternatives to analyze more rigorously.",
-      "example": "A stokvel committee needs to decide what to do with a member who has fallen behind on contributions. Instead of jumping straight to expelling the member or ignoring the issue, the treasurer calls a meeting and asks everyone to suggest options. Ideas include a temporary reduced contribution, a repayment plan, or pairing the struggling member with a buddy for accountability. This wider set of alternatives, generated by talking to others, leads to a fairer and more creative solution than the first idea alone.",
+      "altExplanation": "Skipping steps is the main way nonprogrammed decisions go wrong. The passage flags two early traps: managers who avoid recognizing a problem at all, and managers who stop generating options after just two. Both trade thoroughness for speed on a decision that was supposed to get careful treatment.",
+      "deeper": "This six-step process is the nonprogrammed decision-making process introduced earlier in the chapter; here the book walks through what good execution of each step looks like. The warning about generating only two alternatives connects to bounded rationality: managers naturally want to economize on effort, but nonprogrammed decisions are exactly the cases where that shortcut can cost the most.",
       "checkpoint": [
         {
           "id": "pom/c2/s6/g2/q1",
           "prompt": "What are the six steps in the decision-making process?",
           "type": "open",
-          "answer": "Recognize that a decision needs to be made, generate multiple alternatives, analyze the alternatives, select an alternative, implement the selected alternative, and evaluate its effectiveness.",
-          "rubric": "Answer must list all six steps in essentially this order: recognizing the need for a decision, generating alternatives, analyzing alternatives, selecting an alternative, implementing it, and evaluating effectiveness.",
-          "topic": "decision-making-steps",
+          "answer": "The six steps are: recognize that a decision needs to be made, generate multiple alternatives, analyze the alternatives, select an alternative, implement the selected alternative, and evaluate its effectiveness.",
+          "rubric": "Must list at least five of the six steps in roughly the right order: recognize the need for a decision, generate alternatives, analyze alternatives, select an alternative, implement it, evaluate its effectiveness.",
+          "topic": "six-step-decision-process",
           "source": "book"
         },
         {
           "id": "pom/c2/s6/g2/q2",
-          "prompt": "Brainstorming is best described as a technique for which step of decision-making?",
+          "prompt": "Why do ineffective managers let problems grow bigger, according to the passage?",
           "type": "mcq",
           "options": [
-            "Implementing the chosen alternative",
-            "Evaluating effectiveness",
-            "Recognizing a decision is needed",
-            "Generating multiple alternatives"
+            "They evaluate their decisions too many times",
+            "They generate too many alternatives to choose from",
+            "They talk to too many other people first",
+            "They ignore problems they don't know how to fix"
           ],
-          "answer": "Generating multiple alternatives",
-          "rubric": "Correct option is generating multiple alternatives.",
-          "topic": "brainstorming",
-          "source": "generated"
-        },
-        {
-          "id": "pom/c2/s6/g2/q3",
-          "prompt": "Give one reason why talking to other people during decision-making can reduce bias.",
-          "type": "open",
-          "answer": "Because other people have different life experiences and perspectives, they can point out options or blind spots the decision maker missed on their own.",
-          "rubric": "Must mention that other people bring different perspectives or experiences which surface options or biases the original decision maker would not see alone.",
-          "topic": "stakeholder-input",
+          "answer": "They ignore problems they don't know how to fix",
+          "rubric": "Must select the option about ignoring problems out of uncertainty over how to address them.",
+          "topic": "recognizing-problems",
           "source": "generated"
         }
       ]
     },
     {
       "id": "pom/c2/s6/g3",
-      "title": "Analyzing Options With Evidence and Critical Thinking",
-      "durationSec": 156,
+      "title": "Talking to others and being creative",
+      "durationSec": 101,
       "sectionId": "pom/c2/s6",
-      "script": "Once you have a good list of alternatives, the next job is analyzing them properly, and this is where evidence-based decision-making becomes essential. This simply means gathering the best available evidence, data, research, other people's expertise, and information about stakeholders, rather than relying purely on gut feeling. Imagine a manager at a small logistics company deciding whether to switch fuel suppliers. Instead of guessing which supplier seems friendlier, an evidence-based approach means actually comparing delivery reliability records, checking prices over several months, and asking other transport operators about their experiences with each supplier. This matters especially for newer managers, or experienced managers trying something unfamiliar, because intuition alone can lead you astray when you lack a deep well of relevant past experience to draw on. Alongside gathering evidence, critical thinking is crucial. Critical thinking means disciplined evaluation of the quality of information and arguments, especially spotting logical fallacies that can quietly distort your reasoning. Consider a manager who says, our competitor spends more on advertising and has a bigger market share, so we should spend more on advertising too. That sounds convincing, but it skips over other possible explanations, maybe the competitor has better locations or lower prices. This is called a non sequitur, a conclusion that does not actually follow logically from the evidence given. Other common fallacies include false cause, assuming one thing caused another just because they happened together, like blaming a run of staff illness on the days the shop was closed for a public holiday, when really it is just flu season. There is also ad hominem, attacking the person making an argument instead of the argument itself, the genetic fallacy, dismissing an idea purely because of where it came from, appeal to tradition, insisting something is right simply because it has always been done that way, bandwagon thinking, assuming something is correct because everyone else is doing it, and appeal to emotion, using feelings to distract from weak logic. Recognizing these patterns when you hear them in a meeting, or notice them creeping into your own thinking, protects the quality of your analysis. Alongside evidence and critical thinking, it remains valuable to talk to other people again at this stage, since colleagues can help you stress test your reasoning and catch fallacies you have missed, especially if their biases differ from your own.",
+      "script": "Managers can often improve the quality of their decision-making by involving others in the process, especially when generating alternatives. Other people tend to view problems from different perspectives because they have had different life experiences. This can help generate alternatives that you might not otherwise have considered. Talking through big decisions with a mentor can also be beneficial, especially for new managers who are still learning and developing their expertise; someone with more experience will often be able to suggest more options. We don't always associate management with creativity, but creativity can be quite beneficial in some situations. In decision-making, creativity can be particularly helpful when generating alternatives. Creativity is the generation of new or original ideas; it requires the use of imagination and the ability to step back from traditional ways of doing things and seeing the world. While some people seem to be naturally creative, it is a skill that you can develop. Being creative requires letting your mind wander and combining existing knowledge from past experiences in novel ways. Creative inspiration may come when we least expect it (in the shower, for example) because we aren't intensely focused on the problem, we've allowed our minds to wander. Managers who strive to be creative will take the time to view a problem from multiple perspectives, try to combine information in news ways, search for overarching patterns, and use their imaginations to generate new solutions to existing problems. We'll review creativity in more detail in Chapter 18. Step 3: Analyzing Alternatives",
       "keyPoints": [
-        "Evidence-based decision-making means gathering solid data and stakeholder input rather than relying only on gut feeling",
-        "Critical thinking means disciplined evaluation of information quality and spotting logical fallacies",
-        "Common fallacies include non sequitur, false cause, ad hominem, genetic fallacy, appeal to tradition, bandwagon, and appeal to emotion",
-        "Talking to others during analysis helps catch biases and weak reasoning"
+        "Involving others in generating alternatives brings different perspectives from different life experiences",
+        "A mentor can suggest options a newer manager would not think of alone",
+        "Creativity means using imagination to combine existing knowledge in new ways, not just a natural gift",
+        "Letting the mind wander, rather than staying intensely focused, often produces creative inspiration"
       ],
-      "altExplanation": "Think of a mechanic diagnosing a car problem. A poor mechanic might guess based on one symptom and replace the wrong part. A good mechanic runs proper diagnostics, checks the evidence, and rules out false leads before deciding what is actually wrong. Evidence-based decision-making and critical thinking work the same way for managers. Instead of assuming you already know the cause of a problem or trusting the first convincing-sounding argument, you gather real data and question whether the reasoning behind each option genuinely holds up before committing to a fix.",
-      "deeper": "Logical fallacies are dangerous precisely because they often sound persuasive on the surface. The non sequitur fallacy hides an unstated assumption, in the advertising example the hidden assumption is that market share is caused by advertising spend rather than something else entirely. False cause confuses correlation with causation, two things happening together does not prove one caused the other, seasonal patterns are a classic trap here. Ad hominem attacks credibility instead of addressing the substance of an argument, and should prompt you to ask whether the argument would still be persuasive if it came from someone else entirely. The genetic fallacy relies on stereotypes that may sometimes be statistically common but are never universally true, so origin alone is never sufficient evidence. Appeal to tradition and bandwagon thinking both substitute popularity or history for actual reasoning, and both can blind an organization to necessary change. Appeal to emotion works by redirecting a discussion away from facts toward feelings. Training yourself to notice these patterns, in others and in your own thinking, is a practical, learnable skill that directly improves decision quality.",
-      "example": "A manager at a call centre in Durban wants to stop allowing staff to work from home, arguing that everyone else in the industry has gone back to the office, so it must be the right move. This is bandwagon thinking, since popularity does not prove effectiveness. A colleague challenges her to actually check the centre's own productivity data before deciding, revealing that remote staff performance has been just as strong, which is a proper evidence-based analysis rather than following the crowd.",
+      "altExplanation": "Two separate habits improve the options a manager has to choose from. Talking to people multiplies perspectives, because everyone brings different experience. Creativity multiplies possibility, by recombining what a manager already knows in a way that has not been tried yet.",
+      "deeper": "The book treats creativity as a learnable skill rather than an innate talent, which matters for management: it means habits like stepping back from routine, viewing a problem from multiple angles, and searching for patterns can be taught and practiced. The passage promises more depth on creativity later in the book, in a later chapter.",
       "checkpoint": [
         {
           "id": "pom/c2/s6/g3/q1",
-          "prompt": "What does evidence-based decision-making require a manager to prioritize over pure intuition?",
+          "prompt": "Why does talking to other people help generate alternatives, according to the passage?",
           "type": "mcq",
           "options": [
-            "Systematically collected data and information",
-            "The loudest opinion in the room",
-            "The manager's personal preference",
-            "Whatever decision was made last time"
+            "They bring different perspectives and experiences",
+            "Other people can implement the decision instead",
+            "Other people always know the fastest solution",
+            "Other people rarely disagree with a manager's first idea"
           ],
-          "answer": "Systematically collected data and information",
-          "rubric": "Correct option is systematically collected data and information.",
-          "topic": "evidence-based-decision-making",
+          "answer": "They bring different perspectives and experiences",
+          "rubric": "Must select the option about other people bringing different perspectives or life experiences.",
+          "topic": "talking-to-others",
           "source": "generated"
         },
         {
           "id": "pom/c2/s6/g3/q2",
-          "prompt": "A manager says, our biggest rival spends more on marketing and has more market share, so we must spend more too, without considering other explanations. Which logical fallacy is this?",
+          "prompt": "What does the passage mean when it says creativity is a skill you can develop, not just a natural trait?",
           "type": "open",
-          "answer": "This is a non sequitur, because the conclusion assumes marketing spend caused the rival's market share without ruling out other possible causes.",
-          "rubric": "Must name the fallacy as non sequitur (or clearly describe it as an unsupported leap in logic) and explain that it ignores other possible explanations for the rival's success.",
-          "topic": "logical-fallacies",
+          "answer": "It means creativity comes from deliberate habits, such as letting your mind wander, combining existing knowledge in new ways, viewing a problem from multiple perspectives, and searching for patterns, rather than being something only naturally creative people can do.",
+          "rubric": "Must say creativity can be practiced or developed through habits such as letting the mind wander, recombining existing knowledge, or viewing a problem from multiple angles, not that it is purely innate.",
+          "topic": "creativity",
           "source": "generated"
         }
       ]
     },
     {
       "id": "pom/c2/s6/g4",
-      "title": "Long-Term Thinking and Ethical Decision-Making",
-      "durationSec": 157,
+      "title": "Evidence-based decision-making",
+      "durationSec": 77,
       "sectionId": "pom/c2/s6",
-      "script": "Analyzing alternatives properly also means looking past the short term. It is tempting to grab whatever option delivers the fastest, most visible benefit right now, but that can quietly damage the future. Picture a company choosing between paying out a big bonus to shareholders immediately or investing that same money into upgrading old machinery. The bonus feels good today, but if the machinery keeps breaking down, in a few years the business may not be able to compete at all. Effective managers force themselves to ask what happens five or ten years down the line, not just what happens tomorrow. Closely tied to long-term thinking is the ethical dimension of decision-making. Sometimes managers make harmful choices simply because they never stopped to consider the ethical angle at all, viewing a decision purely through a financial lens. The textbook uses the well-known example of a car manufacturer that knew about a dangerous design flaw but delayed a recall because fixing it seemed more expensive than the potential lawsuits, a decision that ultimately cost people their lives. This history repeats itself whenever managers strip ethics out of the calculation. There is a four-step model for thinking through ethical decisions properly. First, moral sensitivity, actually recognizing that a decision has an ethical dimension in the first place. Second, moral judgment, working out which options are right and which are wrong, and for whom. A useful trick here is imagining the decision printed on the front page of a newspaper, if that thought makes you feel ashamed, that is a strong signal something is wrong. Third, moral motivation, actually deciding to do the right thing rather than the convenient thing. Fourth, moral character or action, actually following through and doing it, even when there is pressure not to. A failure at any single one of these four steps can lead to an unethical outcome, even if the earlier steps were done well. Imagine a manager at a Joburg clinic who is pressured by an administrator to falsify patient numbers to secure more funding. She recognizes the ethical problem, judges it is wrong, and decides she will not do it, but under threat of losing her job she must find the courage to actually refuse, perhaps by explaining to her superior the long-term reputational and legal risk of the fraud rather than simply the moral wrong of it.",
+      "script": "When implementing Step 3, it is important to take many factors into consideration. Some alternatives might be more expensive than others, for example, and that information is often essential when analyzing options. Effective managers will ensure that they have collected sufficient information to assess the quality of the various options. They will also utilize the tactics described below: engaging in evidence-based decision-making, thinking critically, talking to other people, and considering long-term and ethical implications. Do you have the best-quality data and evidence? Evidence-based decision-making is an approach to decision-making that states that managers should systematically collect the best evidence available to help them make effective decisions. The evidence that is collected might include the decision maker's own expertise, but it is also likely to include external evidence, such as a consideration of other stakeholders, contextual factors relevant to the organization, potential costs and benefits, and other relevant information. With evidence-based decision-making, managers are encouraged to rely on data and information rather than their intuition. This can be particularly beneficial for new managers or for experienced managers who are starting something new. (Consider all the research that Rubio and Korey conducted while starting Away).",
       "keyPoints": [
-        "Long-term implications matter as much as short-term gains when analyzing alternatives",
-        "Ignoring ethics often stems from viewing decisions purely through a financial lens",
-        "The four steps of ethical decision-making are moral sensitivity, moral judgment, moral motivation, and moral character or action",
-        "A failure at any one of the four ethical steps can still produce an unethical outcome"
+        "Step 3, analyzing alternatives, requires collecting sufficient information, such as on cost",
+        "Evidence-based decision-making means systematically collecting the best available evidence rather than relying on intuition",
+        "Evidence includes the decision maker's own expertise as well as external evidence, like stakeholders, costs and benefits",
+        "This approach is especially useful for new managers, or experienced managers trying something new"
       ],
-      "altExplanation": "Picture planting a garden. If you only think about this week's harvest, you might strip the soil of nutrients by overplanting, leaving nothing for next season. A wise gardener thinks about the long-term health of the soil, not just this week's vegetables. Ethical, long-term decision-making in management works the same way. Choosing the option that looks best right now, without asking what it does to the business, the community, or your own conscience over years to come, is like exhausting the soil for a quick harvest. Long-term thinking and ethics both ask you to protect the health of the whole system, not just grab today's easy win.",
-      "deeper": "The four-step ethical model is a chain, and every link matters. Moral sensitivity can fail simply through inattention, a manager rushing through a decision may never notice it has an ethical dimension at all. Moral judgment can fail through motivated reasoning, where a person convinces themselves the harmful option is actually fine because it is convenient. Moral motivation can fail even after correct judgment, because knowing the right thing and wanting to do it are different, self-interest, fear, or social pressure can override good judgment. Moral character, the final step, is often the hardest in practice, because it requires actually enduring the personal cost of doing right, which might mean conflict with a superior, financial loss, or even losing a job. The strategy suggested for handling pressure from above is not simply defiance but persuasion, framing the ethical argument in terms the other party cares about, such as long-term organizational risk, reputational damage, or legal consequences, since appealing purely to abstract morality may not move someone focused on short-term results.",
-      "example": "An Eskom regional manager is told to sign off on a maintenance report that overstates completed repairs to hit a quarterly target. She recognizes this is dishonest, judges it could risk future blackouts and public safety, decides she will not sign it, and then has to actually stand firm when her supervisor pressures her, eventually escalating her concern in writing to a higher authority rather than quietly complying, which is the moral character step in action.",
+      "altExplanation": "Evidence-based decision-making is a discipline: instead of trusting a gut feeling, a manager deliberately gathers expertise, stakeholder input, and cost information before deciding. It does not replace judgment, but it gives that judgment something solid to stand on.",
+      "deeper": "This ties back to the barriers to good decision-making covered earlier in the chapter, particularly bounded rationality and time constraints: gathering good evidence takes real effort, which is exactly the effort that pressure or a shortage of time tends to squeeze out. Evidence-based decision-making is the discipline of protecting that effort in Step 3 of the process.",
       "checkpoint": [
         {
           "id": "pom/c2/s6/g4/q1",
-          "prompt": "What are the four steps involved in ethical decision-making?",
+          "prompt": "What is evidence-based decision-making, and why can it especially help a new manager?",
           "type": "open",
-          "answer": "Moral sensitivity, moral judgment, moral motivation or intention, and moral character or action.",
-          "rubric": "Answer must list all four steps: recognizing the moral component (moral sensitivity), judging right from wrong (moral judgment), deciding to act rightly (moral motivation), and actually acting on it (moral character/action).",
-          "topic": "ethical-decision-making",
-          "source": "book"
+          "answer": "It is an approach where managers systematically collect the best available evidence, such as their own expertise, stakeholder input, and cost-benefit information, rather than relying mainly on intuition. It especially helps new managers, or experienced managers trying something new, because they have less built-up intuition or experience with the situation to rely on.",
+          "rubric": "Must describe systematically collecting evidence, such as expertise plus external evidence like stakeholders or costs, instead of relying on intuition, and explain that it helps managers with less relevant experience.",
+          "topic": "evidence-based-decision-making",
+          "source": "generated"
         },
         {
           "id": "pom/c2/s6/g4/q2",
-          "prompt": "A manager focuses only on how a decision affects this quarter's profit and never considers the following years. What is missing from their analysis?",
+          "prompt": "In Step 3 of the decision-making process, what should effective managers make sure they have collected?",
           "type": "mcq",
           "options": [
-            "Satisficing on the first good option",
-            "Consideration of long-term implications",
-            "Protection against groupthink",
-            "Awareness of bounded rationality"
+            "A single alternative to avoid confusion",
+            "Sufficient information to assess the quality of the options",
+            "Signatures from every stakeholder before proceeding",
+            "Approval from senior management first"
           ],
-          "answer": "Consideration of long-term implications",
-          "rubric": "Correct option is consideration of long-term implications.",
-          "topic": "long-term-thinking",
+          "answer": "Sufficient information to assess the quality of the options",
+          "rubric": "Must select the option about collecting sufficient information to assess the quality of the alternatives.",
+          "topic": "analyzing-alternatives",
           "source": "generated"
         }
       ]
     },
     {
       "id": "pom/c2/s6/g5",
-      "title": "Selecting, Acting, and Learning From Decisions",
-      "durationSec": 158,
+      "title": "Talking to others and thinking critically",
+      "durationSec": 81,
       "sectionId": "pom/c2/s6",
-      "script": "After alternatives are generated and carefully analyzed, someone still has to actually choose one, and this step is harder than it sounds. Sometimes an option is clearly the winner, but often several choices look roughly equally good, and there may be no option that keeps every stakeholder happy. A weak decision maker can freeze here, endlessly gathering more information hoping that one option will suddenly reveal itself as obviously best. But a manager has to weigh whether waiting longer for more information is actually worth the delay, especially when time pressure exists, such as a taxi association needing to respond before the start of the next school term. Effective managers accept something important, that perfection is simply not possible. Because nobody has complete information or unlimited time, even good managers will sometimes make decisions that turn out not to be optimal. Accepting this frees a manager from paralysis, and it also makes them more willing to adjust course later if new information reveals the choice was not ideal. Talking to others remains valuable at this selection stage too, not just for generating options earlier on, but because explaining your reasoning out loud to a trusted colleague often clarifies your own thinking and confirms whether you are genuinely choosing well. Once a choice is made, it must be implemented, and this is where many managers quietly stall, especially if the decision will upset certain people. Suppose closing an underperforming branch of a business is the right call financially, but it means retrenching loyal staff. It is tempting to delay announcing it, but avoidance only prolongs the discomfort and can make the eventual transition harder. Good managers follow through even on unpopular but necessary decisions, and if they notice themselves resisting implementation, they treat that hesitation as a signal to reflect on whether the decision is ethically sound or whether they simply fear the difficult conversations ahead. Finally, the last step, evaluating the decision's effectiveness, is the one most often skipped, simply because busy managers move on to the next task. But without circling back to ask whether a decision actually worked, there is no way to learn and improve for next time. A manager who reviews outcomes regularly, whether a new supplier really did save money, whether a new store layout increased sales, builds a growing store of genuine experience rather than just assuming things worked out.",
+      "script": "As mentioned previously, it can be worthwhile to get help from others when generating options. Another good time to talk to other people is while analyzing those options; other individuals in the organization may help you assess the quality of your choices. Seeking out the opinions and preferences of others is also a great way to maintain perspective, so getting others involved can help you to be less biased in your decision-making (provided you talk to people whose biases are different from your own). Are you thinking critically about the options? Our skill at assessing alternatives can also be improved by a focus on critical thinking. Critical thinking is a disciplined process of evaluating the quality of information, especially data collected from other sources and arguments made by other people, to determine whether the source should be trusted or whether the argument is valid. An important factor in critical thinking is the recognition that a person's analysis of the available information may be flawed by a number of logical fallacies that they may use when they are arguing their point or defending their perspective. Learning what those fallacies are and being able to recognize them when they occur can help improve decision-making quality.",
       "keyPoints": [
-        "Selecting an alternative is hard when no option is clearly best or keeps every stakeholder satisfied",
-        "Accepting that perfect decisions are impossible frees managers from paralysis",
-        "Implementation requires following through even when a decision is unpopular",
-        "Evaluating a decision's effectiveness afterward is essential for learning and improving future decisions"
+        "Talking to others while analyzing alternatives helps assess their quality and reduces bias, especially when their biases differ from your own",
+        "Critical thinking means disciplined evaluation of the quality of information and arguments, to judge whether a source can be trusted",
+        "Recognizing logical fallacies people use when arguing for a position is an important part of thinking critically"
       ],
-      "altExplanation": "Think about choosing a route for a long road trip when several roads look about equally good on the map. At some point you have to just pick one and start driving, because sitting at the crossroads forever gets you nowhere. Once you are moving, you commit to the route, dealing with tolls or diversions as they come rather than turning back at every bump. And at the end of the trip, a wise traveler thinks back over which route worked well, so next time they can choose better. Selecting, implementing, and evaluating a decision follows exactly this same rhythm of committing, following through, and reflecting afterward.",
-      "deeper": "The reluctance to select an alternative often comes from an unrealistic desire for certainty, but bounded rationality guarantees that certainty is unavailable, so waiting indefinitely for more clarity is itself a decision, and often a costly one because it wastes time while the underlying problem continues. Escalation of commitment is a related danger at the implementation stage, where a manager who has already invested time or resources into a decision keeps pouring more into it even as evidence mounts that it was the wrong choice, purely because reversing course feels like admitting failure. Guarding against escalation of commitment requires the same honest self-evaluation described in step six, regularly and objectively asking whether a decision is actually delivering the intended results, rather than assuming that persistence alone will eventually prove it right. Evaluation also feeds back into building the kind of experience discussed earlier in this section, since a manager who never reviews outcomes cannot develop reliable heuristics, they simply repeat whatever they did before without knowing if it actually worked.",
-      "example": "A regional retail manager decides to switch her stores from a weekly to a fortnightly stock delivery schedule to cut transport costs. Rather than assuming it worked and moving on, she checks sales and stockout data three months later, discovers stores are running out of popular items too often, and adjusts back to a ten-day cycle. This final evaluation step is what lets her correct course instead of quietly living with a decision that was not actually working.",
+      "altExplanation": "Analyzing alternatives is not something to do alone. Other people help test the strength of your options, and critical thinking helps you test the strength of the information and arguments behind them, including catching flawed reasoning.",
+      "deeper": "This connects to the biases covered earlier in the chapter: talking to people whose biases differ from your own is one direct way to counter similar-to-me and confirmation bias while analyzing alternatives. Critical thinking, applied here to arguments and evidence, is the discipline that catches the logical fallacies people fall back on when defending a position.",
       "checkpoint": [
         {
           "id": "pom/c2/s6/g5/q1",
-          "prompt": "What mindset helps a manager avoid becoming paralyzed when no alternative is clearly the best?",
+          "prompt": "Which of these is critical thinking, as the passage describes it?",
           "type": "mcq",
           "options": [
-            "Choosing whichever option pleases the loudest stakeholder",
-            "Waiting indefinitely for more data",
-            "Accepting that perfect decisions are unattainable",
-            "Delegating the decision to avoid responsibility"
+            "Favoring people who share your background",
+            "Choosing the first acceptable option to save time",
+            "Judging whether information can be trusted",
+            "Staying committed to a decision already invested in"
           ],
-          "answer": "Accepting that perfect decisions are unattainable",
-          "rubric": "Correct option is accepting that perfect decisions are unattainable.",
-          "topic": "selecting-alternatives",
+          "answer": "Judging whether information can be trusted",
+          "rubric": "Must select the option about evaluating whether information and arguments should be trusted.",
+          "topic": "critical-thinking",
           "source": "generated"
         },
         {
           "id": "pom/c2/s6/g5/q2",
-          "prompt": "Why is escalation of commitment a risk connected to skipping the evaluation step of decision-making?",
+          "prompt": "Why does the passage recommend talking to people whose biases differ from your own when analyzing alternatives?",
           "type": "open",
-          "answer": "Because without honestly evaluating whether a decision is working, a manager may keep investing more resources into a failing decision simply to avoid admitting it was wrong, rather than recognizing the negative outcomes and changing course.",
-          "rubric": "Must connect the concept of escalation of commitment, continuing to invest in a poor decision despite negative outcomes, to the failure to evaluate outcomes honestly and adjust.",
-          "topic": "escalation-of-commitment",
+          "answer": "Because seeking out opinions and preferences different from your own helps you maintain perspective and be less biased in your decision-making.",
+          "rubric": "Must say that talking to people with different biases or perspectives helps reduce bias or maintain perspective when assessing alternatives.",
+          "topic": "reducing-bias",
+          "source": "generated"
+        }
+      ]
+    },
+    {
+      "id": "pom/c2/s6/g6",
+      "title": "Weighing long-term and ethical implications",
+      "durationSec": 105,
+      "sectionId": "pom/c2/s6",
+      "script": "Have you considered the long-term implications? A focus on immediate, short-term outcomes, with little consideration for the future, can cause problems. For example, imagine that a manager must decide whether to issue dividends to investors or put that money into research and development to maintain a pipeline of innovative products. It's tempting to just focus on the short-term: providing dividends to investors tends to be good for stock prices. But failing to invest in research and development might mean that in five years the company is unable to compete effectively in the marketplace, and as a result the business closes. Paying attention to the possible long-term outcomes is a crucial part of analyzing alternatives. Are there ethical implications? It's important to think about whether the various alternatives available to you are better or worse from an ethical perspective, as well. Sometimes managers make unethical choices because they haven't considered the ethical implications of their actions. In the 1970s, Ford manufactured the Pinto, which had an unfortunate flaw: the car would easily burst into flames when rear-ended. The company did not initially recall the vehicle because they viewed the problem from a financial perspective, without considering the ethical implications. People died as a result of the company's inaction. Unfortunately, these unethical decisions continue to occur, and cause harm, on a regular basis in our society. Effective managers strive to avoid these situations by thinking through the possible ethical implications of their decisions. The decision tree is a great example of a way to make managerial decisions while also taking ethical issues into account.",
+      "keyPoints": [
+        "Focusing only on short-term outcomes, like paying dividends instead of investing in research and development, can hurt a company later",
+        "Managers sometimes make unethical choices simply because they never considered the ethical angle",
+        "Ford's decision on the Pinto shows how viewing a problem only financially, without ethics, can cause real harm",
+        "Effective managers deliberately think through possible ethical implications before deciding"
+      ],
+      "altExplanation": "Two extra questions belong alongside evidence and critical thinking when analyzing alternatives: what happens years from now, and who could be harmed. The Pinto example shows what happens when a company answers only the short-term, financial question and skips the ethical one entirely.",
+      "deeper": "The dividends-versus-research-and-development choice is a classic tension in management between short-term shareholder returns and long-term competitiveness. The Ford Pinto case is a well-known example in business ethics of a company treating a safety defect as a cost-benefit calculation rather than a moral question, used here to show that ethical blindness is often a failure to even ask the ethical question, not a decision to do wrong.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s6/g6/q1",
+          "prompt": "Why did Ford not initially recall the Pinto, according to the passage?",
+          "type": "mcq",
+          "options": [
+            "It could not identify what had caused the flaw",
+            "Its engineers concluded the flaw did not exist",
+            "Regulators had not yet required a recall",
+            "It viewed the problem only from a financial perspective"
+          ],
+          "answer": "It viewed the problem only from a financial perspective",
+          "rubric": "Must select the option about viewing the problem only from a financial perspective, without considering ethics.",
+          "topic": "ethical-implications",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c2/s6/g6/q2",
+          "prompt": "What example does the passage give of weighing short-term versus long-term outcomes, and what is the risk of focusing only on the short term?",
+          "type": "open",
+          "answer": "A manager choosing to pay dividends to investors instead of investing in research and development. Focusing only on the short-term stock-price benefit risks leaving the company unable to compete in five years and possibly closing.",
+          "rubric": "Must reference the dividends-versus-research-and-development example and state the long-term risk, such as losing competitiveness, from ignoring the future.",
+          "topic": "long-term-implications",
+          "source": "generated"
+        }
+      ]
+    },
+    {
+      "id": "pom/c2/s6/g7",
+      "title": "The four steps of ethical decision-making",
+      "durationSec": 128,
+      "sectionId": "pom/c2/s6",
+      "script": "Moral sensitivity, recognizing that the issue has a moral component; Moral judgment, determining which actions are right versus wrong; Moral motivation or intention, deciding to do the right thing; and Moral character or action, actually doing what is right. Note that a failure at any point in the chain can lead to unethical actions! Taking the time to identify possible ethical implications will help you develop moral sensitivity, which is a critical first step to ensuring that you are making ethical decisions. Once you have determined that a decision has ethical implications, you must consider whether your various alternatives are right or wrong, whether or not they will cause harm, and if so, how much and to whom. This is the moral judgment component. If you aren't sure about whether something is right or wrong, think about how you would feel if that decision ended up on the front page of a major newspaper. If you would feel guilty or ashamed, don't do it! Pay attention to those emotional cues, they are providing important information about the option that you are contemplating. The third step in the ethical decision-making model involves making a decision to do what is right, and the fourth step involves following through on that decision. These may sound, but consider a situation in which your boss tells you to do something that you know to be wrong. When you push back, your boss makes it clear that you will lose your job if you don't do what you've been told to do. Now, consider that you have family at home who rely on your income. Making the decision to do what you know is right could come at a substantial cost to you personally. In these situations, your best course of action is to find a way to persuade your boss that the unethical action will cause greater harm to the organization in the long-term.",
+      "keyPoints": [
+        "The four steps are moral sensitivity, moral judgment, moral motivation, and moral character or action",
+        "A failure at any one of the four steps can lead to an unethical outcome",
+        "Judging right from wrong means asking whether and how much harm an option would cause, and imagining how it would look publicly",
+        "Following through on doing what is right can carry a real personal cost, such as risking your job"
+      ],
+      "altExplanation": "Recognizing that a decision has an ethical side is only the first step; judging what is right, actually intending to do it, and then following through are three more separate hurdles. The chapter's boss-pressure example shows how the last hurdle, actually acting, can be the hardest one.",
+      "deeper": "This four-step model, moral sensitivity, moral judgment, moral motivation, and moral character, is a widely used framework in business ethics for explaining why good values do not always translate into ethical action: a person can recognize and judge a situation correctly and still fail to act on it under pressure, which is exactly the boss scenario the passage describes.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s6/g7/q1",
+          "prompt": "What are the four steps involved in ethical decision-making?",
+          "type": "open",
+          "answer": "The four steps are moral sensitivity, recognizing that an issue has a moral component; moral judgment, determining which actions are right or wrong; moral motivation, deciding to do the right thing; and moral character, actually doing what is right.",
+          "rubric": "Must name at least three of the four steps in substance: recognizing the moral issue, judging right from wrong, deciding or intending to do right, and actually acting on it.",
+          "topic": "ethical-decision-steps",
+          "source": "book"
+        },
+        {
+          "id": "pom/c2/s6/g7/q2",
+          "prompt": "In the passage's example, what makes it hard to follow through on step four when a boss pressures you to do something wrong?",
+          "type": "mcq",
+          "options": [
+            "It could come at a real personal cost",
+            "The situation has not been recognized as a decision yet",
+            "The moral judgment step has not yet been completed",
+            "You have not generated enough alternatives to choose from"
+          ],
+          "answer": "It could come at a real personal cost",
+          "rubric": "Must select the option about a real personal cost, such as losing your job.",
+          "topic": "ethical-decision-steps",
+          "source": "generated"
+        }
+      ]
+    },
+    {
+      "id": "pom/c2/s6/g8",
+      "title": "Selecting an alternative",
+      "durationSec": 132,
+      "sectionId": "pom/c2/s6",
+      "script": "Step 4: Selecting an Alternative Once alternative options have been generated and analyzed, the decision maker must select one of the options. Sometimes this is easy, one option is clearly superior to the others. Often, however, this is a challenge because there is not a clear \"winner\" in terms of the best alternative. As mentioned earlier in the chapter, there may be multiple good options, and which one will be best is unclear even after gathering all available evidence. There may not be a single option that doesn't upset some stakeholder group, so you will make someone unhappy no matter what you choose. A weak decision maker may become paralyzed in this situation, unable to select among the various alternatives for lack of a clearly \"best\" option. They may decide to keep gathering additional information in hopes of making their decision easier. As a manager, it's important to think about whether the benefit of gathering additional information will outweigh the cost of waiting. If there are time pressures, waiting may not be possible. Effective managers recognize that they will not always make optimal (best possible) decisions because they don't have complete information and/or don't have the time or resources to gather and process all the possible information. They accept that their decision-making will not be perfect and strive to make good decisions overall. Recognizing that perfection is impossible will also help managers to adjust and change if they realize later on that the selected alternative was not the best option. This is another point in the process at which talking to others can be helpful. Selecting one of the alternatives will ultimately be your responsibility, but when faced with a difficult decision, talking through your choice with someone else may help you clarify that you are indeed making the best possible decision from among the available options. Sharing information verbally also causes our brains to process that information differently, which can provide new insights and bring greater clarity to our decision-making.",
+      "keyPoints": [
+        "Selecting is easy when one option is clearly superior, but there is often no clear \"winner\"",
+        "A weak decision maker can become paralyzed, endlessly gathering more information instead of deciding",
+        "Managers should weigh whether more information is worth the cost of waiting, especially under time pressure",
+        "Accepting that perfection is unattainable, and talking a choice through with someone else, both help a manager still decide well"
+      ],
+      "altExplanation": "Step 4 is where indecision becomes its own risk. When no option is obviously best, the danger is not picking the wrong one, it is never picking one at all, because more research always looks tempting. The passage's advice is to accept an imperfect decision and, if it helps, to talk it through with someone else first.",
+      "deeper": "This connects back to bounded rationality and time constraints from earlier in the chapter: even at the selection stage, managers cannot wait for perfect certainty, because the cost of waiting keeps rising. Talking a decision through with someone else here echoes the same practice used earlier in generating and analyzing alternatives, because verbalizing a decision forces the brain to process it differently.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s6/g8/q1",
+          "prompt": "What can happen to a weak decision maker when no alternative is a clear 'winner'?",
+          "type": "mcq",
+          "options": [
+            "They delegate the decision to a mentor",
+            "They become paralyzed and keep gathering more information",
+            "They abandon the decision-making process entirely",
+            "They automatically pick the cheapest option"
+          ],
+          "answer": "They become paralyzed and keep gathering more information",
+          "rubric": "Must select the option about becoming paralyzed and continuing to gather information rather than deciding.",
+          "topic": "selecting-an-alternative",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c2/s6/g8/q2",
+          "prompt": "According to the passage, why does recognizing that perfection is unattainable help a manager make decisions?",
+          "type": "open",
+          "answer": "It helps managers accept that their decisions will not always be optimal because they lack complete information, time, or resources, so they can still strive to make good overall decisions and stay willing to adjust course later if a choice turns out not to be the best one.",
+          "rubric": "Must say that accepting imperfection lets managers still decide despite incomplete information or time, and helps them adjust later if needed.",
+          "topic": "accepting-imperfection",
+          "source": "generated"
+        }
+      ]
+    },
+    {
+      "id": "pom/c2/s6/g9",
+      "title": "Implementing and evaluating the decision",
+      "durationSec": 136,
+      "sectionId": "pom/c2/s6",
+      "script": "Step 5: Implementing the Selected Alternative After selecting an alternative, you must implement it. This may seem too obvious to even mention, but implementation can sometimes be a challenge, particularly if the decision is going to create conflict or dissatisfaction among some stakeholders. Sometimes we know what we need to do but still try to avoid actually doing it because we know others in the organization will be upset, even if it's the best solution. Follow-through is a necessity, however, to be effective as a manager. If you are not willing to implement a decision, it's a good idea to engage in some self-reflection to understand why. If you know that the decision is going to create conflict, try to think about how you'll address that conflict in a productive way. It's also possible that we feel that there is no good alternative, or we are feeling pressured to make a decision that we know deep down is not right from an ethical perspective. These can be among the most difficult of decisions. You should always strive to make decisions that you feel good about, which means doing the right thing, even in the face of pressures to do wrong. Step 6: Evaluating the Effectiveness of Your Decision Managers sometimes skip the last step in the decision-making process because evaluating the effectiveness of a decision takes time, and managers, who are generally busy, may have already moved on to other projects. Yet evaluating effectiveness is important. When we fail to evaluate our own performance and the outcomes of our decisions, we cannot learn from the experience in a way that enables us to improve the quality of our future decisions. Attending fully to each step in the decision-making process improves the quality of decision-making and, as we've seen, managers can engage in a number of tactics to help them make good decisions. Take a look at the Ethics in Practice box to see an example of how one particular manager puts these techniques into practice to make good decisions.",
+      "keyPoints": [
+        "Implementing a decision can be hard, especially when it creates conflict or dissatisfaction among stakeholders",
+        "Avoiding implementation of a decision you know is right, out of fear of upsetting others, is a failure of follow-through",
+        "Step 6, evaluating effectiveness, is often skipped because managers are busy and have moved on",
+        "Without evaluating outcomes, managers cannot learn from experience to improve future decisions"
+      ],
+      "altExplanation": "Choosing well is not the end of the process. A manager who avoids acting on a hard decision, or never checks how it turned out, has left the job half done. Both steps take a kind of discipline that is easy to skip once a decision feels settled.",
+      "deeper": "This closes the loop on the six-step process introduced earlier in the section: deciding well only pays off if the decision is actually carried out and its outcome is honestly evaluated. The passage frames follow-through as an ethical matter too, doing what you know is right even when it creates conflict, which links back to the personal-cost example from the ethical decision-making steps.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s6/g9/q1",
+          "prompt": "Why do managers sometimes skip Step 6, evaluating the effectiveness of a decision, and why does the passage say this matters?",
+          "type": "open",
+          "answer": "Managers skip it because evaluating effectiveness takes time and busy managers have often already moved on to other projects. It matters because without evaluating the outcome, managers cannot learn from the experience in a way that improves the quality of their future decisions.",
+          "rubric": "Must give the reason, such as busy managers moving on, and the cost, such as failing to learn from the outcome to improve future decisions.",
+          "topic": "evaluating-decisions",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c2/s6/g9/q2",
+          "prompt": "According to the passage, why might a manager avoid implementing a decision they know is right?",
+          "type": "mcq",
+          "options": [
+            "They have not talked the decision through with anyone",
+            "They have not yet evaluated its long-term effectiveness",
+            "They know it will create conflict or upset some stakeholders",
+            "They are still generating additional alternatives"
+          ],
+          "answer": "They know it will create conflict or upset some stakeholders",
+          "rubric": "Must select the option about knowing the decision will create conflict or upset stakeholders.",
+          "topic": "implementing-decisions",
+          "source": "generated"
+        }
+      ]
+    },
+    {
+      "id": "pom/c2/s6/g10",
+      "title": "Rob Ault on ethical dilemmas",
+      "durationSec": 136,
+      "sectionId": "pom/c2/s6",
+      "script": "Rob Ault, Project Manager, Bayside Community Church Bradenton, Florida When it comes to decision-making, ethical dilemmas require particular care. Because managers make many decisions, it should not be surprising that some of those decisions will have ethical implications. With multiple stakeholders to consider, sometimes what is best for one group of stakeholders is not what is best for others. I talked to Rob Ault about his experiences with ethical dilemmas over the course of his career. Rob has been in managerial roles for over 25 years, since he was 19 years old. He told me that he had experienced a number of ethical dilemmas in that time. Rob has spent most of his career working for for-profit organizations, and for about half of that time he has worked in a union environment. What he has found most frustrating, regardless of environment, was when it was clear to him what was right, but what was right conflicted with what his boss was telling him to do. This included a situation in which he felt an employee should be fired for misbehavior (but wasn't), as well as situation in which he was asked to fire someone undeservedly. What we mostly talked about, though, was his process. How did he go about making decisions in these challenging situations? Rob clearly stated that his approach to these situations has changed with experience. What he did early in his career is not necessarily what he would do now. He said that it takes experience and some maturity to recognize that, as a leader, the decisions you make affect other people's lives. He also explained that a starting point for the decision-making process is always a recognition of the fact that you have been hired to generate a benefit for your company. So a manager's decisions need to come from the perspective of what is going to be in the best long-term interest of the organization (in addition to what is morally right). This isn't always easy, because short-term consequences are much easier to observe and predict.",
+      "keyPoints": [
+        "Rob Ault has worked in managerial roles for over 25 years, in both for-profit and union environments",
+        "What frustrated him most was when what he knew was right conflicted with what his boss told him to do",
+        "His approach to ethical dilemmas has changed with experience and maturity over his career",
+        "He starts from recognizing he was hired to benefit the company, alongside doing what is morally right"
+      ],
+      "altExplanation": "The Ethics in Practice profile puts the chapter's ideas into one manager's real experience. Rob Ault names the exact tension the four-step model describes, knowing what is right and having a boss push the opposite way, and says that handling it well came with experience, not from day one.",
+      "deeper": "Rob Ault's framing, that a manager's decisions need to serve the organization's long-term interest as well as what is morally right, echoes the chapter's earlier point about weighing long-term implications: short-term consequences are easy to see, which is exactly why they can crowd out the ethical and long-term view.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s6/g10/q1",
+          "prompt": "What did Rob Ault find most frustrating in his managerial career, according to the passage?",
+          "type": "mcq",
+          "options": [
+            "When he had too many alternatives to choose from",
+            "When customers complained about product quality",
+            "When he lacked enough evidence to decide quickly",
+            "When what was right conflicted with his boss"
+          ],
+          "answer": "When what was right conflicted with his boss",
+          "rubric": "Must select the option about what was right conflicting with what his boss told him to do.",
+          "topic": "rob-ault-profile",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c2/s6/g10/q2",
+          "prompt": "According to Rob Ault, what should a manager's decisions be based on?",
+          "type": "open",
+          "answer": "What is going to be in the best long-term interest of the organization, in addition to what is morally right.",
+          "rubric": "Must include both the organization's long-term interest and moral rightness; naming only one is partial.",
+          "topic": "rob-ault-profile",
+          "source": "generated"
+        }
+      ]
+    },
+    {
+      "id": "pom/c2/s6/g11",
+      "title": "Building a network before hard decisions",
+      "durationSec": 140,
+      "sectionId": "pom/c2/s6",
+      "script": "I asked Rob who he talked to prior to making decisions in situations with an ethical component. Rob told me that he felt one of the most important things you should do as a leader is to intentionally create and build relationships with people you trust in the organization. That way you have people you know you can talk to when difficult situations come up. He was very clear that you should always talk to your boss, who will tend to have a broader understanding of what is going on in the context of the larger organization. He also told me that he liked to talk to his father, who happened to work in human resource management for a large Fortune 500 organization. His father was always helpful in providing the perspective of how things were likely to play out long-term if one person was allowed to bend the rules. Rob realized eventually that the long-term consequences of this were almost always negative: once one person is allowed to misbehave, others find out about it and realize that they can do the same thing without repercussions. Rob also seeks out the opinions of other individuals in the organization before reaching decisions with an ethical component; he told me that when he worked in a union environment, he tried to make sure he had a good relationship with the union steward, because it was helpful to get the perspective of someone who was committed to the side of the employee. The biggest ethical dilemma Rob faced was one that he actually couldn't talk to me about. He disagreed with what he was being asked to do, and when it was clear that he had no other choice in the matter, he quit his job rather than do something he felt wasn't right. He accepted a severance package in exchange for signing a nondisclosure agreement, which is why he can't share any details... but it was clear from our conversation that he feels he made the right choice. That particular ethical dilemma makes it clear how challenging managerial decision-making can sometimes be.",
+      "keyPoints": [
+        "Rob Ault built relationships with trusted people in the organization in advance, so he had people to talk to when it mattered",
+        "He always talked to his boss, and also to his father, who worked in human resource management at a large company",
+        "Tolerating one person's misbehavior teaches others they can do the same, so problems compound over time",
+        "His hardest ethical dilemma led him to quit his job rather than do something he felt was wrong"
+      ],
+      "altExplanation": "Rob Ault's practice was to build trusted relationships before he needed them, not scramble for advice in the moment. When his hardest dilemma left him no other choice, he was willing to leave the job entirely rather than act against his values.",
+      "deeper": "This is a real-world instance of the chapter's advice to talk to other people while making a decision, extended into a habit: cultivating relationships in advance so good counsel is available under pressure. It also illustrates the broader theme that inaction is itself a consequential decision, since tolerating one person's rule-bending compounds over time as others copy it.",
+      "checkpoint": [
+        {
+          "id": "pom/c2/s6/g11/q1",
+          "prompt": "Why did Rob Ault say it was important to build relationships with trusted people in the organization in advance?",
+          "type": "open",
+          "answer": "So that he would already have people he knew he could talk to whenever a difficult or ethically challenging situation came up.",
+          "rubric": "Must say the point was having trusted people to talk to before or when difficult situations arise, not just talking to people in general.",
+          "topic": "seeking-advice",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c2/s6/g11/q2",
+          "prompt": "What did Rob Ault ultimately do when he felt he had no other ethical choice in his biggest dilemma?",
+          "type": "mcq",
+          "options": [
+            "He quit his job rather than do wrong",
+            "He asked the union steward to intervene",
+            "He reported the issue directly to a regulator",
+            "He delayed the decision until he retired"
+          ],
+          "answer": "He quit his job rather than do wrong",
+          "rubric": "Must select the option about quitting his job rather than doing what he felt was wrong.",
+          "topic": "rob-ault-profile",
           "source": "generated"
         }
       ]

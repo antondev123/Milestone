@@ -2,7 +2,7 @@
   "id": "pom",
   "title": "Principles of Management",
   "description": "The OpenStax Principles of Management textbook, transposed into commute-sized audio lessons with checkpoints.",
-  "estimatedMinutes": 192,
+  "estimatedMinutes": 224,
   "license": {
     "name": "CC BY 4.0",
     "url": "https://creativecommons.org/licenses/by/4.0/",
@@ -447,8 +447,8 @@
           "segments": [
             {
               "id": "pom/c2/s2/g1",
-              "title": "Why Decisions Matter to Everyone",
-              "durationSec": 155,
+              "title": "Stakeholders and the cost of poor decisions",
+              "durationSec": 102,
               "sectionId": "pom/c2/s2",
               "checkpoint": [
                 {
@@ -460,40 +460,84 @@
                   "id": "pom/c2/s2/g1/q2",
                   "type": "open",
                   "topic": "stakeholders"
-                },
-                {
-                  "id": "pom/c2/s2/g1/q3",
-                  "type": "mcq",
-                  "topic": "decision-outcomes"
                 }
               ]
             },
             {
               "id": "pom/c2/s2/g2",
-              "title": "No Multiple Choice, Only Judgement",
-              "durationSec": 174,
+              "title": "Deciding when to decide",
+              "durationSec": 96,
               "sectionId": "pom/c2/s2",
               "checkpoint": [
                 {
                   "id": "pom/c2/s2/g2/q1",
                   "type": "open",
-                  "topic": "no-single-right-answer"
+                  "topic": "timing-of-decisions"
                 },
                 {
                   "id": "pom/c2/s2/g2/q2",
                   "type": "mcq",
-                  "topic": "ethics-in-decisions"
+                  "topic": "changing-course"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s2/g3",
+              "title": "Not a multiple-choice test",
+              "durationSec": 151,
+              "sectionId": "pom/c2/s2",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s2/g3/q1",
+                  "type": "open",
+                  "topic": "no-single-right-answer"
                 },
                 {
-                  "id": "pom/c2/s2/g2/q3",
+                  "id": "pom/c2/s2/g3/q2",
+                  "type": "mcq",
+                  "topic": "ethics-and-shareholder-wealth"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s2/g4",
+              "title": "Doing well and doing good",
+              "durationSec": 89,
+              "sectionId": "pom/c2/s2",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s2/g4/q1",
                   "type": "open",
-                  "topic": "stakeholders"
+                  "topic": "sustainability-decision"
+                },
+                {
+                  "id": "pom/c2/s2/g4/q2",
+                  "type": "mcq",
+                  "topic": "doing-well-and-doing-good"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s2/g5",
+              "title": "Sustainability pays off",
+              "durationSec": 130,
+              "sectionId": "pom/c2/s2",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s2/g5/q1",
+                  "type": "open",
+                  "topic": "sustainability-and-performance"
+                },
+                {
+                  "id": "pom/c2/s2/g5/q2",
+                  "type": "mcq",
+                  "topic": "biogas-from-wastewater"
                 }
               ]
             }
           ],
           "lessonFile": "sections/c02-s02.json",
-          "sourceHash": "a36a52a836da"
+          "sourceHash": "843ac88d9c77"
         },
         {
           "id": "pom/c2/s3",
@@ -510,8 +554,8 @@
           "segments": [
             {
               "id": "pom/c2/s3/g1",
-              "title": "Reflective and Reactive Decision Systems",
-              "durationSec": 187,
+              "title": "Reactive decision-making",
+              "durationSec": 102,
               "sectionId": "pom/c2/s3",
               "checkpoint": [
                 {
@@ -521,24 +565,50 @@
                 },
                 {
                   "id": "pom/c2/s3/g1/q2",
+                  "type": "mcq",
+                  "topic": "reactive-decision-making"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s3/g2",
+              "title": "Reflective decision-making",
+              "durationSec": 63,
+              "sectionId": "pom/c2/s3",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s3/g2/q1",
                   "type": "open",
+                  "topic": "reflective-decision-making"
+                },
+                {
+                  "id": "pom/c2/s3/g2/q2",
+                  "type": "mcq",
+                  "topic": "reflective-decision-making"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s3/g3",
+              "title": "Emotions and emotional intelligence",
+              "durationSec": 108,
+              "sectionId": "pom/c2/s3",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s3/g3/q1",
+                  "type": "mcq",
                   "topic": "emotional-intelligence"
                 },
                 {
-                  "id": "pom/c2/s3/g1/q3",
-                  "type": "mcq",
-                  "topic": "reflective-reactive-systems"
-                },
-                {
-                  "id": "pom/c2/s3/g1/q4",
+                  "id": "pom/c2/s3/g3/q2",
                   "type": "open",
-                  "topic": "emotions-decision-making"
+                  "topic": "emotional-intelligence"
                 }
               ]
             }
           ],
           "lessonFile": "sections/c02-s03.json",
-          "sourceHash": "4e97a7b2e527"
+          "sourceHash": "945342632341"
         },
         {
           "id": "pom/c2/s4",
@@ -555,30 +625,48 @@
           "segments": [
             {
               "id": "pom/c2/s4/g1",
-              "title": "Programmed Versus Nonprogrammed Decisions",
-              "durationSec": 166,
+              "title": "Programmed decisions and heuristics",
+              "durationSec": 168,
               "sectionId": "pom/c2/s4",
               "checkpoint": [
                 {
                   "id": "pom/c2/s4/g1/q1",
                   "type": "open",
-                  "topic": "programmed-vs-nonprogrammed"
+                  "topic": "programmed-decisions"
                 },
                 {
                   "id": "pom/c2/s4/g1/q2",
                   "type": "mcq",
-                  "topic": "heuristics"
+                  "topic": "programmed-decisions"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s4/g2",
+              "title": "Nonprogrammed decisions and the process",
+              "durationSec": 141,
+              "sectionId": "pom/c2/s4",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s4/g2/q1",
+                  "type": "open",
+                  "topic": "nonprogrammed-decisions"
                 },
                 {
-                  "id": "pom/c2/s4/g1/q3",
+                  "id": "pom/c2/s4/g2/q2",
+                  "type": "mcq",
+                  "topic": "nonprogrammed-decisions"
+                },
+                {
+                  "id": "pom/c2/s4/g2/q3",
                   "type": "open",
-                  "topic": "reactive-reflective-systems"
+                  "topic": "decision-making-process"
                 }
               ]
             }
           ],
           "lessonFile": "sections/c02-s04.json",
-          "sourceHash": "e3804e7193e2"
+          "sourceHash": "c7c3c6c219da"
         },
         {
           "id": "pom/c2/s5",
@@ -733,8 +821,8 @@
           "segments": [
             {
               "id": "pom/c2/s6/g1",
-              "title": "Experience and Quick Everyday Decisions",
-              "durationSec": 147,
+              "title": "Experience and better programmed decisions",
+              "durationSec": 94,
               "sectionId": "pom/c2/s6",
               "checkpoint": [
                 {
@@ -745,95 +833,193 @@
                 {
                   "id": "pom/c2/s6/g1/q2",
                   "type": "mcq",
-                  "topic": "satisficing"
-                },
-                {
-                  "id": "pom/c2/s6/g1/q3",
-                  "type": "open",
-                  "topic": "bounded-rationality"
+                  "topic": "experience-and-decisions"
                 }
               ]
             },
             {
               "id": "pom/c2/s6/g2",
-              "title": "Generating Many Good Alternatives",
-              "durationSec": 151,
+              "title": "Recognizing problems, generating alternatives",
+              "durationSec": 97,
               "sectionId": "pom/c2/s6",
               "checkpoint": [
                 {
                   "id": "pom/c2/s6/g2/q1",
                   "type": "open",
-                  "topic": "decision-making-steps"
+                  "topic": "six-step-decision-process"
                 },
                 {
                   "id": "pom/c2/s6/g2/q2",
                   "type": "mcq",
-                  "topic": "brainstorming"
-                },
-                {
-                  "id": "pom/c2/s6/g2/q3",
-                  "type": "open",
-                  "topic": "stakeholder-input"
+                  "topic": "recognizing-problems"
                 }
               ]
             },
             {
               "id": "pom/c2/s6/g3",
-              "title": "Analyzing Options With Evidence and Critical Thinking",
-              "durationSec": 156,
+              "title": "Talking to others and being creative",
+              "durationSec": 101,
               "sectionId": "pom/c2/s6",
               "checkpoint": [
                 {
                   "id": "pom/c2/s6/g3/q1",
                   "type": "mcq",
-                  "topic": "evidence-based-decision-making"
+                  "topic": "talking-to-others"
                 },
                 {
                   "id": "pom/c2/s6/g3/q2",
                   "type": "open",
-                  "topic": "logical-fallacies"
+                  "topic": "creativity"
                 }
               ]
             },
             {
               "id": "pom/c2/s6/g4",
-              "title": "Long-Term Thinking and Ethical Decision-Making",
-              "durationSec": 157,
+              "title": "Evidence-based decision-making",
+              "durationSec": 77,
               "sectionId": "pom/c2/s6",
               "checkpoint": [
                 {
                   "id": "pom/c2/s6/g4/q1",
                   "type": "open",
-                  "topic": "ethical-decision-making"
+                  "topic": "evidence-based-decision-making"
                 },
                 {
                   "id": "pom/c2/s6/g4/q2",
                   "type": "mcq",
-                  "topic": "long-term-thinking"
+                  "topic": "analyzing-alternatives"
                 }
               ]
             },
             {
               "id": "pom/c2/s6/g5",
-              "title": "Selecting, Acting, and Learning From Decisions",
-              "durationSec": 158,
+              "title": "Talking to others and thinking critically",
+              "durationSec": 81,
               "sectionId": "pom/c2/s6",
               "checkpoint": [
                 {
                   "id": "pom/c2/s6/g5/q1",
                   "type": "mcq",
-                  "topic": "selecting-alternatives"
+                  "topic": "critical-thinking"
                 },
                 {
                   "id": "pom/c2/s6/g5/q2",
                   "type": "open",
-                  "topic": "escalation-of-commitment"
+                  "topic": "reducing-bias"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s6/g6",
+              "title": "Weighing long-term and ethical implications",
+              "durationSec": 105,
+              "sectionId": "pom/c2/s6",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s6/g6/q1",
+                  "type": "mcq",
+                  "topic": "ethical-implications"
+                },
+                {
+                  "id": "pom/c2/s6/g6/q2",
+                  "type": "open",
+                  "topic": "long-term-implications"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s6/g7",
+              "title": "The four steps of ethical decision-making",
+              "durationSec": 128,
+              "sectionId": "pom/c2/s6",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s6/g7/q1",
+                  "type": "open",
+                  "topic": "ethical-decision-steps"
+                },
+                {
+                  "id": "pom/c2/s6/g7/q2",
+                  "type": "mcq",
+                  "topic": "ethical-decision-steps"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s6/g8",
+              "title": "Selecting an alternative",
+              "durationSec": 132,
+              "sectionId": "pom/c2/s6",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s6/g8/q1",
+                  "type": "mcq",
+                  "topic": "selecting-an-alternative"
+                },
+                {
+                  "id": "pom/c2/s6/g8/q2",
+                  "type": "open",
+                  "topic": "accepting-imperfection"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s6/g9",
+              "title": "Implementing and evaluating the decision",
+              "durationSec": 136,
+              "sectionId": "pom/c2/s6",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s6/g9/q1",
+                  "type": "open",
+                  "topic": "evaluating-decisions"
+                },
+                {
+                  "id": "pom/c2/s6/g9/q2",
+                  "type": "mcq",
+                  "topic": "implementing-decisions"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s6/g10",
+              "title": "Rob Ault on ethical dilemmas",
+              "durationSec": 136,
+              "sectionId": "pom/c2/s6",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s6/g10/q1",
+                  "type": "mcq",
+                  "topic": "rob-ault-profile"
+                },
+                {
+                  "id": "pom/c2/s6/g10/q2",
+                  "type": "open",
+                  "topic": "rob-ault-profile"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s6/g11",
+              "title": "Building a network before hard decisions",
+              "durationSec": 140,
+              "sectionId": "pom/c2/s6",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s6/g11/q1",
+                  "type": "open",
+                  "topic": "seeking-advice"
+                },
+                {
+                  "id": "pom/c2/s6/g11/q2",
+                  "type": "mcq",
+                  "topic": "rob-ault-profile"
                 }
               ]
             }
           ],
           "lessonFile": "sections/c02-s06.json",
-          "sourceHash": "8bbc01a686ef"
+          "sourceHash": "9b668e014821"
         },
         {
           "id": "pom/c2/s7",
@@ -850,40 +1036,61 @@
           "segments": [
             {
               "id": "pom/c2/s7/g1",
-              "title": "Making Better Decisions Together",
-              "durationSec": 175,
+              "title": "Advantages of group decisions",
+              "durationSec": 129,
               "sectionId": "pom/c2/s7",
               "checkpoint": [
                 {
                   "id": "pom/c2/s7/g1/q1",
-                  "type": "open",
-                  "topic": "group-decision-advantages"
+                  "type": "mcq",
+                  "topic": "brainstorming"
                 },
                 {
                   "id": "pom/c2/s7/g1/q2",
                   "type": "open",
-                  "topic": "group-decision-disadvantages"
-                },
+                  "topic": "group-vs-individual-decisions"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s7/g2",
+              "title": "Disadvantages of group decisions",
+              "durationSec": 62,
+              "sectionId": "pom/c2/s7",
+              "checkpoint": [
                 {
-                  "id": "pom/c2/s7/g1/q3",
-                  "type": "open",
-                  "topic": "group-decision-improvement"
-                },
-                {
-                  "id": "pom/c2/s7/g1/q4",
+                  "id": "pom/c2/s7/g2/q1",
                   "type": "mcq",
-                  "topic": "devils-advocate"
+                  "topic": "suppression-of-dissent"
                 },
                 {
-                  "id": "pom/c2/s7/g1/q5",
+                  "id": "pom/c2/s7/g2/q2",
                   "type": "open",
-                  "topic": "process-vs-relationship-conflict"
+                  "topic": "group-decision-pitfalls"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s7/g3",
+              "title": "Forming a quality group",
+              "durationSec": 126,
+              "sectionId": "pom/c2/s7",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s7/g3/q1",
+                  "type": "mcq",
+                  "topic": "reducing-group-conflict"
+                },
+                {
+                  "id": "pom/c2/s7/g3/q2",
+                  "type": "open",
+                  "topic": "improving-group-decisions"
                 }
               ]
             }
           ],
           "lessonFile": "sections/c02-s07.json",
-          "sourceHash": "150a709658e6"
+          "sourceHash": "0bb76e3c67f7"
         },
         {
           "id": "pom/c2/s8",
@@ -986,8 +1193,8 @@
       "segments": [
         {
           "id": "pom/c2/s2/g1",
-          "title": "Why Decisions Matter to Everyone",
-          "durationSec": 155,
+          "title": "Stakeholders and the cost of poor decisions",
+          "durationSec": 102,
           "sectionId": "pom/c2/s2",
           "checkpoint": [
             {
@@ -999,41 +1206,85 @@
               "id": "pom/c2/s2/g1/q2",
               "type": "open",
               "topic": "stakeholders"
-            },
-            {
-              "id": "pom/c2/s2/g1/q3",
-              "type": "mcq",
-              "topic": "decision-outcomes"
             }
           ]
         },
         {
           "id": "pom/c2/s2/g2",
-          "title": "No Multiple Choice, Only Judgement",
-          "durationSec": 174,
+          "title": "Deciding when to decide",
+          "durationSec": 96,
           "sectionId": "pom/c2/s2",
           "checkpoint": [
             {
               "id": "pom/c2/s2/g2/q1",
               "type": "open",
-              "topic": "no-single-right-answer"
+              "topic": "timing-of-decisions"
             },
             {
               "id": "pom/c2/s2/g2/q2",
               "type": "mcq",
-              "topic": "ethics-in-decisions"
+              "topic": "changing-course"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s2/g3",
+          "title": "Not a multiple-choice test",
+          "durationSec": 151,
+          "sectionId": "pom/c2/s2",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s2/g3/q1",
+              "type": "open",
+              "topic": "no-single-right-answer"
             },
             {
-              "id": "pom/c2/s2/g2/q3",
+              "id": "pom/c2/s2/g3/q2",
+              "type": "mcq",
+              "topic": "ethics-and-shareholder-wealth"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s2/g4",
+          "title": "Doing well and doing good",
+          "durationSec": 89,
+          "sectionId": "pom/c2/s2",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s2/g4/q1",
               "type": "open",
-              "topic": "stakeholders"
+              "topic": "sustainability-decision"
+            },
+            {
+              "id": "pom/c2/s2/g4/q2",
+              "type": "mcq",
+              "topic": "doing-well-and-doing-good"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s2/g5",
+          "title": "Sustainability pays off",
+          "durationSec": 130,
+          "sectionId": "pom/c2/s2",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s2/g5/q1",
+              "type": "open",
+              "topic": "sustainability-and-performance"
+            },
+            {
+              "id": "pom/c2/s2/g5/q2",
+              "type": "mcq",
+              "topic": "biogas-from-wastewater"
             }
           ]
         },
         {
           "id": "pom/c2/s3/g1",
-          "title": "Reflective and Reactive Decision Systems",
-          "durationSec": 187,
+          "title": "Reactive decision-making",
+          "durationSec": 102,
           "sectionId": "pom/c2/s3",
           "checkpoint": [
             {
@@ -1043,41 +1294,85 @@
             },
             {
               "id": "pom/c2/s3/g1/q2",
+              "type": "mcq",
+              "topic": "reactive-decision-making"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s3/g2",
+          "title": "Reflective decision-making",
+          "durationSec": 63,
+          "sectionId": "pom/c2/s3",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s3/g2/q1",
               "type": "open",
+              "topic": "reflective-decision-making"
+            },
+            {
+              "id": "pom/c2/s3/g2/q2",
+              "type": "mcq",
+              "topic": "reflective-decision-making"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s3/g3",
+          "title": "Emotions and emotional intelligence",
+          "durationSec": 108,
+          "sectionId": "pom/c2/s3",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s3/g3/q1",
+              "type": "mcq",
               "topic": "emotional-intelligence"
             },
             {
-              "id": "pom/c2/s3/g1/q3",
-              "type": "mcq",
-              "topic": "reflective-reactive-systems"
-            },
-            {
-              "id": "pom/c2/s3/g1/q4",
+              "id": "pom/c2/s3/g3/q2",
               "type": "open",
-              "topic": "emotions-decision-making"
+              "topic": "emotional-intelligence"
             }
           ]
         },
         {
           "id": "pom/c2/s4/g1",
-          "title": "Programmed Versus Nonprogrammed Decisions",
-          "durationSec": 166,
+          "title": "Programmed decisions and heuristics",
+          "durationSec": 168,
           "sectionId": "pom/c2/s4",
           "checkpoint": [
             {
               "id": "pom/c2/s4/g1/q1",
               "type": "open",
-              "topic": "programmed-vs-nonprogrammed"
+              "topic": "programmed-decisions"
             },
             {
               "id": "pom/c2/s4/g1/q2",
               "type": "mcq",
-              "topic": "heuristics"
+              "topic": "programmed-decisions"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s4/g2",
+          "title": "Nonprogrammed decisions and the process",
+          "durationSec": 141,
+          "sectionId": "pom/c2/s4",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s4/g2/q1",
+              "type": "open",
+              "topic": "nonprogrammed-decisions"
             },
             {
-              "id": "pom/c2/s4/g1/q3",
+              "id": "pom/c2/s4/g2/q2",
+              "type": "mcq",
+              "topic": "nonprogrammed-decisions"
+            },
+            {
+              "id": "pom/c2/s4/g2/q3",
               "type": "open",
-              "topic": "reactive-reflective-systems"
+              "topic": "decision-making-process"
             }
           ]
         },
@@ -1204,8 +1499,8 @@
         },
         {
           "id": "pom/c2/s6/g1",
-          "title": "Experience and Quick Everyday Decisions",
-          "durationSec": 147,
+          "title": "Experience and better programmed decisions",
+          "durationSec": 94,
           "sectionId": "pom/c2/s6",
           "checkpoint": [
             {
@@ -1216,122 +1511,241 @@
             {
               "id": "pom/c2/s6/g1/q2",
               "type": "mcq",
-              "topic": "satisficing"
-            },
-            {
-              "id": "pom/c2/s6/g1/q3",
-              "type": "open",
-              "topic": "bounded-rationality"
+              "topic": "experience-and-decisions"
             }
           ]
         },
         {
           "id": "pom/c2/s6/g2",
-          "title": "Generating Many Good Alternatives",
-          "durationSec": 151,
+          "title": "Recognizing problems, generating alternatives",
+          "durationSec": 97,
           "sectionId": "pom/c2/s6",
           "checkpoint": [
             {
               "id": "pom/c2/s6/g2/q1",
               "type": "open",
-              "topic": "decision-making-steps"
+              "topic": "six-step-decision-process"
             },
             {
               "id": "pom/c2/s6/g2/q2",
               "type": "mcq",
-              "topic": "brainstorming"
-            },
-            {
-              "id": "pom/c2/s6/g2/q3",
-              "type": "open",
-              "topic": "stakeholder-input"
+              "topic": "recognizing-problems"
             }
           ]
         },
         {
           "id": "pom/c2/s6/g3",
-          "title": "Analyzing Options With Evidence and Critical Thinking",
-          "durationSec": 156,
+          "title": "Talking to others and being creative",
+          "durationSec": 101,
           "sectionId": "pom/c2/s6",
           "checkpoint": [
             {
               "id": "pom/c2/s6/g3/q1",
               "type": "mcq",
-              "topic": "evidence-based-decision-making"
+              "topic": "talking-to-others"
             },
             {
               "id": "pom/c2/s6/g3/q2",
               "type": "open",
-              "topic": "logical-fallacies"
+              "topic": "creativity"
             }
           ]
         },
         {
           "id": "pom/c2/s6/g4",
-          "title": "Long-Term Thinking and Ethical Decision-Making",
-          "durationSec": 157,
+          "title": "Evidence-based decision-making",
+          "durationSec": 77,
           "sectionId": "pom/c2/s6",
           "checkpoint": [
             {
               "id": "pom/c2/s6/g4/q1",
               "type": "open",
-              "topic": "ethical-decision-making"
+              "topic": "evidence-based-decision-making"
             },
             {
               "id": "pom/c2/s6/g4/q2",
               "type": "mcq",
-              "topic": "long-term-thinking"
+              "topic": "analyzing-alternatives"
             }
           ]
         },
         {
           "id": "pom/c2/s6/g5",
-          "title": "Selecting, Acting, and Learning From Decisions",
-          "durationSec": 158,
+          "title": "Talking to others and thinking critically",
+          "durationSec": 81,
           "sectionId": "pom/c2/s6",
           "checkpoint": [
             {
               "id": "pom/c2/s6/g5/q1",
               "type": "mcq",
-              "topic": "selecting-alternatives"
+              "topic": "critical-thinking"
             },
             {
               "id": "pom/c2/s6/g5/q2",
               "type": "open",
-              "topic": "escalation-of-commitment"
+              "topic": "reducing-bias"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s6/g6",
+          "title": "Weighing long-term and ethical implications",
+          "durationSec": 105,
+          "sectionId": "pom/c2/s6",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s6/g6/q1",
+              "type": "mcq",
+              "topic": "ethical-implications"
+            },
+            {
+              "id": "pom/c2/s6/g6/q2",
+              "type": "open",
+              "topic": "long-term-implications"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s6/g7",
+          "title": "The four steps of ethical decision-making",
+          "durationSec": 128,
+          "sectionId": "pom/c2/s6",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s6/g7/q1",
+              "type": "open",
+              "topic": "ethical-decision-steps"
+            },
+            {
+              "id": "pom/c2/s6/g7/q2",
+              "type": "mcq",
+              "topic": "ethical-decision-steps"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s6/g8",
+          "title": "Selecting an alternative",
+          "durationSec": 132,
+          "sectionId": "pom/c2/s6",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s6/g8/q1",
+              "type": "mcq",
+              "topic": "selecting-an-alternative"
+            },
+            {
+              "id": "pom/c2/s6/g8/q2",
+              "type": "open",
+              "topic": "accepting-imperfection"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s6/g9",
+          "title": "Implementing and evaluating the decision",
+          "durationSec": 136,
+          "sectionId": "pom/c2/s6",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s6/g9/q1",
+              "type": "open",
+              "topic": "evaluating-decisions"
+            },
+            {
+              "id": "pom/c2/s6/g9/q2",
+              "type": "mcq",
+              "topic": "implementing-decisions"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s6/g10",
+          "title": "Rob Ault on ethical dilemmas",
+          "durationSec": 136,
+          "sectionId": "pom/c2/s6",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s6/g10/q1",
+              "type": "mcq",
+              "topic": "rob-ault-profile"
+            },
+            {
+              "id": "pom/c2/s6/g10/q2",
+              "type": "open",
+              "topic": "rob-ault-profile"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s6/g11",
+          "title": "Building a network before hard decisions",
+          "durationSec": 140,
+          "sectionId": "pom/c2/s6",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s6/g11/q1",
+              "type": "open",
+              "topic": "seeking-advice"
+            },
+            {
+              "id": "pom/c2/s6/g11/q2",
+              "type": "mcq",
+              "topic": "rob-ault-profile"
             }
           ]
         },
         {
           "id": "pom/c2/s7/g1",
-          "title": "Making Better Decisions Together",
-          "durationSec": 175,
+          "title": "Advantages of group decisions",
+          "durationSec": 129,
           "sectionId": "pom/c2/s7",
           "checkpoint": [
             {
               "id": "pom/c2/s7/g1/q1",
-              "type": "open",
-              "topic": "group-decision-advantages"
+              "type": "mcq",
+              "topic": "brainstorming"
             },
             {
               "id": "pom/c2/s7/g1/q2",
               "type": "open",
-              "topic": "group-decision-disadvantages"
-            },
+              "topic": "group-vs-individual-decisions"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s7/g2",
+          "title": "Disadvantages of group decisions",
+          "durationSec": 62,
+          "sectionId": "pom/c2/s7",
+          "checkpoint": [
             {
-              "id": "pom/c2/s7/g1/q3",
-              "type": "open",
-              "topic": "group-decision-improvement"
-            },
-            {
-              "id": "pom/c2/s7/g1/q4",
+              "id": "pom/c2/s7/g2/q1",
               "type": "mcq",
-              "topic": "devils-advocate"
+              "topic": "suppression-of-dissent"
             },
             {
-              "id": "pom/c2/s7/g1/q5",
+              "id": "pom/c2/s7/g2/q2",
               "type": "open",
-              "topic": "process-vs-relationship-conflict"
+              "topic": "group-decision-pitfalls"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s7/g3",
+          "title": "Forming a quality group",
+          "durationSec": 126,
+          "sectionId": "pom/c2/s7",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s7/g3/q1",
+              "type": "mcq",
+              "topic": "reducing-group-conflict"
+            },
+            {
+              "id": "pom/c2/s7/g3/q2",
+              "type": "open",
+              "topic": "improving-group-decisions"
             }
           ]
         }

@@ -7,10 +7,11 @@
 //
 //   node scripts/verbatim-chapter.ts extract "<path to Principles of Management.pdf>"   (chapter 1 → verbatim/c01.txt)
 //   node scripts/verbatim-chapter.ts build                                               (npm run course:verbatim)
+//   node scripts/verbatim-chapter.ts check verbatim/cNN.json                             (dry run: word counts, blocks, hygiene, coverage)
 //
 // Why not source/cNN/*.md for chapter 1: parse-book.ts treats every "> **" line as a figure caption, which
 // drops real prose in 1.3 (most of Decisional Roles) and 1.4 (the levels of management). The raw text layer
-// keeps it. Sections whose markdown parsed cleanly (2.5) are cut from the markdown instead, so no PDF is
+// keeps it. Sections whose markdown parsed cleanly (chapter 2) are cut from the markdown instead, so no PDF is
 // needed to rebuild them. Sections written here get ingest's sourceHash, so `npm run ingest` skips them
 // unless --force. Never called on the request path.
 import { execFileSync } from "node:child_process";
@@ -19,6 +20,7 @@ import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Course, Question, SectionLesson, Segment } from "../src/types/lesson.ts";
 import { orderMcqs } from "./mcq-order.ts";
+import { blocks } from "../src/lib/chunk.ts";
 
 const DIR = join("data", "courses", "pom");
 const pad = (n: number | string) => String(n).padStart(2, "0");
@@ -30,7 +32,7 @@ interface LegSpec {
   title: string;
   section: string; // "1.3"
   start: string; // exact text where the leg begins in the raw text
-  end: string; // exact text where the next part begins (not included)
+  end: string; // exact text where the next part begins (not included); "" = to the end of the section text
   drop?: (string | [string, string])[]; // regex, or [regex, replacement]: captions, headings, exhibit references
   keyPoints: string[];
   altExplanation: string;
@@ -107,7 +109,7 @@ function buildChapter(course: Course, CHAPTER: number, legsSpec: LegSpec[]) {
     const raw = pdfLayer ?? sectionMarkdown(section.sourceFile);
     const segments: Segment[] = legs.map((leg, i) => {
       const a = raw.indexOf(leg.start);
-      const b = raw.indexOf(leg.end, a + leg.start.length);
+      const b = leg.end ? raw.indexOf(leg.end, a + leg.start.length) : raw.length;
       if (a < 0 || b < 0) throw new Error(`${section.number} leg ${i + 1}: marker not found (${a < 0 ? leg.start : leg.end})`);
       const script = clean(raw.slice(a, b), leg.drop);
       const words = script.split(/\s+/).length;
@@ -149,10 +151,74 @@ function buildChapter(course: Course, CHAPTER: number, legsSpec: LegSpec[]) {
   console.log(`build: chapter ${CHAPTER} (${pdfLayer ? "PDF text layer" : "section markdown"}) → ${chapter.sections.flatMap((s) => s.segments).length} legs`);
 }
 
+/**
+ * Dry run for authoring: slice the legs of one spec file (any path, e.g. a fragment with a few legs)
+ * and print per-leg word counts, blocks and hygiene problems. Writes nothing.
+ *   node scripts/verbatim-chapter.ts check <spec.json>
+ */
+function check(specPath: string) {
+  const spec = JSON.parse(readFileSync(specPath, "utf8")) as { chapter: number; legs: LegSpec[] };
+  const course = JSON.parse(readFileSync(join(DIR, "course.json"), "utf8")) as Course;
+  const chapter = course.chapters.find((c) => c.number === spec.chapter);
+  if (!chapter) throw new Error(`chapter ${spec.chapter} not in manifest`);
+  const pdfLayer = existsSync(rawPath(spec.chapter)) ? straight(readFileSync(rawPath(spec.chapter), "utf8")) : null;
+  let problems = 0;
+  const bad = (m: string) => {
+    problems++;
+    console.log(`  PROBLEM: ${m}`);
+  };
+  spec.legs.forEach((leg, i) => {
+    const section = chapter.sections.find((s) => s.number === leg.section);
+    if (!section) return bad(`leg ${i + 1}: section ${leg.section} not in manifest`);
+    const raw = pdfLayer ?? sectionMarkdown(section.sourceFile);
+    const a = raw.indexOf(leg.start);
+    const b = a < 0 ? -1 : leg.end ? raw.indexOf(leg.end, a + leg.start.length) : raw.length;
+    if (a < 0 || b < 0) return bad(`leg ${i + 1} "${leg.title}": marker not found (${a < 0 ? "start" : "end"}: ${JSON.stringify(a < 0 ? leg.start : leg.end)})`);
+    const script = clean(raw.slice(a, b), leg.drop);
+    const words = script.split(/\s+/).length;
+    const bl = blocks(script).map((x) => x.split(/\s+/).length);
+    console.log(`${leg.section} leg ${i + 1} "${leg.title}": ${words} words, ~${Math.round((words / WORDS_PER_MIN) * 60)} s, blocks ${bl.join("/")}`);
+    console.log(`  starts: ${script.slice(0, 90)}…`);
+    console.log(`  ends:   …${script.slice(-90)}`);
+    if (words < 120 || words > 480) bad(`length ${words} words (aim 150–450)`);
+    if (/[#*_`|]|\bExhibit\b|\bFigure \d|�/.test(script)) bad(`script has markdown/table/exhibit characters: ${script.match(/[#*_`|]|\bExhibit\b|\bFigure \d|�/)?.[0]}`);
+    if (/[a-z][.,;]\d{1,3}\b/.test(script)) bad("possible glued footnote digit");
+    if (leg.keyPoints.length < 2 || leg.keyPoints.length > 4) bad(`keyPoints ${leg.keyPoints.length}`);
+    if (!leg.checkpoint.length) bad("no checkpoint");
+    leg.checkpoint.forEach((q, j) => {
+      if (q.type === "mcq") {
+        if (!q.options || q.options.length < 3 || q.options.length > 4) bad(`q${j + 1}: mcq needs 3–4 options`);
+        if (q.options && !q.options.includes(q.answer)) bad(`q${j + 1}: answer is not one of the options`);
+        q.options?.forEach((o) => o.split(/\s+/).length > 10 && bad(`q${j + 1}: option over 10 words: "${o}"`));
+      }
+      if (!q.rubric) bad(`q${j + 1}: no rubric`);
+      if (!q.topic) bad(`q${j + 1}: no topic`);
+    });
+  });
+  // coverage: which paragraphs of each section the legs leave out
+  for (const number of new Set(spec.legs.map((l) => l.section))) {
+    const section = chapter.sections.find((s) => s.number === number);
+    if (!section) continue;
+    const raw = pdfLayer ?? sectionMarkdown(section.sourceFile);
+    const total = raw.split(/\s+/).filter(Boolean).length;
+    const covered = spec.legs
+      .filter((l) => l.section === number)
+      .reduce((n, l) => {
+        const a = raw.indexOf(l.start);
+        const b = a < 0 ? -1 : l.end ? raw.indexOf(l.end, a + l.start.length) : raw.length;
+        return a < 0 || b < 0 ? n : n + raw.slice(a, b).split(/\s+/).filter(Boolean).length;
+      }, 0);
+    console.log(`${number}: legs cover ${covered} of ${total} body words (${Math.round((covered / total) * 100)}%)`);
+  }
+  console.log(problems ? `${problems} problem(s)` : "ok");
+  if (problems) process.exit(1);
+}
+
 const [cmd, arg] = process.argv.slice(2);
 if (cmd === "extract" && arg) extract(arg);
 else if (cmd === "build") build();
+else if (cmd === "check" && arg) check(arg);
 else {
-  console.error('usage: node scripts/verbatim-chapter.ts extract "<pdf>" | build');
+  console.error('usage: node scripts/verbatim-chapter.ts extract "<pdf>" | build | check <spec.json>');
   process.exit(1);
 }

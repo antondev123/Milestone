@@ -64,7 +64,7 @@ Hackathon, 36 hours, 2026-09-18 to 2026-09-19. Theme: "Travel — the journey, n
 | Speech tools (voice agent + text mode) | `src/app/api/tools/[tool]/route.ts` |
 | Voice mode | `src/app/learn/voice/page.tsx`, `src/components/VoiceAgent.tsx` |
 | Summary card | `src/app/trip/[id]/summary/page.tsx` |
-| Verbatim legs: chapter 1 (PDF text layer) and 2.5 (section markdown), not ingested | `data/courses/pom/verbatim/cNN.json`, `scripts/verbatim-chapter.ts` (`npm run course:verbatim`) |
+| Verbatim legs: chapter 1 (PDF text layer) and chapter 2 (section markdown), not ingested | `data/courses/pom/verbatim/cNN.json`, `scripts/verbatim-chapter.ts` (`npm run course:verbatim`) |
 | Stage demo (fixed Listen trip, reset command) | `src/lib/demo.ts`, `scripts/demo-reset.ts --stage`, `docs/DEMO.md` |
 | Course data (Principles of Management) | `data/courses/pom/` — see its README; `source/` markdown, `sections/` lessons, `course.json` manifest |
 | Course loaders (manifest + lazy sections) | `src/lib/course.ts` |

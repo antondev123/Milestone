@@ -1,7 +1,432 @@
 {
   "chapter": 2,
-  "note": "Verbatim legs for chapter 2, so far section 2.5 only. There is no c02.txt: leg text is sliced from source/c02/c02-s05.md, the book's paragraphs as parsed from the PDF (2.5 has no dropped caption lines). Everything else here is authored from that text in the book's own terms. Build with npm run course:verbatim.",
+  "note": "Verbatim legs for chapter 2 (sections 2.2–2.7; 2.1 and 2.8 are the intro and summary, not taught). There is no c02.txt: leg text is sliced from source/c02/*.md, the book's paragraphs as parsed from the PDF. Everything else here is authored from that text in the book's own terms. Build with npm run course:verbatim.",
   "legs": [
+    {
+      "title": "Stakeholders and the cost of poor decisions",
+      "section": "2.2",
+      "start": "Decision-making is the action",
+      "end": "While some decisions are simple",
+      "drop": [
+        [
+          "- reduced productivity",
+          "reduced productivity"
+        ],
+        [
+          "– increased expenses",
+          "increased expenses"
+        ],
+        [
+          "and – frustration",
+          "and frustration"
+        ]
+      ],
+      "keyPoints": [
+        "Decision-making is the process of thinking through options and selecting one",
+        "Stakeholders are all the individuals or groups affected by an organization, such as customers, employees and shareholders",
+        "Top managers' decisions can make an organization thrive or drive it into bankruptcy; lower-level managers have a smaller but still real impact",
+        "Poor decisions by a first-line manager can lead to reduced productivity, increased expenses, or frustration and turnover among employees"
+      ],
+      "altExplanation": "Decisions are not only a top-management concern. A CEO's choice can decide whether the whole company survives, while a supervisor's choice about staffing or supplies decides whether her own department runs smoothly. Both kinds of decisions have real stakeholders who feel the results.",
+      "deeper": "The chapter returns to this stakeholder idea when it discusses ethics: because decisions affect customers, employees, shareholders and others, managers cannot treat a choice as purely their own. The later sections on decision-making barriers, such as bounded rationality and time pressure, explain why even well-intentioned managers still produce some of these adverse outcomes.",
+      "checkpoint": [
+        {
+          "prompt": "What are some positive outcomes of decision-making for an organization? What are some possible negative outcomes?",
+          "type": "open",
+          "answer": "A good decision can help an organization thrive and survive long-term, while a poor decision can drive it into bankruptcy. At lower levels, a poor decision is less likely to threaten the whole firm but can still cause reduced productivity, increased expenses, or frustration, low morale and turnover among employees.",
+          "rubric": "Must give at least one positive outcome (organization thrives or survives) and at least one negative outcome (bankruptcy, reduced productivity, increased expenses, or employee frustration/turnover), not just a vague 'good or bad things happen'.",
+          "topic": "decision-outcomes",
+          "source": "book"
+        },
+        {
+          "prompt": "In addition to the owners of a business, who are some of the other stakeholders that managers should consider when making decisions?",
+          "type": "open",
+          "answer": "Stakeholders also include customers, employees, and shareholders, along with any other individuals or groups affected by the organization's decisions.",
+          "rubric": "Must name at least two groups besides owners, drawn from customers, employees, or shareholders (or 'other groups affected by the organization').",
+          "topic": "stakeholders",
+          "source": "book"
+        }
+      ]
+    },
+    {
+      "title": "Deciding when to decide",
+      "section": "2.2",
+      "start": "While some decisions are simple",
+      "end": "It's also worth noting",
+      "drop": [
+        [
+          "What's the Right \\(Correct\\) Answer\\?",
+          ""
+        ]
+      ],
+      "keyPoints": [
+        "Managers rarely have complete information, so an effective leader must decide when to gather more and when to act",
+        "Waiting too long can mean missed opportunities; acting too quickly can waste resources on projects with no chance of success",
+        "Effective managers stay ready to change course if new information shows the original decision was poor",
+        "Admitting a mistake can feel harder than continuing with a bad plan, especially for people with fragile egos"
+      ],
+      "altExplanation": "There are two ways to get the timing of a decision wrong: deciding too soon, before you understand the situation, or deciding too late, after the chance to act has passed. The skill the book describes is judging when you have enough information to move.",
+      "deeper": "This links to the barriers to decision-making discussed later in the chapter: because managers face real time constraints and incomplete information, waiting for certainty is not an option, and heuristics or shortcuts often fill the gap. The willingness to change course described here is also the opposite of escalation of commitment, where a manager keeps following a decision simply because it has already been made.",
+      "checkpoint": [
+        {
+          "prompt": "Why does the passage say that waiting too long to decide can be just as harmful as deciding too quickly?",
+          "type": "open",
+          "answer": "Waiting too long can cause the organization to miss opportunities, while deciding too quickly can lead to resources being poorly allocated to projects that have no real chance of success. Both timing mistakes carry real costs for the organization.",
+          "rubric": "Must mention both risks: missed opportunities from waiting too long, and resources wasted on doomed projects from deciding too quickly. Naming only one side is partial.",
+          "topic": "timing-of-decisions"
+        },
+        {
+          "prompt": "According to the passage, what makes it hard for some managers to change course after a decision turns out to be poor?",
+          "type": "mcq",
+          "options": [
+            "Admitting a mistake feels harder than continuing",
+            "They cannot picture every possible alternative",
+            "They rely on a shortcut instead of new evidence",
+            "They want to avoid conflict with their team"
+          ],
+          "answer": "Admitting a mistake feels harder than continuing",
+          "rubric": "Must select the option about admitting a mistake being harder than forging ahead with a bad plan, especially for people with fragile egos.",
+          "topic": "changing-course"
+        }
+      ]
+    },
+    {
+      "title": "Not a multiple-choice test",
+      "section": "2.2",
+      "start": "It's also worth noting",
+      "end": "The focus of a manager or a business owner",
+      "drop": [
+        [
+          "What's the Right \\(Ethical\\) Answer\\?",
+          ""
+        ]
+      ],
+      "keyPoints": [
+        "Unlike a multiple-choice test, management decisions rarely have one clearly right answer",
+        "Managers often choose between multiple good options, multiple bad options, or competing stakeholder interests",
+        "Some decisions carry ethical or moral implications about right versus wrong and good versus harmful",
+        "'Maximizing shareholder wealth' can be a short-sighted rationalization if it causes bad publicity, boycotts, or fines"
+      ],
+      "altExplanation": "A test question has a key you can check your answer against; a management decision does not. Sometimes every option available is flawed, or helping one stakeholder means disappointing another, so the manager's job is to weigh outcomes rather than find the single correct one.",
+      "deeper": "The ethical point here connects back to the stakeholder idea from the start of the section: because decisions affect customers, employees and communities, treating short-term shareholder gain as the only goal ignores the same stakeholders the chapter opened with. This is also the first place the chapter shows a decision that cannot be judged by outcome alone, since a harmful choice can still happen to work out financially in the short run.",
+      "checkpoint": [
+        {
+          "prompt": "How is managerial decision-making different from a multiple-choice test?",
+          "type": "open",
+          "answer": "A multiple-choice test always has one right answer, but management decisions rarely do. Managers often choose between multiple good options, multiple bad options, or the competing interests of different people, so someone may be unhappy no matter what is decided.",
+          "rubric": "Must state that, unlike a test, there is often no single correct answer, and mention multiple good/bad options or competing interests as the reason. A bare 'it's harder' is not enough.",
+          "topic": "no-single-right-answer",
+          "source": "book"
+        },
+        {
+          "prompt": "Why does the passage call 'maximizing shareholder wealth' a short-sighted rationalization?",
+          "type": "mcq",
+          "options": [
+            "It can bring bad publicity, boycotts, and fines",
+            "It ignores information that is hard to gather",
+            "It relies on shortcuts instead of full analysis",
+            "It keeps managers from changing course later"
+          ],
+          "answer": "It can bring bad publicity, boycotts, and fines",
+          "rubric": "Must select the option about long-term harm such as bad publicity, customers boycotting the organization, or government fines.",
+          "topic": "ethics-and-shareholder-wealth"
+        }
+      ]
+    },
+    {
+      "title": "Doing well and doing good",
+      "section": "2.2",
+      "start": "The focus of a manager or a business owner",
+      "end": "While the brewery still relies primarily on wind power",
+      "drop": [],
+      "keyPoints": [
+        "Some organizational leaders pursue two goals at once: doing well financially and doing good for society",
+        "New Belgium Brewing's cofounders were passionate about both making great beer and environmental stewardship",
+        "The brewery built a culture of sustainability, including giving employees bicycles and joining river advocacy efforts",
+        "In 1999, following an employee vote, the brewery chose to buy wind power even though it was more expensive"
+      ],
+      "altExplanation": "New Belgium's founders treated the business as a vehicle for something they also cared about beyond profit. The wind-power decision shows what that commitment costs in practice: the company knowingly accepted lower profitability, and smaller employee bonuses, to act on its environmental values.",
+      "deeper": "This is the chapter's concrete example of the ethical decision-making idea from the previous section: a decision that trades some short-term profit for a longer-term or broader good. The employee vote before switching to wind power also shows stakeholders, in this case employees, being brought directly into a managerial decision rather than just being affected by it.",
+      "checkpoint": [
+        {
+          "prompt": "According to the passage, why did New Belgium Brewing switch to purchasing wind power even though it was more expensive?",
+          "type": "open",
+          "answer": "The brewery's cofounders were passionate about environmental stewardship, and in 1999, after an employee vote, the company chose to buy all of its electricity from wind power even though it cost more and meant reduced profitability and smaller employee bonuses.",
+          "rubric": "Must mention the founders' commitment to environmental stewardship and that the company accepted a higher cost or lower profitability, ideally noting the employee vote.",
+          "topic": "sustainability-decision"
+        },
+        {
+          "prompt": "What best describes the two goals New Belgium's cofounders pursued together?",
+          "type": "mcq",
+          "options": [
+            "Making great beer and protecting the environment",
+            "Cutting costs and maximizing shareholder wealth",
+            "Avoiding conflict and building team consensus",
+            "Reducing uncertainty in every decision they made"
+          ],
+          "answer": "Making great beer and protecting the environment",
+          "rubric": "Must select the option naming both making great beer and environmental stewardship or protection.",
+          "topic": "doing-well-and-doing-good"
+        }
+      ]
+    },
+    {
+      "title": "Sustainability pays off",
+      "section": "2.2",
+      "start": "While the brewery still relies primarily on wind power",
+      "end": "Discussion Questions",
+      "drop": [],
+      "keyPoints": [
+        "New Belgium now generates some of its own electricity onsite, from rooftop solar and biogas made from treating its wastewater",
+        "The company reduces water use and sells leftover grain, hops and yeast to local ranchers for cattle feed",
+        "Research shows that companies committed to sustainability tend to have superior financial performance on average",
+        "Organizations that do good are often seen as attractive places to work, with more engaged and committed employees"
+      ],
+      "altExplanation": "Sustainability here is not framed as charity that costs the business. Treating wastewater produces usable energy, selling waste grain brings in money, and workers who share the company's values tend to stay and perform better, so the environmental and financial goals reinforce each other.",
+      "deeper": "This closes the New Belgium example by answering the question the chapter poses about ethical decisions: doing good does not have to conflict with doing well. The link between sustainability and financial performance also supports the earlier point that 'maximizing shareholder wealth' at the expense of other stakeholders is often short-sighted, since the passage shows the opposite strategy performing well financially.",
+      "checkpoint": [
+        {
+          "prompt": "Does the passage say that pursuing sustainability comes at a financial cost to New Belgium Brewing? Explain.",
+          "type": "open",
+          "answer": "No. The passage says research shows companies committed to sustainability have superior financial performance on average, and that finding creative ways to reduce, reuse and recycle often saves the company money while also attracting committed and engaged employees.",
+          "rubric": "Must state that sustainability is not shown as costing the business and give a reason, such as better average financial performance, cost savings from reuse, or more engaged and committed employees.",
+          "topic": "sustainability-and-performance"
+        },
+        {
+          "prompt": "According to the passage, what byproduct does New Belgium capture from treating its brewery wastewater?",
+          "type": "mcq",
+          "options": [
+            "Biogas that is used for energy",
+            "Grain that is sold to local ranchers",
+            "Electricity from rooftop solar panels",
+            "Wind power bought from the utility"
+          ],
+          "answer": "Biogas that is used for energy",
+          "rubric": "Must select biogas as the byproduct captured from treating wastewater and used for energy.",
+          "topic": "biogas-from-wastewater"
+        }
+      ]
+    },
+    {
+      "title": "Reactive decision-making",
+      "section": "2.3",
+      "start": "The human brain processes information",
+      "end": "The quick route is not always the best decision-making path",
+      "drop": [
+        [
+          "\\.2, The reflective system is logical",
+          ". The reflective system is logical"
+        ]
+      ],
+      "keyPoints": [
+        "The brain uses one of two routes for decisions: a reflective system and a reactive, or reflexive, system",
+        "The reflective system is logical, analytical, deliberate and methodical; the reactive system is quick, impulsive and intuitive",
+        "The prefrontal cortex drives the reflective system, while the basal ganglia and amygdala drive the reactive system",
+        "The quick, reactive route can be lifesaving in fear responses, and lets experienced managers act fast on developed expertise"
+      ],
+      "altExplanation": "The brain has two separate ways to decide, and it only runs one at a time. One is slow and careful, the other fast and gut-driven. Neither is automatically the better route: a fast, experience-based call can beat a slow one, especially when the situation is familiar.",
+      "deeper": "The reflective and reactive systems map onto different brain regions: the prefrontal cortex for reflective, deliberate thought, and the more evolutionarily primitive basal ganglia and amygdala for reactive, emotion- or habit-driven responses. This is why an experienced manager's fast 'gut' call is not guesswork: it is the reactive system applying a pattern the brain has already learned from a similar past situation.",
+      "checkpoint": [
+        {
+          "prompt": "Explain the two systems used by the brain in decision-making.",
+          "type": "open",
+          "answer": "The brain processes information to make decisions using one of two systems: either the logical, rational (reflective) system or the quick, reactive system. The reflective system is better for significant and important decisions; these generally should not be rushed. However, the reactive system can be lifesaving when time is of the essence, and it can be much more efficient when based on developed experience and expertise.",
+          "rubric": "Must name both systems (reflective: logical, analytical, better for significant decisions; reactive: quick, intuitive, useful when speed matters or when based on experience) and give at least one reason each is used.",
+          "topic": "reflective-reactive-systems",
+          "source": "book"
+        },
+        {
+          "prompt": "Why can experienced managers often make fast decisions without being able to explain their logic?",
+          "type": "mcq",
+          "options": [
+            "Experience lets the brain shift to quick, intuitive processing",
+            "They rely on emotional intelligence to read stakeholders",
+            "They follow a fixed, step-by-step decision procedure",
+            "They consult multiple stakeholders before deciding"
+          ],
+          "answer": "Experience lets the brain shift to quick, intuitive processing",
+          "rubric": "Must select the option about experience or expertise letting the brain shift straight to the quick, intuitive (reactive) system.",
+          "topic": "reactive-decision-making"
+        }
+      ]
+    },
+    {
+      "title": "Reflective decision-making",
+      "section": "2.3",
+      "start": "The quick route is not always the best decision-making path",
+      "end": "Being aware of the role emotions play in decision-making",
+      "drop": [],
+      "keyPoints": [
+        "Novel and complex situations call for logical, analytical, methodical processing rather than a fast gut reaction",
+        "Strong emotions, positive or negative, make it harder to process information rationally",
+        "Successful managers wait and address a volatile situation only after their emotions have calmed down",
+        "Intense emotions pull us toward the quick, reactive route, so big decisions should be made reflectively, not impulsively"
+      ],
+      "altExplanation": "Some decisions deserve the slow route: work through the situation logically instead of trusting the first gut feeling. That matters most when emotions are running high, because strong feelings, good or bad, pull us toward acting fast rather than thinking it through.",
+      "deeper": "The passage's impulse-purchase example shows how the reactive route can misfire even outside high-stakes management decisions: strong emotion, not the size of the decision, is what pulls us toward acting quickly. The practical rule that follows is to notice the emotional intensity of a situation and deliberately delay big or novel decisions until that intensity has passed.",
+      "checkpoint": [
+        {
+          "prompt": "Why does the book say big decisions should be made reflectively rather than impulsively?",
+          "type": "open",
+          "answer": "Because intense emotions, whether positive or negative, tend to pull us toward the quick, reactive route, and acting on that impulse can lead to choices we later regret, like an impulse purchase. Novel and complex situations instead call for processing information logically, analytically, and methodically.",
+          "rubric": "Must say strong emotion pulls decision-making toward the fast, reactive route with a risk of regret, and that novel or complex situations need logical, methodical (reflective) processing instead.",
+          "topic": "reflective-decision-making"
+        },
+        {
+          "prompt": "According to the passage, when is the quick, gut reaction not the best path to take?",
+          "type": "mcq",
+          "options": [
+            "When situations are novel and complex",
+            "When the decision affects only individual outcomes",
+            "When a manager has already faced a similar situation",
+            "When stakeholders have no stake in the outcome"
+          ],
+          "answer": "When situations are novel and complex",
+          "rubric": "Must select the option naming novel and complex situations as calling for reflective rather than quick, gut decision-making.",
+          "topic": "reflective-decision-making"
+        }
+      ]
+    },
+    {
+      "title": "Emotions and emotional intelligence",
+      "section": "2.3",
+      "start": "Being aware of the role emotions play in decision-making",
+      "end": "A model of emotional intelligence is presented",
+      "drop": [],
+      "keyPoints": [
+        "Being aware of emotions in decision-making does not mean ignoring them; emotions can be powerful signals, especially in ethical situations",
+        "Effective decision-making relies on both logic and emotion, which is why emotional intelligence matters for managers",
+        "Emotional intelligence is recognizing, understanding, attending to and managing one's own emotions and other people's emotions",
+        "It involves self-awareness, self-regulation, empathy and social skills, and can be developed and improved with practice"
+      ],
+      "altExplanation": "Emotions are not the enemy of good decisions; they are information. The skill is noticing what you and others feel, understanding why, and then using logic to decide what to do about it. That back-and-forth between feeling and reasoning is what the book calls emotional intelligence.",
+      "deeper": "The passage lists four components of emotional intelligence: self-awareness, self-regulation, empathy, and social skills, framed as a toggling between emotion and logic rather than a replacement of one by the other. Because it can be developed with practice, it is treated as a learnable managerial skill rather than a fixed trait, which is why it comes up repeatedly as a way managers can offset bias and improve group decision-making.",
+      "checkpoint": [
+        {
+          "prompt": "What does emotional intelligence involve, according to the passage?",
+          "type": "mcq",
+          "options": [
+            "Recognizing and managing one's own and others' emotions",
+            "Following a fixed, programmed decision procedure",
+            "Weighing outcomes across every stakeholder group",
+            "Reacting quickly based on gut instinct alone"
+          ],
+          "answer": "Recognizing and managing one's own and others' emotions",
+          "rubric": "Must select the option about recognizing, understanding and managing one's own and other people's emotions.",
+          "topic": "emotional-intelligence"
+        },
+        {
+          "prompt": "What is emotional intelligence, and why is it important for decision-making?",
+          "type": "open",
+          "answer": "Emotional intelligence is the ability to recognize, understand, pay attention to, and manage one's own emotions and the emotions of others, involving self-awareness, self-regulation, empathy, and social skills. It matters for decision-making because effective decisions rely on both logic and emotion, so understanding how and why we feel can improve decisions we make alone or in groups.",
+          "rubric": "Must define emotional intelligence as recognizing, understanding or managing one's own and others' emotions (naming at least one of self-awareness, self-regulation, empathy or social skills), and connect it to decision-making relying on both logic and emotion.",
+          "topic": "emotional-intelligence",
+          "source": "book"
+        }
+      ]
+    },
+    {
+      "title": "Programmed decisions and heuristics",
+      "section": "2.4",
+      "start": "Because managers have limited time",
+      "end": "In contrast, nonprogrammed decisions",
+      "drop": [
+        [
+          "High- and low-involvement decisions are illustrated in Exhibit 2\\.3\\.",
+          ""
+        ]
+      ],
+      "keyPoints": [
+        "Programmed decisions are repeated over time and guided by rules or criteria that are known or can be estimated with reasonable accuracy",
+        "Examples include ordering raw materials and building a weekly staff schedule, even when the process itself is fairly complex",
+        "Heuristics, mental shortcuts built from experience, help managers reach these decisions quickly",
+        "Heuristics save time and generally give a good solution, though not necessarily the optimal one"
+      ],
+      "altExplanation": "A programmed decision is one a manager has essentially made before: the situation repeats, so a rule or shortcut already fits it. That does not mean it is simple, only that its inputs are known well enough to standardize the choice.",
+      "deeper": "Programmed decisions are also called routine or low-involvement decisions because they need little in-depth mental processing. That connects to the two systems in the brain described earlier in the chapter: routine decisions let a manager lean on the fast, reactive system rather than the slower, effortful reflective one.",
+      "checkpoint": [
+        {
+          "prompt": "Give an example of a programmed decision a manager might face.",
+          "type": "open",
+          "answer": "For example, deciding how many raw materials to order based on anticipated production, existing stock and delivery time, or a retail manager setting the weekly staff schedule around expected business and worker availability.",
+          "rubric": "Must give an example matching the book's programmed-decision examples, such as ordering raw materials or scheduling staff, and note it is based on criteria that are known or can be estimated and applied on a regular basis.",
+          "topic": "programmed-decisions",
+          "source": "book"
+        },
+        {
+          "prompt": "According to the passage, what makes ordering raw materials a programmed decision?",
+          "type": "mcq",
+          "options": [
+            "Its criteria are known or can be estimated well",
+            "It always requires input from senior management",
+            "It depends on an emotional, gut-level judgment",
+            "It changes completely from one order to the next"
+          ],
+          "answer": "Its criteria are known or can be estimated well",
+          "rubric": "Must select the option about the decision being based on criteria that are known or can be estimated with reasonable accuracy.",
+          "topic": "programmed-decisions"
+        }
+      ]
+    },
+    {
+      "title": "Nonprogrammed decisions and the process",
+      "section": "2.4",
+      "start": "In contrast, nonprogrammed decisions",
+      "end": "concept Check",
+      "drop": [
+        [
+          "The Decision-Making Process While",
+          "While"
+        ],
+        [
+          "is illustrated in Exhibit 2\\.4and can be broken down",
+          "can be broken down"
+        ],
+        [
+          "Exhibit 2\\.4 The Decision-Making Process\\. ",
+          ""
+        ]
+      ],
+      "keyPoints": [
+        "Nonprogrammed decisions are novel and unstructured, with criteria that are not well-defined",
+        "Information for these decisions is more likely to be ambiguous or incomplete",
+        "The decision-making process has six steps, from recognizing that a decision is needed to evaluating its effectiveness",
+        "People often skip steps or rush them, and nonprogrammed decisions need the reflective system while programmed ones can use heuristics"
+      ],
+      "altExplanation": "Where a programmed decision reuses an existing answer, a nonprogrammed decision starts from an open question. The manager cannot look up the right rule, so they have to gather what information exists and make a reasoned judgment.",
+      "deeper": "Nonprogrammed decisions are also called nonroutine or high-involvement decisions, and the chapter ties this to the reflective system: without a template to fall back on, the manager cannot use a quick heuristic and must think the situation through more carefully. This six-step process is the systematic alternative to a heuristic, useful precisely when there is no shortcut to rely on. It also completes the pairing introduced in the chapter: routine, programmed decisions map onto the brain's fast reactive system, while novel, nonprogrammed decisions call on the slower, more deliberate reflective system.",
+      "checkpoint": [
+        {
+          "prompt": "Give an example of a nonprogrammed decision.",
+          "type": "open",
+          "answer": "For example, deciding whether to adopt a new technology, where there are always unknowns and no established rule to follow, so the manager must gather relevant information and make an educated guess.",
+          "rubric": "Must give an example matching the book, such as deciding whether to adopt a new technology, and describe it as involving ambiguous or incomplete information and judgment rather than a fixed rule.",
+          "topic": "nonprogrammed-decisions",
+          "source": "book"
+        },
+        {
+          "prompt": "Per the passage, why are nonprogrammed decisions harder to make than programmed ones?",
+          "type": "mcq",
+          "options": [
+            "Information tends to be ambiguous or incomplete",
+            "They can be resolved quickly by the reactive system",
+            "The criteria are already well-defined and known",
+            "They rely on heuristics built from past experience"
+          ],
+          "answer": "Information tends to be ambiguous or incomplete",
+          "rubric": "Must select the option about information being ambiguous or incomplete.",
+          "topic": "nonprogrammed-decisions"
+        },
+        {
+          "prompt": "How are programmed and nonprogrammed decisions connected to the reflective and reactive systems in the brain?",
+          "type": "open",
+          "answer": "Nonprogrammed decisions generally need to be processed through the reflective system, since they require careful judgment on unfamiliar ground. Programmed decisions let managers rely on heuristics, which allow them to switch to the quicker, reactive system.",
+          "rubric": "Must connect nonprogrammed decisions to the reflective system and programmed decisions (via heuristics) to the reactive system.",
+          "topic": "decision-making-process",
+          "source": "book"
+        }
+      ]
+    },
     {
       "title": "Bounded rationality",
       "section": "2.5",
@@ -243,6 +668,578 @@
           "answer": "Any three of: bounded rationality (we cannot gather or process all the information); escalation of commitment (staying with a poor decision as outcomes worsen); time constraints (pressure pushes us to heuristics); uncertainty (we cannot know an outcome until we choose); personal biases such as similar-to-me and confirmation bias; and conflict, especially relationship conflict.",
           "rubric": "Must name at least three distinct barriers from: bounded rationality, escalation of commitment, time constraints, uncertainty, personal biases, conflict, each with a brief correct description.",
           "topic": "decision-barriers-overview",
+          "source": "book"
+        }
+      ]
+    },
+    {
+      "title": "Experience and better programmed decisions",
+      "section": "2.6",
+      "start": "Managers can use a variety of techniques",
+      "end": "For situations in which the quality of the decision is more critical",
+      "drop": [
+        "Table 2\\.1 summarizes some of these tactics\\.",
+        "Type of Decision Technique[\\s\\S]*?Consider the ethical implications Improves quality"
+      ],
+      "keyPoints": [
+        "Experience helps managers build heuristics for programmed decisions and know what information to seek for nonprogrammed ones",
+        "Satisficing means picking the first acceptable option instead of searching for the best one",
+        "Satisficing saves time and works well for low-stakes, routine choices, like a quick grocery trip",
+        "Managers use heuristics and satisficing together to move quickly through decisions that do not need deep analysis"
+      ],
+      "altExplanation": "Satisficing means settling for good enough rather than searching for the perfect option. It pairs naturally with heuristics: both are timesaving shortcuts suited to decisions that are not worth a lot of deliberation. Experience makes both sharper, because a manager who has seen a problem before recognizes it faster.",
+      "deeper": "Satisficing connects to bounded rationality from earlier in the chapter: because managers cannot process every alternative, settling for the first acceptable option is often the rational response to that limit, not a shortcut to be ashamed of. The chapter treats experience as a compounding advantage, since it sharpens the heuristics used for programmed decisions and tells a manager what information is worth chasing before tackling a nonprogrammed one.",
+      "checkpoint": [
+        {
+          "prompt": "Explain what satisficing is and when it may be a good strategy.",
+          "type": "open",
+          "answer": "Satisficing means selecting the first acceptable solution instead of searching for the best possible one. It is a good strategy for programmed, low-stakes decisions where speed matters more than optimizing every detail, such as quickly picking a good-enough grocery item instead of comparing every price.",
+          "rubric": "Must define satisficing as choosing the first acceptable option rather than the optimal one, and say it fits routine or programmed, low-stakes decisions where time matters more than finding the best option. A bare 'it saves time' without the definition is not enough.",
+          "topic": "satisficing",
+          "source": "book"
+        },
+        {
+          "prompt": "According to the passage, what does experience help a manager do before making a nonprogrammed decision?",
+          "type": "mcq",
+          "options": [
+            "Know what additional information to seek out",
+            "Skip the decision-making process entirely",
+            "Rely only on heuristics instead of research",
+            "Avoid ever consulting other people"
+          ],
+          "answer": "Know what additional information to seek out",
+          "rubric": "Must select the option about knowing what additional information to seek out.",
+          "topic": "experience-and-decisions"
+        }
+      ]
+    },
+    {
+      "title": "Recognizing problems, generating alternatives",
+      "section": "2.6",
+      "start": "For situations in which the quality of the decision is more critical",
+      "end": "Managers can often improve the quality of their decision-making by involving others",
+      "drop": [],
+      "keyPoints": [
+        "Nonprogrammed decisions should follow a systematic six-step process rather than being made quickly",
+        "Step 1 is recognizing that a decision needs to be made; ignoring problems lets them grow bigger over time",
+        "Step 2 is generating multiple alternatives; managers often stop at just two options and move on too fast",
+        "Generating many options, rather than settling early, increases the likelihood of reaching a good decision"
+      ],
+      "altExplanation": "Skipping steps is the main way nonprogrammed decisions go wrong. The passage flags two early traps: managers who avoid recognizing a problem at all, and managers who stop generating options after just two. Both trade thoroughness for speed on a decision that was supposed to get careful treatment.",
+      "deeper": "This six-step process is the nonprogrammed decision-making process introduced earlier in the chapter; here the book walks through what good execution of each step looks like. The warning about generating only two alternatives connects to bounded rationality: managers naturally want to economize on effort, but nonprogrammed decisions are exactly the cases where that shortcut can cost the most.",
+      "checkpoint": [
+        {
+          "prompt": "What are the six steps in the decision-making process?",
+          "type": "open",
+          "answer": "The six steps are: recognize that a decision needs to be made, generate multiple alternatives, analyze the alternatives, select an alternative, implement the selected alternative, and evaluate its effectiveness.",
+          "rubric": "Must list at least five of the six steps in roughly the right order: recognize the need for a decision, generate alternatives, analyze alternatives, select an alternative, implement it, evaluate its effectiveness.",
+          "topic": "six-step-decision-process",
+          "source": "book"
+        },
+        {
+          "prompt": "Why do ineffective managers let problems grow bigger, according to the passage?",
+          "type": "mcq",
+          "options": [
+            "They ignore problems they don't know how to fix",
+            "They generate too many alternatives to choose from",
+            "They evaluate their decisions too many times",
+            "They talk to too many other people first"
+          ],
+          "answer": "They ignore problems they don't know how to fix",
+          "rubric": "Must select the option about ignoring problems out of uncertainty over how to address them.",
+          "topic": "recognizing-problems"
+        }
+      ]
+    },
+    {
+      "title": "Talking to others and being creative",
+      "section": "2.6",
+      "start": "Managers can often improve the quality of their decision-making by involving others",
+      "end": "When implementing Step 3, it is important",
+      "drop": [],
+      "keyPoints": [
+        "Involving others in generating alternatives brings different perspectives from different life experiences",
+        "A mentor can suggest options a newer manager would not think of alone",
+        "Creativity means using imagination to combine existing knowledge in new ways, not just a natural gift",
+        "Letting the mind wander, rather than staying intensely focused, often produces creative inspiration"
+      ],
+      "altExplanation": "Two separate habits improve the options a manager has to choose from. Talking to people multiplies perspectives, because everyone brings different experience. Creativity multiplies possibility, by recombining what a manager already knows in a way that has not been tried yet.",
+      "deeper": "The book treats creativity as a learnable skill rather than an innate talent, which matters for management: it means habits like stepping back from routine, viewing a problem from multiple angles, and searching for patterns can be taught and practiced. The passage promises more depth on creativity later in the book, in a later chapter.",
+      "checkpoint": [
+        {
+          "prompt": "Why does talking to other people help generate alternatives, according to the passage?",
+          "type": "mcq",
+          "options": [
+            "They bring different perspectives and experiences",
+            "Other people always know the fastest solution",
+            "Other people rarely disagree with a manager's first idea",
+            "Other people can implement the decision instead"
+          ],
+          "answer": "They bring different perspectives and experiences",
+          "rubric": "Must select the option about other people bringing different perspectives or life experiences.",
+          "topic": "talking-to-others"
+        },
+        {
+          "prompt": "What does the passage mean when it says creativity is a skill you can develop, not just a natural trait?",
+          "type": "open",
+          "answer": "It means creativity comes from deliberate habits, such as letting your mind wander, combining existing knowledge in new ways, viewing a problem from multiple perspectives, and searching for patterns, rather than being something only naturally creative people can do.",
+          "rubric": "Must say creativity can be practiced or developed through habits such as letting the mind wander, recombining existing knowledge, or viewing a problem from multiple angles, not that it is purely innate.",
+          "topic": "creativity"
+        }
+      ]
+    },
+    {
+      "title": "Evidence-based decision-making",
+      "section": "2.6",
+      "start": "When implementing Step 3, it is important",
+      "end": "As mentioned previously, it can be worthwhile to get help from others when generating options",
+      "drop": [],
+      "keyPoints": [
+        "Step 3, analyzing alternatives, requires collecting sufficient information, such as on cost",
+        "Evidence-based decision-making means systematically collecting the best available evidence rather than relying on intuition",
+        "Evidence includes the decision maker's own expertise as well as external evidence, like stakeholders, costs and benefits",
+        "This approach is especially useful for new managers, or experienced managers trying something new"
+      ],
+      "altExplanation": "Evidence-based decision-making is a discipline: instead of trusting a gut feeling, a manager deliberately gathers expertise, stakeholder input, and cost information before deciding. It does not replace judgment, but it gives that judgment something solid to stand on.",
+      "deeper": "This ties back to the barriers to good decision-making covered earlier in the chapter, particularly bounded rationality and time constraints: gathering good evidence takes real effort, which is exactly the effort that pressure or a shortage of time tends to squeeze out. Evidence-based decision-making is the discipline of protecting that effort in Step 3 of the process.",
+      "checkpoint": [
+        {
+          "prompt": "What is evidence-based decision-making, and why can it especially help a new manager?",
+          "type": "open",
+          "answer": "It is an approach where managers systematically collect the best available evidence, such as their own expertise, stakeholder input, and cost-benefit information, rather than relying mainly on intuition. It especially helps new managers, or experienced managers trying something new, because they have less built-up intuition or experience with the situation to rely on.",
+          "rubric": "Must describe systematically collecting evidence, such as expertise plus external evidence like stakeholders or costs, instead of relying on intuition, and explain that it helps managers with less relevant experience.",
+          "topic": "evidence-based-decision-making"
+        },
+        {
+          "prompt": "In Step 3 of the decision-making process, what should effective managers make sure they have collected?",
+          "type": "mcq",
+          "options": [
+            "Sufficient information to assess the quality of the options",
+            "Signatures from every stakeholder before proceeding",
+            "A single alternative to avoid confusion",
+            "Approval from senior management first"
+          ],
+          "answer": "Sufficient information to assess the quality of the options",
+          "rubric": "Must select the option about collecting sufficient information to assess the quality of the alternatives.",
+          "topic": "analyzing-alternatives"
+        }
+      ]
+    },
+    {
+      "title": "Talking to others and thinking critically",
+      "section": "2.6",
+      "start": "As mentioned previously, it can be worthwhile to get help from others when generating options",
+      "end": "Non The conclusion",
+      "drop": [
+        "See Table 2\\.2 for several examples of common logical fallacies\\."
+      ],
+      "keyPoints": [
+        "Talking to others while analyzing alternatives helps assess their quality and reduces bias, especially when their biases differ from your own",
+        "Critical thinking means disciplined evaluation of the quality of information and arguments, to judge whether a source can be trusted",
+        "Recognizing logical fallacies people use when arguing for a position is an important part of thinking critically"
+      ],
+      "altExplanation": "Analyzing alternatives is not something to do alone. Other people help test the strength of your options, and critical thinking helps you test the strength of the information and arguments behind them, including catching flawed reasoning.",
+      "deeper": "This connects to the biases covered earlier in the chapter: talking to people whose biases differ from your own is one direct way to counter similar-to-me and confirmation bias while analyzing alternatives. Critical thinking, applied here to arguments and evidence, is the discipline that catches the logical fallacies people fall back on when defending a position.",
+      "checkpoint": [
+        {
+          "prompt": "Which of these is critical thinking, as the passage describes it?",
+          "type": "mcq",
+          "options": [
+            "Judging whether information can be trusted",
+            "Choosing the first acceptable option to save time",
+            "Staying committed to a decision already invested in",
+            "Favoring people who share your background"
+          ],
+          "answer": "Judging whether information can be trusted",
+          "rubric": "Must select the option about evaluating whether information and arguments should be trusted.",
+          "topic": "critical-thinking"
+        },
+        {
+          "prompt": "Why does the passage recommend talking to people whose biases differ from your own when analyzing alternatives?",
+          "type": "open",
+          "answer": "Because seeking out opinions and preferences different from your own helps you maintain perspective and be less biased in your decision-making.",
+          "rubric": "Must say that talking to people with different biases or perspectives helps reduce bias or maintain perspective when assessing alternatives.",
+          "topic": "reducing-bias"
+        }
+      ]
+    },
+    {
+      "title": "Weighing long-term and ethical implications",
+      "section": "2.6",
+      "start": "Have you considered the long-term implications?",
+      "end": "1. Moral sensitivity",
+      "drop": [
+        "in Exhibit 2\\.6 "
+      ],
+      "keyPoints": [
+        "Focusing only on short-term outcomes, like paying dividends instead of investing in research and development, can hurt a company later",
+        "Managers sometimes make unethical choices simply because they never considered the ethical angle",
+        "Ford's decision on the Pinto shows how viewing a problem only financially, without ethics, can cause real harm",
+        "Effective managers deliberately think through possible ethical implications before deciding"
+      ],
+      "altExplanation": "Two extra questions belong alongside evidence and critical thinking when analyzing alternatives: what happens years from now, and who could be harmed. The Pinto example shows what happens when a company answers only the short-term, financial question and skips the ethical one entirely.",
+      "deeper": "The dividends-versus-research-and-development choice is a classic tension in management between short-term shareholder returns and long-term competitiveness. The Ford Pinto case is a well-known example in business ethics of a company treating a safety defect as a cost-benefit calculation rather than a moral question, used here to show that ethical blindness is often a failure to even ask the ethical question, not a decision to do wrong.",
+      "checkpoint": [
+        {
+          "prompt": "Why did Ford not initially recall the Pinto, according to the passage?",
+          "type": "mcq",
+          "options": [
+            "It viewed the problem only from a financial perspective",
+            "It could not identify what had caused the flaw",
+            "Its engineers concluded the flaw did not exist",
+            "Regulators had not yet required a recall"
+          ],
+          "answer": "It viewed the problem only from a financial perspective",
+          "rubric": "Must select the option about viewing the problem only from a financial perspective, without considering ethics.",
+          "topic": "ethical-implications"
+        },
+        {
+          "prompt": "What example does the passage give of weighing short-term versus long-term outcomes, and what is the risk of focusing only on the short term?",
+          "type": "open",
+          "answer": "A manager choosing to pay dividends to investors instead of investing in research and development. Focusing only on the short-term stock-price benefit risks leaving the company unable to compete in five years and possibly closing.",
+          "rubric": "Must reference the dividends-versus-research-and-development example and state the long-term risk, such as losing competitiveness, from ignoring the future.",
+          "topic": "long-term-implications"
+        }
+      ]
+    },
+    {
+      "title": "The four steps of ethical decision-making",
+      "section": "2.6",
+      "start": "1. Moral sensitivity",
+      "end": "Step 4: Selecting an Alternative",
+      "drop": [
+        [
+          "^1\\. ",
+          ""
+        ],
+        [
+          "; and 4\\. ",
+          "; and "
+        ],
+        [
+          "\\s+3\\. Moral",
+          " Moral"
+        ],
+        [
+          "; [234]\\. ",
+          "; "
+        ],
+        [
+          "Moral motivation/intention",
+          "Moral motivation or intention"
+        ],
+        [
+          "Moral character/action",
+          "Moral character or action"
+        ],
+        [
+          "right vs. wrong",
+          "right versus wrong"
+        ]
+      ],
+      "keyPoints": [
+        "The four steps are moral sensitivity, moral judgment, moral motivation, and moral character or action",
+        "A failure at any one of the four steps can lead to an unethical outcome",
+        "Judging right from wrong means asking whether and how much harm an option would cause, and imagining how it would look publicly",
+        "Following through on doing what is right can carry a real personal cost, such as risking your job"
+      ],
+      "altExplanation": "Recognizing that a decision has an ethical side is only the first step; judging what is right, actually intending to do it, and then following through are three more separate hurdles. The chapter's boss-pressure example shows how the last hurdle, actually acting, can be the hardest one.",
+      "deeper": "This four-step model, moral sensitivity, moral judgment, moral motivation, and moral character, is a widely used framework in business ethics for explaining why good values do not always translate into ethical action: a person can recognize and judge a situation correctly and still fail to act on it under pressure, which is exactly the boss scenario the passage describes.",
+      "checkpoint": [
+        {
+          "prompt": "What are the four steps involved in ethical decision-making?",
+          "type": "open",
+          "answer": "The four steps are moral sensitivity, recognizing that an issue has a moral component; moral judgment, determining which actions are right or wrong; moral motivation, deciding to do the right thing; and moral character, actually doing what is right.",
+          "rubric": "Must name at least three of the four steps in substance: recognizing the moral issue, judging right from wrong, deciding or intending to do right, and actually acting on it.",
+          "topic": "ethical-decision-steps",
+          "source": "book"
+        },
+        {
+          "prompt": "In the passage's example, what makes it hard to follow through on step four when a boss pressures you to do something wrong?",
+          "type": "mcq",
+          "options": [
+            "It could come at a real personal cost",
+            "The moral judgment step has not yet been completed",
+            "You have not generated enough alternatives to choose from",
+            "The situation has not been recognized as a decision yet"
+          ],
+          "answer": "It could come at a real personal cost",
+          "rubric": "Must select the option about a real personal cost, such as losing your job.",
+          "topic": "ethical-decision-steps"
+        }
+      ]
+    },
+    {
+      "title": "Selecting an alternative",
+      "section": "2.6",
+      "start": "Step 4: Selecting an Alternative",
+      "end": "Step 5: Implementing the Selected Alternative",
+      "drop": [],
+      "keyPoints": [
+        "Selecting is easy when one option is clearly superior, but there is often no clear \"winner\"",
+        "A weak decision maker can become paralyzed, endlessly gathering more information instead of deciding",
+        "Managers should weigh whether more information is worth the cost of waiting, especially under time pressure",
+        "Accepting that perfection is unattainable, and talking a choice through with someone else, both help a manager still decide well"
+      ],
+      "altExplanation": "Step 4 is where indecision becomes its own risk. When no option is obviously best, the danger is not picking the wrong one, it is never picking one at all, because more research always looks tempting. The passage's advice is to accept an imperfect decision and, if it helps, to talk it through with someone else first.",
+      "deeper": "This connects back to bounded rationality and time constraints from earlier in the chapter: even at the selection stage, managers cannot wait for perfect certainty, because the cost of waiting keeps rising. Talking a decision through with someone else here echoes the same practice used earlier in generating and analyzing alternatives, because verbalizing a decision forces the brain to process it differently.",
+      "checkpoint": [
+        {
+          "prompt": "What can happen to a weak decision maker when no alternative is a clear 'winner'?",
+          "type": "mcq",
+          "options": [
+            "They become paralyzed and keep gathering more information",
+            "They automatically pick the cheapest option",
+            "They delegate the decision to a mentor",
+            "They abandon the decision-making process entirely"
+          ],
+          "answer": "They become paralyzed and keep gathering more information",
+          "rubric": "Must select the option about becoming paralyzed and continuing to gather information rather than deciding.",
+          "topic": "selecting-an-alternative"
+        },
+        {
+          "prompt": "According to the passage, why does recognizing that perfection is unattainable help a manager make decisions?",
+          "type": "open",
+          "answer": "It helps managers accept that their decisions will not always be optimal because they lack complete information, time, or resources, so they can still strive to make good overall decisions and stay willing to adjust course later if a choice turns out not to be the best one.",
+          "rubric": "Must say that accepting imperfection lets managers still decide despite incomplete information or time, and helps them adjust later if needed.",
+          "topic": "accepting-imperfection"
+        }
+      ]
+    },
+    {
+      "title": "Implementing and evaluating the decision",
+      "section": "2.6",
+      "start": "Step 5: Implementing the Selected Alternative",
+      "end": "Rob Ault, Project Manager",
+      "drop": [],
+      "keyPoints": [
+        "Implementing a decision can be hard, especially when it creates conflict or dissatisfaction among stakeholders",
+        "Avoiding implementation of a decision you know is right, out of fear of upsetting others, is a failure of follow-through",
+        "Step 6, evaluating effectiveness, is often skipped because managers are busy and have moved on",
+        "Without evaluating outcomes, managers cannot learn from experience to improve future decisions"
+      ],
+      "altExplanation": "Choosing well is not the end of the process. A manager who avoids acting on a hard decision, or never checks how it turned out, has left the job half done. Both steps take a kind of discipline that is easy to skip once a decision feels settled.",
+      "deeper": "This closes the loop on the six-step process introduced earlier in the section: deciding well only pays off if the decision is actually carried out and its outcome is honestly evaluated. The passage frames follow-through as an ethical matter too, doing what you know is right even when it creates conflict, which links back to the personal-cost example from the ethical decision-making steps.",
+      "checkpoint": [
+        {
+          "prompt": "Why do managers sometimes skip Step 6, evaluating the effectiveness of a decision, and why does the passage say this matters?",
+          "type": "open",
+          "answer": "Managers skip it because evaluating effectiveness takes time and busy managers have often already moved on to other projects. It matters because without evaluating the outcome, managers cannot learn from the experience in a way that improves the quality of their future decisions.",
+          "rubric": "Must give the reason, such as busy managers moving on, and the cost, such as failing to learn from the outcome to improve future decisions.",
+          "topic": "evaluating-decisions"
+        },
+        {
+          "prompt": "According to the passage, why might a manager avoid implementing a decision they know is right?",
+          "type": "mcq",
+          "options": [
+            "They know it will create conflict or upset some stakeholders",
+            "They have not yet evaluated its long-term effectiveness",
+            "They are still generating additional alternatives",
+            "They have not talked the decision through with anyone"
+          ],
+          "answer": "They know it will create conflict or upset some stakeholders",
+          "rubric": "Must select the option about knowing the decision will create conflict or upset stakeholders.",
+          "topic": "implementing-decisions"
+        }
+      ]
+    },
+    {
+      "title": "Rob Ault on ethical dilemmas",
+      "section": "2.6",
+      "start": "Rob Ault, Project Manager",
+      "end": "I asked Rob who he talked to",
+      "drop": [],
+      "keyPoints": [
+        "Rob Ault has worked in managerial roles for over 25 years, in both for-profit and union environments",
+        "What frustrated him most was when what he knew was right conflicted with what his boss told him to do",
+        "His approach to ethical dilemmas has changed with experience and maturity over his career",
+        "He starts from recognizing he was hired to benefit the company, alongside doing what is morally right"
+      ],
+      "altExplanation": "The Ethics in Practice profile puts the chapter's ideas into one manager's real experience. Rob Ault names the exact tension the four-step model describes, knowing what is right and having a boss push the opposite way, and says that handling it well came with experience, not from day one.",
+      "deeper": "Rob Ault's framing, that a manager's decisions need to serve the organization's long-term interest as well as what is morally right, echoes the chapter's earlier point about weighing long-term implications: short-term consequences are easy to see, which is exactly why they can crowd out the ethical and long-term view.",
+      "checkpoint": [
+        {
+          "prompt": "What did Rob Ault find most frustrating in his managerial career, according to the passage?",
+          "type": "mcq",
+          "options": [
+            "When what was right conflicted with his boss",
+            "When customers complained about product quality",
+            "When he had too many alternatives to choose from",
+            "When he lacked enough evidence to decide quickly"
+          ],
+          "answer": "When what was right conflicted with his boss",
+          "rubric": "Must select the option about what was right conflicting with what his boss told him to do.",
+          "topic": "rob-ault-profile"
+        },
+        {
+          "prompt": "According to Rob Ault, what should a manager's decisions be based on?",
+          "type": "open",
+          "answer": "What is going to be in the best long-term interest of the organization, in addition to what is morally right.",
+          "rubric": "Must include both the organization's long-term interest and moral rightness; naming only one is partial.",
+          "topic": "rob-ault-profile"
+        }
+      ]
+    },
+    {
+      "title": "Building a network before hard decisions",
+      "section": "2.6",
+      "start": "I asked Rob who he talked to",
+      "end": "Discussion Questions",
+      "drop": [],
+      "keyPoints": [
+        "Rob Ault built relationships with trusted people in the organization in advance, so he had people to talk to when it mattered",
+        "He always talked to his boss, and also to his father, who worked in human resource management at a large company",
+        "Tolerating one person's misbehavior teaches others they can do the same, so problems compound over time",
+        "His hardest ethical dilemma led him to quit his job rather than do something he felt was wrong"
+      ],
+      "altExplanation": "Rob Ault's practice was to build trusted relationships before he needed them, not scramble for advice in the moment. When his hardest dilemma left him no other choice, he was willing to leave the job entirely rather than act against his values.",
+      "deeper": "This is a real-world instance of the chapter's advice to talk to other people while making a decision, extended into a habit: cultivating relationships in advance so good counsel is available under pressure. It also illustrates the broader theme that inaction is itself a consequential decision, since tolerating one person's rule-bending compounds over time as others copy it.",
+      "checkpoint": [
+        {
+          "prompt": "Why did Rob Ault say it was important to build relationships with trusted people in the organization in advance?",
+          "type": "open",
+          "answer": "So that he would already have people he knew he could talk to whenever a difficult or ethically challenging situation came up.",
+          "rubric": "Must say the point was having trusted people to talk to before or when difficult situations arise, not just talking to people in general.",
+          "topic": "seeking-advice"
+        },
+        {
+          "prompt": "What did Rob Ault ultimately do when he felt he had no other ethical choice in his biggest dilemma?",
+          "type": "mcq",
+          "options": [
+            "He quit his job rather than do wrong",
+            "He reported the issue directly to a regulator",
+            "He asked the union steward to intervene",
+            "He delayed the decision until he retired"
+          ],
+          "answer": "He quit his job rather than do wrong",
+          "rubric": "Must select the option about quitting his job rather than doing what he felt was wrong.",
+          "topic": "rob-ault-profile"
+        }
+      ]
+    },
+    {
+      "title": "Advantages of group decisions",
+      "section": "2.7",
+      "start": "Involving more people in the decision-making process",
+      "end": "Group decision-making is not without challenges",
+      "drop": [],
+      "keyPoints": [
+        "Involving more people can improve decisions but also increase conflict and other challenges",
+        "A diverse group brings different preferences, opinions, biases and stereotypes, which tends to cancel out individual bias",
+        "Each member brings unique information and perspective, which generates more options and more intellectual stimulation",
+        "People affected by a decision understand the issues better and commit more to the solution when they helped make it"
+      ],
+      "altExplanation": "Groups help decisions in two ways. A mixed group balances out any one person's blind spots, and more people means more facts, more angles, and more ideas on the table. People also buy into a decision more when they had a hand in making it.",
+      "deeper": "The hiring-committee example shows bias cancelling out only when the group is actually diverse; a group that is uniform in background will not correct for the majority's preferences. This is why the book pairs the case for group decision-making with the later warning that a group's quality depends on how it is formed, not just on there being more people in the room.",
+      "checkpoint": [
+        {
+          "prompt": "According to the passage, what is brainstorming?",
+          "type": "mcq",
+          "options": [
+            "Generating as many solutions or options as possible",
+            "Assigning one member to argue against the group",
+            "Settling for the first option that is good enough",
+            "Escalating commitment to an earlier group decision"
+          ],
+          "answer": "Generating as many solutions or options as possible",
+          "rubric": "Must select the option defining brainstorming as generating as many solutions or options as possible.",
+          "topic": "brainstorming"
+        },
+        {
+          "prompt": "Explain why group decision-making can be more effective than individual decision-making.",
+          "type": "open",
+          "answer": "Group decision-making draws on more knowledge and a wider diversity of perspectives than any one person has, and it generates more options through discussion. It also builds greater commitment in the people who took part in making the decision.",
+          "rubric": "Must mention at least one of: more knowledge or diversity of perspectives, more options generated through discussion, or greater commitment from people who helped make the decision. A bare 'it's better' with no mechanism is not enough.",
+          "topic": "group-vs-individual-decisions",
+          "source": "book"
+        }
+      ]
+    },
+    {
+      "title": "Disadvantages of group decisions",
+      "section": "2.7",
+      "start": "Group decision-making is not without challenges",
+      "end": "Effective managers will try to ensure quality group decision-making",
+      "drop": [],
+      "keyPoints": [
+        "Some groups get bogged down in conflict, others push for agreement at the expense of quality discussion",
+        "Groupthink: members hold back concerns or objections to keep the peace and avoid antagonising others",
+        "Groupthink can come from a positive team spirit members do not want to disturb, or from complacency after past success",
+        "A dominant member can discourage others from speaking up, so the group loses the benefit of multiple perspectives"
+      ],
+      "altExplanation": "Two different problems can spoil a group decision. Groupthink is the group agreeing too easily because nobody wants to break the good mood. Suppression of dissent is one strong voice crowding out everyone else's ideas. Either way, the group stops actually using its members' different perspectives.",
+      "deeper": "Groupthink and suppression of dissent both remove the diversity of viewpoints that section 2.7 says makes group decisions valuable in the first place, just for different reasons: groupthink is a self-imposed silence to preserve harmony, while suppression of dissent is imposed by someone with more power or influence. The book's later section on forming a quality group, with a devil's advocate and encouragement to speak up, responds directly to these two failure modes.",
+      "checkpoint": [
+        {
+          "prompt": "In the passage, what does suppression of dissent mean?",
+          "type": "mcq",
+          "options": [
+            "A powerful member discourages others from voicing differing views",
+            "The group settles for the first workable option",
+            "Members avoid conflict to keep the group's mood positive",
+            "A member is assigned to argue against the group's plan"
+          ],
+          "answer": "A powerful member discourages others from voicing differing views",
+          "rubric": "Must select the option about a more powerful or influential member discouraging others with differing opinions from speaking up.",
+          "topic": "suppression-of-dissent"
+        },
+        {
+          "prompt": "What are some things that can prevent groups from making good decisions?",
+          "type": "open",
+          "answer": "Groups can fail to make good decisions because of groupthink, where members hold back concerns to keep the peace, or because a dominant member suppresses dissent and discourages others from speaking up. Unmanaged conflict can also derail the discussion.",
+          "rubric": "Must name at least one of: groupthink, suppression of dissent by a dominant or influential member, or excessive/unmanaged conflict, as a reason groups fail to decide well.",
+          "topic": "group-decision-pitfalls",
+          "source": "book"
+        }
+      ]
+    },
+    {
+      "title": "Forming a quality group",
+      "section": "2.7",
+      "start": "Effective managers will try to ensure quality group decision-making",
+      "end": "",
+      "drop": [
+        [
+          "Exhibit 2\\.7 The Devils Advocate[\\s\\S]*?Credit \\(Mr\\.",
+          ""
+        ],
+        [
+          "Table 2\\.3 summarizes the techniques to improve group decision-making\\.",
+          ""
+        ],
+        [
+          "Type of Technique Benefit Decision[\\s\\S]*?personality conflict",
+          ""
+        ]
+      ],
+      "keyPoints": [
+        "Effective managers form groups with diverse members and encourage everyone to speak up before a decision is reached",
+        "A devil's advocate is assigned to critique the group's logic, evaluations and proposed solutions, reducing groupthink",
+        "When conflict runs too high, managers help members find common ground: shared interests, values, beliefs, experiences or goals",
+        "Decisions range from small and simple to big and complex; expertise helps, but managers also research, watch their biases, and think critically"
+      ],
+      "altExplanation": "A quality group is built, not just assembled: pick diverse members, get everyone talking, and let someone play devil's advocate to stress-test the thinking. When a group gets stuck in conflict, refocusing on shared ground keeps people working with each other instead of against each other. Managers then bring their own research, self-awareness and critical thinking to the final call.",
+      "deeper": "The devil's advocate role is a deliberate structural fix for groupthink: rather than hoping someone objects naturally, the group assigns the job of objecting to a specific person, which makes dissent expected rather than awkward. Finding common ground addresses conflict without suppressing it, by redirecting the group's attention to interests they already share. The conclusion ties the whole chapter together: expertise, research, awareness of bias, and critical thinking are all inputs, not substitutes, for a manager's judgment.",
+      "checkpoint": [
+        {
+          "prompt": "When a group has too much conflict, what does the book say managers should help members find?",
+          "type": "mcq",
+          "options": [
+            "Common ground, such as shared interests, values or goals",
+            "A single dominant voice to settle the disagreement",
+            "A devil's advocate to intensify the debate",
+            "A programmed decision rule to skip the discussion"
+          ],
+          "answer": "Common ground, such as shared interests, values or goals",
+          "rubric": "Must select the option about finding common ground or shared interests, values, beliefs, experiences or goals.",
+          "topic": "reducing-group-conflict"
+        },
+        {
+          "prompt": "As a manager, what can you do to enhance the quality of group decision-making?",
+          "type": "open",
+          "answer": "Managers can form the group with diverse members, encourage everyone to speak up before a decision is made, and assign a devil's advocate to challenge the group's thinking and reduce groupthink. When conflict is high, they can also help members find common ground.",
+          "rubric": "Must name at least two of: forming a diverse group, encouraging members to speak up, assigning a devil's advocate, or helping members find common ground.",
+          "topic": "improving-group-decisions",
           "source": "book"
         }
       ]
