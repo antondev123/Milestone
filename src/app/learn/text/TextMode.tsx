@@ -202,23 +202,24 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
             const t = input.trim();
             if (!t) return;
             setInput("");
-            // an open question is waiting → this is the answer; otherwise it is a curiosity question
-            void step(asking && options.length === 0 ? "answer" : "ask", asking && options.length === 0 ? { text: t } : { question: t }, t);
+            // a question is waiting → send it as the answer; the server works out whether it was an
+            // answer, a question about the material or a command, and keeps the question open if so
+            void step(asking ? "answer" : "ask", asking ? { text: t } : { question: t }, t);
           }}
           className="flex gap-2"
         >
           <label htmlFor="say" className="sr-only">
-            {asking && options.length === 0 ? "Your answer" : "Ask about this leg"}
+            {asking ? "Your answer, or a question" : "Ask about this leg"}
           </label>
           <input
             id="say"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder={asking && options.length === 0 ? "Type your answer" : "Ask anything about this"}
+            placeholder={asking ? (options.length ? "Or type: a question, skip, repeat…" : "Type your answer, or ask anything") : "Ask anything about this"}
             className="min-h-12 flex-1 rounded-[14px] bg-panel px-4 text-[17px] outline-none placeholder:text-muted focus:ring-2 focus:ring-ink"
           />
           <button disabled={busy || !input.trim()} className="min-h-12 rounded-[14px] bg-ink px-4 text-[15px] font-bold text-ground disabled:opacity-50">
-            {busy ? "…" : asking && options.length === 0 ? "Send" : "Ask"}
+            {busy ? "…" : asking ? "Send" : "Ask"}
           </button>
         </form>
 

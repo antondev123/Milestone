@@ -172,7 +172,7 @@ export interface Cursor {
   attempt: number; // attempts on the current question
   detour?: { topic: string; turns: number; startedAt: string; offered: boolean };
   quiz?: { quizId: string; qIdx: number; attempt: number; correct: number }; // chapter quiz in progress
-  returnStack: { segmentId: string; blockIdx: number }[]; // for "take me back"
+  returnStack: { segmentId: string; blockIdx: number; phase?: CursorPhase; qIdx?: number }[]; // for "take me back" (phase/qIdx: return to an open question)
   lastReply?: ToolReply; // idempotency + "repeat"
   lastAt?: string; // ISO of the last served reply
   updatedAt: string;
@@ -212,6 +212,7 @@ export interface ToolReply {
   offer?: { sectionId: string; say: string }; // ask() found a better section; goto on "yes"
   qIdx?: number; // which checkpoint question this is (set on kind "ask"); study mode renders it locally
   milestones?: string[]; // milestone ids first earned by this reply (spoken inside `say`; the client plays an earcon)
+  intent?: AnswerIntent; // on an answer() reply: what the learner meant; question/command/giveup were routed, not graded
 }
 
 export interface Progress {
@@ -255,9 +256,13 @@ export interface GradeRequest {
   mode: Mode;
 }
 
+/** What the learner meant: only "answer" is graded; the rest are routed (actionAnswer in src/lib/actions.ts). */
+export type AnswerIntent = "answer" | "question" | "command" | "giveup";
+
 export interface GradeResponse {
   correct: boolean;
   feedback: string; // ≤ 20 words
+  intent?: AnswerIntent; // absent = answer
 }
 
 // ---------- Helpers ----------

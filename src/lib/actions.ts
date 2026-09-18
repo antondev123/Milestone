@@ -10,6 +10,7 @@ import * as cursor from "./cursor";
 import * as say from "./say";
 import { resolveTarget } from "./navigate";
 import { askBook } from "./ask";
+import { quickIntent } from "./intent";
 import { carrySession, closeSession, openSession } from "./log/log";
 
 const userId = DEMO_USER_ID;
@@ -133,10 +134,54 @@ export function actionCheck(segmentId: string): ToolReply {
   return cursor.startCheck(course, getProgress(userId, courseId), segmentId);
 }
 
+/**
+ * Whatever the learner said while a question was open. Only a real attempt is graded: unmistakable
+ * commands are dispatched before any model (`quickIntent`), the grader classifies the rest, and a
+ * question / command / give-up is routed to the tool it meant. The open question survives all of it.
+ */
 export async function actionAnswer(text: string, mode: Mode): Promise<ToolReply> {
   const course = loadCourse(courseId);
-  return cursor.answer(course, getProgress(userId, courseId), text, mode);
+  const progress = getProgress(userId, courseId);
+  if (!cursor.questionOpen(course, progress)) return cursor.answer(course, progress, text, mode);
+  const study = mode === "study"; // the study page owns navigation; only repeat and give-up apply there
+  const quick = quickIntent(text);
+  switch (quick) {
+    case "repeat":
+      return { ...cursor.explain(course, progress, "again"), intent: "command" };
+    case "giveup":
+      return cursor.answer(course, progress, text, mode, { giveup: true });
+    case "skip":
+      if (!study) return { ...cursor.skip(course, progress), intent: "command" };
+      break;
+    case "where":
+      if (!study) return { ...cursor.whereAmI(course, progress), intent: "command" };
+      break;
+    case "hold":
+      // not committed: "repeat" must still repeat the question, and next re-asks it
+      if (!study) return { kind: "say", say: "Holding. Say continue when you are ready.", loc: "", more: false, intent: "command" };
+      break;
+    case "goto": {
+      if (study) break;
+      const r = actionGoto(text);
+      if (r.say !== NOT_FOUND) return { ...r, intent: "command" };
+      break; // could not resolve it: let the grader decide what it was
+    }
+  }
+  const r = await cursor.answer(course, progress, text, mode);
+  if (r.intent === "question") {
+    const a = await actionAsk(text, { detour: !study });
+    return { ...a, intent: "question" };
+  }
+  if (r.intent === "command") {
+    if (study) return cursor.commitReply(course, progress, { kind: "say", say: "The question is still open. Type your answer, or ask me about the passage.", loc: "", more: false, intent: "command" });
+    const g = actionGoto(text);
+    if (g.say === NOT_FOUND) return cursor.commitReply(course, progress, { kind: "say", say: "I did not catch that. The question is still open. Say repeat to hear it again.", loc: "", more: false, intent: "command" });
+    return { ...g, intent: "command" };
+  }
+  return r;
 }
+
+const NOT_FOUND = "I could not find that in the course. Try a chapter number, or ask me the question instead.";
 
 export function actionInterrupted(): { ok: true } {
   cursor.interrupted(loadCourse(courseId), getProgress(userId, courseId));
@@ -171,7 +216,7 @@ export function actionGoto(target: string): ToolReply {
       });
     }
     default:
-      return cursor.commitReply(course, progress, { kind: "say", say: "I could not find that in the course. Try a chapter number, or ask me the question instead.", loc: "", more: false });
+      return cursor.commitReply(course, progress, { kind: "say", say: NOT_FOUND, loc: "", more: false });
   }
 }
 
@@ -211,7 +256,7 @@ export async function actionAsk(question: string, opts: { context?: string; deto
   const reply = cursor.withMilestones(course, progress, { kind: "say", say: sayText, loc: "", more: false, offer });
   if (cur && !cur.detour!.offered && !offer) {
     cur.detour!.offered = true;
-    reply.say += " Say continue when you are ready.";
+    reply.say += cursor.questionOpen(course, progress) ? " Say continue to get back to the question." : " Say continue when you are ready.";
   }
   return cursor.commitReply(course, progress, reply);
 }

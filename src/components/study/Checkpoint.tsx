@@ -37,6 +37,7 @@ export function Checkpoint({
   const [wrong, setWrong] = useState<string[]>([]); // options tapped and missed on this question
   const [typed, setTyped] = useState("");
   const [feedback, setFeedback] = useState<{ correct: boolean; text: string; advance: boolean } | null>(null);
+  const [note, setNote] = useState<string | null>(null); // a typed question or command was routed, not graded; the question stays open
   const top = useRef<HTMLElement>(null);
   const tail = useRef<HTMLDivElement>(null); // feedback + next button: scrolled clear of the pinned strip
 
@@ -45,6 +46,7 @@ export function Checkpoint({
     setQIdx(null);
     setDone(false);
     setFeedback(null);
+    setNote(null);
     setPicked(null);
     setWrong([]);
     setTyped("");
@@ -74,6 +76,13 @@ export function Checkpoint({
     const r = await tool("answer", { text });
     setBusy(false);
     const say = r.say ?? "";
+    if (r.correct === undefined) {
+      // not an answer (a question about the passage, "repeat", …): show the reply, leave the question open
+      setNote(say.replace(/s*Say continue.*$/, "").trim() || "The question is still open.");
+      setTyped("");
+      return;
+    }
+    setNote(null);
     const finished = /Part done\.\s*$/.test(say);
     const retry = /Try once more\.\s*$/.test(say);
     const stripped = stripVerdict(say.replace(/\s*(Try once more\.|Part done\.)\s*$/, "")).trim();
@@ -85,6 +94,7 @@ export function Checkpoint({
 
   function next() {
     setFeedback(null);
+    setNote(null);
     setPicked(null);
     setWrong([]);
     setTyped("");
@@ -166,6 +176,11 @@ export function Checkpoint({
             </form>
           )}
 
+          {note && (
+            <p className="fade-up text-[17px] leading-[1.6] text-muted" role="status">
+              {note}
+            </p>
+          )}
           {busy && q.type === "mcq" && (
             <div className="text-[15px] text-muted" role="status">
               Checking…

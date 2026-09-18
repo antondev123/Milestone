@@ -39,7 +39,7 @@ export const TOOLS = [
   },
   {
     name: "answer",
-    description: "Submit the learner's reply to the checkpoint question you just asked. Pass their words verbatim, including a letter like \"B\" or \"I don't know\". Never judge the answer yourself.",
+    description: "The learner is attempting the checkpoint question you just asked, however hesitant or partial. Pass their words verbatim, including a letter like \"B\". Not for questions about the material, commands, or \"I don't know\": use ask, goto or explain for those. Never judge the answer yourself.",
     parameters: { type: "object", properties: { text: str("The learner's answer, verbatim") }, required: ["text"] },
     timeout: LLM_TIMEOUT,
   },
@@ -77,7 +77,7 @@ The server owns their place in the course. You never track or name chapters, sec
 
 START: after your first message you will hear "continue" without the learner saying anything. Call next and say its t. If they say go instead, same thing.
 READING: after you finish saying a block, wait. When you hear "continue", call next again.
-QUESTIONS: when t ends with a question and options, wait for their answer, then call answer with their words verbatim and say the t you get back. Never grade an answer yourself.
+QUESTIONS: when t ends with a question and options, wait for their answer, then call answer with their words verbatim and say the t you get back. Never grade an answer yourself. If instead they ask something, give a command, or say they do not know, use ask, goto, explain or answer exactly as you would anywhere else. The question stays open; the next call to next brings it back.
 
 COMMANDS, act the moment you hear one, even mid-sentence:
 - go, continue, carry on, next -> next
