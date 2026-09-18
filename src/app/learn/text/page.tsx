@@ -1,37 +1,38 @@
 "use client";
-// Text mode: the same lesson JSON rendered as a lightweight chat. Low data: one
-// course fetch, then small JSON calls per answer.
-import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
-import type { Course, GradeResponse, Plan, Question, Segment } from "@/types/lesson";
+// Text mode: a thin renderer over the same speech tools the voice agent uses (/api/tools/*).
+// The server owns the position; this page just shows `say` and offers the same verbs as chips.
+import { Suspense, useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import type { Plan, ToolReply } from "@/types/lesson";
 import { TripPicker } from "@/components/TripPicker";
 import { ProgressBar } from "@/components/ProgressBar";
 
-type Bubble = { who: "tutor" | "you"; text: string; tone?: "ok" | "bad" };
+type Bubble = { who: "tutor" | "you"; text: string; tone?: "ok" | "bad" | "aside"; offer?: ToolReply["offer"] };
+type Manifest = { title: string; chapters: { id: string; number: number; shortTitle: string; sections: { id: string; number: string; title: string; status: string; segments: { id: string }[] }[] }[] };
 
-type Phase =
-  | { kind: "pick" }
-  | { kind: "read"; segIdx: number; paraIdx: number }
-  | { kind: "ask"; segIdx: number; qIdx: number }
-  | { kind: "ending" };
-
-function paragraphs(script: string): string[] {
-  // split spoken prose into ~2–3 sentence chunks so it reads like chat
-  const sentences = script.match(/[^.!?]+[.!?]+/g) ?? [script];
-  const out: string[] = [];
-  for (let i = 0; i < sentences.length; i += 3) out.push(sentences.slice(i, i + 3).join(" ").trim());
-  return out;
+async function tool(name: string, body: Record<string, unknown> = {}): Promise<ToolReply> {
+  const r = await fetch(`/api/tools/${name}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...body, mode: "text" }) });
+  return r.json() as Promise<ToolReply>;
 }
 
-export default function TextMode() {
+export default function TextModePage() {
+  return (
+    <Suspense fallback={<p className="text-slate-400">Loading…</p>}>
+      <TextMode />
+    </Suspense>
+  );
+}
+
+function TextMode() {
   const router = useRouter();
-  const [course, setCourse] = useState<Course | null>(null);
+  const params = useSearchParams();
+  const [course, setCourse] = useState<Manifest | null>(null);
   const [plan, setPlan] = useState<Plan | null>(null);
-  const [segs, setSegs] = useState<Segment[]>([]); // full segments for this trip, fetched lazily
-  const [phase, setPhase] = useState<Phase>({ kind: "pick" });
+  const [last, setLast] = useState<ToolReply | null>(null);
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const [busy, setBusy] = useState(false);
-  const [open, setOpen] = useState("");
+  const [input, setInput] = useState("");
+  const [jump, setJump] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,173 +40,183 @@ export default function TextMode() {
   }, []);
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [bubbles, phase]);
+  }, [bubbles]);
 
   const say = (b: Bubble) => setBubbles((prev) => [...prev, b]);
 
-  const seg = phase.kind === "read" || phase.kind === "ask" ? segs[phase.segIdx] : null;
-  const paras = seg ? paragraphs(seg.script) : [];
+  function show(r: ToolReply) {
+    setLast(r);
+    const tone = r.correct === undefined ? undefined : r.correct ? "ok" : "bad";
+    say({ who: "tutor", text: r.say, tone, offer: r.offer });
+    if (r.kind === "end" && r.tripId) router.push(`/trip/${r.tripId}/summary`);
+  }
+
+  async function step(name: string, body: Record<string, unknown> = {}, echo?: string) {
+    if (echo) say({ who: "you", text: echo });
+    setBusy(true);
+    try {
+      show(await tool(name, body));
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function start(minutes: number) {
     setBusy(true);
-    const p: Plan = await fetch("/api/session", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ minutes, mode: "text" }),
-    }).then((r) => r.json());
-    // the course manifest has no prose; fetch this trip's segments (a few KB each)
-    const full = await Promise.all(
-      p.segmentIds.map((id) =>
-        fetch(`/api/segment?id=${encodeURIComponent(id)}`)
-          .then((r) => r.json() as Promise<{ segment: Segment }>)
-          .then((r) => r.segment),
-      ),
-    );
-    setSegs(full);
+    const p: Plan = await fetch("/api/session", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ minutes, mode: "text" }) }).then((r) => r.json());
     setPlan(p);
-    setBusy(false);
-    const first = full[0];
-    say({ who: "tutor", text: `${p.segmentIds.length} segment${p.segmentIds.length > 1 ? "s" : ""} fit in ${minutes} minutes. Picking up at "${first?.title}".` });
-    if (p.startAt.position === "checkpoint") {
-      say({ who: "tutor", text: "You already heard this one. Straight to the checkpoint." });
-      setPhase({ kind: "ask", segIdx: 0, qIdx: 0 });
-    } else {
-      say({ who: "tutor", text: `**${first?.title}**` });
-      setPhase({ kind: "read", segIdx: 0, paraIdx: 0 });
-    }
-  }
-
-  function next() {
-    if (phase.kind !== "read" || !seg) return;
-    say({ who: "tutor", text: paras[phase.paraIdx] });
-    if (phase.paraIdx + 1 < paras.length) setPhase({ ...phase, paraIdx: phase.paraIdx + 1 });
-    else {
-      say({ who: "tutor", text: "Quick check." });
-      setPhase({ kind: "ask", segIdx: phase.segIdx, qIdx: 0 });
-    }
-  }
-
-  async function answer(q: Question, text: string) {
-    if (phase.kind !== "ask" || !seg) return;
-    say({ who: "you", text });
-    setBusy(true);
-    setOpen("");
-    const r: GradeResponse = await fetch("/api/grade", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ questionId: q.id, answer: text, mode: "text" }),
-    }).then((r) => r.json());
-    say({ who: "tutor", text: r.feedback, tone: r.correct ? "ok" : "bad" });
-    if (phase.qIdx + 1 < seg.checkpoint.length) {
-      setPhase({ ...phase, qIdx: phase.qIdx + 1 });
-      setBusy(false);
-      return;
-    }
-    // segment done
-    const c = await fetch("/api/segment", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ segmentId: seg.id }),
-    }).then((r) => r.json() as Promise<{ nextSegmentId: string | null; tripDone: boolean }>);
-    setBusy(false);
-    if (!c.tripDone && phase.segIdx + 1 < segs.length) {
-      const n = segs[phase.segIdx + 1];
-      say({ who: "tutor", text: `Segment done. Next: **${n.title}**` });
-      setPhase({ kind: "read", segIdx: phase.segIdx + 1, paraIdx: 0 });
-    } else {
-      await finish();
-    }
+    say({ who: "tutor", text: p.greeting ?? `${p.segmentIds.length} parts fit in ${minutes} minutes.`, tone: "aside" });
+    const target = params.get("goto");
+    if (target) await step("goto", { target });
+    await step("next");
   }
 
   async function finish() {
-    setPhase({ kind: "ending" });
     setBusy(true);
-    const s = await fetch("/api/trip/end", { method: "POST" }).then((r) => r.json());
-    router.push(`/trip/${s.tripId}/summary`);
+    const r = await tool("end_trip");
+    router.push(`/trip/${r.tripId}/summary`);
   }
 
   if (!course) return <p className="text-slate-400">Loading course…</p>;
-  if (phase.kind === "pick") return <TripPicker label="Taxi / bus" onStart={start} busy={busy} />;
+  if (!plan) return <TripPicker label="Taxi / bus" onStart={start} busy={busy} />;
 
-  const q = phase.kind === "ask" && seg ? seg.checkpoint[phase.qIdx] : null;
-  const segDone = phase.kind === "read" || phase.kind === "ask" ? phase.segIdx : segs.length;
+  const asking = last?.kind === "ask";
+  const options = asking ? last?.options ?? [] : [];
+  const canContinue = !asking && last?.kind !== "end";
 
   return (
     <div className="flex flex-1 flex-col gap-3">
       <div className="sticky top-0 -mx-4 bg-slate-950/95 px-4 pb-2 pt-1 backdrop-blur">
-        <ProgressBar value={(segDone / Math.max(1, segs.length)) * 100} label={`${course.title} · ${seg?.title ?? ""}`} />
+        <ProgressBar value={chapterPctFromLoc(last?.loc, course, last?.segmentId)} label={`${course.title} · ${last?.loc ?? ""}`} />
       </div>
-      <div className={`flex flex-1 flex-col gap-2 ${phase.kind === "ask" ? "pb-80" : "pb-32"}`}>
+
+      <div className="flex flex-1 flex-col gap-2 pb-72">
         {bubbles.map((b, i) => (
-          <div
-            key={i}
-            className={`max-w-[88%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${
-              b.who === "you"
-                ? "self-end bg-emerald-600 text-white"
-                : b.tone === "ok"
-                  ? "self-start bg-emerald-900/60 text-emerald-100"
-                  : b.tone === "bad"
-                    ? "self-start bg-rose-900/50 text-rose-100"
-                    : "self-start bg-slate-800"
-            }`}
-          >
-            {b.text.replace(/\*\*/g, "")}
+          <div key={i} className="flex flex-col gap-1">
+            <div
+              className={`max-w-[88%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${
+                b.who === "you"
+                  ? "self-end bg-emerald-600 text-white"
+                  : b.tone === "ok"
+                    ? "self-start bg-emerald-900/60 text-emerald-100"
+                    : b.tone === "bad"
+                      ? "self-start bg-rose-900/50 text-rose-100"
+                      : b.tone === "aside"
+                        ? "self-start bg-slate-900 text-slate-300 italic"
+                        : "self-start bg-slate-800"
+              }`}
+            >
+              {b.text}
+            </div>
+            {b.offer && i === bubbles.length - 1 && (
+              <div className="flex gap-2">
+                <button disabled={busy} onClick={() => step("goto", { target: b.offer!.sectionId.replace(/.*\/c(\d+)\/s(\d+)$/, "section $1.$2") }, "Go there now")} className="rounded-lg bg-emerald-700 px-3 py-1.5 text-xs">
+                  Go there now
+                </button>
+                <button disabled={busy} onClick={() => step("next", {}, "Carry on")} className="rounded-lg bg-slate-800 px-3 py-1.5 text-xs">
+                  Carry on
+                </button>
+              </div>
+            )}
           </div>
         ))}
         <div ref={endRef} />
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 mx-auto w-full max-w-md bg-slate-950 px-4 pb-6 pt-3">
-        {phase.kind === "read" && (
-          <div className="flex gap-2">
-            <button onClick={next} className="flex-1 rounded-xl bg-emerald-500 px-4 py-4 text-lg font-bold text-slate-950">
-              {phase.paraIdx === 0 ? "Start" : "Continue"}
-            </button>
-            <button onClick={finish} className="rounded-xl bg-slate-800 px-4 py-4 text-sm">
-              End trip
-            </button>
+      <div className="fixed inset-x-0 bottom-0 mx-auto w-full max-w-md bg-slate-950 px-4 pb-5 pt-2">
+        {asking && options.length > 0 && (
+          <div className="mb-2 grid grid-cols-1 gap-2">
+            {options.map((o, i) => (
+              <button key={o} disabled={busy} onClick={() => step("answer", { text: o }, `${"ABCD"[i]}. ${o}`)} className="rounded-xl bg-slate-800 px-4 py-3 text-left text-[15px] active:bg-slate-700 disabled:opacity-50">
+                <span className="mr-2 text-slate-500">{"ABCD"[i]}</span>
+                {o}
+              </button>
+            ))}
           </div>
         )}
-        {phase.kind === "ask" && q && (
-          <div className="flex flex-col gap-2">
-            <p className="text-[15px] font-medium">{q.prompt}</p>
-            {q.type === "mcq" ? (
-              <div className="grid grid-cols-1 gap-2">
-                {q.options?.map((o) => (
-                  <button
-                    key={o}
-                    disabled={busy}
-                    onClick={() => answer(q, o)}
-                    className="rounded-xl bg-slate-800 px-4 py-3 text-left text-[15px] active:bg-slate-700 disabled:opacity-50"
-                  >
-                    {o}
-                  </button>
-                ))}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const t = input.trim();
+            if (!t) return;
+            setInput("");
+            // an open question is waiting → this is the answer; otherwise it is a curiosity question
+            void step(asking && options.length === 0 ? "answer" : "ask", asking && options.length === 0 ? { text: t } : { question: t }, t);
+          }}
+          className="mb-2 flex gap-2"
+        >
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder={asking && options.length === 0 ? "Type your answer" : "Ask anything about this…"}
+            className="flex-1 rounded-xl bg-slate-800 px-4 py-3 text-[15px] outline-none"
+          />
+          <button disabled={busy || !input.trim()} className="rounded-xl bg-emerald-500 px-4 py-3 font-bold text-slate-950 disabled:opacity-50">
+            {busy ? "…" : asking && options.length === 0 ? "Send" : "Ask"}
+          </button>
+        </form>
+        <div className="flex gap-2">
+          <button disabled={busy || !canContinue} onClick={() => step("next")} className="flex-1 rounded-xl bg-emerald-500 px-4 py-3 text-lg font-bold text-slate-950 disabled:opacity-40">
+            {last?.kind === "say" && last.more ? "Continue" : last ? "Continue" : "Start"}
+          </button>
+          <button onClick={finish} disabled={busy} className="rounded-xl bg-slate-800 px-4 py-3 text-sm">
+            End trip
+          </button>
+        </div>
+        <div className="mt-2 flex gap-2 overflow-x-auto text-xs">
+          {[
+            ["Explain differently", "explain", { how: "simpler" }],
+            ["Go deeper", "explain", { how: "deeper" }],
+            ["Example", "explain", { how: "example" }],
+            ["Repeat", "explain", { how: "again" }],
+            ["Skip", "goto", { target: "skip" }],
+            ["Where am I", "where_am_i", {}],
+            ["Quiz me", "goto", { target: "quiz me" }],
+          ].map(([label, name, body]) => (
+            <button key={label as string} disabled={busy} onClick={() => step(name as string, body as Record<string, unknown>, label as string)} className="shrink-0 rounded-full bg-slate-800 px-3 py-1.5 disabled:opacity-40">
+              {label as string}
+            </button>
+          ))}
+          <button onClick={() => setJump((j) => !j)} className="shrink-0 rounded-full bg-slate-800 px-3 py-1.5">
+            Jump to…
+          </button>
+        </div>
+        {jump && (
+          <div className="mt-2 max-h-48 overflow-y-auto rounded-xl bg-slate-900 p-2 text-xs">
+            {course.chapters.map((ch) => (
+              <div key={ch.id} className="mb-1">
+                <p className="px-1 py-1 font-semibold text-slate-400">
+                  {ch.number}. {ch.shortTitle}
+                </p>
+                {ch.sections
+                  .filter((s) => s.segments.length > 0)
+                  .map((s) => (
+                    <button
+                      key={s.id}
+                      disabled={busy}
+                      onClick={() => {
+                        setJump(false);
+                        void step("goto", { target: `section ${s.number}` }, `Go to ${s.number} ${s.title}`);
+                      }}
+                      className="block w-full rounded px-2 py-1 text-left hover:bg-slate-800"
+                    >
+                      {s.number} {s.title}
+                    </button>
+                  ))}
               </div>
-            ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (open.trim()) answer(q, open.trim());
-                }}
-                className="flex gap-2"
-              >
-                <input
-                  value={open}
-                  onChange={(e) => setOpen(e.target.value)}
-                  placeholder="Type your answer"
-                  className="flex-1 rounded-xl bg-slate-800 px-4 py-3 text-[15px] outline-none"
-                  autoFocus
-                />
-                <button disabled={busy || !open.trim()} className="rounded-xl bg-emerald-500 px-4 py-3 font-bold text-slate-950 disabled:opacity-50">
-                  {busy ? "…" : "Send"}
-                </button>
-              </form>
-            )}
+            ))}
           </div>
         )}
-        {phase.kind === "ending" && <p className="text-center text-slate-400">Wrapping up your trip…</p>}
       </div>
     </div>
   );
+}
+
+function chapterPctFromLoc(loc: string | undefined, course: Manifest, segmentId?: string): number {
+  if (!segmentId) return 0;
+  const ch = course.chapters.find((c) => segmentId.startsWith(c.id + "/"));
+  if (!ch) return 0;
+  const all = ch.sections.flatMap((s) => s.segments.map((g) => g.id));
+  const i = all.indexOf(segmentId);
+  return i < 0 ? 0 : (i / Math.max(1, all.length)) * 100;
 }
