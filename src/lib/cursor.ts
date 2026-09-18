@@ -13,7 +13,7 @@ import {
 } from "@/types/lesson";
 import { blocks } from "./chunk";
 import { loadChapterQuiz, loadQuestionFull, loadSegmentFull } from "./course";
-import { gradeAnswer } from "./grader";
+import { gradeAnswer, revealLine } from "./grader";
 import { earnNow } from "./milestones";
 import { completeSegment, endTrip, recordCheckpoint } from "./progress";
 import * as say from "./say";
@@ -269,18 +269,32 @@ export function startCheck(course: Course, progress: Progress, segmentId: string
 
 // ---------- answer ----------
 
-export async function answer(course: Course, progress: Progress, text: string, mode: Mode): Promise<ToolReply> {
+/** A checkpoint or quiz question is waiting for an answer. */
+export function questionOpen(course: Course, progress: Progress): boolean {
+  const c = ensureCursor(course, progress);
+  return (c.phase === "ask" || !!c.quiz) && !!currentQuestion(course, c);
+}
+
+/**
+ * Grade and advance. A wrong first try gets a hint and one retry; the second try (or a give-up)
+ * reveals the answer and moves on. When the grader says the words were not an answer at all
+ * (a question, a command), nothing is recorded and the reply carries `intent` for actionAnswer to route.
+ */
+export async function answer(course: Course, progress: Progress, text: string, mode: Mode, opts: { giveup?: boolean } = {}): Promise<ToolReply> {
   const c = ensureCursor(course, progress);
   const q = currentQuestion(course, c);
   if (!q || (c.phase !== "ask" && !c.quiz)) {
     return commit(course, progress, c, { kind: "say", say: "There is no question open right now. Say go to carry on.", loc: loc(course, c), more: false });
   }
-  // study mode taps buttons, so a first miss gets a hint instead of the answer; the second try reveals it
   const first = (c.quiz ? c.quiz.attempt : c.attempt) === 0;
-  const result = await gradeAnswer(q, text, { hintFirst: mode === "study" && first });
+  const result = opts.giveup ? { correct: false, feedback: revealLine(q), intent: "giveup" as const } : await gradeAnswer(q, text, { reveal: !first });
+  if (result.intent && result.intent !== "answer" && result.intent !== "giveup") {
+    // not an answer: leave the question open, burn nothing
+    return { kind: "say", say: "", loc: loc(course, c), more: false, intent: result.intent, segmentId: c.segmentId };
+  }
   recordCheckpoint(progress, q, text, result.correct, result.feedback, mode);
   const attempt = c.quiz ? ++c.quiz.attempt : ++c.attempt;
-  const retry = !result.correct && attempt === 1;
+  const retry = !result.correct && attempt === 1 && !opts.giveup;
   if (c.quiz) {
     if (result.correct) c.quiz.correct += 1;
     if (!retry) {
@@ -313,7 +327,10 @@ export type Aspect = "again" | "simpler" | "deeper" | "example";
 export function explain(course: Course, progress: Progress, how: Aspect): ToolReply {
   const c = ensureCursor(course, progress);
   if (how === "again") {
-    if (c.lastReply && (c.lastReply.kind === "ask" || c.quiz)) return commit(course, progress, c, { ...c.lastReply, say: c.lastReply.say.replace(/^(Again\. |Quick check\. )/, ""), more: false });
+    if (c.lastReply?.kind === "ask") return commit(course, progress, c, { ...c.lastReply, say: c.lastReply.say.replace(/^(Again\. |Quick check\. |Back to the question\. )/, ""), more: false });
+    // a question is open but the last thing said was a detour answer or feedback: read the question again
+    if (c.quiz) return commit(course, progress, c, quizQuestion(course, progress, c));
+    if (c.phase === "ask" && currentQuestion(course, c)) return commit(course, progress, c, askQuestion(course, progress, c, ""));
     if (c.phase === "read") {
       const seg = segmentFull(course.id, c.segmentId);
       // key points are the "repeat" content; then reading resumes on the current block
@@ -353,7 +370,8 @@ export function gotoSegment(course: Course, progress: Progress, segmentId: strin
   const c = ensureCursor(course, progress);
   const to = say.place(course, segmentId);
   if (!to) return commit(course, progress, c, { kind: "say", say: "That part is not available yet.", loc: loc(course, c), more: false });
-  c.returnStack.push({ segmentId: c.segmentId, blockIdx: c.blockIdx });
+  // remember an open question too, so "go back" lands on it rather than the start of the block
+  c.returnStack.push(c.phase === "ask" && !c.quiz ? { segmentId: c.segmentId, blockIdx: c.blockIdx, phase: "ask", qIdx: c.qIdx } : { segmentId: c.segmentId, blockIdx: c.blockIdx });
   if (c.returnStack.length > 5) c.returnStack.shift();
   moveTo(c, segmentId);
   const line = via === "relative" && to.section.id === say.place(course, c.returnStack.at(-1)!.segmentId)?.section.id ? say.partIntro(to) : say.chapterIntro(to);
@@ -367,6 +385,11 @@ export function gotoBack(course: Course, progress: Progress): ToolReply {
   const p = say.place(course, prev.segmentId);
   moveTo(c, prev.segmentId);
   c.blockIdx = prev.blockIdx;
+  if (prev.phase === "ask") {
+    c.phase = "ask";
+    c.qIdx = prev.qIdx ?? 0;
+    return commit(course, progress, c, askQuestion(course, progress, c, "Back to the question. "));
+  }
   return commit(course, progress, c, { kind: "say", say: `Back to ${p ? say.partIntro(p) : "where you were."}`, loc: loc(course, c), more: true });
 }
 
@@ -385,6 +408,12 @@ export function skip(course: Course, progress: Progress): ToolReply {
     return commit(course, progress, c, { kind: "say", say: "Skipping to the questions.", loc: loc(course, c), more: true });
   }
   if (c.phase === "ask") {
+    // one question at a time; the last one skipped finishes the part
+    const seg = segmentFull(course.id, c.segmentId);
+    c.qIdx += 1;
+    c.attempt = 0;
+    c.served = false;
+    if (c.qIdx < seg.checkpoint.length) return commit(course, progress, c, { kind: "say", say: "Skipping that one.", loc: loc(course, c), more: true });
     completeSegment(course, progress, c.segmentId);
     c.phase = "done";
     return commit(course, progress, c, withMilestones(course, progress, { kind: "say", say: "Skipping the questions.", loc: loc(course, c), more: true }));

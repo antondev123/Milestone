@@ -16,11 +16,11 @@ This creates the seven client tools and patches the agent with everything below.
 
 **Reading loop.** `next` returns one sentence-aligned block of about 150 words (~60 s of speech) with `more: true`. When the agent finishes speaking (`onModeChange → listening`) and nothing interrupted it, the client waits 700 ms and sends a text turn `"continue"`, so the agent calls `next` again. `sendContextualUpdate` does not trigger a turn, so it is not used for this. Barge-in (`onInterruption`, or any real user transcript) cancels the pending continue and POSTs `interrupted`; the server then re-reads the current block after the driver's command, prefixed "Back to it."
 
-**Free-form questions** go to `ask` → `src/lib/ask.ts` → Claude Haiku with the current part, section objectives, key terms and the table of contents (three cached prompt blocks). The answer is ≤ 3 sentences. The agent never answers from its own knowledge. The ElevenLabs knowledge base is deliberately not used (its snippets would sit in the agent context for the rest of the call).
+**Free-form questions** go to `ask` → `src/lib/ask.ts` → Claude Sonnet 5 (`ANTHROPIC_ASK_MODEL`) with the current part, section objectives, key terms and the table of contents (three cached prompt blocks). The answer is ≤ 3 sentences. The agent never answers from its own knowledge. The ElevenLabs knowledge base is deliberately not used (its snippets would sit in the agent context for the rest of the call).
 
 **Navigation** goes to `goto` with the learner's words verbatim → `src/lib/navigate.ts` (chapter/section numbers, next/back/skip, quiz, then a lexical match over titles, key terms and objectives).
 
-**Latency.** Lookup tools return in ~15 ms. `answer` (open questions, Sonnet 5) is ~3–4 s and `ask` (Haiku) ~1–3 s; the 2.5 s soft-timeout filler "One sec." covers them.
+**Latency.** Lookup tools return in ~15 ms. `answer` (open questions, Sonnet 5) is ~3–4 s and `ask` (Sonnet 5, cached, low effort) ~2–4 s; the 2.5 s soft-timeout filler "One sec." and "Nearly there." cover them. A question asked *while a question is open* costs both (classify in `answer`, then `ask`).
 
 ## 2. First message
 
@@ -45,8 +45,8 @@ The live text is `PROMPT` in `scripts/configure-agent.ts`. Its load-bearing line
 |---|---|---|---|
 | `next` | – | next block / next question / next part / return from a detour | 6 s |
 | `explain` | `how`: `again` \| `simpler` \| `deeper` \| `example` | key points / altExplanation / deeper / example, zero LLM | 6 s |
-| `answer` | `text` (verbatim) | grades the cursor's current question (MCQ local, open via Claude), one retry | 20 s |
-| `ask` | `question` (verbatim) | grounded answer from the book (Haiku), records a detour | 20 s |
+| `answer` | `text` (verbatim) | whatever was said to an open question: unmistakable commands are dispatched locally, Claude classifies the rest (answer / question / command / give-up) and grades only an answer; hint on the first miss, answer on the second; questions and commands are routed and the question stays open | 20 s |
+| `ask` | `question` (verbatim) | grounded answer from the book (Sonnet 5), records a detour | 20 s |
 | `goto` | `target` (verbatim) | chapter N / N.M / next part / next chapter / skip / back / quiz / topic | 6 s |
 | `where_am_i` | – | chapter, section, part, chapter %, commutes left, what is next | 6 s |
 | `end_trip` | – | ends the trip, spoken summary | 6 s |

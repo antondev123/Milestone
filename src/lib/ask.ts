@@ -1,13 +1,14 @@
-// Free-form questions answered from the book, server-side, on Claude Haiku with prompt caching.
+// Free-form questions answered from the book, server-side, on Claude Sonnet 5 with prompt caching.
 // Three cached blocks, stable → volatile: persona (1h) · table of contents (1h) · current section (5m).
 import Anthropic from "@anthropic-ai/sdk";
 import type { Course, Segment } from "@/types/lesson";
 import { tocForPrompt } from "./course";
 import type { Place } from "./say";
 import { logLlm } from "./log/log";
+import { usdFor } from "./grader";
 
-const MODEL = process.env.ANTHROPIC_ASK_MODEL ?? "claude-haiku-4-5";
-const TIMEOUT_MS = 8000;
+const MODEL = process.env.ANTHROPIC_ASK_MODEL ?? "claude-sonnet-5";
+const TIMEOUT_MS = 10000;
 
 let client: Anthropic | null = null;
 function anthropic(): Anthropic {
@@ -73,7 +74,7 @@ export async function askBook(
   const res = await anthropic().messages.create({
     model: MODEL,
     max_tokens: 260,
-    output_config: { format: { type: "json_schema", schema } },
+    output_config: { effort: "low", format: { type: "json_schema", schema } }, // three spoken sentences; low keeps Sonnet near Haiku latency
     system: [
       { type: "text", text: ASK_SYSTEM, cache_control: { type: "ephemeral", ttl: "1h" } },
       { type: "text", text: `TABLE OF CONTENTS (${course.title})\n${tocForPrompt(course.id)}`, cache_control: { type: "ephemeral", ttl: "1h" } },
@@ -90,7 +91,7 @@ export async function askBook(
   const ms = Date.now() - t0;
   const u = res.usage;
   const cached = u.cache_read_input_tokens ?? 0;
-  const usd = ((u.input_tokens ?? 0) * 1 + cached * 0.1 + (u.cache_creation_input_tokens ?? 0) * 1.25 + u.output_tokens * 5) / 1_000_000;
+  const usd = usdFor(MODEL, u);
   console.log(`[ask] ${MODEL} in=${u.input_tokens} cached=${cached} write=${u.cache_creation_input_tokens ?? 0} out=${u.output_tokens} ${ms}ms ~$${usd.toFixed(4)}`);
   logLlm({ provider: "anthropic", purpose: "ask", model: res.model, in: u.input_tokens, cacheRead: cached, cacheWrite: u.cache_creation_input_tokens ?? 0, out: u.output_tokens, ms, usd, requestId: res.id, meta: { question, stop: res.stop_reason } });
   const text = res.content.find((b) => b.type === "text")?.text ?? "{}";
