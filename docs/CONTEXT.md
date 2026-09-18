@@ -14,7 +14,7 @@ while driving, silent short text when listening isn't possible. Progress carries
 across every leg and every mode — the next trip picks up mid-sentence where the
 last one stopped.
 
-Working name: [NAME]. Alternatives on the table: Mile, Onboard, Carry.
+Name: **Milestone**. Earlier candidates: Mile, Onboard, Carry (Carry survives as the palette name).
 
 ### One sentence
 For someone who spends a long trip getting to work, it turns that trip into a

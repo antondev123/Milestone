@@ -24,7 +24,7 @@ export default function Resume() {
   return (
     <Screen>
       <div className="flex h-11 items-center justify-between">
-        <div className="font-display text-[26px] font-semibold tracking-[-0.01em]">Carry</div>
+        <div className="font-display text-[26px] font-semibold tracking-[-0.01em]">Milestone</div>
         <Link href="/progress" className="flex min-h-11 items-center px-1 text-[15px] font-semibold underline underline-offset-4">
           Your progress
         </Link>

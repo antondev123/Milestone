@@ -1,9 +1,9 @@
-# DESIGN.md — Carry
+# DESIGN.md — Milestone
 
 Design spec for the Builders Table 2026 demo build. Read alongside CONTEXT.md.
 Visual reference (clickable in Play mode): https://claude.ai/artifact/HRYWE31W6koSGhpGwAfuNH
 
-Name: **Carry**. Direction: **Carry** palette, Fraunces over Public Sans.
+Name: **Milestone** (was Carry). Direction: **Carry** palette, Fraunces over Public Sans.
 
 ---
 

@@ -1,4 +1,4 @@
-# Carry
+# Milestone
 
 Turn the trip into the lesson. One lesson engine, two delivery modes: voice (driving, ElevenLabs agent) and text (taxi/bus, low-data chat UI). Both share progress and resume state.
 
