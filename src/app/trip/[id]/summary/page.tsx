@@ -40,7 +40,7 @@ export default async function Summary({ params }: { params: Promise<{ id: string
 
   return (
     <Screen gap="gap-[26px]">
-      <TopBar left={<BackLink href="/" />} title={trip.mode === "voice" ? "Trip done, listened" : "Trip done, read"} />
+      <TopBar left={<BackLink href="/" />} title={trip.mode === "voice" ? "Trip done, listened" : trip.mode === "study" ? "Session done, studied" : "Trip done, read"} />
 
       <div className="flex flex-col gap-2">
         <h1 className="font-display text-[34px] leading-[1.12] font-semibold tracking-[-0.015em]">You arrived with progress.</h1>

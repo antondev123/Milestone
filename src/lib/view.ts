@@ -169,6 +169,8 @@ function listLegs(nums: number[]): string {
   return contiguous ? `legs ${n[0]} to ${n.at(-1)}` : `legs ${n.slice(0, -1).join(", ")} and ${n.at(-1)}`;
 }
 
+const modeVerb = (m: Mode) => (m === "voice" ? "listened" : m === "study" ? "studied" : "read");
+
 export function tripRows(course: Course, progress: Progress): TripRow[] {
   const legs = legIndex(course);
   return progress.trips
@@ -182,7 +184,7 @@ export function tripRows(course: Course, progress: Progress): TripRow[] {
           : chapters.length === 1
             ? `Chapter ${chapters[0]}, ${listLegs(finished.map((l) => l.n))}`
             : `${finished.length} legs across chapters ${chapters.join(" and ")}`;
-      return { id: t.tripId, when: `${weekday} ${partOfDay(hour)}`, what: `${what}, ${t.mode === "voice" ? "listened" : "read"}`, minutes: tripMinutes(t) };
+      return { id: t.tripId, when: `${weekday} ${partOfDay(hour)}`, what: `${what}, ${modeVerb(t.mode)}`, minutes: tripMinutes(t) };
     })
     .reverse();
 }

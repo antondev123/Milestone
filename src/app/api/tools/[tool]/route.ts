@@ -6,6 +6,8 @@ import { NextResponse } from "next/server";
 import {
   actionAnswer,
   actionAsk,
+  actionCheck,
+  actionMark,
   actionCompleteSegment,
   actionEndTripSpoken,
   actionExplain,
@@ -51,7 +53,7 @@ export async function POST(req: Request, { params }: Params) {
   if (!authorized(req)) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const { tool } = await params;
   const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
-  const mode: Mode = body.mode === "text" ? "text" : "voice";
+  const mode: Mode = body.mode === "text" || body.mode === "study" ? body.mode : "voice";
   const t0 = Date.now();
   try {
     let out: unknown;
@@ -67,10 +69,17 @@ export async function POST(req: Request, { params }: Params) {
         out = await actionAnswer(str(body.text ?? body.a ?? body.answer), mode);
         break;
       case "ask":
-        out = await actionAsk(str(body.question ?? body.q));
+        out = await actionAsk(str(body.question ?? body.q), { context: body.context ? str(body.context) : undefined, detour: mode !== "study" });
         break;
       case "goto":
         out = actionGoto(str(body.target ?? body.where));
+        break;
+      // ----- study mode -----
+      case "mark":
+        out = actionMark(str(body.segmentId), Number(body.blockIdx ?? 0));
+        break;
+      case "check":
+        out = actionCheck(str(body.segmentId));
         break;
       case "where_am_i":
         out = actionWhereAmI();
