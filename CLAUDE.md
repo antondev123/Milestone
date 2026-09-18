@@ -55,7 +55,10 @@ Hackathon, 36 hours, 2026-09-18 to 2026-09-19. Theme: "Travel — the journey, n
 | Engine (planner, store, grader, progress) | `src/lib/` |
 | Single entry for all engine actions | `src/lib/actions.ts` |
 | API routes | `src/app/api/` |
-| Text mode | `src/app/learn/text/page.tsx` |
+| Text mode (renderer over the speech tools) | `src/app/learn/text/page.tsx` |
+| Course map | `src/app/course/page.tsx` |
+| Cursor engine (position state machine), spoken lines, goto resolver, grounded ask | `src/lib/cursor.ts`, `src/lib/say.ts`, `src/lib/navigate.ts`, `src/lib/ask.ts` |
+| Speech tools (voice agent + text mode) | `src/app/api/tools/[tool]/route.ts` |
 | Voice mode | `src/app/learn/voice/page.tsx`, `src/components/VoiceAgent.tsx` |
 | Summary card | `src/app/trip/[id]/summary/page.tsx` |
 | Course data (Principles of Management) | `data/courses/pom/` — see its README; `source/` markdown, `sections/` lessons, `course.json` manifest |

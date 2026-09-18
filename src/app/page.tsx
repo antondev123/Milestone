@@ -14,6 +14,9 @@ export default function Home() {
         <Link href="/learn/voice" className="rounded-xl bg-slate-800 px-5 py-4 text-lg font-medium">
           🚗 Driving — voice mode
         </Link>
+        <Link href="/course" className="rounded-xl bg-slate-900 px-5 py-3 text-sm font-medium text-slate-300">
+          🗺️ Course map
+        </Link>
       </div>
       <p className="text-xs text-slate-500">Course: Principles of Management (OpenStax, CC BY 4.0), transposed into commute-sized parts.</p>
     </div>

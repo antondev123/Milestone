@@ -90,7 +90,7 @@ function nextSegmentId(course: Course, progress: Progress, segmentId: string): {
 export function serveNext(course: Course, progress: Progress, opts: { peek?: boolean } = {}): ToolReply {
   const c = ensureCursor(course, progress);
   // idempotency: a second `next` inside the dedupe window re-serves the same reply
-  if (c.lastReply && c.lastAt && Date.now() - new Date(c.lastAt).getTime() < DEDUPE_MS && !opts.peek) return c.lastReply;
+  if (c.lastReply?.kind === "read" && c.lastAt && Date.now() - new Date(c.lastAt).getTime() < DEDUPE_MS && !opts.peek) return c.lastReply;
 
   // returning from a detour: re-anchor and re-serve the interrupted block
   if (c.detour) {

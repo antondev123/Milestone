@@ -41,7 +41,7 @@ export default async function Summary({ params }: { params: Promise<{ id: string
       </div>
 
       <div className="grid grid-cols-3 gap-2">
-        <Stat big={String(trip.segmentIds.length)} small={`segment${trip.segmentIds.length === 1 ? "" : "s"} done`} />
+        <Stat big={String(trip.segmentIds.length)} small={`part${trip.segmentIds.length === 1 ? "" : "s"} done`} />
         <Stat big={`${trip.correct}/${trip.total}`} small="checkpoints" />
         <Stat big={`${trip.streakDays}🔥`} small={`day streak`} />
       </div>
@@ -62,6 +62,20 @@ export default async function Summary({ params }: { params: Promise<{ id: string
           })}
         </ul>
       </div>
+
+      {trip.explored && trip.explored.length > 0 && (
+        <div className="rounded-2xl bg-sky-950/50 p-4">
+          <p className="text-xs uppercase text-sky-300">You explored</p>
+          <ul className="mt-1 text-sm">{trip.explored.map((t) => <li key={t}>{t}</li>)}</ul>
+        </div>
+      )}
+
+      {(progress.pendingQuizzes ?? []).length > 0 && (
+        <Link href={`/learn/text?goto=${encodeURIComponent(`quiz me on chapter ${progress.pendingQuizzes![0].split("/c")[1]}`)}`} className="rounded-2xl border border-amber-700/60 p-4 text-sm">
+          <p className="text-xs uppercase text-amber-300">Quiz waiting</p>
+          <p className="mt-1 font-medium">Chapter {progress.pendingQuizzes![0].split("/c")[1]} review · 6 questions, about two minutes</p>
+        </Link>
+      )}
 
       {(trip.mastered.length > 0 || trip.weak.length > 0) && (
         <div className="grid grid-cols-2 gap-2">
@@ -88,6 +102,7 @@ export default async function Summary({ params }: { params: Promise<{ id: string
       {course.license && <p className="text-[11px] text-slate-500">{course.license.attribution}</p>}
 
       <div className="mt-auto flex gap-2">
+        <Link href="/course" className="rounded-xl bg-slate-900 px-4 py-4 text-center font-semibold">🗺️</Link>
         <Link href="/learn/text" className="flex-1 rounded-xl bg-slate-800 px-4 py-4 text-center font-semibold">🚐 Next: taxi</Link>
         <Link href="/learn/voice" className="flex-1 rounded-xl bg-slate-800 px-4 py-4 text-center font-semibold">🚗 Next: drive</Link>
       </div>
