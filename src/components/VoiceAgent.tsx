@@ -228,6 +228,12 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     if (next && prevLeg.current && (next.chapter !== prevLeg.current.chapter || next.sectionIdx !== prevLeg.current.sectionIdx)) earcon.tick();
     if (next) prevLeg.current = next;
     onReply?.(r);
+    // the planned legs ran out and the server ended the trip: speak the closing line, then hand over
+    if (r.kind === "end" && r.tripId) {
+      autoContinue.current = false;
+      const id = r.tripId;
+      setTimeout(() => void finish(id), 4000);
+    }
     return JSON.stringify({ t: r.say });
   };
   /** Every tool goes through here so the screen can show "One sec" while the server works. */
