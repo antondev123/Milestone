@@ -178,7 +178,11 @@ function Inner({
     }
     setErr(null);
     ended.current = false;
-    const greeting = plan.greeting ?? "Ready when you are. Say go.";
+    // The greeting is spoken, then reading starts by itself: arm auto-continue so the first
+    // mode → listening sends "continue" and the agent calls `next`. No "go" needed.
+    autoContinue.current = true;
+    barged.current = false;
+    const greeting = plan.greeting ?? "Ready when you are.";
     // ?text=1 → text-only session (no mic, no TTS): same agent, same tools. For debugging and for
     // browsers without microphone access. Auto-continue then keys off agent messages instead of speech.
     textOnly.current = new URLSearchParams(window.location.search).get("text") === "1";

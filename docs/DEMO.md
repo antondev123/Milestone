@@ -13,9 +13,9 @@ Before: `npm run demo:reset -- --seed` (position only: chapter 1 done, chapter 2
 
 ## Beat 2 — driving, voice mode (75 s) ← the heart
 - Switch tab. "Now I'm driving. Same book, same position." Pick **10 min**, **Start talking**.
-- Agent (server-composed): "Back in chapter two, Managerial Decision-Making. Section two point five… Say go."
-- Say **"where am I"** → "Chapter two… section two point five, part one of three. Chapter is thirty-one percent done, about three more commutes." "It knows. I never touched the screen."
-- Say **"go"**. It reads, pauses, keeps reading on its own. After ~10 s, **interrupt mid-sentence**: **"how does this apply to running a taxi business?"**
+- Agent (server-composed): "Back in chapter two, Managerial Decision-Making. Section two point five… Here we go." It starts reading on its own.
+- Interrupt with **"where am I"** → "Chapter two… section two point five, part one of three. Chapter is thirty-one percent done, about three more commutes." "It knows. I never touched the screen."
+- Say **"continue"**. It reads, pauses, keeps reading on its own. After ~10 s, **interrupt mid-sentence**: **"how does this apply to running a taxi business?"**
   - It stops. Three sentences from the book. "One sec" fills the gap while Claude thinks.
   - Say **"continue"** → "Back to Why We Can Never Fully Decide…" "It didn't lose its place. The server knows which block we were on; the agent only ever hears the words it should say."
 - Say **"go to chapter one"** → "Going to chapter one, Managing and Performing…"

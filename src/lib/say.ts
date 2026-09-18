@@ -98,19 +98,20 @@ export function chapterDone(chapter: Chapter, hasQuiz: boolean): string {
 }
 
 export function greeting(course: Course, progress: Progress, minutes: number, planSegments: number, firstSegmentId: string): string {
+  // Spoken once, then reading starts on its own (the client auto-continues into `next`), so no "say go".
   const p = place(course, firstSegmentId);
-  if (!p) return `Ready when you are. Say go.`;
+  if (!p) return `Ready when you are.`;
   const fits = planSegments === 1 ? "One part fits" : `${num(planSegments)} parts fit`;
   const cur = progress.cursor;
   const fresh = progress.segmentsCompleted.length === 0 && !cur;
-  if (fresh) return `${course.title}. ${num(minutes)} minutes. Chapter ${num(p.chapter.number)}, ${p.chapter.shortTitle}. ${fits}. Say go.`;
+  if (fresh) return `${course.title}. ${num(minutes)} minutes. Chapter ${num(p.chapter.number)}, ${p.chapter.shortTitle}. ${fits}. Here we go.`;
   if (cur && cur.segmentId === firstSegmentId && cur.phase === "ask") {
-    return `Back in chapter ${num(p.chapter.number)}. You have heard ${p.segment.title}, the questions are left. Say go.`;
+    return `Back in chapter ${num(p.chapter.number)}. You have heard ${p.segment.title}, the questions are left.`;
   }
   if (cur && cur.segmentId === firstSegmentId && cur.blockIdx > 0) {
-    return `Picking up inside ${p.segment.title}, where we stopped. Say go, or say start over.`;
+    return `Picking up inside ${p.segment.title}, where we stopped. Say start over if you would rather begin the part again.`;
   }
-  return `Back in chapter ${num(p.chapter.number)}, ${p.chapter.shortTitle}. Section ${sectionNumber(p.section.number)}, part ${num(p.partIndex)} of ${num(p.partCount)}. ${fits}. Say go.`;
+  return `Back in chapter ${num(p.chapter.number)}, ${p.chapter.shortTitle}. Section ${sectionNumber(p.section.number)}, part ${num(p.partIndex)} of ${num(p.partCount)}. ${fits}. Here we go.`;
 }
 
 export function whereAmI(course: Course, progress: Progress, segmentId: string, phase: string): string {

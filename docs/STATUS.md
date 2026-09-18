@@ -1,6 +1,6 @@
 # STATUS
 
-Updated: 2026-09-18 (Fly deploy config added)
+Updated: 2026-09-18 (voice lessons auto-start after the greeting)
 
 ## Done
 - Task 1: docs/OUTLINE.md
@@ -22,6 +22,7 @@ Updated: 2026-09-18 (Fly deploy config added)
 - **Carry design applied** (docs/DESIGN.md, docs/CONTEXT.md): Resume `/` and Progress `/progress` are new; `/learn/text`, `/learn/voice`, `/course` and the trip summary are re-skinned with the same behaviour (Fraunces + Public Sans, Carry tokens, top bar with mode pill, route line per chapter, answer buttons, feedback box with "From Principles of Management by OpenStax, section X", lost-signal notice with retry, no emoji).
 - **Chapter 1 is verbatim**: eight legs cut from the PDF text layer (`scripts/verbatim-chapter.ts`, `data/courses/pom/verbatim/`), 1/1/3/3 legs across 1.1–1.4, `model: "verbatim"`. Chapters 2–3 are still the ingested adaptations. Chapter 1 quiz unchanged.
 - Seed is position-only (no fabricated trips, answers or streak).
+- **Voice lessons start on their own**: the greeting no longer says "Say go"; `VoiceAgent.start()` arms auto-continue so the first block follows the greeting. Agent prompt (`scripts/configure-agent.ts`) updated to expect the synthetic "continue" as the start signal, so run `npm run agent:configure` after merging.
 - `chunk.ts` sentence splitter no longer breaks on initials ("U.S."), so block boundaries hold in 1.3.
 
 ## In progress / needs a human
