@@ -67,6 +67,34 @@ function Inner({
       timer.current = null;
     }
   };
+  // The SDK throws "No active conversation" if a timer fires after endSession(). Swallow it.
+  const sendUser = (text: string) => {
+    try {
+      if (!ended.current) conv.sendUserMessage(text);
+    } catch {}
+  };
+  const sendContext = (text: string) => {
+    try {
+      if (!ended.current) conv.sendContextualUpdate(text);
+    } catch {}
+  };
+  /**
+   * The one way a voice trip ends. Idempotent: the agent's end_trip tool, the End trip button and
+   * the hard-stop timer all land here, and only the first caller does anything. Close the session
+   * first so nothing (auto-continue, ducking, the agent) can fire another tool mid-navigation,
+   * then hand over to the summary. Calls the server at most once per trip.
+   */
+  const finish = async (tripId?: string) => {
+    if (ended.current) return;
+    ended.current = true;
+    autoContinue.current = false;
+    cancel();
+    try {
+      await conv.endSession();
+    } catch {}
+    const id = tripId ?? (await post("end_trip")).tripId ?? "";
+    onTripEnd(id);
+  };
 
   const conv = useConversation({
     onMessage: (m) => {
@@ -80,10 +108,7 @@ function Inner({
       if (msg.source !== "user") ducking.current?.onAgentStarts();
       if (msg.source !== "user" && textOnly.current && autoContinue.current && !ended.current) {
         cancel();
-        timer.current = window.setTimeout(() => {
-          if (ended.current) return;
-          conv.sendUserMessage(CONTINUE);
-        }, 1500);
+        timer.current = window.setTimeout(() => sendUser(CONTINUE), 1500);
       }
     },
     onInterruption: () => {
@@ -103,8 +128,8 @@ function Inner({
       // listening: the agent stopped talking, either naturally or because it was cut off
       if (!autoContinue.current || barged.current || ended.current) return;
       timer.current = window.setTimeout(() => {
-        if (barged.current || ended.current) return;
-        conv.sendUserMessage(CONTINUE);
+        if (barged.current) return;
+        sendUser(CONTINUE);
       }, GRACE_MS);
     },
     onContextUsage: (u) => {
@@ -129,12 +154,6 @@ function Inner({
     if (r.correct !== undefined) setGraded(r);
     else if (r.kind === "read" || r.kind === "ask") setGraded(null);
     onReply?.(r);
-    if (r.kind === "end" && r.tripId) {
-      ended.current = true;
-      autoContinue.current = false;
-      const id = r.tripId;
-      setTimeout(() => onTripEnd(id), 4000); // let the agent say the closing line
-    }
     return JSON.stringify({ t: r.say });
   };
 
@@ -148,22 +167,25 @@ function Inner({
   useConversationClientTool("ask", async (p: { question?: string }) => absorb(await post("ask", { question: p?.question ?? "" })));
   useConversationClientTool("goto", async (p: { target?: string }) => absorb(await post("goto", { target: p?.target ?? "" })));
   useConversationClientTool("where_am_i", async () => absorb(await post("where_am_i")));
-  useConversationClientTool("end_trip", async () => absorb(await post("end_trip")));
+  useConversationClientTool("end_trip", async () => {
+    const r = await post("end_trip");
+    if (r.tripId) {
+      autoContinue.current = false;
+      onReply?.(r);
+      const id = r.tripId;
+      setTimeout(() => void finish(id), 4000); // let the agent say the closing line first
+    }
+    return JSON.stringify({ t: r.say });
+  });
 
   // hard stop: a forgotten tab must not burn credits
   useEffect(() => {
     if (conv.status !== "connected") return;
     const nudge = window.setTimeout(
-      () => conv.sendContextualUpdate("The trip is nearly over. Finish the current point, then call end_trip."),
+      () => sendContext("The trip is nearly over. Finish the current point, then call end_trip."),
       Math.max(30_000, (plan.estMinutes + 1) * 60_000),
     );
-    const stop = window.setTimeout(async () => {
-      if (ended.current) return;
-      ended.current = true;
-      conv.endSession();
-      const s = await post("end_trip");
-      onTripEnd(s.tripId ?? "");
-    }, (plan.estMinutes + 3) * 60_000);
+    const stop = window.setTimeout(() => void finish(), (plan.estMinutes + 3) * 60_000);
     return () => {
       clearTimeout(nudge);
       clearTimeout(stop);
@@ -265,7 +287,7 @@ function Inner({
             if (!t) return;
             barged.current = true;
             cancel();
-            conv.sendUserMessage(t);
+            sendUser(t);
             setTyped("");
           }}
           className="flex gap-2"
@@ -289,13 +311,7 @@ function Inner({
       {live && (
         <button
           type="button"
-          onClick={async () => {
-            ended.current = true;
-            cancel();
-            conv.endSession();
-            const s = await post("end_trip");
-            onTripEnd(s.tripId ?? "");
-          }}
+          onClick={() => void finish()}
           className="min-h-11 self-center text-[15px] font-semibold underline underline-offset-4"
         >
           End trip

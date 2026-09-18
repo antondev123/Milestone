@@ -131,7 +131,9 @@ export function useBargeInDucking(conv: Conv, debugEnabled = false) {
 
     return () => {
       clearInterval(id);
-      convRef.current.setVolume({ volume: 1 });
+      try {
+        convRef.current.setVolume({ volume: 1 }); // throws once the session is gone
+      } catch {}
       setPhase("idle");
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -72,6 +72,9 @@ function daysBetween(a: string, b: string): number {
 
 export function endTrip(course: Course, progress: Progress): TripSummary {
   const active = progress.activeTrip;
+  // Idempotent: a second end_trip (agent tool, then the End trip button or the hard-stop timer)
+  // must not mint a 0-minute phantom trip and a second summary URL. Hand back the last one.
+  if (!active && progress.trips.length > 0) return progress.trips[progress.trips.length - 1];
   const now = new Date().toISOString();
   const tripId = active?.tripId ?? `trip-${Date.now().toString(36)}`;
   const startedAt = active?.startedAt ?? now;
