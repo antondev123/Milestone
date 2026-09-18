@@ -1,6 +1,6 @@
 # DEMO script (target: 3 min, each beat < 60 s)
 
-Before: `npm run demo:reset -- --seed` (chapter 1 done, chapter 2 through 2.4, 4-day streak), then `npm run dev`. Phone or narrow window, mic allowed in Chrome. Tabs open: `/course`, `/learn/text`, `/learn/voice` on the picker. Rehearse once; the seed makes every run identical.
+Before: `npm run demo:reset -- --seed` (position only: chapter 1 done, chapter 2 through 2.4; no trips, answers or streak), then `npm run dev`. The Progress screen and trip rows show logged trips only (docs/DESIGN.md §5), so after seeding do one real rehearsal trip and end it. Phone or narrow window, mic allowed in Chrome. Tabs open: `/` (Resume), `/learn/text`, `/learn/voice` on the picker. `/course` is one tap from Progress ("All chapters"). Rehearse once; the seed makes every run identical.
 
 ## Beat 0 — the line (12 s)
 "Half of South Africa's workers commute by public transport, and most start courses they never finish. This is a real textbook, OpenStax Principles of Management, eighteen chapters, cut into commute-sized parts. We turn the trip into the lesson."
@@ -23,7 +23,7 @@ Before: `npm run demo:reset -- --seed` (chapter 1 done, chapter 2 through 2.4, 4
 - Say **"I'm done, I've arrived."**
 
 ## Beat 3 — the artefact (30 s)
-- Summary lands: parts done, checkpoints, 🔥 streak, chapter bar, **You explored: decision-making in a taxi business**, quiz waiting, **Next leg picks up at 2.5 …**.
+- Summary lands: legs done, checks right, day streak, the chapter route line, **You explored: decision-making in a taxi business**, quiz waiting, **Next leg picks up at 2.5 …**.
 - "You arrive with progress, not an episode. Curiosity counts as progress too."
 
 ## Beat 4 — how it's built (18 s)

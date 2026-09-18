@@ -1,9 +1,13 @@
 // The progress artefact. Closing beat of the pitch. Server component, reads the store directly.
+// Carry styling (docs/DESIGN.md): route line for the chapter, no emoji, one primary button.
 import Link from "next/link";
 import { actionProgress } from "@/lib/actions";
 import { DEFAULT_COURSE_ID, loadCourse } from "@/lib/course";
 import { chapterOf, findSegment, sectionOf } from "@/types/lesson";
-import { ProgressBar } from "@/components/ProgressBar";
+import { routeState, tripMinutes } from "@/lib/view";
+import { BackLink, Screen, TopBar } from "@/components/carry/Chrome";
+import { RouteLine } from "@/components/carry/RouteLine";
+import { CheckIcon, HeadphonesIcon, LinesIcon } from "@/components/carry/Icons";
 
 export const dynamic = "force-dynamic";
 
@@ -18,45 +22,58 @@ export default async function Summary({ params }: { params: Promise<{ id: string
   const trip = progress.trips.find((t) => t.tripId === id) ?? progress.trips.at(-1);
   if (!trip) {
     return (
-      <div className="flex flex-1 flex-col justify-center gap-4">
-        <p>No trip found.</p>
-        <Link href="/" className="text-emerald-400">Home</Link>
-      </div>
+      <Screen>
+        <TopBar left={<BackLink href="/" />} title="Trip" />
+        <p className="text-[17px]">No trip found.</p>
+      </Screen>
     );
   }
-  const mins = Math.max(1, Math.round((new Date(trip.endedAt).getTime() - new Date(trip.startedAt).getTime()) / 60000));
+  const mins = tripMinutes(trip);
   const nextSeg = findSegment(course, progress.resume.segmentId);
   const nextSection = nextSeg ? sectionOf(course, nextSeg.id) : undefined;
   const anchorId = progress.segmentsCompleted.at(-1) ?? progress.resume.segmentId;
   const chapter = chapterOf(course, anchorId) ?? course.chapters[0];
   const totalSegs = chapter.segments.length;
-  const doneInChapter = progress.segmentsCompleted.filter((id) => id.startsWith(chapter.id + "/")).length;
+  const doneInChapter = progress.segmentsCompleted.filter((sid) => sid.startsWith(chapter.id + "/")).length;
+  const route = routeState(chapter, progress, (n) => `Next: leg ${n}`);
+  const pendingQuiz = progress.pendingQuizzes?.[0]?.split("/c")[1];
 
   return (
-    <div className="flex flex-1 flex-col gap-5">
-      <div>
-        <p className="text-xs uppercase tracking-wide text-emerald-400">Trip complete · {trip.mode === "voice" ? "🚗 driving" : "🚐 taxi"}</p>
-        <h1 className="mt-1 text-3xl font-bold">You arrived with progress.</h1>
-        <p className="text-slate-400">{mins} min on the road, not wasted.</p>
+    <Screen gap="gap-[26px]">
+      <TopBar left={<BackLink href="/" />} title={trip.mode === "voice" ? "Trip done, listened" : "Trip done, read"} />
+
+      <div className="flex flex-col gap-2">
+        <h1 className="font-display text-[34px] leading-[1.12] font-semibold tracking-[-0.015em]">You arrived with progress.</h1>
+        <p className="text-[17px] text-muted">{mins} min on the road, not wasted.</p>
       </div>
 
-      <div className="grid grid-cols-3 gap-2">
-        <Stat big={String(trip.segmentIds.length)} small={`part${trip.segmentIds.length === 1 ? "" : "s"} done`} />
-        <Stat big={`${trip.correct}/${trip.total}`} small="checkpoints" />
-        <Stat big={`${trip.streakDays}🔥`} small={`day streak`} />
-      </div>
+      <dl className="grid grid-cols-3 gap-3">
+        <Stat big={String(trip.segmentIds.length)} small={`leg${trip.segmentIds.length === 1 ? "" : "s"} done`} />
+        <Stat big={`${trip.correct}/${trip.total}`} small="checks right" />
+        <Stat big={String(trip.streakDays)} small={`day streak`} />
+      </dl>
 
-      <div className="rounded-2xl bg-slate-900 p-4">
-        <ProgressBar value={trip.modulePct} label={`Chapter ${chapter.number} · ${chapter.shortTitle} · ${doneInChapter}/${totalSegs} parts`} />
-        <ul className="mt-3 flex flex-col gap-1 text-sm">
-          {chapter.segments.map((s) => {
+      <div className="flex flex-col gap-3">
+        <div className="flex items-baseline justify-between gap-4">
+          <div className="font-display text-xl font-semibold">
+            Chapter {chapter.number}: {chapter.shortTitle}
+          </div>
+          <div className="shrink-0 text-[15px] text-muted">
+            {doneInChapter} of {totalSegs} legs
+          </div>
+        </div>
+        <RouteLine route={route} currentWord="next" />
+        <ul className="flex flex-col">
+          {chapter.segments.map((s, i) => {
             const done = progress.segmentsCompleted.includes(s.id);
             const thisTrip = trip.segmentIds.includes(s.id);
             return (
-              <li key={s.id} className={`flex items-center gap-2 ${done ? "" : "text-slate-500"}`}>
-                <span>{done ? "✅" : "○"}</span>
-                <span>{s.title}</span>
-                {thisTrip && <span className="ml-auto rounded bg-emerald-900/60 px-1.5 text-[10px] text-emerald-300">this trip</span>}
+              <li key={s.id} className={`flex min-h-11 items-center gap-3 border-t border-rule text-[15px] last:border-b ${done ? "" : "text-muted"}`}>
+                <span className="w-5 shrink-0">{done ? <CheckIcon size={18} /> : <span className="sr-only">Not done</span>}</span>
+                <span className="flex-1">
+                  Leg {i + 1}. {s.title}
+                </span>
+                {thisTrip && <span className="shrink-0 rounded-xl bg-panel px-2 py-0.5 text-sm font-semibold text-ink">this trip</span>}
               </li>
             );
           })}
@@ -64,57 +81,71 @@ export default async function Summary({ params }: { params: Promise<{ id: string
       </div>
 
       {trip.explored && trip.explored.length > 0 && (
-        <div className="rounded-2xl bg-sky-950/50 p-4">
-          <p className="text-xs uppercase text-sky-300">You explored</p>
-          <ul className="mt-1 text-sm">{trip.explored.map((t) => <li key={t}>{t}</li>)}</ul>
+        <div className="flex flex-col gap-1 rounded-[20px] bg-panel p-[18px]">
+          <div className="text-[15px] font-semibold">You explored</div>
+          <ul className="text-[15px]">
+            {trip.explored.map((t) => (
+              <li key={t}>{t}</li>
+            ))}
+          </ul>
         </div>
       )}
 
-      {(progress.pendingQuizzes ?? []).length > 0 && (
-        <Link href={`/learn/text?goto=${encodeURIComponent(`quiz me on chapter ${progress.pendingQuizzes![0].split("/c")[1]}`)}`} className="rounded-2xl border border-amber-700/60 p-4 text-sm">
-          <p className="text-xs uppercase text-amber-300">Quiz waiting</p>
-          <p className="mt-1 font-medium">Chapter {progress.pendingQuizzes![0].split("/c")[1]} review · 6 questions, about two minutes</p>
+      {pendingQuiz && (
+        <Link href={`/learn/text?goto=${encodeURIComponent(`quiz me on chapter ${pendingQuiz}`)}`} className="flex flex-col gap-1 rounded-2xl border-2 border-ink p-[18px]">
+          <span className="text-[15px] text-muted">Quiz waiting</span>
+          <span className="text-[17px] font-semibold">Chapter {pendingQuiz} review, about two minutes</span>
         </Link>
       )}
 
       {(trip.mastered.length > 0 || trip.weak.length > 0) && (
-        <div className="grid grid-cols-2 gap-2">
-          <div className="rounded-2xl bg-emerald-950/60 p-4">
-            <p className="text-xs uppercase text-emerald-400">Mastered</p>
-            <ul className="mt-1 text-sm">{trip.mastered.length ? trip.mastered.map((t) => <li key={t}>{pretty(t)}</li>) : <li className="text-slate-500">keep going</li>}</ul>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="flex flex-col gap-1 rounded-[20px] bg-panel p-[18px]">
+            <div className="text-[15px] font-semibold">Solid</div>
+            <ul className="text-[15px]">{trip.mastered.length ? trip.mastered.map((t) => <li key={t}>{pretty(t)}</li>) : <li className="text-muted">Keep going</li>}</ul>
           </div>
-          <div className="rounded-2xl bg-rose-950/50 p-4">
-            <p className="text-xs uppercase text-rose-300">Revisit</p>
-            <ul className="mt-1 text-sm">{trip.weak.length ? trip.weak.map((t) => <li key={t}>{pretty(t)}</li>) : <li className="text-slate-500">nothing yet</li>}</ul>
+          <div className="flex flex-col gap-1 rounded-[20px] bg-panel p-[18px]">
+            <div className="text-[15px] font-semibold">Worth another look</div>
+            <ul className="text-[15px]">{trip.weak.length ? trip.weak.map((t) => <li key={t}>{pretty(t)}</li>) : <li className="text-muted">Nothing yet</li>}</ul>
           </div>
         </div>
       )}
 
-      <div className="rounded-2xl border border-slate-800 p-4 text-sm">
-        <p className="text-xs uppercase text-slate-400">Next leg picks up at</p>
-        <p className="mt-1 font-medium">
-          {nextSection ? `${nextSection.number} ${nextSection.title} · ` : ""}
+      <div className="flex flex-col gap-1">
+        <div className="text-[15px] text-muted">Next leg picks up at</div>
+        <div className="text-[17px] font-semibold">
+          {nextSection ? `${nextSection.number} ${nextSection.title}, ` : ""}
           {nextSeg?.title ?? "Course complete"}
-          {progress.resume.position === "checkpoint" && nextSeg ? " · checkpoint" : ""}
-        </p>
+          {progress.resume.position === "checkpoint" && nextSeg ? ", check" : ""}
+        </div>
       </div>
 
-      {course.license && <p className="text-[11px] text-slate-500">{course.license.attribution}</p>}
+      {course.license && <p className="text-sm text-muted">{course.license.attribution}</p>}
 
-      <div className="mt-auto flex gap-2">
-        <Link href="/course" className="rounded-xl bg-slate-900 px-4 py-4 text-center font-semibold">🗺️</Link>
-        <Link href="/learn/text" className="flex-1 rounded-xl bg-slate-800 px-4 py-4 text-center font-semibold">🚐 Next: taxi</Link>
-        <Link href="/learn/voice" className="flex-1 rounded-xl bg-slate-800 px-4 py-4 text-center font-semibold">🚗 Next: drive</Link>
+      <div className="mt-auto flex flex-col gap-3">
+        <Link href="/learn/text" className="flex min-h-[60px] items-center justify-center gap-3 rounded-2xl bg-gold px-5 text-lg font-bold text-ink">
+          <LinesIcon />
+          Read the next leg
+        </Link>
+        <div className="flex items-center justify-between">
+          <Link href="/learn/voice" className="flex min-h-11 items-center gap-2 text-[15px] font-semibold underline underline-offset-4">
+            <HeadphonesIcon size={18} />
+            Listen instead
+          </Link>
+          <Link href="/course" className="flex min-h-11 items-center text-[15px] font-semibold underline underline-offset-4">
+            All chapters
+          </Link>
+        </div>
       </div>
-    </div>
+    </Screen>
   );
 }
 
 function Stat({ big, small }: { big: string; small: string }) {
   return (
-    <div className="rounded-2xl bg-slate-900 p-4 text-center">
-      <p className="text-2xl font-bold">{big}</p>
-      <p className="text-xs text-slate-400">{small}</p>
+    <div className="flex flex-col gap-1 rounded-[20px] bg-panel p-4">
+      <dt className="order-2 text-sm text-muted">{small}</dt>
+      <dd className="order-1 font-display text-[34px] leading-none font-semibold">{big}</dd>
     </div>
   );
 }
