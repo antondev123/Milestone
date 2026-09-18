@@ -91,7 +91,7 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 - **Route line, every load:** the route is drawn dotted with empty stops, then the ink line fills stop by stop to where you are (110 ms a leg), each finished stop pops ink, the current stop pops gold and sends out two soft gold rings. Pure CSS (`route-*` classes in `globals.css`), so it runs on server pages.
 - **Leg just finished (summary):** the same fill; the furthest stop the trip finished pops a little bigger with a gold tick as the line passes it. No full-screen takeover.
 - **Read quietly:** the 4px leg bar eases to its width (420 ms).
-- **Listen:** the dial's gold ring sweeps in from empty on load (700 ms), then moves once per part as before. The voice strip stays the only continuous motion.
+- **Listen:** the dial's gold ring creeps forward while the tutor reads and holds on pause or barge-in (see screen 3). Alongside the voice strip, it is the only continuous motion.
 - **Check / Study checkpoint:** feedback settles in (fade up, 220 ms).
 - Reduced motion shows every end state at once.
 
