@@ -19,7 +19,7 @@ Updated: 2026-09-18 (Principles of Management course landed, chapters 1–3 inge
 - ElevenLabs key: valid, creator tier, 0 agents created yet.
 
 ## In progress / needs a human
-- Voice mode live test: create the agent per docs/ELEVENLABS.md, paste `NEXT_PUBLIC_ELEVENLABS_AGENT_ID`, run the test checklist. Expect prompt tuning on the "read the script in chunks" behaviour.
+- Voice mode mic test in Chrome per docs/ELEVENLABS.md §6: confirm the 700 ms auto-continue grace window feels right and barge-in mid-block re-reads the block. Chunked reading is now server-driven, so no prompt tuning for it.
 
 ## Not started
 - Vercel deploy (progress store will be memory-only there; fine for demo, or demo on localhost).
@@ -34,7 +34,8 @@ Updated: 2026-09-18 (Principles of Management course landed, chapters 1–3 inge
 
 ## Gotchas
 - Vercel FS is read-only: store falls back to memory per instance. Demo from localhost if cross-request state looks flaky.
-- Grading latency: Sonnet 5 at low effort is ~4 s. If it drags in voice, switch ANTHROPIC_MODEL to claude-haiku-4-5 for grading only.
+- Grading latency: Sonnet 5 at low effort is ~4 s; the 2.5 s "One sec." filler covers it. If it drags, switch ANTHROPIC_MODEL to claude-haiku-4-5 for grading only. `ask` uses ANTHROPIC_ASK_MODEL (default claude-haiku-4-5).
+- The in-app browser blocks the microphone. Use `/learn/voice?text=1` for a text-only session with the real agent (no TTS credits), or Chrome for the mic.
 - Restart `npm run dev` after editing .env.local; Next does not hot-reload env.
 - Client tools (browser) vs webhook tools (dashboard): the component uses client tools so localhost works without ngrok. Configure them as type Client in the dashboard.
 

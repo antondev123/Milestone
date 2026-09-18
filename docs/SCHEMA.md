@@ -160,3 +160,38 @@ MCQ is graded locally by string match. Open questions go to Claude with prompt +
 | POST /api/trip/end | → `TripSummary` |
 | GET / DELETE /api/progress | → `Progress` (DELETE resets the demo user) |
 | POST /api/tools/{get_segment,grade_answer,complete_segment,end_trip} | ElevenLabs tool shapes, see docs/ELEVENLABS.md |
+
+## Cursor (server-owned position; lives on `Progress.cursor`)
+
+```
+Cursor
+  segmentId     current part
+  blockIdx      which ~150-word block of the script (src/lib/chunk.ts) is current
+  served/heard  the block or question was sent; heard=false after a barge-in → re-read on the next `next`
+  phase         "read" | "ask" (checkpoint qIdx) | "done" (part finished, next `next` moves on)
+  qIdx, attempt
+  detour?       { topic, turns, startedAt, offered }  set by `ask`, popped by `next` ("Back to <part>.")
+  quiz?         { quizId, qIdx, attempt, correct }     chapter quiz in progress
+  returnStack   previous positions for "go back"
+  lastReply     for idempotent `next` (900 ms window) and "again"
+
+Progress +=  cursor?, detours[] {at, segmentId, question, topic}, bookmarks[], pendingQuizzes[] (chapter ids), quizResults[]
+TripSummary += explored[]   detour topics this trip
+Plan += greeting            server-composed opening line
+
+ToolReply { kind: "read"|"ask"|"say"|"end", say, loc, more, options?, correct?, tripId?, segmentId?, offer? }
+```
+`progress.resume` is kept as a mirror of the cursor on every mutation so the planner and summary page are unchanged.
+
+### Speech tool routes (POST /api/tools/<name>, body JSON, reply ToolReply)
+
+| Tool | Body |
+|---|---|
+| `next` | `{ peek?: true }` (peek warms the cache without moving) |
+| `explain` | `{ how: "again" \| "simpler" \| "deeper" \| "example" }` |
+| `answer` | `{ text, mode? }` |
+| `ask` | `{ question }` |
+| `goto` | `{ target }` (spoken words) |
+| `where_am_i` | – |
+| `interrupted` | – (client barge-in signal) |
+| `end_trip` | – → ToolReply + TripSummary fields + `spoken` |

@@ -5,144 +5,72 @@
 Create a blank agent in the dashboard, paste its ID into `.env.local`, then:
 
 ```bash
-node --env-file=.env.local scripts/configure-agent.ts
+npm run agent:configure
 ```
 
-This creates the four client tools and patches the agent with everything below. Rerun after editing the prompt in the script. Set `ELEVENLABS_LLM` to override the model. Note: English agents must use `eleven_flash_v2` (v2.5 is the multilingual variant), and Gemini rejects `reasoning_effort`.
+This creates the seven client tools and patches the agent with everything below. Rerun after editing the prompt in `scripts/configure-agent.ts`. Set `ELEVENLABS_LLM` to override the model. Note: English agents must use `eleven_flash_v2` (v2.5 is the multilingual variant), and Gemini rejects `reasoning_effort`.
 
-## 0b. Manual dashboard steps (if you prefer)
+## 1. How it works (read this before touching the prompt)
 
-1. Go to elevenlabs.io → **Agents** (left sidebar) → **New agent** → **Blank agent**. Name it **Commute Tutor**.
-2. **Agent tab**: paste the **First message** from §2 and the **System prompt** from §3. Set language English.
-3. Still on Agent tab, find **Dynamic variables** and add four placeholders with any default: `trip_minutes` = 10, `trip_segments` = 2, `first_segment_id` = sample/m1/s1, `resume_position` = start. The app overwrites these on connect; without placeholders the prompt shows raw `{{...}}`.
-4. **Voice tab**: pick a voice. Set **TTS model** to **Eleven Flash v2.5**.
-5. **LLM panel**: LLM = Gemini 3.6 Flash (else Gemini 2.5 Flash, GPT-4.1 mini, else Claude Haiku 4.5). Backup LLM = Default. Temperature ~0.3. Reasoning effort = Low. Reasoning summary off. Limit token usage = -1. **Parallel tool calling = OFF** (our tool loop is sequential). Soft timeout: enabled, 5 s, wait for first user message ON, LLM-generated message OFF, first message "Let me check that.", extra filler "Nearly there.", randomize off. Agent behavior: shortest/most direct preset if offered, else Default.
-6. **Tools**: click **Add tool** four times. For each, set **Tool type = Client**, then Name, Description and Parameters exactly as in §4 (Data type, Identifier, Required, Description per parameter). Tick **Wait for response** on all four. Timeout 20 s.
-7. **Advanced / Conversation**: enable **interruptions** (barge-in). Turn timeout 10 s. Max duration 3600 s.
-8. **Security tab**: leave the agent **public** (no auth). Under **Allowlist**, add `localhost:3000` if a field is offered, otherwise leave empty.
-9. Copy the **Agent ID** (top of the agent page or the code snippet in the **Widget** tab, looks like `agent_xxxx`).
-10. Paste it into `.env.local` as `NEXT_PUBLIC_ELEVENLABS_AGENT_ID=agent_xxxx`, restart `npm run dev`, open http://localhost:3000/learn/voice, and run the checklist in §6.
+**The server owns the learner's position. The agent owns a voice.** `src/lib/cursor.ts` holds where the learner is (segment, block, question, detour, quiz). Every tool returns `{ kind, say, loc, more, ... }`; the browser client (`src/components/VoiceAgent.tsx`) forwards only `{ "t": "<say>" }` to the agent LLM. The agent never sees or sends an id, so it cannot get one wrong, and its context stays small (one ~150-word block per turn instead of a whole segment).
 
-If a tab or label has moved, the fields are the same; search the agent page for the label.
+**Reading loop.** `next` returns one sentence-aligned block of about 150 words (~60 s of speech) with `more: true`. When the agent finishes speaking (`onModeChange → listening`) and nothing interrupted it, the client waits 700 ms and sends a text turn `"continue"`, so the agent calls `next` again. `sendContextualUpdate` does not trigger a turn, so it is not used for this. Barge-in (`onInterruption`, or any real user transcript) cancels the pending continue and POSTs `interrupted`; the server then re-reads the current block after the driver's command, prefixed "Back to it."
 
-Everything you need to set in the dashboard (Conversational AI → Agents → Create). Once done, paste the agent ID into `.env.local` as `NEXT_PUBLIC_ELEVENLABS_AGENT_ID`.
+**Free-form questions** go to `ask` → `src/lib/ask.ts` → Claude Haiku with the current part, section objectives, key terms and the table of contents (three cached prompt blocks). The answer is ≤ 3 sentences. The agent never answers from its own knowledge. The ElevenLabs knowledge base is deliberately not used (its snippets would sit in the agent context for the rest of the call).
 
-## 1. Agent basics
+**Navigation** goes to `goto` with the learner's words verbatim → `src/lib/navigate.ts` (chapter/section numbers, next/back/skip, quiz, then a lexical match over titles, key terms and objectives).
 
-| Setting | Value |
-|---|---|
-| Name | Commute Tutor |
-| LLM | Whatever is fastest in the dashboard (Gemini Flash / GPT-4o-mini class). Latency > smarts here; grading is done by our own tool, not the agent LLM. |
-| Voice | Any clear English voice. Try a South African-accented one if available. |
-| TTS model | **Eleven Flash v2.5** (lowest latency). Not Multilingual v2. |
-| Language | English |
-| Max conversation duration | 3600 s |
-| Turn timeout | 10 s (driver may take a moment) |
-| Interruptions | **Enabled** (this is the barge-in demo) |
-| Auth | Public agent (no signed URL needed). If you make it private, use `ELEVENLABS_API_KEY` and add a signed-URL route later. |
+**Latency.** Lookup tools return in ~15 ms. `answer` (open questions, Sonnet 5) is ~3–4 s and `ask` (Haiku) ~1–3 s; the 2.5 s soft-timeout filler "One sec." covers them.
 
 ## 2. First message
 
 ```
-Ready when you are. {{trip_segments}} segments fit in this trip. Say "go" and I'll pick up where you left off.
+{{greeting}}
 ```
+
+`greeting` is composed server-side by `src/lib/say.ts` from the cursor (fresh start / resume mid-part / resume at a checkpoint) and sent both as a dynamic variable and as a `firstMessage` override. The agent never computes position.
 
 ## 3. System prompt
 
-Paste verbatim. `{{...}}` are dynamic variables the app sends on connect.
+The live text is `PROMPT` in `scripts/configure-agent.ts`. Its load-bearing lines:
 
-```
-You are a hands-free tutor for someone driving to work. They cannot look at a screen. Keep every turn short: 1–3 sentences unless you are reading a lesson segment.
+- "Every tool returns a field `t`. Say `t` aloud, word for word, and nothing else."
+- "You may only speak words that came from a tool's `t`, plus okay, holding and goodbye."
+- "Anything else is a question, not a mishearing" → `ask`.
+- After speaking, wait; never ask "shall I continue".
 
-TRIP: {{trip_segments}} segment(s), about {{trip_minutes}} minutes. First segment id: {{first_segment_id}}. Resume position: {{resume_position}} ("start" = read the segment, "checkpoint" = they already heard it, go straight to the questions).
+## 4. Tools (all type **Client**, wait for response ON)
 
-LOOP, for each segment:
-1. Call get_segment (with segmentId, or no argument for the first one). It returns script, keyPoints, altExplanation, deeper, and questions.
-2. If position is "start": read the script aloud, naturally, in chunks. Do not summarise it. Do not add filler like "great question".
-3. Then ask each question in order, one at a time. For mcq, read the options. Wait for the answer.
-4. Call grade_answer with questionId and the learner's words verbatim. Speak the feedback it returns. If wrong on the first try, offer one retry; then move on.
-5. After the last question call complete_segment with the segmentId. If tripDone is false, say "next up" and continue with nextSegmentId. If tripDone is true, call end_trip and read its "spoken" field, then say goodbye.
+| Tool | Params (agent-facing) | Server | Timeout |
+|---|---|---|---|
+| `next` | – | next block / next question / next part / return from a detour | 6 s |
+| `explain` | `how`: `again` \| `simpler` \| `deeper` \| `example` | key points / altExplanation / deeper / example, zero LLM | 6 s |
+| `answer` | `text` (verbatim) | grades the cursor's current question (MCQ local, open via Claude), one retry | 20 s |
+| `ask` | `question` (verbatim) | grounded answer from the book (Haiku), records a detour | 20 s |
+| `goto` | `target` (verbatim) | chapter N / N.M / next part / next chapter / skip / back / quiz / topic | 6 s |
+| `where_am_i` | – | chapter, section, part, chapter %, commutes left, what is next | 6 s |
+| `end_trip` | – | ends the trip, spoken summary | 6 s |
 
-COMMANDS, at any moment, even mid-sentence:
-- "repeat" / "say that again": read the keyPoints, then carry on.
-- "explain differently" / "I don't get it": read altExplanation, then carry on.
-- "go deeper" / "tell me more": read deeper, then carry on.
-- "skip": skip the rest of this segment's script and go to its questions. If already in questions, skip to complete_segment.
-- "I'm done" / "stop" / "I've arrived": call end_trip immediately, read its spoken summary, say goodbye.
-
-RULES:
-- Never grade an answer yourself. Always call grade_answer.
-- Never invent lesson content. Only read what the tools return.
-- If the learner is quiet for a while, ask "still with me?" once, then continue.
-- No markdown, no lists, no emojis. This is speech.
-```
-
-## 4. Tools
-
-Tools are **client tools** (executed in the browser by our React component, which calls our API). In the dashboard, add each as type **Client**. Names and parameter schemas must match exactly.
-
-If you would rather use **Webhook** tools, the same four exist at `POST {NEXT_PUBLIC_BASE_URL}/api/tools/<name>` with header `x-tool-secret: <TOOL_WEBHOOK_SECRET>`. That needs a public URL (`ngrok http 3000`) for local dev.
-
-### get_segment
-Description: `Fetch the lesson segment to read and its checkpoint questions. Call with no segmentId for the first segment of the trip.`
-Parameters:
-```json
-{
-  "type": "object",
-  "properties": {
-    "segmentId": { "type": "string", "description": "Segment id like sample/m1/s2. Omit for the trip's first segment." }
-  }
-}
-```
-Returns: `{ segmentId, title, position, indexInTrip, tripLength, nextSegmentId, script, keyPoints[], altExplanation, deeper, questions: [{questionId, prompt, type, options[]}] }`
-
-### grade_answer
-Description: `Grade the learner's spoken answer to a checkpoint question. Returns correct (boolean) and feedback to read aloud.`
-Parameters:
-```json
-{
-  "type": "object",
-  "properties": {
-    "questionId": { "type": "string", "description": "From get_segment questions[].questionId" },
-    "answer": { "type": "string", "description": "The learner's answer, verbatim" }
-  },
-  "required": ["questionId", "answer"]
-}
-```
-Returns: `{ correct: boolean, feedback: string }`
-
-### complete_segment
-Description: `Mark a segment finished after its questions. Returns the next segment id or tripDone.`
-Parameters:
-```json
-{
-  "type": "object",
-  "properties": {
-    "segmentId": { "type": "string" }
-  },
-  "required": ["segmentId"]
-}
-```
-Returns: `{ nextSegmentId: string | null, tripDone: boolean }`
-
-### end_trip
-Description: `End the trip and get a spoken progress summary. Call when the plan is finished or the learner says they are done.`
-Parameters:
-```json
-{ "type": "object", "properties": {} }
-```
-Returns: `{ spoken: string, tripId, segmentIds[], correct, total, modulePct, streakDays, mastered[], weak[] }`
-
-Tick **"Wait for response"** on all four. Timeouts: 20 s (grade_answer calls Claude).
+Everything the agent does not need (ids, options arrays, flags) stays in the client. The old `get_segment` / `grade_answer` / `complete_segment` still exist on `/api/tools` as adapters but are no longer configured on the agent.
 
 ## 5. Dynamic variables
 
-Declare these in the agent's dynamic variables section (defaults don't matter, the app sends real values): `trip_minutes`, `trip_segments`, `first_segment_id`, `resume_position`.
+`greeting`, `trip_id`. Nothing else.
 
 ## 6. Test checklist
 
-1. `npm run dev`, open `/learn/voice`, pick 5 min, Start talking. Allow mic.
-2. Agent should greet with the segment count. Say "go".
-3. Interrupt mid-script with "explain differently". The tutor should go quiet within a syllable of you speaking and the orb should stop glowing at the same moment (local ducking); then it reads the analogy at full volume. Clap once while it reads: expect a ~1 s dip and a smooth return, not a stop. Add `?debug=1` to the URL to see the mic meter and duck phase.
-4. Answer a question vaguely ("um, saving I think"). Should be rejected with a nudge.
-5. Say "I'm done". Should read a summary, and the app should navigate to the summary page ~4 s later.
+Text-only rehearsal without a mic: open `/learn/voice?text=1`, start, and type commands in the box. Same agent, same tools, no TTS credits.
+
+1. `npm run dev`, open `/learn/voice`, pick 10 min, Start talking. Allow mic.
+2. Agent greets with the server line ("Back in chapter one… Say go"). Say "go".
+3. It reads a block, pauses ~1 s, and continues on its own. Interrupt mid-block with "explain that differently". The tutor should go quiet within a syllable of you speaking and the orb should stop glowing at the same moment (local ducking, `src/components/useBargeInDucking.ts`); then it gives the analogy at full volume and continues reading the interrupted block ("Back to it."). Clap once while it reads: expect a ~1 s dip and a smooth return, not a stop. Add `?debug=1` to the URL to see the mic meter and duck phase.
+4. At a question, answer with a letter or in your own words. Vague open answers are rejected with a nudge.
+5. Ask something off-script ("how does this apply to a taxi business?"). Answer comes from the book; "continue" re-anchors.
+6. "Where am I" → chapter, section, part, percent, commutes left.
+7. "Go to chapter two" → jumps. "Take me to the chapter one quiz" → the book's review questions.
+8. "I'm done" → spoken summary, then the app navigates to the summary page ~4 s later.
+9. Watch the dev console: `[ctx] N/limit` per turn (agent context), `[ask] … cached=…` (cache hits after the first question in a section), `[tool] name ms`.
+
+## 7. Cost notes
+
+ElevenLabs bills ~500 credits per minute of conversation regardless of tokens, plus LLM passthrough. Smaller tool returns cut only the passthrough line (~R0.20/min → ~R0.12/min); the reason for the block discipline is reliability and latency, not rands. The client ends the session at `estMinutes + 3` and nudges the agent to wrap up at `estMinutes + 1`. `max_duration_seconds` is 2400 as a backstop.
