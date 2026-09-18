@@ -1,6 +1,6 @@
 # STATUS
 
-Updated: 2026-09-18 (Principles of Management course landed, chapters 1–3 ingested)
+Updated: 2026-09-18 (Fly deploy config added)
 
 ## Done
 - Task 1: docs/OUTLINE.md
@@ -39,7 +39,7 @@ Updated: 2026-09-18 (Principles of Management course landed, chapters 1–3 inge
 - Multi-course catalogue (one course; the old `sample` course still loads with `COURSE_ID=sample`)
 
 ## Gotchas
-- Vercel FS is read-only: store falls back to memory per instance. Demo from localhost if cross-request state looks flaky.
+- Hosting: Fly (one machine + volume) keeps the file store. Vercel/Netlify would fall back to memory per instance and drift between requests; not used.
 - Grading latency: Sonnet 5 at low effort is ~4 s; the 2.5 s "One sec." filler covers it. If it drags, switch ANTHROPIC_MODEL to claude-haiku-4-5 for grading only. `ask` uses ANTHROPIC_ASK_MODEL (default claude-haiku-4-5).
 - The in-app browser blocks the microphone. Use `/learn/voice?text=1` for a text-only session with the real agent (no TTS credits), or Chrome for the mic.
 - Restart `npm run dev` after editing .env.local; Next does not hot-reload env.

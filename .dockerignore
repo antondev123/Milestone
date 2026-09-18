@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+.git
+.claude
+.env*
+*.tsbuildinfo
+data/progress/*.json
+data/courses/*/raw
+docs
+README.md
+CLAUDE.md
