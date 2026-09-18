@@ -180,6 +180,8 @@ Cursor
   lastReply     for idempotent `next` (900 ms window) and "again"
 
 Progress +=  cursor?, detours[] {at, segmentId, question, topic}, bookmarks[], pendingQuizzes[] (chapter ids), quizResults[]
+Progress +=  demo? { segmentIds[], tripId? }   stage demo armed by `npm run demo:stage`: the next Listen trip is exactly these
+             legs, then it ends itself (the only trip with a non-empty ActiveTrip.segmentIds). Cleared when that trip ends.
 TripSummary += explored[]   detour topics this trip
 TripSummary += milestones[] milestone ids first earned on this trip
 Plan += greeting            server-composed opening line

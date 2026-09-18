@@ -15,6 +15,10 @@ const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "e
 export function num(n: number): string {
   return n >= 0 && n <= 20 ? WORDS[n] : String(n);
 }
+/** Sentence start: "two parts fit" → "Two parts fit". */
+export function cap(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
 
 /** "2.5" → "two point five" */
 export function sectionNumber(number: string): string {
@@ -146,13 +150,21 @@ export function nextAfter(course: Course, segmentId: string): Place | null {
   return i >= 0 && segs[i + 1] ? place(course, segs[i + 1].id) : null;
 }
 
-export function tripEnd(progress: Progress, course: Course, s: { segmentIds: string[]; correct: number; total: number; modulePct: number; explored?: string[] }): string {
+export function tripEnd(
+  progress: Progress,
+  course: Course,
+  s: { segmentIds: string[]; correct: number; total: number; modulePct: number; explored?: string[]; milestones?: string[] },
+): string {
   const parts = s.segmentIds.length === 1 ? "one part" : `${num(s.segmentIds.length)} parts`;
-  const score = s.total ? `${num(s.correct)} of ${num(s.total)} right.` : "";
+  const score = s.total ? ` ${num(s.correct)} of ${num(s.total)} right.` : "";
   const explored = s.explored?.length ? ` You explored ${s.explored.slice(0, 2).join(" and ")}.` : "";
+  // Most milestones were spoken the moment they were earned (earnNow); streaks only resolve here, so
+  // the closing line speaks those: the driver cannot see the card until they arrive.
+  const ms = (s.milestones ?? []).filter((id) => id.startsWith("streak-")).map((id) => milestoneLabel(id).toLowerCase());
+  const milestones = ms.length ? ` ${ms.length === 1 ? "Milestone" : "Milestones"}: ${ms.join(", ")}.` : "";
   const next = place(course, progress.resume.segmentId);
   const nextLine = next ? ` Next leg picks up at ${sectionNumber(next.section.number)}, ${next.section.title}.` : "";
-  return `Trip done. ${parts}, ${score} Chapter is ${s.modulePct} percent finished.${explored}${nextLine}`;
+  return `Trip done. ${cap(parts)}${score ? "," : "."}${score} Chapter is ${s.modulePct} percent finished.${milestones}${explored}${nextLine}`;
 }
 
 export function letters(options: string[]): string {

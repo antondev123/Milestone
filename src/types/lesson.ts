@@ -231,6 +231,8 @@ export interface Progress {
   bookmarks?: Bookmark[];
   pendingQuizzes?: string[]; // chapter ids whose quiz was offered but not taken
   quizResults?: QuizResult[];
+  /** Stage demo armed by `npm run demo:stage`: the next Listen trip is exactly these legs, then it ends itself; runs once (src/lib/demo.ts). */
+  demo?: { segmentIds: string[]; tripId?: string };
 }
 
 // ---------- Session plan (ephemeral) ----------

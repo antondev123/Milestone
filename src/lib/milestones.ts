@@ -22,6 +22,8 @@ function did(ctx: MilestoneContext): boolean {
 
 /** Fixed milestones. Chapter and quiz ones are per chapter, see `awardMilestones`. */
 const FIXED: { id: string; label: string; test: (ctx: MilestoneContext) => boolean }[] = [
+  // order = display and spoken order; the streak leads because it is the one that carries to tomorrow
+  { id: "streak-1", label: "Day one of your streak", test: (ctx) => ctx.progress.streakDays >= 1 && did(ctx) },
   { id: "first-trip", label: "First trip", test: did },
   { id: "first-hands-free", label: "First hands-free trip", test: (ctx) => ctx.mode === "voice" && did(ctx) },
   { id: "first-question", label: "First question from the road", test: (ctx) => ctx.detours.length > 0 },

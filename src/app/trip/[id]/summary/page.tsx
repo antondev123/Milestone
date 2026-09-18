@@ -48,25 +48,26 @@ export default async function Summary({ params }: { params: Promise<{ id: string
         <p className="text-[17px] text-muted">{mins} min on the road, not wasted.</p>
       </div>
 
-      <dl className="grid grid-cols-3 gap-3">
-        <Stat big={String(trip.segmentIds.length)} small={`leg${trip.segmentIds.length === 1 ? "" : "s"} done`} />
-        <Stat big={`${trip.correct}/${trip.total}`} small="checks right" />
-        <Stat big={String(trip.streakDays)} small={`day streak`} />
-      </dl>
-
+      {/* The milestone card leads: it is the moment the trip earned, and the driver only heard it */}
       {trip.milestones && trip.milestones.length > 0 && (
-        <div className="flex flex-col gap-2 rounded-[20px] bg-panel p-[18px]">
-          <div className="text-[15px] text-muted">{trip.milestones.length === 1 ? "Milestone reached" : "Milestones reached"}</div>
-          <ul className="flex flex-col gap-2">
-            {trip.milestones.map((id) => (
-              <li key={id} className="flex items-center gap-3 text-[17px] font-semibold">
-                <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-gold ring-2 ring-ink" aria-hidden="true" />
+        <div className="flex flex-col gap-3 rounded-[20px] bg-gold px-[22px] pt-5 pb-[22px] text-ink">
+          <div className="text-[15px] font-semibold uppercase tracking-[0.06em]">{trip.milestones.length === 1 ? "Milestone reached" : "Milestones reached"}</div>
+          <ul className="flex flex-col gap-2.5">
+            {trip.milestones.map((id, i) => (
+              <li key={id} className={`flex items-center gap-3 font-display leading-[1.15] font-semibold ${i === 0 ? "text-[28px]" : "text-[21px]"}`}>
+                <span className="h-3 w-3 shrink-0 rounded-full bg-ink ring-2 ring-ink/30" aria-hidden="true" />
                 {milestoneLabel(id)}
               </li>
             ))}
           </ul>
         </div>
       )}
+
+      <dl className="grid grid-cols-3 gap-3">
+        <Stat big={String(trip.segmentIds.length)} small={`leg${trip.segmentIds.length === 1 ? "" : "s"} done`} />
+        <Stat big={`${trip.correct}/${trip.total}`} small="checks right" />
+        <Stat big={String(trip.streakDays)} small={`day streak`} />
+      </dl>
 
       <div className="flex flex-col gap-3">
         <div className="flex items-baseline justify-between gap-4">
