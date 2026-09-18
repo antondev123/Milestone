@@ -3,7 +3,7 @@
 Design spec for the Builders Table 2026 demo build. Read alongside CONTEXT.md.
 Visual reference (clickable in Play mode): https://claude.ai/artifact/HRYWE31W6koSGhpGwAfuNH
 
-Name: **Milestone** (was Carry). Direction: **Carry** palette, Fraunces over Public Sans.
+Name: **Milestone** (was Carry). Logo and colours: the Milestone brand kit in `docs/brand/milestone-brand/` (read its handoff for the logo rules). Type: Fraunces over Public Sans.
 
 ---
 
@@ -20,26 +20,29 @@ Name: **Milestone** (was Carry). Direction: **Carry** palette, Fraunces over Pub
 
 ### Colour
 
+Colours come from the Milestone brand kit (`docs/brand/milestone-brand/`, brand ink / sand / yellow); token names are unchanged, so components did not move.
+
 | Token | Hex | Use |
 |---|---|---|
-| `ground` | `#F5F2EC` | Light screen background |
-| `panel` | `#EDE7DB` | Resume card, unselected answers |
-| `ink` | `#16324F` | Text, primary dark fill, Listen mode background |
-| `gold` | `#E0A419` | Primary button fill, current stop, progress fill |
-| `muted` | `#5C6570` | Secondary text on light grounds |
-| `rule` | `#D6CCBA` | Hairlines between list rows |
-| `track` | `#DDD4C4` | Progress track on light grounds |
-| `ink-raised` | `#22425F` | Chip background in Listen mode |
-| `ink-track` | `#2E4E6C` | Progress track in Listen mode |
-| `muted-on-ink` | `#B8C3CF` | Secondary text and outlines in Listen mode |
+| `ground` | `#F4EFE6` | Light screen background (brand sand) |
+| `panel` | `#EAE3D6` | Unselected answers, Study button, fields (brand sand-deep) |
+| `ink` | `#14201B` | Text, primary dark fill, Listen mode background (brand ink) |
+| `ink-deep` | `#0C1511` | Listen mode while paused |
+| `gold` | `#F2B705` | Primary button fill, current stop, progress fill (brand yellow) |
+| `muted` | `#4A5550` | Secondary text on light grounds (brand muted) |
+| `rule` | `#D9D0C0` | Hairlines between rows |
+| `track` | `#DCD4C5` | Progress track on light grounds |
+| `ink-raised` | `#22312A` | Chip background in Listen mode |
+| `ink-track` | `#3A4A43` | Progress track and hairlines in Listen mode (brand road) |
+| `muted-on-ink` | `#B7C2BB` | Secondary text, outlines and group rules in Listen mode |
 
 **Contrast, checked:**
-- ink on ground: about 11.7:1
-- ink on gold: about 5.9:1 (every gold button carries ink text)
-- muted on ground: about 5.3:1; muted on panel: about 4.8:1
-- ground on ink: about 11.7:1; muted-on-ink on ink: about 7.3:1
+- ink on ground: about 14.6:1; ink on panel: about 13.1:1
+- ink on gold: about 9.2:1 (every gold button carries ink text)
+- muted on ground: about 6.8:1; muted on panel: about 6.1:1
+- ground on ink: about 14.6:1; muted-on-ink on ink: about 9.1:1, on ink-raised about 7.4:1
 
-**Hard rule:** never put gold text on ground or panel. It measures about 2:1 and fails. Gold is only for fills, dots and bars.
+**Hard rule:** never put gold text on ground or panel. It measures about 1.6:1 and fails. Gold is only for fills, dots and bars.
 
 ### Type
 
@@ -79,6 +82,8 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 ---
 
 ## 3. Components
+
+**Logo.** `MilestoneLogo` (`src/components/carry/MilestoneLogo.tsx`, copied from the kit, artwork untouched): the full lockup, 36px tall, top left on Resume. `theme="dark"` on any dark surface, `mono` where only one colour works. Never recolour the pin, stretch it or retype the wordmark. Favicons, Apple touch icon and `site.webmanifest` live in `public/` and are wired in `src/app/layout.tsx`.
 
 **Groups and separators ("timetable").** Light and dark screens are grouped like a printed timetable, not with cards. Every group opens with a **2px rule** (ink on light, muted-on-ink on dark) and, where it helps, a **group label** (14/600, muted) with an optional right-aligned note (14, muted, tabular numbers, e.g. "4 of 13 legs done"). Rows inside a group are split by **1px hairlines** (`rule`, `ink-track` on dark). Side-by-side figures (the summary's stats, Solid / Worth another look) share one ruled row split by vertical hairlines. Panel fills stay for things you tap (answer buttons, the Study mode button, the ask field), not for grouping. Built with `Group`, `GroupLabel` and `Hairline` in `src/components/carry/Group.tsx`. Kept as they are: the feedback box (outline, now with a hairline above the source line), the gold milestone card on the summary, and the outlined "Quiz waiting" link.
 

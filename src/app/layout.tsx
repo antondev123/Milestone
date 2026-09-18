@@ -20,12 +20,20 @@ const publicSans = Public_Sans({
 export const metadata: Metadata = {
   title: "Milestone",
   description: "Learning that rides along, and picks up mid-sentence wherever your last trip ended.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon-180.png",
+  },
+  manifest: "/site.webmanifest",
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#F5F2EC",
+  themeColor: "#F4EFE6",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

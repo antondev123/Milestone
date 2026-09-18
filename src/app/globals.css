@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
-/* Carry tokens. See docs/DESIGN.md §2. Gold is for fills, dots and bars only: never text on light grounds. */
+/* Milestone brand tokens (docs/brand/milestone-brand, DESIGN.md §2). Gold is for fills, dots and bars only: never text on light grounds. */
 @theme {
-  --color-ground: #f5f2ec;
-  --color-panel: #ede7db;
-  --color-ink: #16324f;
-  --color-ink-deep: #0e2238;
-  --color-gold: #e0a419;
-  --color-muted: #5c6570;
-  --color-rule: #d6ccba;
-  --color-track: #ddd4c4;
-  --color-ink-raised: #22425f;
-  --color-ink-track: #2e4e6c;
-  --color-muted-on-ink: #b8c3cf;
+  --color-ground: #f4efe6; /* brand sand */
+  --color-panel: #eae3d6; /* brand sand-deep */
+  --color-ink: #14201b; /* brand ink */
+  --color-ink-deep: #0c1511;
+  --color-gold: #f2b705; /* brand yellow */
+  --color-muted: #4a5550; /* brand muted */
+  --color-rule: #d9d0c0;
+  --color-track: #dcd4c5;
+  --color-ink-raised: #22312a;
+  --color-ink-track: #3a4a43; /* brand road */
+  --color-muted-on-ink: #b7c2bb;
 
   --font-display: var(--font-fraunces), Georgia, serif;
   --font-sans: var(--font-public-sans), "Helvetica Neue", sans-serif;

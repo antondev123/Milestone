@@ -7,6 +7,7 @@ import { courseFinished, currentChapter, hereId, legIndex, resumeCard, routeStat
 import { RouteLine } from "@/components/carry/RouteLine";
 import { Screen } from "@/components/carry/Chrome";
 import { Group, GroupLabel, Hairline } from "@/components/carry/Group";
+import { MilestoneLogo } from "@/components/carry/MilestoneLogo";
 import { BookIcon, HeadphonesIcon, LinesIcon } from "@/components/carry/Icons";
 
 export const dynamic = "force-dynamic";
@@ -24,7 +25,9 @@ export default function Resume() {
   return (
     <Screen gap="gap-6">
       <div className="flex h-11 items-center justify-between">
-        <div className="font-display text-[26px] font-semibold tracking-[-0.01em]">Milestone</div>
+        <h1 className="flex">
+          <MilestoneLogo height={36} />
+        </h1>
         <div className="flex items-center gap-3">
           <Link href="/settings" className="flex min-h-11 items-center px-1 text-[15px] font-semibold underline underline-offset-4">
             Settings
@@ -41,7 +44,7 @@ export default function Resume() {
 
       {finished ? (
         <Group>
-          <h1 className="font-display text-[34px] leading-[1.12] font-semibold tracking-[-0.015em]">You finished the course.</h1>
+          <h2 className="font-display text-[34px] leading-[1.12] font-semibold tracking-[-0.015em]">You finished the course.</h2>
         </Group>
       ) : (
         card && (
