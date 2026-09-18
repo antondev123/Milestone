@@ -19,6 +19,8 @@ WORKDIR /app
 ENV NODE_ENV=production PORT=3000 HOSTNAME=0.0.0.0 NEXT_TELEMETRY_DISABLED=1
 COPY --from=build /app/.next/standalone ./
 COPY --from=build /app/.next/static ./.next/static
+# Standalone output does not include public/ (voice samples).
+COPY --from=build /app/public ./public
 # Course data is read with fs at runtime; copy it whole rather than trusting file tracing.
 COPY --from=build /app/data ./data
 # demo-reset runs inside the machine: `fly ssh console -C "node scripts/demo-reset.ts --seed"`.
