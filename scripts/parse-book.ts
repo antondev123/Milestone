@@ -103,6 +103,7 @@ const BOX_TITLES = new Set([
   "Critical Thinking Questions",
 ]);
 const NUMBERED = /^\s*(\d{1,2})\.\s+(.*)$/;
+const BULLET = /^\s*(�|•)\s+(.*)$/;
 
 function fixMojibake(s: string): string {
   return s
@@ -131,7 +132,7 @@ function joinParagraph(ls: string[]): string {
 function stripFootnotes(text: string, refs: Set<number>): { text: string; count: number } {
   if (!refs.size) return { text, count: 0 };
   let count = 0;
-  const out = text.replace(/([a-zA-Z"'’”\)\],.;:?!])(\d{1,3})(?![\d.,%\-])/g, (m, pre: string, num: string) => {
+  const out = text.replace(/([a-zA-Z"'’”\)\],.;:?!])(\d{1,3})(?![\d.,%\-A-Za-z])/g, (m, pre: string, num: string) => {
     if (refs.has(Number(num))) {
       count++;
       return pre;
@@ -145,17 +146,126 @@ function wordCount(s: string): number {
   return s.split(/\s+/).filter(Boolean).length;
 }
 
-/** Parse "N. text" items with wrapped continuation lines, tolerant of page footers in between. */
+/**
+ * Parse box items with wrapped continuation lines, tolerant of page footers in between. Items are
+ * "N. text", or "� text" bullets, or (when a box has neither) one item per line at the box's base indent.
+ */
 function numberedItems(ls: string[]): string[] {
+  const body = ls.filter((l) => l.trim() && !FOOTER.test(l));
+  const marker = (l: string) => l.match(NUMBERED) ?? l.match(BULLET);
+  const hasMarkers = body.some(marker);
+  const base = Math.min(...body.map(indent));
   const items: string[] = [];
-  for (const l of ls) {
-    if (FOOTER.test(l) || !l.trim()) continue;
-    const m = l.match(NUMBERED);
+  for (const l of body) {
+    const m = marker(l);
     if (m) items.push(m[2].trim());
+    else if (!hasMarkers && indent(l) === base) items.push(l.trim());
     else if (items.length) items[items.length - 1] += " " + l.trim();
   }
   return items.map(fixMojibake);
 }
+
+// ---------- captions ----------
+const CAPTION_LABEL = /^(Figure|Exhibit|Table)\s*(\d+(?:\.\d+)*)?\s*(:)?\s*/;
+// "(Credit: …", "Credit (New America/ …", "Credit: ( public domain / …", "(Gabrielle Barni / flickr/ …"
+const CREDIT_PAREN = /\((?:Credit|Attribution)\b|\bCredit:?\s*\(|\([^()]{1,60}\/\s*(?:flickr|Pixabay)\s*\//;
+const CREDIT_TAIL = /\s*(?:\((?:Credit|Attribution)\b|\bCredit:?\s*\(|\([^()]{1,60}\/\s*(?:flickr|Pixabay)\s*\/|\bAttribution:).*$/;
+// a whole "(Credit: X/ flickr/ Attribution 2.0 Generic (CC BY 2.0))", or its unclosed start; bounded so a
+// missing ")" cannot swallow the prose after it
+const CREDIT_SPAN = /\s*(?:\(\s*(?:Credit|Attribution)\b|\bCredit\s*\()(?:[^()]|\([^()]{0,30}\)?){0,160}\)?/g;
+const CREDIT_FRAGMENT = /\b(Credit:|Attribution:|Attribution \d|\(CC BY|flickr|Copyright Rice University|Wikimedia Commons)/;
+const CREDIT_LINE_END = /\bAttribution:.*\blicen[cs]e\.?$/;
+const MAX_CAPTION_LINES = 10; // the longest real caption (P&G Tide Pods, 17.5) is 9 lines
+const CAPTION_CREDIT_WINDOW = 6; // captions seen so far put their credit on line 5 at the latest
+
+/** A line opening with a figure label is a caption unless it is prose that happens to start with a reference. */
+function isCaptionStart(t: string, para: string[]): boolean {
+  const m = t.match(CAPTION_LABEL);
+  if (!m) return false;
+  if (m[3]) return true; // "Figure : Title", "Table 6.1: Title"
+  if (!m[2] && !/^Figure\s{2,}[A-Z]/.test(t)) return false; // "Figure  Howard Schultz …" lost its number
+  const rest = t.slice(m[0].length);
+  // "Exhibit 1.3). Executive…", "Exhibit 12.3, which…", "Exhibit 1.5 shows…", "Exhibit 4.4is…"
+  if (/^[a-z),.;]/.test(rest)) return false;
+  // mid-sentence: the paragraph so far ends "…(see" and this line carries on
+  const prev = para[para.length - 1]?.trim();
+  if (prev && !/[.!?:"”)]$/.test(prev)) return false;
+  return true;
+}
+
+/**
+ * Read a caption starting at `start`. It ends where its (Credit …)/(Attribution …) parenthesis closes,
+ * at a blank line, or at a heading. pdftotext splits captions around the image and double-spaces them
+ * in later chapters, so it crosses blank lines while the credit is still open, when the next line
+ * continues an unfinished sentence in lowercase, or when the credit shows up within a few more
+ * single-spaced caption lines. Text after the closing parenthesis is prose and is returned as `rest`.
+ */
+function readCaption(ls: string[], start: number): { lines: string[]; next: number; rest: string } {
+  const lines: string[] = [];
+  // a centred title ("      Exhibit 9.5 Some Questions That …") or a bare label ("Table 11.3") is one line long
+  const titleOnly = indent(ls[start]) >= 2 || ls[start].trim().replace(CAPTION_LABEL, "") === "";
+  let depth = -1; // -1 until a parenthesised credit opens
+  let i = start;
+  while (i < ls.length) {
+    const t = ls[i].trim();
+    let from = 0;
+    if (depth < 0) {
+      const m = t.match(CREDIT_PAREN);
+      if (m) {
+        depth = 0;
+        from = m.index! + m[0].indexOf("(");
+      }
+    }
+    if (depth >= 0) {
+      for (let k = from; k < t.length; k++) {
+        if (t[k] === "(") depth++;
+        else if (t[k] === ")" && --depth === 0) {
+          const rest = t.slice(k + 1).replace(/^[\s).,;]+/, "");
+          lines.push(t.slice(0, k + 1));
+          return { lines, next: i + 1, rest };
+        }
+      }
+    }
+    lines.push(t);
+    // "…(Credit: U.S. Embasy Nairobi/ flickr/ Attribution 2.0 Generic (CC BY 2.0)" is one ")" short; prose follows
+    if (depth > 0 && t.endsWith(")")) return { lines, next: i + 1, rest: "" };
+    // "Exhibit 3.4 Gantt Chart Attribution: Copyright Rice University, OpenStax, under CC BY-NC-SA 4.0 license"
+    if (depth < 0 && CREDIT_LINE_END.test(t)) return { lines, next: i + 1, rest: "" };
+    // decide whether the next line still belongs to the caption
+    let j = i + 1;
+    while (j < ls.length && !ls[j].trim()) j++;
+    if (j >= ls.length || lines.length >= MAX_CAPTION_LINES) return { lines, next: j, rest: "" };
+    const nt = ls[j].trim();
+    if (HEADER.test(ls[j]) || BOX_TITLES.has(nt)) return { lines, next: j, rest: "" };
+    // such a title followed straight away by a column-0 sentence: that sentence is prose
+    if (j === i + 1 && titleOnly && depth < 0 && indent(ls[j]) === 0 && /^[A-Z"“]/.test(nt)) return { lines, next: j, rest: "" };
+    if (j > i + 1) {
+      const crosses =
+        depth > 0 ||
+        /^(\((Credit|Attribution|\d{4})|Credit:?\s*\()/.test(nt) ||
+        (j <= i + 3 && /^[a-z]/.test(nt) && !/[.!?]["”]?$/.test(t)) ||
+        creditAhead(ls, j, CAPTION_CREDIT_WINDOW - lines.length);
+      if (!crosses) return { lines, next: j, rest: "" };
+    }
+    i = j;
+  }
+  return { lines, next: i, rest: "" };
+}
+
+/** Does a parenthesised credit open within `budget` lines from `j`, with at most one blank between lines? */
+function creditAhead(ls: string[], j: number, budget: number): boolean {
+  for (let seen = 0; j < ls.length && seen < budget; seen++) {
+    const t = ls[j].trim();
+    if (HEADER.test(ls[j]) || BOX_TITLES.has(t) || CAPTION_LABEL.test(t)) return false;
+    if (CREDIT_PAREN.test(t)) return true;
+    j++;
+    if (j < ls.length && !ls[j].trim()) j++;
+    if (j < ls.length && !ls[j].trim()) return false; // two blanks: the caption is over
+  }
+  return false;
+}
+
+const creditWarnings: string[] = [];
 
 // ---------- 4. parse one section ----------
 interface ParsedSection {
@@ -215,8 +325,17 @@ function parseSection(s: RawSection): ParsedSection {
     out.footnotesStripped += st.count;
     para = [];
     if (!text) return;
-    // photo credits and licence tails of captions
-    if (wordCount(text) < 60 && /\b(Credit:|Attribution:|Attribution \d|\(CC BY|flickr|Copyright Rice University|Wikimedia Commons)/.test(text)) return;
+    // photo credits: drop the credit, keep any prose around it (pdftotext glues the two together)
+    const bare = text.replace(CREDIT_SPAN, " ").replace(/\s{2,}/g, " ").trim();
+    if (bare !== text || CREDIT_FRAGMENT.test(text)) {
+      if (wordCount(bare) < 4) return;
+      if (wordCount(bare) < 60 && CREDIT_FRAGMENT.test(bare)) {
+        creditWarnings.push(`${s.number}: dropped credit fragment: ${bare.slice(0, 100)}`);
+        return;
+      }
+      if (bare !== text) creditWarnings.push(`${s.number}: credit inside prose, kept: ${bare.slice(0, 100)}`);
+      text = bare;
+    }
     // Short Title-Case line without terminal punctuation → subheading
     if (wordCount(text) <= 9 && /^[A-Z][^.!?:]*$/.test(text) && !/^(Figure|Exhibit|Table)\b/.test(text)) {
       out.paragraphs.push(`### ${text}`);
@@ -280,23 +399,18 @@ function parseSection(s: RawSection): ParsedSection {
       continue;
     }
 
-    // figure / exhibit / table captions at col 1
-    if (ind <= 1 && /^(Figure|Exhibit|Table)\s*[:\d]/.test(t)) {
+    // figure / exhibit / table captions (any indent). Only the caption text leaves the prose: the
+    // caption ends where its credit closes, prose glued after that stays prose, and lines that merely
+    // start with a reference ("Exhibit 1.3). Executive…", "Exhibit 1.5 shows…") are prose.
+    if (isCaptionStart(t, para)) {
       flushPara();
-      const cap: string[] = [l];
-      i++;
-      while (i < content.length && content[i].trim() && !HEADER.test(content[i]) && !BOX_TITLES.has(content[i].trim())) {
-        cap.push(content[i]);
-        i++;
-        // captions end with a credit in parentheses; stop there so prose on the next line stays prose
-        if (/\((Credit|Attribution)[^)]*\)\)?\s*$/.test(cap[cap.length - 1])) break;
-      }
-      const text = fixMojibake(joinParagraph(cap));
-      const label = text.match(/^(Exhibit|Figure|Table)\s*:?\s*([\d.]+)?/);
-      const body = text
-        .replace(/^(Exhibit|Figure|Table)\s*:?\s*[\d.]*\s*/, "")
-        .replace(/\s*\((Credit|Attribution)[^)]*\)?\s*$/, "");
-      out.paragraphs.push(`> **${label ? label[0].replace(/[:\s]+$/, "") : "Figure"}** ${body} *(figure not included)*`);
+      const cap = readCaption(content, i);
+      i = cap.next;
+      const text = fixMojibake(joinParagraph(cap.lines));
+      const label = text.match(CAPTION_LABEL)!;
+      const body = text.slice(label[0].length).replace(CREDIT_TAIL, "").trim();
+      out.paragraphs.push(`> **${label[1]}${label[2] ? " " + label[2] : ""}**${body ? " " + body : ""} *(figure not included)*`);
+      if (cap.rest) para.push(cap.rest);
       continue;
     }
 
@@ -420,6 +534,7 @@ for (const p of parsed) {
 const keyTermsByChapter = new Map<number, { term: string; definition: string }[]>();
 const report: Record<string, unknown> = { generatedAt: new Date().toISOString(), warnings: [] as string[], sections: {} as Record<string, unknown> };
 const warn = (m: string) => (report.warnings as string[]).push(m);
+creditWarnings.forEach(warn);
 for (const p of parsed) {
   if (!p.keyTermNames.length) continue;
   if (p.keyTermNames.length === p.keyTermDefs.length) {
@@ -635,7 +750,21 @@ if (!dry) {
   writeFileSync(manifestPath, JSON.stringify({ ...course, modules: undefined }, null, 2) + "\n");
   writeFileSync(join(outDir, "toc.md"), tocMd + "\n");
   writeFileSync(join(outDir, "LICENSE.md"), licenseMd);
-  writeFileSync(join(outDir, "parse-report.json"), JSON.stringify(report, null, 2) + "\n");
+  const reportPath = join(outDir, "parse-report.json");
+  if (chapterFilter && existsSync(reportPath)) {
+    // like the manifest: keep the report rows of chapters outside the filter
+    const prevSections = (JSON.parse(readFileSync(reportPath, "utf8")) as { sections?: Record<string, unknown> }).sections ?? {};
+    const sections = report.sections as Record<string, unknown>;
+    for (const [num, row] of Object.entries(prevSections)) if (!chapterFilter.has(Number(num.split(".")[0]))) sections[num] ??= row;
+    report.sections = Object.fromEntries(
+      Object.entries(sections).sort(([a], [b]) => {
+        const [ac, as] = a.split(".").map(Number);
+        const [bc, bs] = b.split(".").map(Number);
+        return ac - bc || as - bs;
+      }),
+    );
+  }
+  writeFileSync(reportPath, JSON.stringify(report, null, 2) + "\n");
 }
 
 console.log(

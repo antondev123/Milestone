@@ -533,7 +533,7 @@
           "number": "2.4",
           "title": "Programmed and Nonprogrammed Decisions",
           "kind": "content",
-          "words": 853,
+          "words": 848,
           "status": "ingested",
           "sourceFile": "source/c02/c02-s04.md",
           "objectives": [
@@ -659,7 +659,7 @@
           "number": "2.6",
           "title": "Improving the Quality of Decision-Making",
           "kind": "content",
-          "words": 3923,
+          "words": 3953,
           "status": "ingested",
           "sourceFile": "source/c02/c02-s06.md",
           "objectives": [
@@ -776,7 +776,7 @@
           "number": "2.7",
           "title": "Group Decision-Making",
           "kind": "content",
-          "words": 959,
+          "words": 871,
           "status": "ingested",
           "sourceFile": "source/c02/c02-s07.md",
           "objectives": [
@@ -1296,7 +1296,7 @@
           "number": "3.2",
           "title": "The Early Origins of Management",
           "kind": "content",
-          "words": 1030,
+          "words": 982,
           "status": "ingested",
           "sourceFile": "source/c03/c03-s02.md",
           "objectives": [
@@ -1444,7 +1444,7 @@
           "number": "3.5",
           "title": "Taylor-Made Management",
           "kind": "content",
-          "words": 3023,
+          "words": 3009,
           "status": "ingested",
           "sourceFile": "source/c03/c03-s05.md",
           "objectives": [
@@ -1611,10 +1611,12 @@
           "number": "3.7",
           "title": "Human Relations Movement",
           "kind": "content",
-          "words": 2369,
+          "words": 2323,
           "status": "ingested",
           "sourceFile": "source/c03/c03-s07.md",
-          "objectives": [],
+          "objectives": [
+            "Understand how Elton Mayo influenced management theory, and how the human relations movement affects current management theory."
+          ],
           "keyTerms": [],
           "segments": [
             {
@@ -1695,7 +1697,7 @@
           "number": "3.8",
           "title": "Contingency and System Management",
           "kind": "content",
-          "words": 760,
+          "words": 859,
           "status": "ingested",
           "sourceFile": "source/c03/c03-s08.md",
           "objectives": [
@@ -2160,7 +2162,7 @@
           "number": "4.2",
           "title": "The Organization's External Environment",
           "kind": "content",
-          "words": 1873,
+          "words": 1806,
           "status": "source",
           "sourceFile": "source/c04/c04-s02.md",
           "objectives": [
@@ -2188,7 +2190,7 @@
           "number": "4.4",
           "title": "Organizational Designs and Structures",
           "kind": "content",
-          "words": 2864,
+          "words": 2843,
           "status": "source",
           "sourceFile": "source/c04/c04-s04.md",
           "objectives": [
@@ -2202,7 +2204,7 @@
           "number": "4.5",
           "title": "The Internal Organization and External Environments",
           "kind": "content",
-          "words": 1191,
+          "words": 1318,
           "status": "source",
           "sourceFile": "source/c04/c04-s05.md",
           "objectives": [
@@ -2216,7 +2218,7 @@
           "number": "4.6",
           "title": "Corporate Cultures",
           "kind": "content",
-          "words": 914,
+          "words": 891,
           "status": "source",
           "sourceFile": "source/c04/c04-s06.md",
           "objectives": [
@@ -2429,7 +2431,7 @@
           "number": "5.5",
           "title": "Leadership- Ethics at the Organizational Level",
           "kind": "content",
-          "words": 2959,
+          "words": 2913,
           "status": "source",
           "sourceFile": "source/c05/c05-s05.md",
           "objectives": [
@@ -2443,7 +2445,7 @@
           "number": "5.6",
           "title": "Ethics, Corporate Culture, and Compliance",
           "kind": "content",
-          "words": 938,
+          "words": 930,
           "status": "source",
           "sourceFile": "source/c05/c05-s06.md",
           "objectives": [
@@ -2457,7 +2459,7 @@
           "number": "5.7",
           "title": "Corporate Social Responsibility (CSR)",
           "kind": "content",
-          "words": 1826,
+          "words": 1719,
           "status": "source",
           "sourceFile": "source/c05/c05-s07.md",
           "objectives": [
@@ -2471,7 +2473,7 @@
           "number": "5.8",
           "title": "Ethics around the Globe",
           "kind": "content",
-          "words": 1553,
+          "words": 1532,
           "status": "source",
           "sourceFile": "source/c05/c05-s08.md",
           "objectives": [
@@ -2599,7 +2601,7 @@
           "number": "6.2",
           "title": "Importance of International Management",
           "kind": "content",
-          "words": 1002,
+          "words": 1076,
           "status": "source",
           "sourceFile": "source/c06/c06-s02.md",
           "objectives": [
@@ -2613,7 +2615,7 @@
           "number": "6.3",
           "title": "Hofstede's Cultural Framework",
           "kind": "content",
-          "words": 2288,
+          "words": 2831,
           "status": "source",
           "sourceFile": "source/c06/c06-s03.md",
           "objectives": [
@@ -2627,7 +2629,7 @@
           "number": "6.4",
           "title": "The GLOBE Framework",
           "kind": "content",
-          "words": 1451,
+          "words": 1549,
           "status": "source",
           "sourceFile": "source/c06/c06-s04.md",
           "objectives": [
@@ -2641,10 +2643,12 @@
           "number": "6.5",
           "title": "Cultural Stereotyping and Social Institutions",
           "kind": "content",
-          "words": 2676,
+          "words": 2651,
           "status": "source",
           "sourceFile": "source/c06/c06-s05.md",
-          "objectives": [],
+          "objectives": [
+            "Why is an understanding of cultural stereotyping important, and what can students do to prepare for cultural stereotyping by looking at social institutions?"
+          ],
           "keyTerms": [],
           "segments": []
         },
@@ -2681,7 +2685,7 @@
           "number": "6.8",
           "title": "The Necessity of Global Markets",
           "kind": "content",
-          "words": 4115,
+          "words": 4089,
           "status": "source",
           "sourceFile": "source/c06/c06-s08.md",
           "objectives": [
@@ -2899,7 +2903,7 @@
           "number": "7.2",
           "title": "Entrepreneurship",
           "kind": "content",
-          "words": 2549,
+          "words": 2503,
           "status": "source",
           "sourceFile": "source/c07/c07-s02.md",
           "objectives": [
@@ -2941,7 +2945,7 @@
           "number": "7.5",
           "title": "Start Your Own Business",
           "kind": "content",
-          "words": 3483,
+          "words": 3289,
           "status": "source",
           "sourceFile": "source/c07/c07-s05.md",
           "objectives": [
@@ -2958,7 +2962,9 @@
           "words": 1624,
           "status": "source",
           "sourceFile": "source/c07/c07-s06.md",
-          "objectives": [],
+          "objectives": [
+            "Why does managing a small business present special challenges for the owner?"
+          ],
           "keyTerms": [],
           "segments": []
         },
@@ -2995,7 +3001,7 @@
           "number": "7.9",
           "title": "Trends in Entrepreneurship and Small-Business Ownership",
           "kind": "content",
-          "words": 1316,
+          "words": 1257,
           "status": "source",
           "sourceFile": "source/c07/c07-s09.md",
           "objectives": [
@@ -3113,7 +3119,7 @@
           "number": "8.4",
           "title": "A Firm's External Macro Environment - PESTEL",
           "kind": "content",
-          "words": 2049,
+          "words": 2055,
           "status": "source",
           "sourceFile": "source/c08/c08-s04.md",
           "objectives": [
@@ -3141,7 +3147,7 @@
           "number": "8.6",
           "title": "The Internal Environment",
           "kind": "content",
-          "words": 1411,
+          "words": 1431,
           "status": "source",
           "sourceFile": "source/c08/c08-s06.md",
           "objectives": [
@@ -3155,7 +3161,7 @@
           "number": "8.7",
           "title": "Competition, Strategy, and Competitive Advantage",
           "kind": "content",
-          "words": 1046,
+          "words": 1176,
           "status": "source",
           "sourceFile": "source/c08/c08-s07.md",
           "objectives": [
@@ -3424,7 +3430,7 @@
           "number": "9.3",
           "title": "Firm Vision and Mission",
           "kind": "content",
-          "words": 393,
+          "words": 473,
           "status": "source",
           "sourceFile": "source/c09/c09-s03.md",
           "objectives": [
@@ -3438,7 +3444,7 @@
           "number": "9.4",
           "title": "The Role of Strategic Analysis in Formulating a Strategy",
           "kind": "content",
-          "words": 372,
+          "words": 363,
           "status": "source",
           "sourceFile": "source/c09/c09-s04.md",
           "objectives": [
@@ -3452,7 +3458,7 @@
           "number": "9.5",
           "title": "Strategic Objectives and Levels of Strategy",
           "kind": "content",
-          "words": 1596,
+          "words": 1708,
           "status": "source",
           "sourceFile": "source/c09/c09-s05.md",
           "objectives": [
@@ -3466,7 +3472,7 @@
           "number": "9.6",
           "title": "Planning Firm Actions to Implement Strategies",
           "kind": "content",
-          "words": 2831,
+          "words": 2914,
           "status": "source",
           "sourceFile": "source/c09/c09-s06.md",
           "objectives": [
@@ -3626,7 +3632,7 @@
           "number": "10.2",
           "title": "Organizational Structures and Design",
           "kind": "content",
-          "words": 2776,
+          "words": 2727,
           "status": "source",
           "sourceFile": "source/c10/c10-s02.md",
           "objectives": [
@@ -3654,7 +3660,7 @@
           "number": "10.4",
           "title": "Managing Change",
           "kind": "content",
-          "words": 6233,
+          "words": 6615,
           "status": "source",
           "sourceFile": "source/c10/c10-s04.md",
           "objectives": [
@@ -3969,7 +3975,7 @@
           "number": "11.5",
           "title": "Influencing Employee Performance and Motivation",
           "kind": "content",
-          "words": 1900,
+          "words": 1892,
           "status": "source",
           "sourceFile": "source/c11/c11-s05.md",
           "objectives": [
@@ -3983,7 +3989,7 @@
           "number": "11.6",
           "title": "Building an Organization for the Future",
           "kind": "content",
-          "words": 1077,
+          "words": 985,
           "status": "source",
           "sourceFile": "source/c11/c11-s06.md",
           "objectives": [
@@ -3997,7 +4003,7 @@
           "number": "11.7",
           "title": "Talent Development and Succession Planning",
           "kind": "content",
-          "words": 2298,
+          "words": 2334,
           "status": "source",
           "sourceFile": "source/c11/c11-s07.md",
           "objectives": [
@@ -4145,7 +4151,7 @@
           "number": "12.3",
           "title": "Diversity and the Workforce",
           "kind": "content",
-          "words": 4239,
+          "words": 4491,
           "status": "source",
           "sourceFile": "source/c12/c12-s03.md",
           "objectives": [
@@ -4173,7 +4179,7 @@
           "number": "12.5",
           "title": "Challenges of Diversity",
           "kind": "content",
-          "words": 2068,
+          "words": 2069,
           "status": "source",
           "sourceFile": "source/c12/c12-s05.md",
           "objectives": [
@@ -4201,7 +4207,7 @@
           "number": "12.7",
           "title": "Benefits and Challenges of Workplace Diversity",
           "kind": "content",
-          "words": 624,
+          "words": 634,
           "status": "source",
           "sourceFile": "source/c12/c12-s07.md",
           "objectives": [
@@ -4297,7 +4303,7 @@
           "number": "13.3",
           "title": "The Leadership Process",
           "kind": "content",
-          "words": 1985,
+          "words": 1938,
           "status": "source",
           "sourceFile": "source/c13/c13-s03.md",
           "objectives": [
@@ -4311,7 +4317,7 @@
           "number": "13.4",
           "title": "Types of Leaders and Leader Emergence",
           "kind": "content",
-          "words": 2449,
+          "words": 2403,
           "status": "source",
           "sourceFile": "source/c13/c13-s04.md",
           "objectives": [
@@ -4353,7 +4359,7 @@
           "number": "13.7",
           "title": "Situational (Contingency) Approaches to Leadership",
           "kind": "content",
-          "words": 2228,
+          "words": 2202,
           "status": "source",
           "sourceFile": "source/c13/c13-s07.md",
           "objectives": [
@@ -4437,7 +4443,7 @@
           "number": "14.1",
           "title": "Motivation- Direction and Intensity",
           "kind": "content",
-          "words": 1582,
+          "words": 1463,
           "status": "source",
           "sourceFile": "source/c14/c14-s01.md",
           "objectives": [
@@ -4451,7 +4457,7 @@
           "number": "14.2",
           "title": "Content Theories of Motivation",
           "kind": "content",
-          "words": 5853,
+          "words": 5869,
           "status": "source",
           "sourceFile": "source/c14/c14-s02.md",
           "objectives": [
@@ -4465,7 +4471,7 @@
           "number": "14.3",
           "title": "Process Theories of Motivation",
           "kind": "content",
-          "words": 9121,
+          "words": 9269,
           "status": "source",
           "sourceFile": "source/c14/c14-s03.md",
           "objectives": [
@@ -4515,7 +4521,7 @@
           "number": "15.1",
           "title": "Teamwork in the Workplace",
           "kind": "content",
-          "words": 1211,
+          "words": 1170,
           "status": "source",
           "sourceFile": "source/c15/c15-s01.md",
           "objectives": [
@@ -4571,7 +4577,7 @@
           "number": "15.5",
           "title": "Team Diversity",
           "kind": "content",
-          "words": 883,
+          "words": 858,
           "status": "source",
           "sourceFile": "source/c15/c15-s05.md",
           "objectives": [
@@ -4585,7 +4591,7 @@
           "number": "15.6",
           "title": "Multicultural Teams",
           "kind": "content",
-          "words": 2471,
+          "words": 2591,
           "status": "source",
           "sourceFile": "source/c15/c15-s06.md",
           "objectives": [
@@ -4635,7 +4641,7 @@
           "number": "16.2",
           "title": "Types of Communications in Organizations",
           "kind": "content",
-          "words": 1203,
+          "words": 1142,
           "status": "source",
           "sourceFile": "source/c16/c16-s02.md",
           "objectives": [
@@ -4677,7 +4683,7 @@
           "number": "16.5",
           "title": "The Major Channels of Management Communication Are Talking, Listening, Reading, and Writing",
           "kind": "content",
-          "words": 3882,
+          "words": 3872,
           "status": "source",
           "sourceFile": "source/c16/c16-s05.md",
           "objectives": [],
@@ -4711,7 +4717,7 @@
           "number": "17.1",
           "title": "Is Planning Important?",
           "kind": "content",
-          "words": 1032,
+          "words": 993,
           "status": "source",
           "sourceFile": "source/c17/c17-s01.md",
           "objectives": [
@@ -4725,7 +4731,7 @@
           "number": "17.2",
           "title": "The Planning Process",
           "kind": "content",
-          "words": 1817,
+          "words": 1788,
           "status": "source",
           "sourceFile": "source/c17/c17-s02.md",
           "objectives": [
@@ -4739,7 +4745,7 @@
           "number": "17.3",
           "title": "Types of Plans",
           "kind": "content",
-          "words": 1361,
+          "words": 1322,
           "status": "source",
           "sourceFile": "source/c17/c17-s03.md",
           "objectives": [
@@ -4753,7 +4759,7 @@
           "number": "17.4",
           "title": "Goals or Outcome Statements",
           "kind": "content",
-          "words": 778,
+          "words": 842,
           "status": "source",
           "sourceFile": "source/c17/c17-s04.md",
           "objectives": [
@@ -4767,7 +4773,7 @@
           "number": "17.5",
           "title": "Formal Organizational Planning in Practice",
           "kind": "content",
-          "words": 1932,
+          "words": 1819,
           "status": "source",
           "sourceFile": "source/c17/c17-s05.md",
           "objectives": [
@@ -4781,7 +4787,7 @@
           "number": "17.6",
           "title": "Employees' Responses to Planning",
           "kind": "content",
-          "words": 5189,
+          "words": 5167,
           "status": "source",
           "sourceFile": "source/c17/c17-s06.md",
           "objectives": [
@@ -4809,7 +4815,7 @@
           "number": "17.8",
           "title": "The Control- and Involvement-Oriented Approaches to Planning and Controlling",
           "kind": "content",
-          "words": 1274,
+          "words": 1272,
           "status": "source",
           "sourceFile": "source/c17/c17-s08.md",
           "objectives": [
@@ -4845,7 +4851,7 @@
           "number": "18.1",
           "title": "MTI--Its Importance Now and In the Future",
           "kind": "content",
-          "words": 2360,
+          "words": 2307,
           "status": "source",
           "sourceFile": "source/c18/c18-s01.md",
           "objectives": [
@@ -4859,7 +4865,7 @@
           "number": "18.2",
           "title": "Developing Technology and Innovation",
           "kind": "content",
-          "words": 855,
+          "words": 866,
           "status": "source",
           "sourceFile": "source/c18/c18-s02.md",
           "objectives": [
@@ -4915,7 +4921,7 @@
           "number": "18.6",
           "title": "Skills Needed for MTI",
           "kind": "content",
-          "words": 1167,
+          "words": 1110,
           "status": "source",
           "sourceFile": "source/c18/c18-s06.md",
           "objectives": [

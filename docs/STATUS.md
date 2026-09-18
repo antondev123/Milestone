@@ -12,6 +12,7 @@ Updated: 2026-09-18 (Principles of Management course landed, chapters 1–3 inge
 - Session planner (`src/lib/planner.ts`), progress store (JSON file + memory fallback), grader (MCQ local, open via Claude, keyword fallback without key).
 - Trip summary page `/trip/[id]/summary`, verified.
 - docs/DEMO.md first draft with the interruption beat.
+- Book parser keeps body prose around figure captions (`scripts/parse-book.ts`): a caption ends where its credit closes, prose glued after it stays prose, lines that merely start with "Exhibit 1.3)." / "Exhibit 1.5 shows" are prose, centred or bare-label captions ("Table 11.3") no longer swallow the next paragraph. Also fixed: "�" bullet objectives/concept checks, "B2B" losing its 2. `npm run check:source` compares every source section with the raw pdftotext span (needs `raw/pom.txt`); 0 of 122 sections flagged for chapters 2–18. Source for chapters 2–18 regenerated; chapter 1 source left alone (served verbatim, and re-parsing it would make `npm run ingest` redo its lessons).
 - Voice mode: mic mute/unmute button (mic-only; session and tutor audio keep streaming). Not yet exercised in a live call.
 
 ## Verified with live keys (2026-09-18)
@@ -19,6 +20,7 @@ Updated: 2026-09-18 (Principles of Management course landed, chapters 1–3 inge
 - ElevenLabs key: valid, creator tier, 0 agents created yet.
 
 ## In progress / needs a human
+- Re-ingest chapters 2–3 (costs money, needs a yes): their source changed, so `npm run ingest` would redo them. Prose the current lessons never saw: 2.6 (James Rest's model intro), 3.2 (Table 3.1 intro sentence), 3.7 (learning objective + both concept checks), 3.8 (the whole Exhibit 3.6 summary paragraph). `node --env-file=.env.local scripts/ingest.ts pom --chapters 2-3` redoes only changed sections. Do not use the default `npm run ingest` range if chapter 1 source is ever re-parsed.
 - Voice mode mic test in Chrome per docs/ELEVENLABS.md §6: confirm the 700 ms auto-continue grace window feels right and barge-in mid-block re-reads the block. Chunked reading is now server-driven, so no prompt tuning for it.
 
 ## Not started

@@ -7,6 +7,7 @@ Source: *Principles of Management*, OpenStax, LibreTexts PDF export (620 pages, 
 ```bash
 pdftotext -layout "Principles of Management.pdf" data/courses/pom/raw/pom.txt   # poppler; on Git Bash it is at /mingw64/bin
 npm run parse:book          # → source/, course.json, toc.md, chapters/*-review.json, parse-report.json. Free, deterministic.
+npm run check:source        # every source section vs the raw text between its headings: word counts, lost lines, long captions
 npm run ingest              # chapters 1–3 → sections/*.json + chapters/*-quiz.json via Claude. ~R1 per chapter.
 npm run validate            # manifest ↔ files, ids, question shapes, script hygiene
 ```

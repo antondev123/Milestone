@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T12:08:06.165Z",
+  "generatedAt": "2026-09-18T13:52:52.719Z",
   "warnings": [],
   "sections": {
     "1.1": {
@@ -62,12 +62,12 @@
       "words": 707,
       "conceptChecks": 2,
       "answered": 1,
-      "footnotesStripped": 5,
+      "footnotesStripped": 4,
       "mojibakeLeft": 0,
       "plannedSegments": 1
     },
     "2.4": {
-      "words": 853,
+      "words": 848,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
@@ -83,7 +83,7 @@
       "plannedSegments": 3
     },
     "2.6": {
-      "words": 3923,
+      "words": 3953,
       "conceptChecks": 3,
       "answered": 1,
       "footnotesStripped": 2,
@@ -91,7 +91,7 @@
       "plannedSegments": 5
     },
     "2.7": {
-      "words": 959,
+      "words": 871,
       "conceptChecks": 3,
       "answered": 1,
       "footnotesStripped": 0,
@@ -115,10 +115,10 @@
       "plannedSegments": 2
     },
     "3.2": {
-      "words": 1030,
+      "words": 982,
       "conceptChecks": 1,
       "answered": 1,
-      "footnotesStripped": 6,
+      "footnotesStripped": 5,
       "mojibakeLeft": 0,
       "plannedSegments": 1
     },
@@ -139,7 +139,7 @@
       "plannedSegments": 2
     },
     "3.5": {
-      "words": 3023,
+      "words": 3009,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 0,
@@ -155,15 +155,15 @@
       "plannedSegments": 2
     },
     "3.7": {
-      "words": 2369,
-      "conceptChecks": 0,
-      "answered": 0,
+      "words": 2323,
+      "conceptChecks": 2,
+      "answered": 1,
       "footnotesStripped": 9,
       "mojibakeLeft": 0,
       "plannedSegments": 3
     },
     "3.8": {
-      "words": 760,
+      "words": 859,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 4,
@@ -187,7 +187,7 @@
       "plannedSegments": 2
     },
     "4.2": {
-      "words": 1873,
+      "words": 1806,
       "conceptChecks": 3,
       "answered": 1,
       "footnotesStripped": 8,
@@ -203,7 +203,7 @@
       "plannedSegments": 2
     },
     "4.4": {
-      "words": 2864,
+      "words": 2843,
       "conceptChecks": 3,
       "answered": 1,
       "footnotesStripped": 16,
@@ -211,7 +211,7 @@
       "plannedSegments": 4
     },
     "4.5": {
-      "words": 1191,
+      "words": 1318,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 9,
@@ -219,7 +219,7 @@
       "plannedSegments": 2
     },
     "4.6": {
-      "words": 914,
+      "words": 891,
       "conceptChecks": 3,
       "answered": 1,
       "footnotesStripped": 5,
@@ -275,7 +275,7 @@
       "plannedSegments": 3
     },
     "5.5": {
-      "words": 2959,
+      "words": 2913,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 16,
@@ -283,7 +283,7 @@
       "plannedSegments": 4
     },
     "5.6": {
-      "words": 938,
+      "words": 930,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 10,
@@ -291,15 +291,15 @@
       "plannedSegments": 1
     },
     "5.7": {
-      "words": 1826,
+      "words": 1719,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 18,
       "mojibakeLeft": 1,
-      "plannedSegments": 3
+      "plannedSegments": 2
     },
     "5.8": {
-      "words": 1553,
+      "words": 1532,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 13,
@@ -331,31 +331,31 @@
       "plannedSegments": 1
     },
     "6.2": {
-      "words": 1002,
+      "words": 1076,
       "conceptChecks": 3,
       "answered": 1,
-      "footnotesStripped": 9,
+      "footnotesStripped": 5,
       "mojibakeLeft": 0,
-      "plannedSegments": 1
+      "plannedSegments": 2
     },
     "6.3": {
-      "words": 2288,
+      "words": 2831,
       "conceptChecks": 4,
       "answered": 1,
-      "footnotesStripped": 3,
+      "footnotesStripped": 5,
       "mojibakeLeft": 0,
-      "plannedSegments": 3
+      "plannedSegments": 4
     },
     "6.4": {
-      "words": 1451,
+      "words": 1549,
       "conceptChecks": 0,
       "answered": 0,
-      "footnotesStripped": 3,
+      "footnotesStripped": 4,
       "mojibakeLeft": 0,
       "plannedSegments": 2
     },
     "6.5": {
-      "words": 2676,
+      "words": 2651,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 11,
@@ -379,7 +379,7 @@
       "plannedSegments": 2
     },
     "6.8": {
-      "words": 4115,
+      "words": 4089,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 19,
@@ -403,10 +403,10 @@
       "plannedSegments": 1
     },
     "7.2": {
-      "words": 2549,
-      "conceptChecks": 0,
-      "answered": 0,
-      "footnotesStripped": 13,
+      "words": 2503,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 12,
       "mojibakeLeft": 0,
       "plannedSegments": 4
     },
@@ -427,7 +427,7 @@
       "plannedSegments": 2
     },
     "7.5": {
-      "words": 3483,
+      "words": 3289,
       "conceptChecks": 3,
       "answered": 1,
       "footnotesStripped": 4,
@@ -459,7 +459,7 @@
       "plannedSegments": 1
     },
     "7.9": {
-      "words": 1316,
+      "words": 1257,
       "conceptChecks": 3,
       "answered": 1,
       "footnotesStripped": 10,
@@ -478,7 +478,7 @@
       "words": 307,
       "conceptChecks": 0,
       "answered": 0,
-      "footnotesStripped": 2,
+      "footnotesStripped": 1,
       "mojibakeLeft": 0,
       "plannedSegments": 1
     },
@@ -499,7 +499,7 @@
       "plannedSegments": 1
     },
     "8.4": {
-      "words": 2049,
+      "words": 2055,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 2,
@@ -515,7 +515,7 @@
       "plannedSegments": 2
     },
     "8.6": {
-      "words": 1411,
+      "words": 1431,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 5,
@@ -523,12 +523,12 @@
       "plannedSegments": 2
     },
     "8.7": {
-      "words": 1046,
+      "words": 1176,
       "conceptChecks": 3,
       "answered": 1,
       "footnotesStripped": 0,
       "mojibakeLeft": 0,
-      "plannedSegments": 1
+      "plannedSegments": 2
     },
     "8.8": {
       "words": 193,
@@ -563,7 +563,7 @@
       "plannedSegments": 1
     },
     "9.3": {
-      "words": 393,
+      "words": 473,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 3,
@@ -571,7 +571,7 @@
       "plannedSegments": 1
     },
     "9.4": {
-      "words": 372,
+      "words": 363,
       "conceptChecks": 1,
       "answered": 1,
       "footnotesStripped": 0,
@@ -579,18 +579,18 @@
       "plannedSegments": 1
     },
     "9.5": {
-      "words": 1596,
+      "words": 1708,
       "conceptChecks": 4,
       "answered": 1,
-      "footnotesStripped": 1,
+      "footnotesStripped": 2,
       "mojibakeLeft": 0,
       "plannedSegments": 2
     },
     "9.6": {
-      "words": 2831,
+      "words": 2914,
       "conceptChecks": 2,
       "answered": 1,
-      "footnotesStripped": 2,
+      "footnotesStripped": 1,
       "mojibakeLeft": 0,
       "plannedSegments": 4
     },
@@ -619,10 +619,10 @@
       "plannedSegments": 1
     },
     "10.2": {
-      "words": 2776,
+      "words": 2727,
       "conceptChecks": 4,
       "answered": 1,
-      "footnotesStripped": 6,
+      "footnotesStripped": 4,
       "mojibakeLeft": 0,
       "plannedSegments": 4
     },
@@ -630,15 +630,15 @@
       "words": 1690,
       "conceptChecks": 2,
       "answered": 1,
-      "footnotesStripped": 5,
+      "footnotesStripped": 4,
       "mojibakeLeft": 0,
       "plannedSegments": 2
     },
     "10.4": {
-      "words": 6233,
+      "words": 6615,
       "conceptChecks": 3,
       "answered": 1,
-      "footnotesStripped": 14,
+      "footnotesStripped": 12,
       "mojibakeLeft": 0,
       "plannedSegments": 5
     },
@@ -683,7 +683,7 @@
       "plannedSegments": 3
     },
     "11.5": {
-      "words": 1900,
+      "words": 1892,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 3,
@@ -691,15 +691,15 @@
       "plannedSegments": 3
     },
     "11.6": {
-      "words": 1077,
+      "words": 985,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 0,
       "mojibakeLeft": 0,
-      "plannedSegments": 2
+      "plannedSegments": 1
     },
     "11.7": {
-      "words": 2298,
+      "words": 2334,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 0,
@@ -731,10 +731,10 @@
       "plannedSegments": 1
     },
     "12.3": {
-      "words": 4239,
+      "words": 4491,
       "conceptChecks": 2,
       "answered": 1,
-      "footnotesStripped": 81,
+      "footnotesStripped": 87,
       "mojibakeLeft": 0,
       "plannedSegments": 5
     },
@@ -747,7 +747,7 @@
       "plannedSegments": 2
     },
     "12.5": {
-      "words": 2068,
+      "words": 2069,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 18,
@@ -763,7 +763,7 @@
       "plannedSegments": 2
     },
     "12.7": {
-      "words": 624,
+      "words": 634,
       "conceptChecks": 3,
       "answered": 1,
       "footnotesStripped": 3,
@@ -803,7 +803,7 @@
       "plannedSegments": 1
     },
     "13.3": {
-      "words": 1985,
+      "words": 1938,
       "conceptChecks": 1,
       "answered": 1,
       "footnotesStripped": 12,
@@ -811,7 +811,7 @@
       "plannedSegments": 3
     },
     "13.4": {
-      "words": 2449,
+      "words": 2403,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 19,
@@ -835,7 +835,7 @@
       "plannedSegments": 2
     },
     "13.7": {
-      "words": 2228,
+      "words": 2202,
       "conceptChecks": 4,
       "answered": 1,
       "footnotesStripped": 19,
@@ -875,7 +875,7 @@
       "plannedSegments": 0
     },
     "14.1": {
-      "words": 1582,
+      "words": 1463,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
@@ -883,7 +883,7 @@
       "plannedSegments": 2
     },
     "14.2": {
-      "words": 5853,
+      "words": 5869,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
@@ -891,11 +891,11 @@
       "plannedSegments": 5
     },
     "14.3": {
-      "words": 9121,
+      "words": 9269,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
-      "mojibakeLeft": 5,
+      "mojibakeLeft": 2,
       "plannedSegments": 5
     },
     "14.4": {
@@ -915,7 +915,7 @@
       "plannedSegments": 1
     },
     "15.1": {
-      "words": 1211,
+      "words": 1170,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
@@ -947,7 +947,7 @@
       "plannedSegments": 1
     },
     "15.5": {
-      "words": 883,
+      "words": 858,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
@@ -955,7 +955,7 @@
       "plannedSegments": 1
     },
     "15.6": {
-      "words": 2471,
+      "words": 2591,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
@@ -979,7 +979,7 @@
       "plannedSegments": 1
     },
     "16.2": {
-      "words": 1203,
+      "words": 1142,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
@@ -1003,7 +1003,7 @@
       "plannedSegments": 1
     },
     "16.5": {
-      "words": 3882,
+      "words": 3872,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
@@ -1019,7 +1019,7 @@
       "plannedSegments": 2
     },
     "17.1": {
-      "words": 1032,
+      "words": 993,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
@@ -1027,15 +1027,15 @@
       "plannedSegments": 1
     },
     "17.2": {
-      "words": 1817,
+      "words": 1788,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
-      "mojibakeLeft": 4,
+      "mojibakeLeft": 5,
       "plannedSegments": 3
     },
     "17.3": {
-      "words": 1361,
+      "words": 1322,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
@@ -1043,7 +1043,7 @@
       "plannedSegments": 2
     },
     "17.4": {
-      "words": 778,
+      "words": 842,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
@@ -1051,7 +1051,7 @@
       "plannedSegments": 1
     },
     "17.5": {
-      "words": 1932,
+      "words": 1819,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
@@ -1059,7 +1059,7 @@
       "plannedSegments": 3
     },
     "17.6": {
-      "words": 5189,
+      "words": 5167,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
@@ -1075,7 +1075,7 @@
       "plannedSegments": 2
     },
     "17.8": {
-      "words": 1274,
+      "words": 1272,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
@@ -1091,7 +1091,7 @@
       "plannedSegments": 1
     },
     "18.1": {
-      "words": 2360,
+      "words": 2307,
       "conceptChecks": 2,
       "answered": 1,
       "footnotesStripped": 0,
@@ -1099,7 +1099,7 @@
       "plannedSegments": 3
     },
     "18.2": {
-      "words": 855,
+      "words": 866,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
@@ -1131,7 +1131,7 @@
       "plannedSegments": 1
     },
     "18.6": {
-      "words": 1167,
+      "words": 1110,
       "conceptChecks": 0,
       "answered": 0,
       "footnotesStripped": 0,
