@@ -24,7 +24,7 @@ function Json({ label, value }: { label: string; value: unknown }) {
 }
 
 /** One timeline row. Transcript lines read as chat; everything else is a labelled marker. */
-function Row({ e }: { e: SessionEvent }) {
+function Row({ e, sessionId, q }: { e: SessionEvent; sessionId: string; q: string }) {
   const x = d(e);
   const srcTag = <span className="rounded bg-ground px-1.5 py-0.5 font-mono text-[11px] text-muted">{e.src}</span>;
   let body: React.ReactNode;
@@ -102,6 +102,19 @@ function Row({ e }: { e: SessionEvent }) {
       );
       break;
     }
+    case "dictation":
+      // Study assistant mic: the clip is kept next to the trip's recordings, the Scribe text beside it
+      tone = x.error ? "text-gold" : "";
+      body = (
+        <div>
+          <span className="font-semibold">dictation</span> {x.error ? <span className="text-gold">{s(x.error)}</span> : <>“{s(x.text, 600)}”</>}{" "}
+          <span className="text-[12px] text-muted">
+            {Math.round(Number(x.bytes ?? 0) / 1024)} KB{x.ms ? ` · ${s(x.ms)} ms` : ""}
+          </span>
+          {typeof x.file === "string" && <audio controls preload="none" className="mt-1 h-8 w-full max-w-md" src={`/api/log/audio/${sessionId}/${x.file}${q}`} />}
+        </div>
+      );
+      break;
     case "tentative":
       body = <span className="text-[13px] text-muted italic">tentative: {s(x.text, 300)}</span>;
       break;
@@ -274,7 +287,7 @@ export default async function SessionPage({ params, searchParams }: { params: Pr
         ) : (
           <ol>
             {events.map((e) => (
-              <Row key={e.id} e={e} />
+              <Row key={e.id} e={e} sessionId={session.id} q={q} />
             ))}
           </ol>
         )}

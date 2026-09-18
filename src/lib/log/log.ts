@@ -50,7 +50,7 @@ export function logEvents(sessionId: string, src: EventSrc, events: { ts?: strin
 
 export interface LlmCall {
   provider: "anthropic" | "elevenlabs";
-  purpose: "ask" | "grade" | "hint" | "tts" | "convai";
+  purpose: "ask" | "grade" | "hint" | "tts" | "stt" | "convai";
   model?: string;
   in?: number;
   cacheRead?: number;

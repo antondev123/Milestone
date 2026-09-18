@@ -75,7 +75,7 @@ Requires an ElevenLabs Conversational AI agent. Config checklist: [docs/ELEVENLA
 Every trip is recorded in depth: the timeline of tool calls (request, spoken reply, latency), the
 voice transcript (from the SDK live, and ElevenLabs' own transcript with tool calls and per-turn LLM
 usage after the call), Claude and TTS usage with tokens and cost, browser errors, pause/mute/interruption
-markers, the learner's microphone (Listen mode, recorded in the browser) and the full ElevenLabs call
+markers, the learner's microphone (Listen mode, recorded in the browser), each Study dictation clip with its Scribe text, and the full ElevenLabs call
 recording. Store: SQLite via Node's built-in `node:sqlite` at `data/progress/logs/milestone.db` (on Fly:
 the volume, `LOG_DIR`), recordings next to it under `audio/<tripId>/`. `npm run demo:reset` leaves it alone.
 
@@ -88,7 +88,7 @@ Nothing in the app links to these pages; type the URL:
 | `http://localhost:3000/api/log/sessions` | The list as JSON |
 | `http://localhost:3000/api/log/sessions/<tripId>` | One trip as JSON (events, llm calls, audio rows) |
 | `http://localhost:3000/api/log/sync?session=<tripId>` | Pull the ElevenLabs transcript + recording now (runs by itself ~20 s after a voice trip ends) |
-| `http://localhost:3000/api/log/audio/<tripId>/mic` · `/eleven_call` | The recordings |
+| `http://localhost:3000/api/log/audio/<tripId>/mic` · `/eleven_call` · `/dictation-<n>.<ext>` | The recordings |
 
 Access: on localhost everything is open. Anywhere else (Fly) set `ADMIN_SECRET` and add `?key=<secret>`
 to any of the URLs once; a cookie carries it after that. Without `ADMIN_SECRET` the log is unreachable
