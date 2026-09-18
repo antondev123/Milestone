@@ -27,6 +27,8 @@ import { VoiceStrip, type StripState } from "./carry/VoiceStrip";
 import { WhereBlock } from "./carry/WhereBlock";
 import { CheckIcon } from "./carry/Icons";
 import { earcon, primeEarcons, setEarconsEnabled } from "./earcons";
+import { clientLog, flushLog, installErrorLog, setLogSession } from "@/lib/log/client";
+import { useMicRecorder } from "./useMicRecorder";
 
 const CONTINUE = "continue";
 const GRACE_MS = 700; // let a late barge-in win the race against auto-continue
@@ -65,6 +67,13 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const [debugOn] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug"));
   // The ducking hook needs `conv`, and `conv` needs these callbacks: bridge with a ref.
   const ducking = useRef<ReturnType<typeof useBargeInDucking> | null>(null);
+  // session log: events batch to /api/log/events, mic to /api/log/audio (see src/lib/log)
+  const recorder = useMicRecorder();
+  const vadHigh = useRef(false);
+  useEffect(() => {
+    installErrorLog();
+    setLogSession(plan.tripId);
+  }, [plan.tripId]);
 
   // flow state the LLM never sees
   const autoContinue = useRef(false); // server's `more`
@@ -107,17 +116,43 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     autoContinue.current = false;
     cancel();
     earcon.end();
+    recorder.stop();
+    clientLog("status", { status: "ending", by: tripId ? "agent" : "user" });
     try {
       await conv.endSession();
     } catch {}
     const id = tripId ?? (await post("end_trip")).tripId ?? "";
+    flushLog();
     onTripEnd(id);
   };
 
   const conv = useConversation({
+    onConnect: (p) => {
+      const { conversationId } = p as unknown as { conversationId?: string };
+      clientLog("status", { status: "connected", conversationId, textOnly: textOnly.current });
+      if (conversationId) void fetch("/api/log/session", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ sessionId: plan.tripId, convId: conversationId }) }).catch(() => {});
+    },
+    onDisconnect: (d) => {
+      clientLog("disconnect", d as unknown as Record<string, unknown>);
+      flushLog();
+    },
+    onStatusChange: ({ status }) => clientLog("status", { status }),
+    onDebug: (d) => {
+      const dbg = d as unknown as { type?: string; response?: string };
+      if (dbg?.type === "tentative_agent_response") clientLog("tentative", { text: dbg.response });
+    },
+    onVadScore: ({ vadScore }) => {
+      // sampled: one row when speech starts and one when it stops, not 20 per second
+      const high = vadScore >= 0.5;
+      if (high !== vadHigh.current) {
+        vadHigh.current = high;
+        clientLog("vad", { speaking: high, score: Math.round(vadScore * 100) / 100 });
+      }
+    },
     onMessage: (m) => {
-      const msg = m as unknown as { message: string; source: "user" | "ai" | "agent" };
+      const msg = m as unknown as { message: string; source: "user" | "ai" | "agent"; event_id?: number };
       if (msg.source === "user" && msg.message === CONTINUE) return; // synthetic
+      clientLog("transcript", { role: msg.source === "user" ? "user" : "agent", text: msg.message, eventId: msg.event_id });
       if (msg.source === "user") {
         barged.current = true;
         cancel();
@@ -130,6 +165,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       }
     },
     onInterruption: () => {
+      clientLog("interruption", {});
       ducking.current?.onInterruption();
       barged.current = true;
       cancel();
@@ -137,6 +173,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       void post("interrupted");
     },
     onModeChange: ({ mode }) => {
+      clientLog("mode_change", { mode });
       if (mode === "speaking") {
         ducking.current?.onAgentStarts();
         barged.current = false;
@@ -155,9 +192,13 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       if (usage.context_tokens) {
         setCtx(usage.context_tokens);
         console.log(`[ctx] ${usage.context_tokens}/${usage.context_limit_tokens ?? "?"}`);
+        clientLog("ctx_usage", { tokens: usage.context_tokens, limit: usage.context_limit_tokens, model: (u as unknown as { model?: string }).model });
       }
     },
-    onError: (message) => setErr(String(message)),
+    onError: (message, context) => {
+      clientLog("client_error", { message: String(message), source: "elevenlabs", context });
+      setErr(String(message));
+    },
   });
 
   ducking.current = useBargeInDucking(conv, debugOn, () => paused.current);
@@ -261,6 +302,8 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     textOnly.current = new URLSearchParams(window.location.search).get("text") === "1";
     primeEarcons(); // inside the user's tap, so the browser lets later earcons play
     setEarconsEnabled(!textOnly.current);
+    clientLog("status", { status: "start", textOnly: textOnly.current, ua: navigator.userAgent });
+    if (!textOnly.current) void recorder.start(plan.tripId);
     conv.startSession({
       agentId,
       connectionType: textOnly.current ? "websocket" : "webrtc",
@@ -276,6 +319,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   }
   function pause() {
     if (paused.current || ended.current) return;
+    clientLog("pause", { on: true });
     setPaused(true);
     cancel();
     barged.current = true; // whatever the agent finishes saying now does not count as heard
@@ -291,6 +335,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   }
   function resume() {
     if (!paused.current || ended.current) return;
+    clientLog("pause", { on: false });
     setPaused(false);
     cancel();
     barged.current = true; // a late mode→listening from the silent tail must not double-send
@@ -310,6 +355,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     } catch {
       return; // no mic to mute (text-only, or permission denied)
     }
+    clientLog("mute", { muted: next });
     if (next) earcon.mute();
     else earcon.unmute();
   }
@@ -380,6 +426,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
             if (!t) return;
             barged.current = true;
             cancel();
+            clientLog("transcript", { role: "user", text: t, typed: true }); // the SDK does not echo typed turns
             sendUser(t);
             setTyped("");
           }}

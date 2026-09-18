@@ -40,6 +40,7 @@ The ingested lessons for chapters 1–3 are committed, so `npm run dev` works wi
 | `npm run demo:reset` | Delete all progress files so the demo starts fresh (`-- --seed` for a mid-course rehearsal state) |
 | `npm run agent:configure` | Push the ElevenLabs agent config (prompt, tools, ASR) from `scripts/configure-agent.ts` |
 | `npm run ledger` | Spend and credits left, in rands. Log kept in `docs/LEDGER.md` |
+| `npm run sessions` | Session log from the terminal: list, `-- <tripId>` timeline + usage, `-- <tripId> --json`, `-- sync <tripId>`. See Diagnostics below |
 | `npm run deploy:fly` | Deploy to Fly.io from `.env.local` (secrets + build args). Setup in `docs/DEPLOY.md` |
 | `npm run typecheck` | `tsc --noEmit` |
 
@@ -68,3 +69,31 @@ src/app/trip/[id]/summary    progress artefact
 ## Voice mode
 
 Requires an ElevenLabs Conversational AI agent. Config checklist: [docs/ELEVENLABS.md](docs/ELEVENLABS.md). Tools run as client tools in the browser, so localhost works without a public URL. Only if you switch the dashboard tools to webhooks do you need `ngrok http 3000` and `NEXT_PUBLIC_BASE_URL`.
+
+## Diagnostics (session log)
+
+Every trip is recorded in depth: the timeline of tool calls (request, spoken reply, latency), the
+voice transcript (from the SDK live, and ElevenLabs' own transcript with tool calls and per-turn LLM
+usage after the call), Claude and TTS usage with tokens and cost, browser errors, pause/mute/interruption
+markers, the learner's microphone (Listen mode, recorded in the browser) and the full ElevenLabs call
+recording. Store: SQLite via Node's built-in `node:sqlite` at `data/progress/logs/milestone.db` (on Fly:
+the volume, `LOG_DIR`), recordings next to it under `audio/<tripId>/`. `npm run demo:reset` leaves it alone.
+
+Nothing in the app links to these pages; type the URL:
+
+| URL | What |
+|---|---|
+| `http://localhost:3000/admin/sessions` | Every trip: mode, length, score, event and tool counts, errors, Claude $, ElevenLabs credits, audio, sync state |
+| `http://localhost:3000/admin/sessions/<tripId>` | One trip: recordings (players), usage table, merged timeline |
+| `http://localhost:3000/api/log/sessions` | The list as JSON |
+| `http://localhost:3000/api/log/sessions/<tripId>` | One trip as JSON (events, llm calls, audio rows) |
+| `http://localhost:3000/api/log/sync?session=<tripId>` | Pull the ElevenLabs transcript + recording now (runs by itself ~20 s after a voice trip ends) |
+| `http://localhost:3000/api/log/audio/<tripId>/mic` · `/eleven_call` | The recordings |
+
+Access: on localhost everything is open. Anywhere else (Fly) set `ADMIN_SECRET` and add `?key=<secret>`
+to any of the URLs once; a cookie carries it after that. Without `ADMIN_SECRET` the log is unreachable
+off localhost. Writers (`POST /api/log/events`, `/session`, `/audio`) follow the same rule as `/api/tools`.
+
+Trip ids come from the summary URL (`/trip/<tripId>/summary`), the list page, or `npm run sessions`.
+The ElevenLabs pull needs `ELEVENLABS_API_KEY`; text-only agent sessions (`?text=1`) sync a transcript
+but no recording. Mic recording needs a real microphone in Chrome over localhost or HTTPS.

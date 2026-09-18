@@ -7,6 +7,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { blocks } from "./chunk";
 import { loadSegmentFull } from "./course";
+import { logLlm } from "./log/log";
 
 export interface WordTiming {
   start: number; // seconds
@@ -106,6 +107,8 @@ async function synthesize(text: string): Promise<BlockAudio> {
   const a = data.alignment;
   const words = a ? wordTimings(text, a.characters, a.character_start_times_seconds, a.character_end_times_seconds) : [];
   console.log(`[tts] ${text.length} chars, ${words.length} words, ${Date.now() - t0}ms`);
+  // billed per character; only real synthesis lands here, cache hits are free
+  logLlm({ provider: "elevenlabs", purpose: "tts", model, chars: text.length, credits: text.length, usd: (text.length * 22) / 100_000, ms: Date.now() - t0, requestId: res.headers.get("request-id") ?? undefined, meta: { voice, words: words.length } });
   return { text, words, audioBase64: data.audio_base64, model, voice };
 }
 

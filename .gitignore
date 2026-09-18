@@ -12,3 +12,6 @@ data/tts/
 
 # raw pdftotext dumps are regenerable
 data/courses/*/raw/
+
+# session log (SQLite + recordings), on the Fly volume in prod
+data/progress/logs/

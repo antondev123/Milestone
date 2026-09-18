@@ -25,4 +25,5 @@ COPY --from=build /app/data ./data
 COPY --from=build /app/scripts/demo-reset.ts ./scripts/demo-reset.ts
 COPY --from=build /app/src/types ./src/types
 EXPOSE 3000
-CMD ["node", "server.js"]
+# --no-warnings: node:sqlite (session log) prints an ExperimentalWarning at boot
+CMD ["node", "--no-warnings=ExperimentalWarning", "server.js"]

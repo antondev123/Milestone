@@ -10,6 +10,7 @@ import { TripPicker } from "@/components/TripPicker";
 import { BackLink, ModePill, PrimaryButton, Screen, SignalNotice, TopBar } from "@/components/carry/Chrome";
 import { Feedback, stripVerdict } from "@/components/carry/Feedback";
 import { persist, postJSON } from "@/components/carry/net";
+import { installErrorLog, setLogSession } from "@/lib/log/client";
 
 type Bubble = { who: "tutor" | "you"; text: string; tone?: "ok" | "bad" | "aside"; offer?: ToolReply["offer"]; segmentId?: string };
 type Manifest = { title: string; chapters: { id: string; number: number; shortTitle: string; sections: { id: string; number: string; title: string; status: string; segments: { id: string }[] }[] }[] };
@@ -48,6 +49,11 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
   useEffect(() => {
     fetch("/api/course").then((r) => r.json()).then(setCourse);
   }, []);
+  // session log: browser errors land in the trip's timeline (src/lib/log)
+  useEffect(() => {
+    installErrorLog();
+    setLogSession(plan?.tripId ?? null);
+  }, [plan?.tripId]);
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [bubbles]);
