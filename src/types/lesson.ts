@@ -213,6 +213,7 @@ export interface ToolReply {
   segmentId?: string;
   offer?: { sectionId: string; say: string }; // ask() found a better section; goto on "yes"
   qIdx?: number; // which checkpoint question this is (set on kind "ask"); study mode renders it locally
+  block?: { idx: number; count: number }; // on kind "read": which script block of the part this is; the Dial creeps its ring through the part
   milestones?: string[]; // milestone ids first earned by this reply (spoken inside `say`; the client plays an earcon)
   intent?: AnswerIntent; // on an answer() reply: what the learner meant; question/command/giveup were routed, not graded
 }

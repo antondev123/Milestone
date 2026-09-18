@@ -170,7 +170,7 @@ MCQ is graded locally by string match. Open questions go to Claude with prompt +
 ```
 Cursor
   segmentId     current part
-  blockIdx      which ~150-word block of the script (src/lib/chunk.ts) is current
+  blockIdx      which ~250-word block of the script (src/lib/chunk.ts) is current
   served/heard  the block or question was sent; heard=false after a barge-in → re-read on the next `next`
   phase         "read" | "ask" (checkpoint qIdx) | "done" (part finished, next `next` moves on)
   qIdx, attempt
@@ -187,9 +187,10 @@ TripSummary += milestones[] milestone ids first earned on this trip
 Progress +=  voiceId?     learner's pick from /settings, an id in data/voices.json; unset = env/dashboard default
 Plan += greeting            server-composed opening line
 
-ToolReply { kind: "read"|"ask"|"say"|"end", say, loc, more, options?, correct?, tripId?, segmentId?, offer?, qIdx?,
+ToolReply { kind: "read"|"ask"|"say"|"end", say, loc, more, options?, correct?, tripId?, segmentId?, offer?, qIdx?, block?,
             milestones? (ids first earned by this reply; already spoken inside `say`, the client plays an earcon) }
   qIdx: set on kind "ask" so study mode can render the question locally
+  block: { idx, count } on kind "read": which script block of the part this is, so the Listen Dial can creep its ring through the part
 Mode = "voice" | "text" | "study"   (study = hands-on reader; trips log as "studied")
 ```
 `progress.resume` is kept as a mirror of the cursor on every mutation so the planner and summary page are unchanged.

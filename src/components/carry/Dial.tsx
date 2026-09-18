@@ -1,23 +1,35 @@
 // Listen dial: one big pause/play button with the topic-progress ring around it. The button is
 // only ever pause or play; state lives in the mic button, the state word and the strip.
 // The ring is notched at each section boundary, so it doubles as the "section n of N" marker.
-import { useId } from "react";
+// It creeps forward while the tutor reads (`creep`: the block's end value over its speaking time),
+// holds where it is on pause or barge-in, and only ever moves backwards on a "go back".
+import { useEffect, useId, useRef, useState } from "react";
 import type { Leg } from "@/lib/view";
 import { PauseGlyph, PlayGlyph } from "./Icons";
 
-/** Progress through the topic as a 0–1 ring value. Moves once per part; never ticks. */
+/** Ring value (0–1) at the start of the current part. */
 export function legRing(leg: Leg | undefined): number {
+  if (!leg) return 0;
+  return (leg.sectionIdx - 1 + (leg.partIndex - 1) / leg.partCount) / leg.sectionCount;
+}
+
+/** Ring value (0–1) at the end of the current part; the creep never passes it. */
+export function legRingEnd(leg: Leg | undefined): number {
   if (!leg) return 0;
   return (leg.sectionIdx - 1 + leg.partIndex / leg.partCount) / leg.sectionCount;
 }
 
+export type Creep = { to: number; ms: number };
+
 const R = 124; // ring radius in a 260 box
 const C = 2 * Math.PI * R;
 const NOTCH = 4; // notch width in the 260 box; cut through the ring so the page shows through
+const TICK_MS = 250; // creep step; the CSS transition blends the steps
 
 export function Dial({
   glyph,
   progress,
+  creep = null,
   sections = 1,
   dimmed = false,
   disabled = false,
@@ -26,7 +38,8 @@ export function Dial({
   onTap,
 }: {
   glyph: "pause" | "play";
-  progress: number; // 0–1
+  progress: number; // 0–1, the committed value (start of the current part)
+  creep?: Creep | null; // while set, the ring moves linearly toward `to` over `ms`
   sections?: number; // notch the ring into this many sections
   dimmed?: boolean;
   disabled?: boolean;
@@ -34,7 +47,34 @@ export function Dial({
   label: string;
   onTap: () => void;
 }) {
-  const p = Math.min(1, Math.max(0, progress));
+  const clamp = (v: number) => Math.min(1, Math.max(0, v));
+  const [shown, setShown] = useState(() => clamp(progress));
+  const shownRef = useRef(shown);
+  const prevProgress = useRef(progress);
+  shownRef.current = shown;
+
+  // A committed move forward lifts the ring if the creep fell short; a move backwards (goto back) snaps it.
+  useEffect(() => {
+    const p = clamp(progress);
+    if (p < prevProgress.current || p > shownRef.current) setShown(p);
+    prevProgress.current = p;
+  }, [progress]);
+
+  useEffect(() => {
+    if (!creep) return;
+    const from = shownRef.current;
+    const to = clamp(creep.to);
+    if (to <= from || creep.ms <= 0) return;
+    const rate = (to - from) / creep.ms; // ring units per ms
+    const t0 = performance.now();
+    const id = window.setInterval(() => {
+      const v = Math.min(to, from + rate * (performance.now() - t0));
+      setShown(v);
+      if (v >= to) window.clearInterval(id);
+    }, TICK_MS);
+    return () => window.clearInterval(id);
+  }, [creep]);
+
   const btn = Math.round(size * (220 / 260));
   const icon = Math.round(size * (84 / 260));
   const mask = `dial-notches-${useId().replace(/[^a-zA-Z0-9]/g, "")}`;
@@ -68,8 +108,8 @@ export function Dial({
             strokeWidth="8"
             strokeLinecap="round"
             strokeDasharray={C}
-            strokeDashoffset={C * (1 - p)}
-            style={{ transition: "stroke-dashoffset 400ms ease" }}
+            strokeDashoffset={C * (1 - shown)}
+            style={{ transition: `stroke-dashoffset ${creep ? TICK_MS + 50 : 400}ms linear` }}
           />
         </g>
       </svg>

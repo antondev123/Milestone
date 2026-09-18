@@ -3,10 +3,12 @@
 // the agent LLM only ever sees `{ t: "<words to say>" }`. Tools run as CLIENT tools (in the browser)
 // and call /api/tools/<name>, so no public URL is needed for local dev.
 //
-// Reading loop: the server returns one ~150-word block per `next` with `more: true`. When the agent
+// Reading loop: the server returns one ~250-word block per `next` with `more: true`. When the agent
 // finishes speaking (mode → listening) and nothing interrupted it, we send a text "continue" turn so
 // the agent calls `next` again. Barge-in cancels the pending continue and tells the server, so the
 // interrupted block is re-read after the driver's command. See docs/ELEVENLABS.md.
+// Every turn boundary is a short silence (the agent's LLM turn plus TTS start), which is why blocks
+// are long and the grace window short; the `next` round trip itself is ~15 ms and already warmed.
 //
 // Screen: the car-mode Dial (docs/DESIGN.md §4.3). No lesson text; Topic and Section are the only
 // words. One pause/play dial with the topic ring, a mic button that carries the mic states, hold-to-end,
@@ -21,7 +23,8 @@ import type { Plan, ToolReply } from "@/types/lesson";
 import { useBargeInDucking } from "./useBargeInDucking";
 import type { Leg, LegIndex } from "@/lib/view";
 import { milestoneLabel } from "@/lib/milestones";
-import { Dial, legRing } from "./carry/Dial";
+import { Dial, legRing, legRingEnd, type Creep } from "./carry/Dial";
+import { WORDS_PER_MIN } from "@/lib/chunk";
 import { MicButton, type MicState } from "./carry/MicButton";
 import { HoldButton } from "./carry/HoldButton";
 import { VoiceStrip, type StripState } from "./carry/VoiceStrip";
@@ -32,7 +35,7 @@ import { clientLog, flushLog, installErrorLog, setLogSession } from "@/lib/log/c
 import { useMicRecorder } from "./useMicRecorder";
 
 const CONTINUE = "continue";
-const GRACE_MS = 700; // let a late barge-in win the race against auto-continue
+const GRACE_MS = 300; // let a late barge-in win the race against auto-continue; every ms here is silence between blocks
 const FLASH_MS = 3000; // "That's right" / a milestone label stays in the state line this long
 // Trips are open-ended, so this is not a trip length: it is the credit guard for a forgotten tab.
 const HARD_STOP_MS = 2 * 60 * 60_000;
@@ -67,6 +70,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const [thinking, setThinking] = useState(false); // a tool call is in flight (grading, grounded ask)
   const [flash, setFlash] = useState<Flash | null>(null);
   const [holding, setHolding] = useState(false);
+  const [creep, setCreep] = useState<Creep | null>(null); // the ring's target while a block is being spoken
   const agentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID;
   // ?debug=1 shows the mic/duck meter for calibrating thresholds in rehearsal
   const [debugOn] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug"));
@@ -84,7 +88,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const autoContinue = useRef(false); // server's `more`
   const barged = useRef(false);
   const timer = useRef<number | null>(null);
-  const prefetch = useRef<Promise<ToolReply> | null>(null);
+  const pendingCreep = useRef<Creep | null>(null); // computed from the read reply, started when speech starts
   const ended = useRef(false);
   const textOnly = useRef(false);
   const paused = useRef(false);
@@ -174,7 +178,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       ducking.current?.onInterruption();
       barged.current = true;
       cancel();
-      prefetch.current = null;
+      setCreep(null); // the ring holds where the tutor was cut off
       void post("interrupted");
     },
     onModeChange: ({ mode }) => {
@@ -183,9 +187,15 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
         ducking.current?.onAgentStarts();
         barged.current = false;
         cancel();
+        // the block's words are now being spoken: creep the ring to the block's end over its speaking time
+        if (pendingCreep.current) {
+          setCreep(pendingCreep.current);
+          pendingCreep.current = null;
+        }
         return;
       }
       // listening: the agent stopped talking, either naturally or because it was cut off.
+      setCreep(null); // the ring holds until the next block is spoken
       // A tool in flight means this was a filler, not a block: wait for the reply.
       if (!autoContinue.current || barged.current || ended.current || paused.current || askingRef.current || thinkingRef.current) return;
       timer.current = window.setTimeout(() => {
@@ -243,6 +253,19 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     const next = r.segmentId ? legs?.[r.segmentId] : undefined;
     if (next && prevLeg.current && (next.chapter !== prevLeg.current.chapter || next.sectionIdx !== prevLeg.current.sectionIdx)) earcon.section();
     if (next) prevLeg.current = next;
+    // The ring creeps through the part: this block's slice of it over the block's speaking time.
+    // It starts when the agent actually starts speaking (mode → speaking); text-only has no speech, so start now.
+    if (r.kind === "read" && r.block && next) {
+      const start = legRing(next);
+      const span = legRingEnd(next) - start;
+      const words = r.say.split(/\s+/).filter(Boolean).length;
+      const c: Creep = { to: start + (span * (r.block.idx + 1)) / r.block.count, ms: (words / WORDS_PER_MIN) * 60_000 };
+      if (textOnly.current) setCreep(c);
+      else pendingCreep.current = c;
+    } else {
+      pendingCreep.current = null;
+      setCreep(null);
+    }
     onReply?.(r);
     // the course itself ran out and the server ended the trip: speak the closing line, then hand over
     if (r.kind === "end" && r.tripId) {
@@ -340,6 +363,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     clientLog("pause", { on: true });
     setPaused(true);
     cancel();
+    setCreep(null); // the ring holds; the re-read after Continue creeps on from here
     barged.current = true; // whatever the agent finishes saying now does not count as heard
     mutedBeforePause.current = conv.isMuted;
     try {
@@ -419,6 +443,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
         <Dial
           glyph={!live || isPaused ? "play" : "pause"}
           progress={legRing(leg)}
+          creep={creep}
           sections={leg?.sectionCount}
           dimmed={connecting || thinking}
           disabled={connecting || conv.status === "error"}

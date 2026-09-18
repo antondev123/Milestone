@@ -197,6 +197,7 @@ function readBlock(course: Course, progress: Progress, c: Cursor, prefix: string
     say: `${prefix}${intro}${bl[c.blockIdx] ?? ""}`.trim(),
     loc: loc(course, c),
     more: true,
+    block: { idx: c.blockIdx, count: bl.length },
   };
 }
 
