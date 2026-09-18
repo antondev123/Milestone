@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   agentRules: false,
+  // The dev badge sits bottom-left, exactly over the Study strip's play button.
+  devIndicators: false,
   // Fly runs the standalone server (see Dockerfile). Vercel ignores this.
   output: "standalone",
   // Ship data/ with the serverless bundle so lesson.json is readable on Vercel.
