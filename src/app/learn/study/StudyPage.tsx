@@ -13,6 +13,7 @@ import { AssistantFab, AssistantSheet } from "@/components/study/AssistantSheet"
 import { AssistantThread, type Message } from "@/components/study/AssistantThread";
 import { Checkpoint, type StudyQuestion } from "@/components/study/Checkpoint";
 import { LegNav, type LegLink } from "@/components/study/LegNav";
+import { PhoneButton, PhonePreview } from "@/components/study/PhonePreview";
 import { ReadAloudStrip } from "@/components/study/ReadAloudStrip";
 import { Reader } from "@/components/study/Reader";
 import { SectionPicker, type PickerManifest } from "@/components/study/SectionPicker";
@@ -52,6 +53,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   const [asking, setAsking] = useState(false);
   const [trouble, setTrouble] = useState(false);
   const [booting, setBooting] = useState(true);
+  const [phone, setPhone] = useState(false); // desktop-only phone preview (iframe), remembered across reloads
   const lastMarked = useRef<string>("");
   const checkRef = useRef<HTMLDivElement>(null);
   // one Checkpoint instance: phone inline or desktop column, never both (each would POST `check`)
@@ -232,6 +234,29 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
     await arrive(id, completed);
   }
 
+  // restore an open preview on reload; never inside the preview frame itself (it shares localStorage)
+  useEffect(() => {
+    if (window.self !== window.top) return;
+    try {
+      if (localStorage.getItem(PHONE_KEY) === "1") setPhone(true);
+    } catch {}
+  }, []);
+
+  function openPhone() {
+    player.pause(); // the frame shares the server cursor; do not read aloud in both
+    setPhone(true);
+    try {
+      localStorage.setItem(PHONE_KEY, "1");
+    } catch {}
+  }
+
+  const closePhone = useCallback(() => {
+    setPhone(false);
+    try {
+      localStorage.removeItem(PHONE_KEY);
+    } catch {}
+  }, []);
+
   async function endSession() {
     player.pause();
     const r = await tool("end_trip");
@@ -293,17 +318,18 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   const aside = (
     <>
       <div className="mb-4 flex shrink-0 gap-2">
-        <button type="button" onClick={() => setAsideTab("ask")} aria-pressed={asideTab === "ask"} className={`min-h-10 rounded-full px-4 text-[14px] font-semibold ${asideTab === "ask" ? "bg-ink text-ground" : "bg-panel text-ink"}`}>
+        <button type="button" onClick={() => setAsideTab("ask")} aria-pressed={asideTab === "ask"} className={`min-h-10 rounded-full px-4 text-[14px] font-semibold whitespace-nowrap ${asideTab === "ask" ? "bg-ink text-ground" : "bg-panel text-ink"}`}>
           Ask
         </button>
         <button
           type="button"
           onClick={() => (checkOpen ? setAsideTab("check") : openCheck())}
           aria-pressed={asideTab === "check"}
-          className={`min-h-10 rounded-full px-4 text-[14px] font-semibold ${asideTab === "check" ? "bg-ink text-ground" : "bg-panel text-ink"}`}
+          className={`min-h-10 rounded-full px-4 text-[14px] font-semibold whitespace-nowrap ${asideTab === "check" ? "bg-ink text-ground" : "bg-panel text-ink"}`}
         >
           Check my understanding
         </button>
+        <PhoneButton onClick={openPhone} />
       </div>
       {/* the middle is one flex region; whatever is inside owns the single scroll (the thread, or the checkpoint) */}
       <div className="flex min-h-0 flex-1 flex-col">
@@ -324,58 +350,71 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   );
 
   return (
-    <StudyLayout topBar={topBar} aside={aside} strip={strip}>
-      <SignalNotice show={trouble} />
-      {booting || !seg ? (
-        <p className="text-[17px] text-muted" role="status">
-          Getting your place…
-        </p>
-      ) : (
-        <>
-          {carriedFrom && startBlock > 0 && (
-            <div className="mb-5 flex items-center gap-2.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-gold ring-2 ring-ink" aria-hidden="true" />
-              <span className="text-sm font-semibold">Picked up where you stopped {carriedFrom === "voice" ? "listening" : "reading"}</span>
-            </div>
-          )}
-          <Reader title={seg.title} blocks={index} pos={audioOn ? pos : null} audioOn={audioOn} onTapSentence={(p) => player.seek(p, { play: true })} onAsk={(s) => openAsk(s)}>
-            {!desktop && (
-              <div ref={checkRef} className="mt-10 scroll-mt-[76px] border-t border-rule pt-8 lg:hidden">
-                {checkOpen ? (
-                  checkpoint()
-                ) : (
-                  <div>
-                    {/* gold until the leg's checkpoint is done; then the footer's Next leg is the one primary */}
-                    <button
-                      type="button"
-                      onClick={openCheck}
-                      className={`flex min-h-[60px] w-full items-center justify-center gap-3 rounded-2xl px-5 text-lg font-bold text-ink ${checkDone ? "border-2 border-ink" : "bg-gold"}`}
-                    >
-                      <CheckIcon size={22} /> Check my understanding
-                    </button>
-                    <p className="mt-3 text-center text-[14px] text-muted">Get off any time. Your place is saved.</p>
-                  </div>
-                )}
+    <>
+      <StudyLayout topBar={topBar} aside={aside} strip={strip}>
+        <SignalNotice show={trouble} />
+        {booting || !seg ? (
+          <p className="text-[17px] text-muted" role="status">
+            Getting your place…
+          </p>
+        ) : (
+          <>
+            {carriedFrom && startBlock > 0 && (
+              <div className="mb-5 flex items-center gap-2.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-gold ring-2 ring-ink" aria-hidden="true" />
+                <span className="text-sm font-semibold">Picked up where you stopped {carriedFrom === "voice" ? "listening" : "reading"}</span>
               </div>
             )}
-            {legNav}
-            <div className="mt-10 flex flex-col gap-2 border-t border-rule pt-5 text-[14px] lg:hidden">
-              <Link href="/learn/voice?carry=1" className="flex min-h-10 items-center gap-2 font-semibold">
-                <HeadphonesIcon size={18} /> Switch to Listen mode
-              </Link>
-              <span className="text-muted">Listening on the go? Your place carries over.</span>
-              <button type="button" onClick={endSession} className="self-start text-muted underline underline-offset-4">
-                End session
-              </button>
-            </div>
-          </Reader>
-        </>
-      )}
-      {seg && !sheetOpen && !checkOpen && <AssistantFab onClick={() => openAsk()} lifted={!!strip} />}
-      <AssistantSheet open={sheetOpen} onClose={() => setSheetOpen(false)}>
-        {assistant()}
-      </AssistantSheet>
-      <SectionPicker open={pickerOpen} onClose={() => setPickerOpen(false)} manifest={manifest} hereSection={section} completed={completed} busy={booting} onPick={jumpToSection} />
-    </StudyLayout>
+            <Reader title={seg.title} blocks={index} pos={audioOn ? pos : null} audioOn={audioOn} onTapSentence={(p) => player.seek(p, { play: true })} onAsk={(s) => openAsk(s)}>
+              {!desktop && (
+                <div ref={checkRef} className="mt-10 scroll-mt-[76px] border-t border-rule pt-8 lg:hidden">
+                  {checkOpen ? (
+                    checkpoint()
+                  ) : (
+                    <div>
+                      {/* gold until the leg's checkpoint is done; then the footer's Next leg is the one primary */}
+                      <button
+                        type="button"
+                        onClick={openCheck}
+                        className={`flex min-h-[60px] w-full items-center justify-center gap-3 rounded-2xl px-5 text-lg font-bold text-ink ${checkDone ? "border-2 border-ink" : "bg-gold"}`}
+                      >
+                        <CheckIcon size={22} /> Check my understanding
+                      </button>
+                      <p className="mt-3 text-center text-[14px] text-muted">Get off any time. Your place is saved.</p>
+                    </div>
+                  )}
+                </div>
+              )}
+              {legNav}
+              <div className="mt-10 flex flex-col gap-2 border-t border-rule pt-5 text-[14px] lg:hidden">
+                <Link href="/learn/voice?carry=1" className="flex min-h-10 items-center gap-2 font-semibold">
+                  <HeadphonesIcon size={18} /> Switch to Listen mode
+                </Link>
+                <span className="text-muted">Listening on the go? Your place carries over.</span>
+                <button type="button" onClick={endSession} className="self-start text-muted underline underline-offset-4">
+                  End session
+                </button>
+              </div>
+            </Reader>
+          </>
+        )}
+        {seg && !sheetOpen && !checkOpen && <AssistantFab onClick={() => openAsk()} lifted={!!strip} />}
+        <AssistantSheet open={sheetOpen} onClose={() => setSheetOpen(false)}>
+          {assistant()}
+        </AssistantSheet>
+        <SectionPicker open={pickerOpen} onClose={() => setPickerOpen(false)} manifest={manifest} hereSection={section} completed={completed} busy={booting} onPick={jumpToSection} />
+      </StudyLayout>
+    <PhonePreview open={phone} onClose={closePhone} src={phoneSrc()} />
+    </>
   );
+}
+
+const PHONE_KEY = "study:phone";
+
+// Same route and query (keeps ?goto=), flagged so the embedded page can tell it is a preview.
+function phoneSrc(): string {
+  if (typeof window === "undefined") return "/learn/study?frame=1";
+  const q = new URLSearchParams(window.location.search);
+  q.set("frame", "1");
+  return `/learn/study?${q}`;
 }

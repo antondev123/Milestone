@@ -115,3 +115,10 @@ export const PlayGlyph = ({ size = 34 }: { size?: number }) => (
     <path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor" />
   </svg>
 );
+
+export const PhoneIcon = (p: P) => (
+  <Svg {...p}>
+    <rect x="7" y="2.5" width="10" height="19" rx="2.5" />
+    <path d="M11 18.5h2" />
+  </Svg>
+);
