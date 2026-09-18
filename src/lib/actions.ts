@@ -2,7 +2,7 @@
 // and the ElevenLabs tool route. Keep all business logic here.
 import { DEMO_USER_ID, type Mode, type Plan, type Progress, type TripSummary, type GradeResponse, type ToolReply } from "@/types/lesson";
 import { DEFAULT_COURSE_ID, loadCourse, loadQuestionFull, loadSegmentFull } from "./course";
-import { getProgress, resetProgress } from "./store";
+import { getProgress, resetProgress, saveProgress } from "./store";
 import { planTrip } from "./planner";
 import { gradeAnswer } from "./grader";
 import { completeSegment, endTrip, recordCheckpoint, startTrip } from "./progress";
@@ -37,6 +37,30 @@ export function actionStartSession(minutes: number, mode: Mode): Plan {
   // warm the section cache for this trip
   for (const id of plan.segmentIds) loadSegmentFull(courseId, id);
   return plan;
+}
+
+/**
+ * Mode switch mid-trip: keep the running trip (same id, plan and clock) and just change mode,
+ * so the other screen does not ask "how long is this trip?" again. Null when no trip is running.
+ */
+export function actionCarryTrip(mode: Mode): Plan | null {
+  const course = loadCourse(courseId);
+  const progress = getProgress(userId, courseId);
+  const trip = progress.activeTrip;
+  if (!trip) return null;
+  const c = cursor.ensureCursor(course, progress);
+  delete c.lastReply;
+  trip.mode = mode;
+  saveProgress(progress);
+  const elapsed = (Date.now() - new Date(trip.startedAt).getTime()) / 60_000;
+  const left = Math.max(1, Math.round(trip.minutes - elapsed));
+  return {
+    tripId: trip.tripId,
+    segmentIds: trip.segmentIds,
+    estMinutes: left,
+    startAt: progress.resume,
+    greeting: say.carryOn(left),
+  };
 }
 
 // ---------- legacy segment API (text mode PR A, old agent tools) ----------

@@ -24,6 +24,7 @@ Updated: 2026-09-18 (trip-end summary fix on Fly; voice lessons auto-start after
 - **Chapter 1 is verbatim**: eight legs cut from the PDF text layer (`scripts/verbatim-chapter.ts`, `data/courses/pom/verbatim/`), 1/1/3/3 legs across 1.1–1.4, `model: "verbatim"`. Chapters 2–3 are still the ingested adaptations. Chapter 1 quiz unchanged.
 - Seed is position-only (no fabricated trips, answers or streak).
 - **Voice lessons start on their own**: the greeting no longer says "Say go"; `VoiceAgent.start()` arms auto-continue so the first block follows the greeting. Agent prompt (`scripts/configure-agent.ts`) updated to expect the synthetic "continue" as the start signal, so run `npm run agent:configure` after merging.
+- **Mode switch keeps the trip**: tapping Listen instead / Read instead mid-trip opens the other mode with `?carry=1`, which calls `POST /api/session {carry: true}` (`actionCarryTrip`). Same trip id, plan and clock; only `activeTrip.mode` changes, and the opening line says the minutes left. No second "How long is this trip?". Verified both directions on localhost. Arriving from the home screen still shows the picker.
 - `chunk.ts` sentence splitter no longer breaks on initials ("U.S."), so block boundaries hold in 1.3.
 
 ## In progress / needs a human

@@ -81,13 +81,35 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
     await step("next");
   }
 
+  // Arrived from Listen mid-trip (?carry=1): keep that trip instead of asking its length again.
+  const carrying = params.get("carry") === "1";
+  const [carryFailed, setCarryFailed] = useState(false);
+  const carried = useRef(false); // Strict Mode runs effects twice; a second carry + next would skip a block
+  useEffect(() => {
+    if (!carrying || carried.current) return;
+    carried.current = true;
+    (async () => {
+      setBusy(true);
+      const p = await persist(() => postJSON<Plan | { error: string }>("/api/session", { carry: true, mode: "text" }), setTrouble);
+      if (!("tripId" in p)) {
+        setCarryFailed(true);
+        setBusy(false);
+        return;
+      }
+      setPlan(p);
+      if (p.greeting) say({ who: "tutor", text: p.greeting, tone: "aside" });
+      await step("next");
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   async function finish() {
     setBusy(true);
     const r = await tool("end_trip");
     router.push(`/trip/${r.tripId}/summary`);
   }
 
-  if (!course)
+  if (!course || (carrying && !plan && !carryFailed))
     return (
       <Screen>
         <p className="text-[17px] text-muted">Getting your place…</p>
@@ -96,7 +118,7 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
   if (!plan)
     return (
       <Screen>
-        <TopBar left={<BackLink href="/" />} title="Read quietly" right={<ModePill to="listen" onClick={() => router.push("/learn/voice")} />} />
+        <TopBar left={<BackLink href="/" />} title="Read quietly" right={<ModePill to="listen" onClick={() => router.push(plan ? "/learn/voice?carry=1" : "/learn/voice")} />} />
         <TripPicker label="Read quietly: short text, tap to answer" onStart={start} busy={busy} />
       </Screen>
     );
@@ -111,7 +133,7 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
       <TopBar
         left={<BackLink href="/" />}
         title={leg ? `Leg ${leg.n} of ${leg.of}` : course.title}
-        right={<ModePill to="listen" onClick={() => router.push("/learn/voice")} />}
+        right={<ModePill to="listen" onClick={() => router.push(plan ? "/learn/voice?carry=1" : "/learn/voice")} />}
       />
 
       <div className="h-1 overflow-hidden rounded-sm bg-track" aria-hidden="true">

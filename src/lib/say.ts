@@ -114,6 +114,11 @@ export function greeting(course: Course, progress: Progress, minutes: number, pl
   return `Back in chapter ${num(p.chapter.number)}, ${p.chapter.shortTitle}. Section ${sectionNumber(p.section.number)}, part ${num(p.partIndex)} of ${num(p.partCount)}. ${fits}. Here we go.`;
 }
 
+/** Opening line after a mode switch mid-trip: the trip carries on, no new plan. */
+export function carryOn(minutesLeft: number): string {
+  return `Carrying on with your trip. About ${num(minutesLeft)} ${minutesLeft === 1 ? "minute" : "minutes"} left.`;
+}
+
 export function whereAmI(course: Course, progress: Progress, segmentId: string, phase: string): string {
   const p = place(course, segmentId);
   if (!p) return "I have lost my place. Say go to continue.";
