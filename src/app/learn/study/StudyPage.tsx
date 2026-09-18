@@ -2,11 +2,10 @@
 // Study mode: the book as a page, read aloud on request with the spoken word tracked, an assistant
 // beside it, and a tap/type checkpoint. Hands-on, not a commute. The server still owns the place:
 // every block the reader reaches is `mark`ed, so Listen and Read modes pick up there.
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BackLink, ModePill, Pill, SignalNotice, TopBar } from "@/components/carry/Chrome";
-import { CheckIcon, HeadphonesIcon, SpeakerIcon, StopIcon } from "@/components/carry/Icons";
+import { CheckIcon, SpeakerIcon, StopIcon } from "@/components/carry/Icons";
 import { persist, postJSON } from "@/components/carry/net";
 import { installErrorLog, setLogSession } from "@/lib/log/client";
 import { AssistantFab, AssistantSheet } from "@/components/study/AssistantSheet";
@@ -323,12 +322,8 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
       <div className="flex min-h-0 flex-1 flex-col">
         {desktop && asideTab === "check" && checkOpen ? <div className="min-h-0 flex-1 overflow-y-auto">{checkpoint(true)}</div> : assistant()}
       </div>
-      <div className="mt-3 flex shrink-0 flex-col gap-1 border-t border-rule pt-3 text-[14px]">
-        <Link href="/learn/voice?carry=1" className="flex min-h-10 items-center gap-2 font-semibold">
-          <HeadphonesIcon size={18} /> Switch to Hands-off
-        </Link>
-        <span className="text-muted">Your progress carries over.</span>
-        <button type="button" onClick={endSession} className={`mt-2 ${END_BUTTON} min-h-11 text-[15px]`}>
+      <div className="mt-3 flex shrink-0 flex-col border-t border-rule pt-3">
+        <button type="button" onClick={endSession} className={`${END_BUTTON} min-h-11 text-[15px]`}>
           <StopIcon size={18} /> End session
         </button>
       </div>
@@ -375,12 +370,6 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
               <button type="button" onClick={endSession} className={`mt-4 ${END_BUTTON} min-h-[60px] text-[17px] lg:hidden`}>
                 <StopIcon size={20} /> End session
               </button>
-              <div className="mt-10 flex flex-col gap-2 border-t border-rule pt-5 text-[14px] lg:hidden">
-                <Link href="/learn/voice?carry=1" className="flex min-h-10 items-center gap-2 font-semibold">
-                  <HeadphonesIcon size={18} /> Switch to Hands-off
-                </Link>
-                <span className="text-muted">On the move? Your progress carries over.</span>
-              </div>
             </Reader>
           </>
         )}
