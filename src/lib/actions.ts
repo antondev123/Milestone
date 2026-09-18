@@ -1,6 +1,6 @@
 // One set of engine actions shared by the direct API routes (text/voice UIs)
 // and the ElevenLabs tool route. Keep all business logic here.
-import { DEMO_USER_ID, type Mode, type Plan, type Progress, type TripSummary, type GradeResponse, type ToolReply } from "@/types/lesson";
+import { DEMO_USER_ID, allSegments, type Mode, type Plan, type Progress, type TripSummary, type GradeResponse, type ToolReply } from "@/types/lesson";
 import { DEFAULT_COURSE_ID, loadCourse, loadQuestionFull, loadSegmentFull } from "./course";
 import { getProgress, resetProgress, saveProgress } from "./store";
 import { planTrip } from "./planner";
@@ -23,27 +23,27 @@ export function actionReset(): Progress {
   return resetProgress(userId, courseId);
 }
 
-export function actionStartSession(minutes: number, mode: Mode): Plan {
+/** Start an open-ended trip at the cursor. It runs until the learner ends it (or the course runs out). */
+export function actionStartSession(mode: Mode): Plan {
   const course = loadCourse(courseId);
   const progress = getProgress(userId, courseId);
-  const plan = planTrip(course, progress, minutes, mode);
+  const plan = planTrip(course, progress, mode);
   // the cursor is the source of truth for position; the plan starts where it points
   const c = cursor.ensureCursor(course, progress);
   if (c.segmentId !== plan.startAt.segmentId || c.phase === "done") cursor.moveTo(c, plan.startAt.segmentId, plan.startAt.position === "checkpoint" ? "ask" : "read");
   delete c.lastReply;
   delete c.detour;
   delete c.quiz;
-  plan.greeting = say.greeting(course, progress, minutes, plan.segmentIds.length, plan.segmentIds[0]);
-  startTrip(progress, plan, minutes, mode);
-  // warm the section cache for this trip
-  for (const id of plan.segmentIds) loadSegmentFull(courseId, id);
-  openSession(plan, minutes, mode);
+  plan.greeting = say.greeting(course, progress, plan.startAt.segmentId);
+  startTrip(progress, plan, mode);
+  loadSegmentFull(courseId, plan.startAt.segmentId); // warm the first leg
+  openSession(plan, mode);
   return plan;
 }
 
 /**
- * Mode switch mid-trip: keep the running trip (same id, plan and clock) and just change mode,
- * so the other screen does not ask "how long is this trip?" again. Null when no trip is running.
+ * Mode switch mid-trip: keep the running trip (same id and clock) and just change mode,
+ * so the other screen does not start a second trip. Null when no trip is running.
  */
 export function actionCarryTrip(mode: Mode): Plan | null {
   const course = loadCourse(courseId);
@@ -54,14 +54,11 @@ export function actionCarryTrip(mode: Mode): Plan | null {
   delete c.lastReply;
   trip.mode = mode;
   saveProgress(progress);
-  const elapsed = (Date.now() - new Date(trip.startedAt).getTime()) / 60_000;
-  const left = Math.max(1, Math.round(trip.minutes - elapsed));
   const plan: Plan = {
     tripId: trip.tripId,
     segmentIds: trip.segmentIds,
-    estMinutes: left,
     startAt: progress.resume,
-    greeting: say.carryOn(left),
+    greeting: say.carryOn(),
   };
   carrySession(plan, mode);
   return plan;
@@ -75,15 +72,15 @@ export function actionGetSegment(segmentId?: string) {
   const id = segmentId ?? progress.resume.segmentId;
   const seg = loadSegmentFull(courseId, id);
   if (!seg) throw new Error(`unknown segment ${id}`);
-  const trip = progress.activeTrip;
-  const idx = trip ? trip.segmentIds.indexOf(id) : -1;
-  const nextId = trip && idx >= 0 ? trip.segmentIds[idx + 1] ?? null : null;
+  // trips are open-ended: "next" is the next segment in course order
+  const segs = allSegments(loadCourse(courseId));
+  const idx = segs.findIndex((s) => s.id === id);
   return {
     segment: seg,
     position: progress.resume.segmentId === id ? progress.resume.position : "start",
-    indexInTrip: idx,
-    tripLength: trip?.segmentIds.length ?? 0,
-    nextSegmentId: nextId,
+    indexInTrip: progress.activeTrip?.completedSegmentIds.length ?? -1,
+    tripLength: 0,
+    nextSegmentId: segs[idx + 1]?.id ?? null,
   };
 }
 
@@ -100,10 +97,9 @@ export function actionCompleteSegment(segmentId: string): { nextSegmentId: strin
   const progress = completeSegment(course, getProgress(userId, courseId), segmentId);
   const c = cursor.ensureCursor(course, progress);
   if (c.segmentId === segmentId) c.phase = "done";
-  const trip = progress.activeTrip;
-  if (!trip) return { nextSegmentId: null, tripDone: true };
-  const idx = trip.segmentIds.indexOf(segmentId);
-  const next = trip.segmentIds[idx + 1] ?? null;
+  if (!progress.activeTrip) return { nextSegmentId: null, tripDone: true };
+  const segs = allSegments(course);
+  const next = segs[segs.findIndex((s) => s.id === segmentId) + 1]?.id ?? null;
   return { nextSegmentId: next, tripDone: next === null };
 }
 
@@ -211,11 +207,13 @@ export async function actionAsk(question: string, opts: { context?: string; deto
       sayText += ` ${offer.say}`;
     }
   }
+  // "First question from the road" is earned here, so it is spoken before the continue tail
+  const reply = cursor.withMilestones(course, progress, { kind: "say", say: sayText, loc: "", more: false, offer });
   if (cur && !cur.detour!.offered && !offer) {
     cur.detour!.offered = true;
-    sayText += " Say continue when you are ready.";
+    reply.say += " Say continue when you are ready.";
   }
-  return cursor.commitReply(course, progress, { kind: "say", say: sayText, loc: "", more: false, offer });
+  return cursor.commitReply(course, progress, reply);
 }
 
 export function actionEndTripSpoken(): ToolReply & { summary: TripSummary } {

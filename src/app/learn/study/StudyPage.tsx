@@ -83,7 +83,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
       fetch("/api/course").then((r) => r.json()).then((m: Manifest) => setManifest(m));
       const p0 = (await persist(() => fetch("/api/progress").then((r) => r.json() as Promise<Progress>), setTrouble)) as Progress;
       // mid-trip from Listen or Read: keep that trip (same id and clock); otherwise open a study session
-      if (!p0.activeTrip) await persist(() => postJSON("/api/session", { minutes: 45, mode: "study" }), setTrouble);
+      if (!p0.activeTrip) await persist(() => postJSON("/api/session", { mode: "study" }), setTrouble);
       else if (p0.activeTrip.mode !== "study") await persist(() => postJSON("/api/session", { carry: true, mode: "study" }), setTrouble);
       if (gotoTarget) await tool("goto", { target: gotoTarget });
       const p = (await persist(() => fetch("/api/progress").then((r) => r.json() as Promise<Progress>), setTrouble)) as Progress;

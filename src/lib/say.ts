@@ -9,6 +9,7 @@ import {
   type SectionMeta,
   type SegmentMeta,
 } from "@/types/lesson";
+import { milestoneLabel } from "./milestones";
 
 const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"];
 export function num(n: number): string {
@@ -83,40 +84,49 @@ export function chapterIntro(p: Place): string {
   return `Chapter ${num(p.chapter.number)}, ${p.chapter.shortTitle}. ${sectionIntro(p)}`;
 }
 
-/** Boundary line when moving from `from` to `to`. Speaks only the level that changed. */
+/** Boundary line when moving from `from` to `to`. Names what just finished, then only the level that changed. */
 export function boundary(from: Place | null, to: Place): string {
   if (!from || from.chapter.id !== to.chapter.id) {
-    const done = from ? `Chapter ${num(from.chapter.number)} done. ` : "";
+    const done = from ? chapterDone(from.chapter, false) : "";
     return `${done}${chapterIntro(to)}`;
   }
-  if (from.section.id !== to.section.id) return `Section done. Next, ${sectionIntro(to)}`;
+  if (from.section.id !== to.section.id) return `${sectionDone(from)} Next, ${sectionIntro(to)}`;
   return partIntro(to);
 }
 
-export function chapterDone(chapter: Chapter, hasQuiz: boolean): string {
-  return `Chapter ${num(chapter.number)} done. ${hasQuiz ? "Its quiz is waiting whenever you say quiz me. " : ""}`;
+export function sectionDone(p: Place): string {
+  return `Section ${sectionNumber(p.section.number)}, ${p.section.title}, done.`;
 }
 
-export function greeting(course: Course, progress: Progress, minutes: number, planSegments: number, firstSegmentId: string): string {
+export function chapterDone(chapter: Chapter, hasQuiz: boolean): string {
+  return `Chapter ${num(chapter.number)}, ${chapter.shortTitle}, done. ${hasQuiz ? "Its quiz is waiting whenever you say quiz me. " : ""}`;
+}
+
+/** Spoken the moment a milestone is earned; reading carries on after it. */
+export function milestones(ids: string[]): string {
+  return `Milestone: ${ids.map(milestoneLabel).join(". ")}.`;
+}
+
+export function greeting(course: Course, progress: Progress, firstSegmentId: string): string {
   // Spoken once, then reading starts on its own (the client auto-continues into `next`), so no "say go".
+  // Trips are open-ended, so no minutes and no "N parts fit".
   const p = place(course, firstSegmentId);
   if (!p) return `Ready when you are.`;
-  const fits = planSegments === 1 ? "One part fits" : `${num(planSegments)} parts fit`;
   const cur = progress.cursor;
   const fresh = progress.segmentsCompleted.length === 0 && !cur;
-  if (fresh) return `${course.title}. ${num(minutes)} minutes. Chapter ${num(p.chapter.number)}, ${p.chapter.shortTitle}. ${fits}. Here we go.`;
+  if (fresh) return `${course.title}. Chapter ${num(p.chapter.number)}, ${p.chapter.shortTitle}. Here we go.`;
   if (cur && cur.segmentId === firstSegmentId && cur.phase === "ask") {
     return `Back in chapter ${num(p.chapter.number)}. You have heard ${p.segment.title}, the questions are left.`;
   }
   if (cur && cur.segmentId === firstSegmentId && cur.blockIdx > 0) {
     return `Picking up inside ${p.segment.title}, where we stopped. Say start over if you would rather begin the part again.`;
   }
-  return `Back in chapter ${num(p.chapter.number)}, ${p.chapter.shortTitle}. Section ${sectionNumber(p.section.number)}, part ${num(p.partIndex)} of ${num(p.partCount)}. ${fits}. Here we go.`;
+  return `Back in chapter ${num(p.chapter.number)}, ${p.chapter.shortTitle}. Section ${sectionNumber(p.section.number)}, part ${num(p.partIndex)} of ${num(p.partCount)}. Here we go.`;
 }
 
-/** Opening line after a mode switch mid-trip: the trip carries on, no new plan. */
-export function carryOn(minutesLeft: number): string {
-  return `Carrying on with your trip. About ${num(minutesLeft)} ${minutesLeft === 1 ? "minute" : "minutes"} left.`;
+/** Opening line after a mode switch mid-trip: the trip carries on, same clock. */
+export function carryOn(): string {
+  return "Carrying on with your trip.";
 }
 
 export function whereAmI(course: Course, progress: Progress, segmentId: string, phase: string): string {

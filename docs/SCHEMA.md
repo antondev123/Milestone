@@ -122,7 +122,7 @@ ResumePointer  { segmentId, position: "start" | "checkpoint" }
 CheckpointResult { questionId, correct, attempt, mode, answer, feedback, at }
 
 TripSummary                      the progress artefact
-  tripId, startedAt, endedAt, minutes, mode
+  tripId, startedAt, endedAt, minutes (elapsed, rounded, min 1), mode
   segmentIds   completed this trip
   correct, total
   mastered     topics with correct/seen ≥ 0.75 after this trip (≥2 seen)
@@ -133,13 +133,14 @@ TripSummary                      the progress artefact
   milestones?  milestone ids first earned on this trip, e.g. "first-hands-free", "chapter-2", "quiz-1"
                (rules and labels in src/lib/milestones.ts; awarded once, only for what this trip did)
 
-ActiveTrip { tripId, startedAt, minutes, mode, segmentIds (planned), completedSegmentIds }
+ActiveTrip { tripId, startedAt, minutes (0 = open-ended), mode, segmentIds (always [] — trips run until ended),
+             completedSegmentIds, milestones? (ids earned and spoken so far this trip; merged into the summary) }
 ```
 
 ## Session plan (ephemeral, returned by POST /api/session)
 
 ```
-Plan { tripId, segmentIds, estMinutes, startAt: ResumePointer }
+Plan { tripId, segmentIds (always []), startAt: ResumePointer, greeting? }
 ```
 
 ## Grade request/response (POST /api/grade)
@@ -155,7 +156,7 @@ MCQ is graded locally by string match. Open questions go to Claude with prompt +
 
 | Route | Body → Response |
 |---|---|
-| POST /api/session | `{minutes, mode}` → `Plan` |
+| POST /api/session | `{mode}` → `Plan` (open-ended trip at the cursor); `{carry: true, mode}` keeps the running trip |
 | GET /api/course | → manifest without objectives/key terms (~35 KB). Never prose. |
 | GET /api/segment?id= | → `{segment (full), position, indexInTrip, tripLength, nextSegmentId}` |
 | POST /api/segment | `{segmentId}` → `{nextSegmentId, tripDone}` |
@@ -183,7 +184,8 @@ TripSummary += explored[]   detour topics this trip
 TripSummary += milestones[] milestone ids first earned on this trip
 Plan += greeting            server-composed opening line
 
-ToolReply { kind: "read"|"ask"|"say"|"end", say, loc, more, options?, correct?, tripId?, segmentId?, offer?, qIdx? }
+ToolReply { kind: "read"|"ask"|"say"|"end", say, loc, more, options?, correct?, tripId?, segmentId?, offer?, qIdx?,
+            milestones? (ids first earned by this reply; already spoken inside `say`, the client plays an earcon) }
   qIdx: set on kind "ask" so study mode can render the question locally
 Mode = "voice" | "text" | "study"   (study = hands-on reader; trips log as "studied")
 ```

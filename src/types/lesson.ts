@@ -133,9 +133,9 @@ export interface TripSummary {
   tripId: string;
   startedAt: string;
   endedAt: string;
-  minutes: number;
+  minutes: number; // elapsed, rounded (min 1)
   mode: Mode;
-  segmentIds: string[];
+  segmentIds: string[]; // legs completed on this trip
   correct: number;
   total: number;
   mastered: string[];
@@ -150,10 +150,11 @@ export interface TripSummary {
 export interface ActiveTrip {
   tripId: string;
   startedAt: string;
-  minutes: number;
+  minutes: number; // 0 = open-ended (trips run until the learner ends them)
   mode: Mode;
-  segmentIds: string[]; // planned
+  segmentIds: string[]; // planned legs; empty = open-ended, the cursor walks the course in order
   completedSegmentIds: string[]; // done so far this trip
+  milestones?: string[]; // ids earned (and spoken) so far this trip (src/lib/milestones.ts)
 }
 
 // ---------- Cursor: the server-owned position inside the course ----------
@@ -210,6 +211,7 @@ export interface ToolReply {
   segmentId?: string;
   offer?: { sectionId: string; say: string }; // ask() found a better section; goto on "yes"
   qIdx?: number; // which checkpoint question this is (set on kind "ask"); study mode renders it locally
+  milestones?: string[]; // milestone ids first earned by this reply (spoken inside `say`; the client plays an earcon)
 }
 
 export interface Progress {
@@ -234,8 +236,7 @@ export interface Progress {
 
 export interface Plan {
   tripId: string;
-  segmentIds: string[];
-  estMinutes: number;
+  segmentIds: string[]; // always empty: trips are open-ended
   startAt: ResumePointer;
   greeting?: string; // server-composed opening line, spoken verbatim by the agent
 }
@@ -245,7 +246,6 @@ export interface Plan {
 export interface SessionRequest {
   userId: string;
   courseId: string;
-  minutes: number;
   mode: Mode;
 }
 
@@ -262,9 +262,6 @@ export interface GradeResponse {
 
 // ---------- Helpers ----------
 
-export const CHECKPOINT_OVERHEAD_SEC: Record<Mode, number> = { voice: 60, text: 30, study: 30 };
-export const INTRO_SEC = 30;
-export const MAX_SEGMENTS_PER_TRIP = 6;
 export const DEMO_USER_ID = "demo";
 
 /** Segments in course order. Only ingested sections have segments. */

@@ -171,7 +171,7 @@ await api("PATCH", `/agents/${agentId}`, {
         disable_until_first_user_message: true,
       },
     },
-    conversation: { max_duration_seconds: 2400 },
+    conversation: { max_duration_seconds: 7200 /* trips are open-ended; matches HARD_STOP_MS in VoiceAgent.tsx */ },
   },
   platform_settings: {
     overrides: { conversation_config_override: { agent: { first_message: true, prompt: { prompt: false } } } },

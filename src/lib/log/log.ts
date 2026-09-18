@@ -92,23 +92,23 @@ export function logLlm(c: LlmCall): void {
   });
 }
 
-export function openSession(plan: Plan, minutes: number, mode: Mode): void {
+export function openSession(plan: Plan, mode: Mode): void {
   safe(() => {
     getDb()
       .prepare(
         `INSERT OR IGNORE INTO sessions (id, user_id, course_id, mode, started_at, minutes_planned)
          VALUES (?, ?, ?, ?, ?, ?)`,
       )
-      .run(plan.tripId, DEMO_USER_ID, DEFAULT_COURSE_ID, mode, new Date().toISOString(), minutes);
+      .run(plan.tripId, DEMO_USER_ID, DEFAULT_COURSE_ID, mode, new Date().toISOString(), 0); // minutes_planned: 0 = open-ended
   });
-  logEvent("session_start", { mode, minutes, segmentIds: plan.segmentIds, startAt: plan.startAt, greeting: plan.greeting }, { sessionId: plan.tripId });
+  logEvent("session_start", { mode, startAt: plan.startAt, greeting: plan.greeting }, { sessionId: plan.tripId });
 }
 
 export function carrySession(plan: Plan, mode: Mode): void {
   safe(() => {
     getDb().prepare("UPDATE sessions SET mode = ? WHERE id = ?").run(mode, plan.tripId);
   });
-  logEvent("session_carry", { mode, minutesLeft: plan.estMinutes }, { sessionId: plan.tripId });
+  logEvent("session_carry", { mode }, { sessionId: plan.tripId });
 }
 
 /** Idempotent like endTrip: a second end (agent tool, then the button) updates nothing and logs nothing. */

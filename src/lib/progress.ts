@@ -15,14 +15,15 @@ import {
 import { awardMilestones } from "./milestones";
 import { saveProgress } from "./store";
 
-export function startTrip(progress: Progress, plan: Plan, minutes: number, mode: Mode): Progress {
+export function startTrip(progress: Progress, plan: Plan, mode: Mode): Progress {
   progress.activeTrip = {
     tripId: plan.tripId,
     startedAt: new Date().toISOString(),
-    minutes,
+    minutes: 0, // open-ended
     mode,
     segmentIds: plan.segmentIds,
     completedSegmentIds: [],
+    milestones: [],
   };
   progress.resume = plan.startAt;
   saveProgress(progress);
@@ -107,7 +108,7 @@ export function endTrip(course: Course, progress: Progress): TripSummary {
     tripId,
     startedAt,
     endedAt: now,
-    minutes: active?.minutes ?? 0,
+    minutes: Math.max(1, Math.round((new Date(now).getTime() - new Date(startedAt).getTime()) / 60_000)),
     mode: active?.mode ?? "text",
     segmentIds: active?.completedSegmentIds ?? [],
     correct: thisTrip.filter((c) => c.correct).length,
@@ -118,7 +119,8 @@ export function endTrip(course: Course, progress: Progress): TripSummary {
     streakDays: progress.streakDays,
     explored: [...new Set((progress.detours ?? []).filter((d) => d.at >= startedAt).map((d) => d.topic))],
   };
-  summary.milestones = awardMilestones({
+  // the ones already spoken mid-trip (earnNow) plus the end-of-trip pass (streaks, anything missed)
+  const atEnd = awardMilestones({
     course,
     progress,
     mode: summary.mode,
@@ -127,6 +129,7 @@ export function endTrip(course: Course, progress: Progress): TripSummary {
     detours: (progress.detours ?? []).filter((d) => d.at >= startedAt),
     quizzes: (progress.quizResults ?? []).filter((q) => q.at >= startedAt),
   });
+  summary.milestones = [...new Set([...(active?.milestones ?? []), ...atEnd])];
   progress.trips.push(summary);
   delete progress.activeTrip;
   saveProgress(progress);

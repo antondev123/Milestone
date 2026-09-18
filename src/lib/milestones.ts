@@ -1,5 +1,7 @@
-// Milestones: named stops earned from logged data, awarded once, at trip end.
-// Every rule needs this trip to have caused it, so seeded progress never earns one.
+// Milestones: named stops earned from logged data, awarded once. Checked mid-trip at the moments
+// that can earn one (part done, quiz done, first question) so they can be spoken on the road, and
+// again at trip end (streaks). Every rule needs this trip to have caused it, so seeded progress
+// never earns one.
 import { findChapter, type CheckpointResult, type Course, type Detour, type Mode, type Progress, type QuizResult } from "@/types/lesson";
 
 export interface MilestoneContext {
@@ -55,4 +57,28 @@ export function awardMilestones(ctx: MilestoneContext): string[] {
     if (ch && q.total > 0 && q.correct / q.total >= QUIZ_PASS) ids.push(`quiz-${ch.number}`);
   }
   return [...new Set(ids)].filter((id) => !earlier.has(id));
+}
+
+/**
+ * Mid-trip check: milestones the running trip has earned since the last check. Records them on
+ * `activeTrip.milestones` so each is spoken once; `endTrip` merges that list into the summary.
+ * Streak rules only resolve at trip end (the streak is updated there), so they never fire here.
+ */
+export function earnNow(course: Course, progress: Progress): string[] {
+  const trip = progress.activeTrip;
+  if (!trip) return [];
+  const since = (at: string) => at >= trip.startedAt;
+  const ids = awardMilestones({
+    course,
+    progress,
+    mode: trip.mode,
+    completedSegmentIds: trip.completedSegmentIds,
+    checks: progress.checkpoints.filter((c) => since(c.at) && c.attempt === 1),
+    detours: (progress.detours ?? []).filter((d) => since(d.at)),
+    quizzes: (progress.quizResults ?? []).filter((q) => since(q.at)),
+  });
+  trip.milestones ??= [];
+  const fresh = ids.filter((id) => !trip.milestones!.includes(id) && !id.startsWith("streak-"));
+  trip.milestones.push(...fresh);
+  return fresh;
 }

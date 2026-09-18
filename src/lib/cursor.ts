@@ -14,6 +14,7 @@ import {
 import { blocks } from "./chunk";
 import { loadChapterQuiz, loadQuestionFull, loadSegmentFull } from "./course";
 import { gradeAnswer } from "./grader";
+import { earnNow } from "./milestones";
 import { completeSegment, endTrip, recordCheckpoint } from "./progress";
 import * as say from "./say";
 import { saveProgress } from "./store";
@@ -75,15 +76,21 @@ export function moveTo(c: Cursor, segmentId: string, phase: Cursor["phase"] = "r
   delete c.quiz;
 }
 
-function nextSegmentId(course: Course, progress: Progress, segmentId: string): { id: string | null; planned: boolean } {
-  const trip = progress.activeTrip;
-  if (trip) {
-    const i = trip.segmentIds.indexOf(segmentId);
-    if (i >= 0) return { id: trip.segmentIds[i + 1] ?? null, planned: true };
-  }
+/** Trips are open-ended: the next segment is simply the next one in course order (null at the true end). */
+function nextSegmentId(course: Course, segmentId: string): string | null {
   const segs = allSegments(course);
   const i = segs.findIndex((s) => s.id === segmentId);
-  return { id: segs[i + 1]?.id ?? null, planned: false };
+  return segs[i + 1]?.id ?? null;
+}
+
+/** Append any milestone this state change just earned to the spoken line. Reading carries on after it. */
+export function withMilestones(course: Course, progress: Progress, reply: ToolReply): ToolReply {
+  const won = earnNow(course, progress);
+  if (won.length) {
+    reply.say = `${reply.say} ${say.milestones(won)}`.trim();
+    reply.milestones = won;
+  }
+  return reply;
 }
 
 // ---------- next ----------
@@ -137,16 +144,11 @@ export function serveNext(course: Course, progress: Progress, opts: { peek?: boo
     return opts.peek ? r : commit(course, progress, c, r);
   }
 
-  // phase done → next segment or end
+  // phase done → next segment in course order, or the end of the course
   const from = say.place(course, c.segmentId);
-  const nxt = nextSegmentId(course, progress, c.segmentId);
-  if (!nxt.id || (nxt.planned && nxt.id === null)) {
-    return endReply(course, progress, c, opts.peek);
-  }
-  if (progress.activeTrip && nxt.planned === false && !progress.activeTrip.segmentIds.includes(c.segmentId)) {
-    // off-plan (after a goto): keep going in course order
-  }
-  const to = say.place(course, nxt.id);
+  const nxtId = nextSegmentId(course, c.segmentId);
+  if (!nxtId) return endReply(course, progress, c, opts.peek);
+  const to = say.place(course, nxtId);
   if (!to) return endReply(course, progress, c, opts.peek);
   const chapterChanged = from && from.chapter.id !== to.chapter.id;
   let prefix = say.boundary(from, to) + " ";
@@ -158,13 +160,13 @@ export function serveNext(course: Course, progress: Progress, opts: { peek?: boo
       prefix = say.chapterDone(from.chapter, true) + say.chapterIntro(to) + " ";
     }
   }
-  if (!opts.peek) moveTo(c, nxt.id);
-  const cc = opts.peek ? { ...c, segmentId: nxt.id, blockIdx: 0, served: false, heard: true, phase: "read" as const, qIdx: 0, attempt: 0 } : c;
+  if (!opts.peek) moveTo(c, nxtId);
+  const cc = opts.peek ? { ...c, segmentId: nxtId, blockIdx: 0, served: false, heard: true, phase: "read" as const, qIdx: 0, attempt: 0 } : c;
   const r = readBlock(course, progress, cc, prefix);
   return opts.peek ? r : commit(course, progress, c, r);
 }
 
-/** Out of planned content: the trip ends itself; the reply carries tripId so the UI moves to the summary. */
+/** The course itself ran out: the trip ends; the reply carries tripId so the UI moves to the summary. */
 function endReply(course: Course, progress: Progress, c: Cursor, peek?: boolean): ToolReply {
   if (peek || !progress.activeTrip) {
     const r: ToolReply = { kind: "end", say: "That is the end of the course so far.", loc: loc(course, c), more: false };
@@ -220,7 +222,7 @@ function quizQuestion(course: Course, progress: Progress, c: Cursor): ToolReply 
     progress.pendingQuizzes = (progress.pendingQuizzes ?? []).filter((id) => id !== quiz?.chapterId);
     delete c.quiz;
     c.heard = false;
-    return { kind: "say", say: `Quiz done. ${say.num(res.correct)} of ${say.num(quiz?.questions.length ?? res.qIdx)} right. Back to the lesson.`, loc: loc(course, c), more: true };
+    return withMilestones(course, progress, { kind: "say", say: `Quiz done. ${say.num(res.correct)} of ${say.num(quiz?.questions.length ?? res.qIdx)} right. Back to the lesson.`, loc: loc(course, c), more: true });
   }
   c.served = true;
   c.heard = true;
@@ -299,9 +301,7 @@ export async function answer(course: Course, progress: Progress, text: string, m
     completeSegment(course, progress, c.segmentId);
     c.phase = "done";
     // completeSegment moved progress.resume; the cursor stays on this segment until next()
-    const nxt = nextSegmentId(course, progress, c.segmentId);
-    const tail = nxt.id ? " Part done." : " Part done.";
-    return commit(course, progress, c, { kind: "say", say: `${result.feedback}${tail}`, loc: loc(course, c), more: true, correct: result.correct });
+    return commit(course, progress, c, withMilestones(course, progress, { kind: "say", say: `${result.feedback} Part done.`, loc: loc(course, c), more: true, correct: result.correct }));
   }
   return commit(course, progress, c, { kind: "say", say: result.feedback, loc: loc(course, c), more: true, correct: result.correct });
 }
@@ -387,7 +387,7 @@ export function skip(course: Course, progress: Progress): ToolReply {
   if (c.phase === "ask") {
     completeSegment(course, progress, c.segmentId);
     c.phase = "done";
-    return commit(course, progress, c, { kind: "say", say: "Skipping the questions.", loc: loc(course, c), more: true });
+    return commit(course, progress, c, withMilestones(course, progress, { kind: "say", say: "Skipping the questions.", loc: loc(course, c), more: true }));
   }
   return commit(course, progress, c, { kind: "say", say: "Moving on.", loc: loc(course, c), more: true });
 }
