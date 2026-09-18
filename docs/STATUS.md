@@ -18,12 +18,18 @@ Updated: 2026-09-18 (Principles of Management course landed, chapters 1–3 inge
 - Anthropic key + `claude-sonnet-5`: ingest and grading. Grader rejects vague answers, accepts paraphrase, handles spoken MCQ ("thirteen hundred rand"). ~3.5–4.5 s per grade; acceptable for voice, watch it in rehearsal.
 - ElevenLabs key: valid, creator tier, 0 agents created yet.
 
+- **Carry design applied** (docs/DESIGN.md, docs/CONTEXT.md): Resume `/` and Progress `/progress` are new; `/learn/text`, `/learn/voice`, `/course` and the trip summary are re-skinned with the same behaviour (Fraunces + Public Sans, Carry tokens, top bar with mode pill, route line per chapter, answer buttons, feedback box with "From Principles of Management by OpenStax, section X", lost-signal notice with retry, no emoji).
+- **Chapter 1 is verbatim**: eight legs cut from the PDF text layer (`scripts/verbatim-chapter.ts`, `data/courses/pom/verbatim/`), 1/1/3/3 legs across 1.1–1.4, `model: "verbatim"`. Chapters 2–3 are still the ingested adaptations. Chapter 1 quiz unchanged.
+- Seed is position-only (no fabricated trips, answers or streak).
+- `chunk.ts` sentence splitter no longer breaks on initials ("U.S."), so block boundaries hold in 1.3.
+
 ## In progress / needs a human
 - Voice mode mic test in Chrome per docs/ELEVENLABS.md §6: confirm the 700 ms auto-continue grace window feels right and barge-in mid-block re-reads the block. Chunked reading is now server-driven, so no prompt tuning for it.
 
 ## Not started
 - Vercel deploy (progress store will be memory-only there; fine for demo, or demo on localhost).
-- Product name (5 options in the plan: Legroom, Enroute, Milestone, Kombi, Taxi Rank). Title/metadata still say "Commute Course".
+- **parse-book.ts drops real prose**: every `> **` line is treated as a figure caption, but pdftotext glues body text onto some of them. Lost from `source/`: most of Decisional Roles (1.3) and the levels-of-management paragraph (1.4); the ingested 1.3/1.4 lessons filled the gap from the model, not the book. Chapter 1 now bypasses this; chapters 2+ need a parser fix and a re-ingest check.
+- Resume card precision is block-level (~150 words): the cursor has no word offset, so the card shows the end of the last fully heard block, not the exact word.
 - Summary polish: mastered/revisit section only shows once topics have ≥2 attempts.
 
 ## Cut

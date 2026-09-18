@@ -1,56 +1,45 @@
 {
   "id": "pom/c1/s2",
   "title": "What Do Managers Do?",
-  "sourceHash": "fc802fdad45b",
-  "model": "claude-sonnet-5",
+  "sourceHash": "ed8d16c8f67f",
+  "model": "verbatim",
   "segments": [
     {
       "id": "pom/c1/s2/g1",
-      "title": "The Busy, Talkative Reality of Managing",
-      "durationSec": 180,
+      "title": "What managers actually do all day",
+      "durationSec": 242,
       "sectionId": "pom/c1/s2",
-      "script": "Think about the taxi rank marshal at a busy Joburg rank. He is never sitting still with a clipboard planning the whole day in peace. He is shouting at a driver about a loading order, taking a call from an association member about a fine, greeting a commuter who is lost, then turning around to settle a dispute between two drivers about a queue jump. That is exactly what research on managers found happens in real organizations. Managers do not spend their days locked away making big, slow decisions. They switch constantly from one small task to another, and most of these tasks last only a few minutes. One researcher, Mintzberg, watched chief executives at work and found they handled dozens of contacts a day, written and verbal, almost every one about something completely different, and most lasting less than nine minutes. Another researcher, Kotter, followed successful general managers for years and found they spent about seventy to ninety percent of their time with other people, not alone. The little time they spent by themselves was mostly at home or commuting, much like a supervisor at a Shoprite distribution centre who only gets to think quietly in the car on the way home. Kotter also found the conversations jumped from minor gossip to serious business matters, often within the same five minutes, and managers rarely gave dramatic orders. They mostly reacted to whatever came up, unplanned, the way a spaza shop owner reacts to a supplier arriving early or a customer complaint. Later research by Sproull found managers doing around fifty eight different activities a day, each lasting about nine minutes on average, and another study found that uninterrupted half hours were rare, happening only a handful of times across a whole month of observation. So what do managers actually do to help their organizations perform well. Mostly, they talk and they listen. Roughly two thirds to three quarters of a manager's time is spent in conversation, whether in hallways, on the phone, in one on one chats, or in group meetings. This talking is not idle. It is how managers gather information, stay aware of problems, negotiate what things mean, build plans, give direction, build relationships, and yes, sometimes spread the office gossip too. As Mintzberg put it, the manager does not leave the phone call to go do the real work. The phone call is the work. Whether you picture a clinic sister in Soweto coordinating nurses and stock deliveries all morning, or a stokvel treasurer fielding questions from twenty members, the pattern is the same. Effective managing is less about heroic solitary decision making and much more about constant, fast moving, mostly verbal interaction with people.",
+      "script": "Managers are in constant action. Virtually every study of managers in action has found that they \"switch frequently from task to task, changing their focus of attention to respond to issues as they arise, and engaging in a large volume of tasks of short duration.\" Mintzberg observed CEOs on the job to get some idea of what they do and how they spend their time. He found, for instance, that they averaged 36 written and 16 verbal contacts per day, almost every one of them dealing with a distinct or different issue. Most of these activities were brief, lasting less than nine minutes. Kotter studied a number of successful general managers over a five-year period and found that they spend most of their time with others, including subordinates, their bosses, and numerous people from outside the organization. Kotter's study found that the average manager spent just 25% of his time working alone, and that time was spent largely at home, on airplanes, or commuting. Few of them spent less than 70% of their time with others, and some spent up to 90% of their working time this way. Kotter also found that the breadth of topics in their discussions with others was extremely wide, with unimportant issues taking time alongside important business matters. His study revealed that managers rarely make \"big decisions\" during these conversations and rarely give orders in a traditional sense. They often react to others' initiatives and spend substantial amounts of time in unplanned activities that aren't on their calendars. He found that managers will spend most of their time with others in short, disjointed conversations. \"Discussions of a single question or issue rarely last more than ten minutes,\" he notes. \"It is not at all unusual for a general manager to cover ten unrelated topics in a five-minute conversation.\" More recently, managers studied by Sproull showed similar patterns. During the course of a day, they engaged in 58 different activities with an average duration of just nine minutes. Interruptions also appear to be a natural part of the job. Stewart found that the managers she studied could work uninterrupted for half an hour only nine times during the four weeks she studied them. Managers, in fact, spend very little time by themselves. Contrary to the image offered by management textbooks, they are rarely alone drawing up plans or worrying about important decisions. Instead, they spend most of their time interacting with others—both inside and outside the organization. If casual interactions in hallways, phone conversations, one-on-one meetings, and larger group meetings are included, managers spend about two thirds of their time with other people. As Mintzberg has pointed out, \"Unlike other workers, the manager does not leave the telephone or the meeting to get back to work. Rather, these contacts are his work.\" The interactive nature of management means that most management work is conversational. When managers are in action, they are talking and listening. Studies on the nature of managerial work indicate that managers spend about two-thirds to three-quarters of their time in verbal activity. These verbal conversations, according to Eccles and Nohria, are the means by which managers gather information, stay on top of things, identify problems, negotiate shared meanings, develop plans, put things in motion, give orders, assert authority, develop relationships, and spread gossip. In short, they are what the manager's daily practice is all about. \"Through other forms of talk, such as speeches and presentations,\" they write, \"managers establish definitions and meanings for their own actions and give others a sense of what the organization is about, where it is at, and what it is up to.\"",
       "keyPoints": [
-        "Managers work in short bursts, switching tasks frequently rather than following long uninterrupted plans",
-        "Most managerial time, often seventy to ninety percent, is spent interacting with other people, not working alone",
-        "Communication and conversation, not dramatic solo decisions, are the core tool managers use to gather information and get things done",
-        "Interruptions and unplanned activity are normal features of managerial work, not signs of poor organization"
+        "Managers switch from task to task; most activities last under ten minutes",
+        "Kotter found the average manager spent only 25% of the time alone",
+        "Interruptions are normal; managers spend about two thirds of their time with other people",
+        "Most management work is conversation: talking and listening is how managers gather information and get things moving"
       ],
-      "altExplanation": "Picture a minibus taxi driver on a busy route instead of a manager sitting at a desk. He never drives in a straight line for an hour thinking deeply about his route. He is constantly reacting, hooting at a passenger, negotiating a fare, dodging a pothole, answering his phone about a breakdown further down the road, all within minutes of each other. He rarely gets a quiet stretch of road to just think. That is closer to how managers actually spend their days than the image of someone calmly writing a five year plan in a quiet office. The real work happens in the constant small interactions, the quick conversations, and the rapid switching between issues, not in long stretches of solitary contemplation.",
-      "deeper": "It helps to understand why this pattern exists. Organizations are made up of interdependent people and processes, so problems and opportunities surface unpredictably from many directions at once, a supplier delay, a customer complaint, a policy question from head office, a personal issue with a staff member. A manager sits at the hub of these information flows, and the only practical way to stay on top of that much varied, fast changing information is through frequent, short, verbal exchanges rather than infrequent, long, written analysis. This is why Eccles and Nohria argued that talk itself, in meetings, calls, and even casual corridor chats, is not a distraction from management work but is the actual substance of it. Through these conversations managers gather intelligence, clarify what things mean for their teams, coordinate action, assert authority, and build the relationships that let the organization function. Recognizing this also changes what we should expect from ourselves as managers. Instead of feeling guilty for a fragmented, interrupted day, a manager should recognize that responsiveness and constant relationship building through conversation are actually the job, not a failure to do the job properly.",
-      "example": "Consider a branch manager at an Eskom customer service office. Her morning is not spent quietly reviewing reports. She fields a call about a power outage complaint, walks over to settle a disagreement between two cashiers, takes a two minute call from her regional boss, greets a supplier dropping off forms, and answers a junior staff member's question about a billing error, all before ten o'clock. None of these interactions individually looks like classic management, yet together they are exactly how she keeps the branch running and stays informed enough to make good calls later in the day.",
+      "altExplanation": "Picture a manager's day as a long run of short conversations rather than quiet hours of planning. Study after study found brief, fragmented activities, constant interruptions, and most of the day spent with other people. For a manager, those contacts are not a distraction from the work. They are the work.",
+      "deeper": "The chapter summary puts it this way: managers perform a variety of functions, but one of the most important is communicating with direct reports to help their organizations achieve and exceed goals.",
       "checkpoint": [
         {
           "id": "pom/c1/s2/g1/q1",
-          "prompt": "What do managers do to help organizations achieve top performance?",
-          "type": "open",
-          "answer": "Managers perform a variety of functions in organizations, but amongst one of the most important functions they perform is communicating with direct reports to help their organizations achieve and exceed goals.",
-          "rubric": "Answer must state that managers perform many functions but that communicating with direct reports or others is a key or central function that helps organizations meet or exceed their goals. Vague answers that only say managers plan or make decisions without mentioning communication should be marked incorrect.",
-          "topic": "managerial-communication",
-          "source": "book"
-        },
-        {
-          "id": "pom/c1/s2/g1/q2",
-          "prompt": "According to research by Kotter, roughly what proportion of a manager's time is spent working alone?",
+          "prompt": "In Kotter's study, how much of their time did the average manager spend working alone?",
           "type": "mcq",
           "options": [
-            "About twenty five percent",
-            "About fifty percent",
-            "About seventy five percent",
-            "Almost none, zero percent"
+            "About 50%",
+            "About 75%",
+            "Just 25%"
           ],
-          "answer": "About twenty five percent",
-          "rubric": "Correct answer is about twenty five percent, matching Kotter's finding that managers spent roughly a quarter of their time alone, mostly commuting or at home.",
-          "topic": "kotter-study",
+          "answer": "Just 25%",
+          "rubric": "Kotter found the average manager spent just 25% of the time working alone, mostly at home, on airplanes or commuting.",
+          "topic": "time-with-others",
           "source": "generated"
         },
         {
-          "id": "pom/c1/s2/g1/q3",
-          "prompt": "Explain why Mintzberg said that for a manager, contacts like phone calls and meetings are not interruptions to work but are the work itself.",
+          "id": "pom/c1/s2/g1/q2",
+          "prompt": "Why is most management work described as conversational?",
           "type": "open",
-          "answer": "Because managerial work is fundamentally interactive and conversational; gathering information, coordinating people, and getting things done happens through these contacts, so the manager does not step away from real work to take a call, the call is how the real work gets done.",
-          "rubric": "Answer must convey that management is inherently interactive or conversational, and that verbal contacts such as calls and meetings are the actual substance of managerial work rather than distractions from it.",
-          "topic": "managerial-communication",
+          "answer": "Because managers spend most of their time talking and listening to other people, about two thirds to three quarters of their time, and those conversations are how they gather information, plan and get things done.",
+          "rubric": "Must say that managers spend most of their time in verbal activity (talking and listening with others). Credit extra if they say conversation is how managers gather information, plan or act.",
+          "topic": "conversational-work",
           "source": "generated"
         }
       ]

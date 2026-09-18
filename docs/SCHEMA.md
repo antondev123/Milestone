@@ -69,6 +69,7 @@ The planner and progress code only need the manifest. Prose is loaded when a seg
 
 ```
 SectionLesson { id, title, sourceHash, model, segments: Segment[] }
+  model = the ingest model id, or "verbatim" when the scripts are cut from the PDF text layer by scripts/verbatim-chapter.ts (chapter 1). Verbatim scripts run 300–600 words.
 
 Segment extends SegmentMeta      one 3–5 min spoken unit
   script          plain prose, no markdown, read aloud verbatim. 380–560 words

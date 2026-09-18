@@ -1,8 +1,8 @@
-# Commute Course (working name)
+# Carry
 
 Turn the trip into the lesson. One lesson engine, two delivery modes: voice (driving, ElevenLabs agent) and text (taxi/bus, low-data chat UI). Both share progress and resume state.
 
-Docs: [OUTLINE](docs/OUTLINE.md) · [SCHEMA](docs/SCHEMA.md) · [STATUS](docs/STATUS.md) · [DEMO](docs/DEMO.md) · [ELEVENLABS](docs/ELEVENLABS.md)
+Docs: [CONTEXT](docs/CONTEXT.md) · [DESIGN](docs/DESIGN.md) · [OUTLINE](docs/OUTLINE.md) · [SCHEMA](docs/SCHEMA.md) · [STATUS](docs/STATUS.md) · [DEMO](docs/DEMO.md) · [ELEVENLABS](docs/ELEVENLABS.md)
 
 ## Team workflow
 
@@ -33,6 +33,7 @@ The ingested lessons for chapters 1–3 are committed, so `npm run dev` works wi
 | Script | What |
 |---|---|
 | `npm run dev` | Next.js dev server |
+| `npm run course:verbatim` | Offline: chapter 1 as eight verbatim legs from the PDF text layer (`data/courses/pom/verbatim/`) → `sections/c01-*.json` + `course.json` |
 | `npm run parse:book` | Offline, free: pdftotext dump → `data/courses/pom/source/*.md` + `course.json` |
 | `npm run ingest` | Offline: section markdown → spoken lessons via Claude, chapters 1–3 by default. Idempotent. Never runs on the request path. |
 | `npm run validate` | Check the course data: manifest ↔ files, ids, questions, script hygiene |
@@ -54,8 +55,12 @@ scripts/                     ingest.ts, demo-reset.ts
 src/types/lesson.ts          THE schema
 src/lib/                     engine: store, planner, grader
 src/app/api/                 session, grade, progress, tools/* (ElevenLabs webhooks)
-src/app/learn/text           text mode
-src/app/learn/voice          voice mode
+src/app/page.tsx             Resume (Carry design): route line + where the last trip stopped
+src/app/progress             Progress (Carry design): minutes learned in transit, trips
+src/app/learn/text           Read quietly: text mode over the speech tools
+src/app/learn/voice          Listen: ElevenLabs agent
+src/components/carry/        Carry design pieces: top bar, mode pill, route line, feedback box, icons, retry
+src/lib/view.ts              view models for the Carry screens (legs, resume card, trip rows)
 src/app/trip/[id]/summary    progress artefact
 ```
 

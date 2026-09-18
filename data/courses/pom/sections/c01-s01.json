@@ -1,62 +1,45 @@
 {
   "id": "pom/c1/s1",
   "title": "Introduction",
-  "sourceHash": "d1935906ef9e",
-  "model": "claude-sonnet-5",
+  "sourceHash": "1b4a038afbc8",
+  "model": "verbatim",
   "segments": [
     {
       "id": "pom/c1/s1/g1",
-      "title": "Why Management Class Actually Matters",
-      "durationSec": 176,
+      "title": "Management is more than common sense",
+      "durationSec": 149,
       "sectionId": "pom/c1/s1",
-      "script": "Picture yourself stuck in traffic on the N1, taxi radio blaring, and you start thinking about this management course you're taking. Maybe you think it's just common sense, something you'll never use because you're studying accounting or marketing and plan to work with numbers or clients, not people. That thinking is a mistake, and it's worth unpacking why, right here in your commute. Whether you end up running your own spaza shop, working as a junior accountant at a firm in Sandton, or driving your own taxi within an association, you will always have someone managing you, or you will be managing someone else. Understanding how that works changes how you experience your whole working life. Think about the taxi association you might belong to. At the top you have a small group making big decisions about routes, fares, and relationships with other associations. That's your executive management, the team steering the whole operation. Below them sit the branch or rank managers, the middle management, who take those big decisions and translate them into daily instructions, sorting out disputes between drivers, checking that everyone follows the queue system. Then you have the rank marshals, your first-line managers, who deal directly with drivers every single day, making sure cars load properly and disputes get sorted on the spot. Every organisation, from Eskom to a small Joburg clinic, has this same structure, different levels of managers doing different kinds of work. Now here's the surprising part. If you ask most textbooks, they'll tell you a manager's job is to plan, organise, staff, direct, coordinate, report, and control. Neat and tidy, right? But research into what managers actually do all day tells a very different story. Managers don't move calmly through those steps one at a time. Their day is messy, interrupted constantly, jumping from a phone call about stock at the spaza shop, to calming down an angry customer, to deciding whether to reorder cooldrink crates. That messy reality is captured by thinking about three broad roles every manager plays, no matter the industry. There's the interpersonal role, dealing with people, like a manager greeting staff each morning and building trust. There's the informational role, gathering and sharing information, like a stokvel treasurer checking on everyone's contributions and reporting back to the group. And there's the decisional role, making choices under pressure, like deciding whether Shoprite should discount stock nearing its expiry date today. This course exists to help you recognise these roles and levels, wherever you sit in an organisation, so you understand the behaviours that get people noticed and trusted, and so you can lead well when your turn comes.",
+      "script": "So, you're in this course and you may have pondered, or discussed with others, what this course will be about. You probably have some preconceptions of what management is all about. You must manage your time, deciding on how much study time you will devote to your management and accounting classes, for instance. You may have had a summer or part-time job where you had a manager whom you had to report to. You may have followed news reports on successful managers like Jeff Bezos of Amazon or Sheryl Sandberg of Facebook and want to learn what made them successful so you can emulate their practices in your business career. You may have the impression (not an accurate one) that management is basically just common sense and that you really don't need to take this course except that you must meet your degree requirement. You may be an accounting or marketing major who is taking this class because it is required for completion of your degree requirements, but you don't think that you will ever require what you learn in this class during your career since you don't plan on applying for HR jobs upon graduation. If you're believing this, you could not be more mistaken. Regardless of where you are in your career, be it as an individual contributor, project leader, or middle or senior manager, what you will get out of this course will be valuable. If your first job out of college is as an accountant, sales representative, or another entry-level position, you will appreciate the roles that your managers, both direct and senior level, play in an organization and the behaviors and actions that will get you recognized and appreciated. Best of luck! Most management textbooks would say, as does this one, that managers spend their time engaged in planning, organizing, staffing, directing, coordinating, reporting, and controlling. These activities, as Hannaway found in her study of managers at work, \"do not, in fact, describe what managers do.\" At best they seem to describe vague objectives that managers are continually trying to accomplish. The real world, however, is far from being that simple. The world in which most managers work is a \"messy and hectic stream of ongoing activity.\"",
       "keyPoints": [
-        "Every organisation has levels of management: executive, middle, and first-line managers, each doing different work",
-        "Real management work is messy and interrupted, not a neat sequence of planning and controlling",
-        "Managers play three roles constantly: interpersonal, informational, and decisional",
-        "This course applies to everyone, not just future HR or people managers"
+        "What you learn about management is useful at every career stage, not only in HR or senior jobs",
+        "Textbooks list planning, organizing, staffing, directing, coordinating, reporting and controlling",
+        "Hannaway found those activities do not describe what managers actually do",
+        "Real managerial work is a messy and hectic stream of ongoing activity"
       ],
-      "altExplanation": "Think of a big taxi rank like a human body. The brain, up top, decides on overall strategy, like which new routes to open, that's executive management. The spinal cord passes messages down and reports back up, adjusting daily operations, that's middle management. The hands and feet, doing the actual physical work of loading cars and directing traffic, that's first-line management, dealing straight with the workers on the ground. Just like a body needs all three parts working together smoothly, an organisation needs all three levels of management working in sync, or things fall apart fast.",
-      "deeper": "The idea that management is simply planning, organising, staffing, directing, coordinating, reporting, and controlling comes from classical management theory, and it still shapes how textbooks describe the job. But researchers who actually followed managers around during their workdays, watching what they did minute by minute, found something different. Managers rarely sit and calmly plan for long stretches. Instead their days are fragmented, full of short interactions, unplanned interruptions, and quick decisions made with incomplete information. This gap between the tidy textbook description and the messy reality matters because it means the real skill of management isn't following a checklist, it's handling ambiguity, switching between tasks quickly, and playing multiple roles simultaneously. The three broad roles, interpersonal, informational, and decisional, give us a more honest language for describing what managers actually spend their time doing, regardless of their level in the organisation, whether they supervise two people or two thousand.",
-      "example": "Consider a branch manager at a Shoprite store in Soweto. In one single morning she greets staff and resolves a conflict between two till operators, that's her interpersonal role. She then checks stock reports and shares delivery delays with her regional manager, that's her informational role. Finally she decides to move perishable stock to the front of the store before it expires, that's her decisional role. All three roles happened within one hour, proving management is not a neat sequence of steps but a constant juggling act.",
+      "altExplanation": "The textbook list of management activities reads like a tidy job description. When researchers watched managers at work, the tidy list did not match what they saw. The list describes goals managers keep aiming at, while the day itself is messy, hectic and continuous.",
+      "deeper": "The chapter's learning objectives frame the whole course: what managers do to help organizations achieve top performance, the roles they play, and the characteristics effective managers display. The rest of this chapter answers each of those in turn.",
       "checkpoint": [
         {
           "id": "pom/c1/s1/g1/q1",
-          "prompt": "Which level of management is directly responsible for managing nonmanagerial employees day to day?",
+          "prompt": "According to Hannaway, what is wrong with the textbook list of planning, organizing and controlling?",
           "type": "mcq",
           "options": [
-            "First-line managers",
-            "Executive managers",
-            "Middle management",
-            "Board of directors"
+            "It only applies to senior managers",
+            "It does not describe what managers actually do",
+            "It leaves out reporting"
           ],
-          "answer": "First-line managers",
-          "rubric": "Must select first-line managers as the level that directly supervises nonmanagerial staff.",
-          "topic": "management-levels",
+          "answer": "It does not describe what managers actually do",
+          "rubric": "Hannaway found that these activities \"do not, in fact, describe what managers do\"; at best they describe vague objectives managers keep trying to reach.",
+          "topic": "textbook-vs-reality",
           "source": "generated"
         },
         {
           "id": "pom/c1/s1/g1/q2",
-          "prompt": "Explain why research into managers' actual daily work contradicts the classic textbook description of management as planning, organising, staffing, directing, coordinating, reporting, and controlling.",
+          "prompt": "How does the chapter describe the world most managers actually work in?",
           "type": "open",
-          "answer": "Because studies of managers at work found their days are messy, hectic, and full of interruptions rather than a calm, orderly progression through these functions.",
-          "rubric": "Answer must mention that real managerial work is messy, hectic, or fragmented with interruptions, contrasting with the neat, orderly description in textbooks.",
+          "answer": "A messy and hectic stream of ongoing activity.",
+          "rubric": "Must convey that managerial work is messy, hectic or a constant stream of activity rather than a neat, orderly process.",
           "topic": "nature-of-managerial-work",
-          "source": "generated"
-        },
-        {
-          "id": "pom/c1/s1/g1/q3",
-          "prompt": "A manager sharing information she gathered from head office with her staff, and gathering feedback to pass back up, is performing which role?",
-          "type": "mcq",
-          "options": [
-            "Informational role",
-            "Decisional role",
-            "Interpersonal role",
-            "Supervisory role"
-          ],
-          "answer": "Informational role",
-          "rubric": "Must select informational role, describing gathering and sharing information.",
-          "topic": "managerial-roles",
           "source": "generated"
         }
       ]

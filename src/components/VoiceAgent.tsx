@@ -11,6 +11,9 @@ import { ConversationProvider, useConversation, useConversationClientTool } from
 import { useEffect, useRef, useState } from "react";
 import type { Plan, ToolReply } from "@/types/lesson";
 import { useBargeInDucking } from "./useBargeInDucking";
+import type { LegIndex } from "@/lib/view";
+import { Feedback, stripVerdict } from "./carry/Feedback";
+import { MicIcon, PlayGlyph } from "./carry/Icons";
 
 type Line = { who: "you" | "agent"; text: string };
 
@@ -26,12 +29,25 @@ async function post(tool: string, body: Record<string, unknown> = {}): Promise<T
   return r.json() as Promise<ToolReply>;
 }
 
-function Inner({ plan, onTripEnd, onReply }: { plan: Plan; onTripEnd: (tripId: string) => void; onReply?: (r: ToolReply) => void }) {
+function Inner({
+  plan,
+  onTripEnd,
+  onReply,
+  source,
+  legs,
+}: {
+  plan: Plan;
+  onTripEnd: (tripId: string) => void;
+  onReply?: (r: ToolReply) => void;
+  source?: string;
+  legs?: LegIndex;
+}) {
   const [lines, setLines] = useState<Line[]>([]);
   const [err, setErr] = useState<string | null>(null);
   const [ctx, setCtx] = useState<number | null>(null);
   const [loc, setLoc] = useState<string>("");
   const [typed, setTyped] = useState("");
+  const [graded, setGraded] = useState<ToolReply | null>(null); // last graded answer, shown in the feedback box
   const agentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID;
   // ?debug=1 shows the mic/duck meter for calibrating thresholds in rehearsal
   const [debugOn] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug"));
@@ -110,6 +126,8 @@ function Inner({ plan, onTripEnd, onReply }: { plan: Plan; onTripEnd: (tripId: s
   const absorb = (r: ToolReply): string => {
     autoContinue.current = r.more === true && !ended.current;
     if (r.loc) setLoc(r.loc);
+    if (r.correct !== undefined) setGraded(r);
+    else if (r.kind === "read" || r.kind === "ask") setGraded(null);
     onReply?.(r);
     if (r.kind === "end" && r.tripId) {
       ended.current = true;
@@ -174,39 +192,66 @@ function Inner({ plan, onTripEnd, onReply }: { plan: Plan; onTripEnd: (tripId: s
   }
 
   const live = conv.status === "connected";
+  const caption = lines.filter((l) => l.who === "agent").at(-1)?.text;
+  const heard = lines.at(-1)?.who === "you" ? lines.at(-1)?.text : undefined;
+  const where = graded?.segmentId ? legs?.[graded.segmentId] : undefined;
+
+  let label = "Ready when you are";
+  if (conv.status === "connecting") label = "Connecting";
+  else if (conv.status === "error") label = "Something went wrong";
+  else if (live) label = conv.isMuted ? "Mic muted" : tutorTalking ? "Now playing" : "Listening";
 
   return (
-    <div className="flex flex-1 flex-col gap-4">
-      <div className="rounded-2xl bg-slate-900 p-5 text-center">
-        <div
-          className={`mx-auto mb-3 h-24 w-24 rounded-full transition-all ${
-            !live ? "bg-slate-700" : tutorTalking ? "scale-110 bg-emerald-400 shadow-[0_0_40px_10px_rgba(52,211,153,0.4)]" : "bg-emerald-700"
-          }`}
-        />
-        <p className="text-sm text-slate-400">
-          {conv.status === "disconnected" && "Ready"}
-          {conv.status === "connecting" && "Connecting…"}
-          {live && conv.isMuted && "Mic muted. Tutor keeps talking; unmute to answer."}
-          {live && !conv.isMuted && (tutorTalking ? "Tutor speaking. Just talk to interrupt." : "Listening…")}
-          {conv.status === "error" && "Error"}
+    <div className="flex flex-1 flex-col gap-6">
+      <div className="flex flex-1 flex-col justify-center gap-3.5" aria-live="polite">
+        <div className="text-[15px] text-muted-on-ink">{label}</div>
+        <p className="font-display text-[30px] leading-[1.3]">
+          {caption ?? (live ? "…" : "Tap play and the tutor picks up where you are. Talk any time to answer or interrupt.")}
         </p>
-        <p className="mt-1 text-xs text-slate-500">
-          Say: go · repeat · explain differently · go deeper · skip · where am I · go to chapter two · quiz me · any question · I&apos;m done
-        </p>
+        {heard && (
+          <div className="flex flex-col gap-1">
+            <span className="text-sm text-muted-on-ink">Heard</span>
+            <p className="font-display text-[22px] italic">&ldquo;{heard}&rdquo;</p>
+          </div>
+        )}
+        {graded && <Feedback correct={graded.correct === true} text={stripVerdict(graded.say)} source={`From ${source ?? "the course"}${where ? `, section ${where.section}` : ""}`} dark />}
         {debugOn && live && (
-          <p className="mt-2 font-mono text-[11px] text-amber-300">
+          <p className="font-mono text-[11px] text-gold">
             in {debug.input.toFixed(3)} · floor {debug.floor.toFixed(3)} · ratio {debug.ratio.toFixed(2)} · out {debug.output.toFixed(3)} · {debug.phase.toUpperCase()}
           </p>
         )}
-        {(loc || ctx !== null) && (
-          <p className="mt-1 text-[10px] text-slate-600">
+        {debugOn && (loc || ctx !== null) && (
+          <p className="text-[11px] text-muted-on-ink">
             {loc}
             {ctx !== null ? ` · agent context ${ctx} tokens` : ""}
           </p>
         )}
       </div>
 
-      {err && <p className="rounded-xl bg-rose-900/50 px-4 py-2 text-sm text-rose-100">{err}</p>}
+      {err && (
+        <div role="status" className="rounded-xl bg-ink-raised px-4 py-3 text-[15px]">
+          {err}
+        </div>
+      )}
+
+      <div className="flex flex-col items-center gap-3">
+        {/* Not live: play starts the session. Live: mic-only mute; the session stays open and the tutor's audio keeps streaming. */}
+        <button
+          type="button"
+          onClick={() => (live ? conv.setMuted(!conv.isMuted) : start())}
+          disabled={conv.status === "connecting"}
+          aria-label={!live ? "Start listening" : conv.isMuted ? "Unmute the mic" : "Mute the mic"}
+          aria-pressed={live ? conv.isMuted : undefined}
+          className={`flex h-[92px] w-[92px] items-center justify-center rounded-full disabled:opacity-60 ${
+            live && conv.isMuted ? "border-2 border-gold text-gold" : "bg-gold text-ink"
+          } ${tutorTalking ? "ring-4 ring-gold/30" : ""}`}
+        >
+          {!live ? <PlayGlyph /> : <MicIcon size={34} />}
+        </button>
+        <p className="text-center text-sm text-muted-on-ink">
+          {!live ? "Play" : conv.isMuted ? "Mic muted. The tutor keeps talking; tap to answer." : "Mic on. Just talk to answer or interrupt."}
+        </p>
+      </div>
 
       {live && (
         <form
@@ -221,60 +266,57 @@ function Inner({ plan, onTripEnd, onReply }: { plan: Plan; onTripEnd: (tripId: s
           }}
           className="flex gap-2"
         >
+          <label htmlFor="typed" className="sr-only">
+            Type a command
+          </label>
           <input
+            id="typed"
             value={typed}
             onChange={(e) => setTyped(e.target.value)}
-            placeholder="Type a command if the mic is bad (go, skip, quiz me…)"
-            className="flex-1 rounded-xl bg-slate-800 px-3 py-2 text-sm outline-none"
+            placeholder="Mic trouble? Type: go, skip, quiz me"
+            className="min-h-12 flex-1 rounded-[14px] bg-ink-raised px-4 text-[15px] text-ground outline-none placeholder:text-muted-on-ink focus:ring-2 focus:ring-gold"
           />
-          <button className="rounded-xl bg-slate-700 px-3 py-2 text-sm">Send</button>
+          <button className="min-h-12 rounded-[14px] bg-ground px-4 text-[15px] font-bold text-ink">Send</button>
         </form>
       )}
 
-      <div className="flex flex-1 flex-col gap-2 overflow-y-auto">
-        {lines.slice(-8).map((l, i) => (
-          <div key={i} className={`max-w-[88%] rounded-2xl px-4 py-2 text-sm ${l.who === "you" ? "self-end bg-emerald-600" : "self-start bg-slate-800"}`}>
-            {l.text}
-          </div>
-        ))}
-      </div>
+      <p className="text-center text-sm text-muted-on-ink">Say: go, repeat, explain differently, go deeper, skip, where am I, quiz me, or ask anything.</p>
 
-      {!live ? (
-        <button onClick={start} className="rounded-xl bg-emerald-500 px-5 py-5 text-xl font-bold text-slate-950">
-          🎙️ Start talking
+      {live && (
+        <button
+          type="button"
+          onClick={async () => {
+            ended.current = true;
+            cancel();
+            conv.endSession();
+            const s = await post("end_trip");
+            onTripEnd(s.tripId ?? "");
+          }}
+          className="min-h-11 self-center text-[15px] font-semibold underline underline-offset-4"
+        >
+          End trip
         </button>
-      ) : (
-        <div className="flex gap-3">
-          {/* Mic-only mute: the session stays open and the tutor's audio keeps streaming. */}
-          <button
-            onClick={() => conv.setMuted(!conv.isMuted)}
-            aria-pressed={conv.isMuted}
-            className={`flex-1 rounded-xl px-5 py-4 text-lg font-semibold ${conv.isMuted ? "bg-amber-500 text-slate-950" : "bg-slate-800"}`}
-          >
-            {conv.isMuted ? "🔇 Unmute" : "🎤 Mute"}
-          </button>
-          <button
-            onClick={async () => {
-              ended.current = true;
-              cancel();
-              conv.endSession();
-              const s = await post("end_trip");
-              onTripEnd(s.tripId ?? "");
-            }}
-            className="flex-1 rounded-xl bg-slate-800 px-5 py-4 text-lg font-semibold"
-          >
-            End trip
-          </button>
-        </div>
       )}
     </div>
   );
 }
 
-export function VoiceAgent({ plan, onTripEnd, onReply }: { plan: Plan; onTripEnd: (tripId: string) => void; onReply?: (r: ToolReply) => void }) {
+export function VoiceAgent({
+  plan,
+  onTripEnd,
+  onReply,
+  source,
+  legs,
+}: {
+  plan: Plan;
+  onTripEnd: (tripId: string) => void;
+  onReply?: (r: ToolReply) => void;
+  source?: string;
+  legs?: LegIndex;
+}) {
   return (
     <ConversationProvider>
-      <Inner plan={plan} onTripEnd={onTripEnd} onReply={onReply} />
+      <Inner plan={plan} onTripEnd={onTripEnd} onReply={onReply} source={source} legs={legs} />
     </ConversationProvider>
   );
 }

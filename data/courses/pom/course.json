@@ -2,7 +2,7 @@
   "id": "pom",
   "title": "Principles of Management",
   "description": "The OpenStax Principles of Management textbook, transposed into commute-sized audio lessons with checkpoints.",
-  "estimatedMinutes": 178,
+  "estimatedMinutes": 184,
   "license": {
     "name": "CC BY 4.0",
     "url": "https://creativecommons.org/licenses/by/4.0/",
@@ -29,30 +29,25 @@
           "segments": [
             {
               "id": "pom/c1/s1/g1",
-              "title": "Why Management Class Actually Matters",
-              "durationSec": 176,
+              "title": "Management is more than common sense",
+              "durationSec": 149,
               "sectionId": "pom/c1/s1",
               "checkpoint": [
                 {
                   "id": "pom/c1/s1/g1/q1",
                   "type": "mcq",
-                  "topic": "management-levels"
+                  "topic": "textbook-vs-reality"
                 },
                 {
                   "id": "pom/c1/s1/g1/q2",
                   "type": "open",
                   "topic": "nature-of-managerial-work"
-                },
-                {
-                  "id": "pom/c1/s1/g1/q3",
-                  "type": "mcq",
-                  "topic": "managerial-roles"
                 }
               ]
             }
           ],
           "lessonFile": "sections/c01-s01.json",
-          "sourceHash": "d1935906ef9e"
+          "sourceHash": "1b4a038afbc8"
         },
         {
           "id": "pom/c1/s2",
@@ -69,30 +64,25 @@
           "segments": [
             {
               "id": "pom/c1/s2/g1",
-              "title": "The Busy, Talkative Reality of Managing",
-              "durationSec": 180,
+              "title": "What managers actually do all day",
+              "durationSec": 242,
               "sectionId": "pom/c1/s2",
               "checkpoint": [
                 {
                   "id": "pom/c1/s2/g1/q1",
-                  "type": "open",
-                  "topic": "managerial-communication"
+                  "type": "mcq",
+                  "topic": "time-with-others"
                 },
                 {
                   "id": "pom/c1/s2/g1/q2",
-                  "type": "mcq",
-                  "topic": "kotter-study"
-                },
-                {
-                  "id": "pom/c1/s2/g1/q3",
                   "type": "open",
-                  "topic": "managerial-communication"
+                  "topic": "conversational-work"
                 }
               ]
             }
           ],
           "lessonFile": "sections/c01-s02.json",
-          "sourceHash": "fc802fdad45b"
+          "sourceHash": "ed8d16c8f67f"
         },
         {
           "id": "pom/c1/s3",
@@ -109,53 +99,61 @@
           "segments": [
             {
               "id": "pom/c1/s3/g1",
-              "title": "Interpersonal and Informational Roles of Managers",
-              "durationSec": 158,
+              "title": "Interpersonal roles: figurehead, leader, liaison",
+              "durationSec": 191,
               "sectionId": "pom/c1/s3",
               "checkpoint": [
                 {
                   "id": "pom/c1/s3/g1/q1",
                   "type": "mcq",
-                  "topic": "interpersonal-roles"
+                  "topic": "figurehead-role"
                 },
                 {
                   "id": "pom/c1/s3/g1/q2",
                   "type": "open",
-                  "topic": "interpersonal-roles"
-                },
-                {
-                  "id": "pom/c1/s3/g1/q3",
-                  "type": "mcq",
-                  "topic": "informational-roles"
+                  "topic": "liaison-role"
                 }
               ]
             },
             {
               "id": "pom/c1/s3/g2",
-              "title": "The Decisional Roles Managers Fulfil",
-              "durationSec": 167,
+              "title": "Informational roles: monitor, disseminator, spokesperson",
+              "durationSec": 120,
               "sectionId": "pom/c1/s3",
               "checkpoint": [
                 {
                   "id": "pom/c1/s3/g2/q1",
                   "type": "mcq",
-                  "topic": "decisional-roles"
+                  "topic": "spokesperson-role"
                 },
                 {
                   "id": "pom/c1/s3/g2/q2",
                   "type": "open",
-                  "topic": "decisional-roles"
+                  "topic": "disseminator-role"
+                }
+              ]
+            },
+            {
+              "id": "pom/c1/s3/g3",
+              "title": "Decisional roles: entrepreneur to negotiator",
+              "durationSec": 130,
+              "sectionId": "pom/c1/s3",
+              "checkpoint": [
+                {
+                  "id": "pom/c1/s3/g3/q1",
+                  "type": "mcq",
+                  "topic": "resource-allocator-role"
                 },
                 {
-                  "id": "pom/c1/s3/g2/q3",
-                  "type": "mcq",
-                  "topic": "decisional-roles"
+                  "id": "pom/c1/s3/g3/q2",
+                  "type": "open",
+                  "topic": "crisis-vs-entrepreneur"
                 }
               ]
             }
           ],
           "lessonFile": "sections/c01-s03.json",
-          "sourceHash": "5655b3bdc07c"
+          "sourceHash": "5124adc8ff6b"
         },
         {
           "id": "pom/c1/s4",
@@ -172,53 +170,61 @@
           "segments": [
             {
               "id": "pom/c1/s4/g1",
-              "title": "The Manager's Daily Pressures",
-              "durationSec": 185,
+              "title": "Why the manager's job is so demanding",
+              "durationSec": 236,
               "sectionId": "pom/c1/s4",
               "checkpoint": [
                 {
                   "id": "pom/c1/s4/g1/q1",
-                  "type": "open",
-                  "topic": "levels-of-management"
+                  "type": "mcq",
+                  "topic": "span-of-control"
                 },
                 {
                   "id": "pom/c1/s4/g1/q2",
-                  "type": "mcq",
-                  "topic": "managerial-efficiency"
-                },
-                {
-                  "id": "pom/c1/s4/g1/q3",
                   "type": "open",
-                  "topic": "competing-values"
+                  "topic": "efficiency-core-skill"
                 }
               ]
             },
             {
               "id": "pom/c1/s4/g2",
-              "title": "Skills Across Levels and Departments",
-              "durationSec": 191,
+              "title": "Responsibilities and levels of management",
+              "durationSec": 188,
               "sectionId": "pom/c1/s4",
               "checkpoint": [
                 {
                   "id": "pom/c1/s4/g2/q1",
-                  "type": "open",
-                  "topic": "managerial-skills"
+                  "type": "mcq",
+                  "topic": "levels-of-management"
                 },
                 {
                   "id": "pom/c1/s4/g2/q2",
+                  "type": "open",
+                  "topic": "managerial-responsibilities"
+                }
+              ]
+            },
+            {
+              "id": "pom/c1/s4/g3",
+              "title": "Three managerial skills",
+              "durationSec": 210,
+              "sectionId": "pom/c1/s4",
+              "checkpoint": [
+                {
+                  "id": "pom/c1/s4/g3/q1",
                   "type": "mcq",
-                  "topic": "managerial-skills"
+                  "topic": "human-relations-skills"
                 },
                 {
-                  "id": "pom/c1/s4/g2/q3",
+                  "id": "pom/c1/s4/g3/q2",
                   "type": "open",
-                  "topic": "management-by-department"
+                  "topic": "skills-by-level"
                 }
               ]
             }
           ],
           "lessonFile": "sections/c01-s04.json",
-          "sourceHash": "1a7a78a40566"
+          "sourceHash": "bfdf8dca836d"
         },
         {
           "id": "pom/c1/s5",
@@ -261,139 +267,145 @@
       "segments": [
         {
           "id": "pom/c1/s1/g1",
-          "title": "Why Management Class Actually Matters",
-          "durationSec": 176,
+          "title": "Management is more than common sense",
+          "durationSec": 149,
           "sectionId": "pom/c1/s1",
           "checkpoint": [
             {
               "id": "pom/c1/s1/g1/q1",
               "type": "mcq",
-              "topic": "management-levels"
+              "topic": "textbook-vs-reality"
             },
             {
               "id": "pom/c1/s1/g1/q2",
               "type": "open",
               "topic": "nature-of-managerial-work"
-            },
-            {
-              "id": "pom/c1/s1/g1/q3",
-              "type": "mcq",
-              "topic": "managerial-roles"
             }
           ]
         },
         {
           "id": "pom/c1/s2/g1",
-          "title": "The Busy, Talkative Reality of Managing",
-          "durationSec": 180,
+          "title": "What managers actually do all day",
+          "durationSec": 242,
           "sectionId": "pom/c1/s2",
           "checkpoint": [
             {
               "id": "pom/c1/s2/g1/q1",
-              "type": "open",
-              "topic": "managerial-communication"
+              "type": "mcq",
+              "topic": "time-with-others"
             },
             {
               "id": "pom/c1/s2/g1/q2",
-              "type": "mcq",
-              "topic": "kotter-study"
-            },
-            {
-              "id": "pom/c1/s2/g1/q3",
               "type": "open",
-              "topic": "managerial-communication"
+              "topic": "conversational-work"
             }
           ]
         },
         {
           "id": "pom/c1/s3/g1",
-          "title": "Interpersonal and Informational Roles of Managers",
-          "durationSec": 158,
+          "title": "Interpersonal roles: figurehead, leader, liaison",
+          "durationSec": 191,
           "sectionId": "pom/c1/s3",
           "checkpoint": [
             {
               "id": "pom/c1/s3/g1/q1",
               "type": "mcq",
-              "topic": "interpersonal-roles"
+              "topic": "figurehead-role"
             },
             {
               "id": "pom/c1/s3/g1/q2",
               "type": "open",
-              "topic": "interpersonal-roles"
-            },
-            {
-              "id": "pom/c1/s3/g1/q3",
-              "type": "mcq",
-              "topic": "informational-roles"
+              "topic": "liaison-role"
             }
           ]
         },
         {
           "id": "pom/c1/s3/g2",
-          "title": "The Decisional Roles Managers Fulfil",
-          "durationSec": 167,
+          "title": "Informational roles: monitor, disseminator, spokesperson",
+          "durationSec": 120,
           "sectionId": "pom/c1/s3",
           "checkpoint": [
             {
               "id": "pom/c1/s3/g2/q1",
               "type": "mcq",
-              "topic": "decisional-roles"
+              "topic": "spokesperson-role"
             },
             {
               "id": "pom/c1/s3/g2/q2",
               "type": "open",
-              "topic": "decisional-roles"
+              "topic": "disseminator-role"
+            }
+          ]
+        },
+        {
+          "id": "pom/c1/s3/g3",
+          "title": "Decisional roles: entrepreneur to negotiator",
+          "durationSec": 130,
+          "sectionId": "pom/c1/s3",
+          "checkpoint": [
+            {
+              "id": "pom/c1/s3/g3/q1",
+              "type": "mcq",
+              "topic": "resource-allocator-role"
             },
             {
-              "id": "pom/c1/s3/g2/q3",
-              "type": "mcq",
-              "topic": "decisional-roles"
+              "id": "pom/c1/s3/g3/q2",
+              "type": "open",
+              "topic": "crisis-vs-entrepreneur"
             }
           ]
         },
         {
           "id": "pom/c1/s4/g1",
-          "title": "The Manager's Daily Pressures",
-          "durationSec": 185,
+          "title": "Why the manager's job is so demanding",
+          "durationSec": 236,
           "sectionId": "pom/c1/s4",
           "checkpoint": [
             {
               "id": "pom/c1/s4/g1/q1",
-              "type": "open",
-              "topic": "levels-of-management"
+              "type": "mcq",
+              "topic": "span-of-control"
             },
             {
               "id": "pom/c1/s4/g1/q2",
-              "type": "mcq",
-              "topic": "managerial-efficiency"
-            },
-            {
-              "id": "pom/c1/s4/g1/q3",
               "type": "open",
-              "topic": "competing-values"
+              "topic": "efficiency-core-skill"
             }
           ]
         },
         {
           "id": "pom/c1/s4/g2",
-          "title": "Skills Across Levels and Departments",
-          "durationSec": 191,
+          "title": "Responsibilities and levels of management",
+          "durationSec": 188,
           "sectionId": "pom/c1/s4",
           "checkpoint": [
             {
               "id": "pom/c1/s4/g2/q1",
-              "type": "open",
-              "topic": "managerial-skills"
+              "type": "mcq",
+              "topic": "levels-of-management"
             },
             {
               "id": "pom/c1/s4/g2/q2",
+              "type": "open",
+              "topic": "managerial-responsibilities"
+            }
+          ]
+        },
+        {
+          "id": "pom/c1/s4/g3",
+          "title": "Three managerial skills",
+          "durationSec": 210,
+          "sectionId": "pom/c1/s4",
+          "checkpoint": [
+            {
+              "id": "pom/c1/s4/g3/q1",
               "type": "mcq",
-              "topic": "managerial-skills"
+              "topic": "human-relations-skills"
             },
             {
-              "id": "pom/c1/s4/g2/q3",
+              "id": "pom/c1/s4/g3/q2",
               "type": "open",
-              "topic": "management-by-department"
+              "topic": "skills-by-level"
             }
           ]
         }

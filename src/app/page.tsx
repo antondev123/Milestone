@@ -1,24 +1,87 @@
+// Screen 1, Resume (docs/DESIGN.md §4.1). The cut-off on the card is the core proof: it comes
+// from the cursor, the same position the text and voice modes read from.
 import Link from "next/link";
+import { actionProgress } from "@/lib/actions";
+import { DEFAULT_COURSE_ID, loadCourse } from "@/lib/course";
+import { courseFinished, currentChapter, greeting, hereId, legIndex, resumeCard, routeState } from "@/lib/view";
+import { RouteLine } from "@/components/carry/RouteLine";
+import { Screen } from "@/components/carry/Chrome";
+import { HeadphonesIcon, LinesIcon } from "@/components/carry/Icons";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default function Resume() {
+  const course = loadCourse(DEFAULT_COURSE_ID);
+  const progress = actionProgress();
+  const finished = courseFinished(course, progress);
+  const chapter = currentChapter(course, progress);
+  const leg = legIndex(course)[hereId(progress)];
+  const route = routeState(chapter, progress, (n) => `Leg ${n}`);
+  const doneInChapter = route.done.filter(Boolean).length;
+  const card = finished ? null : resumeCard(course, progress, leg?.n ?? 1);
+  const fresh = progress.segmentsCompleted.length === 0 && progress.trips.length === 0 && !progress.cursor?.served;
+
   return (
-    <div className="flex flex-1 flex-col justify-center gap-8">
-      <div>
-        <h1 className="text-3xl font-bold">Commute Course</h1>
-        <p className="mt-2 text-slate-400">Turn the trip into the lesson.</p>
+    <Screen>
+      <div className="flex h-11 items-center justify-between">
+        <div className="font-display text-[26px] font-semibold tracking-[-0.01em]">Carry</div>
+        <Link href="/progress" className="flex min-h-11 items-center px-1 text-[15px] font-semibold underline underline-offset-4">
+          Your progress
+        </Link>
       </div>
+
+      <div className="flex flex-col gap-2">
+        <div className="text-[15px] text-muted">{greeting()}</div>
+        <h1 className="font-display text-[34px] leading-[1.12] font-semibold tracking-[-0.015em]">
+          {finished ? "You finished the course." : fresh ? "Your first leg is ready." : "Pick up where your last trip ended."}
+        </h1>
+      </div>
+
       <div className="flex flex-col gap-3">
-        <Link href="/learn/text" className="rounded-xl bg-slate-800 px-5 py-4 text-lg font-medium">
-          🚐 Taxi / bus — text mode
-        </Link>
-        <Link href="/learn/voice" className="rounded-xl bg-slate-800 px-5 py-4 text-lg font-medium">
-          🚗 Driving — voice mode
-        </Link>
-        <Link href="/course" className="rounded-xl bg-slate-900 px-5 py-3 text-sm font-medium text-slate-300">
-          🗺️ Course map
-        </Link>
+        <div className="flex items-baseline justify-between gap-4">
+          <div className="font-display text-xl font-semibold">
+            Chapter {chapter.number}: {chapter.shortTitle}
+          </div>
+          <div className="shrink-0 text-[15px] text-muted">
+            {doneInChapter} of {route.total} legs done
+          </div>
+        </div>
+        <RouteLine route={route} />
       </div>
-      <p className="text-xs text-slate-500">Course: Principles of Management (OpenStax, CC BY 4.0), transposed into commute-sized parts.</p>
-    </div>
+
+      {card && (
+        <div className="flex flex-col gap-3 rounded-[20px] bg-panel px-[22px] pt-[22px] pb-5">
+          <div className="text-[15px] text-muted">{card.context}</div>
+          <p className="font-display text-[23px] leading-[1.35] italic">{card.fragment}</p>
+          <div className="text-[15px] text-muted">{card.footer}</div>
+        </div>
+      )}
+
+      <div className="mt-auto flex flex-col gap-3">
+        {finished ? (
+          <Link href="/progress" className="flex min-h-[60px] items-center justify-center rounded-2xl bg-ink px-5 text-lg font-bold text-ground">
+            See your progress
+          </Link>
+        ) : (
+          <>
+            <div className="text-[17px] font-semibold">How are you travelling today?</div>
+            <Link href="/learn/text" className="flex min-h-[68px] items-center gap-4 rounded-2xl bg-gold px-5 py-3 text-ink">
+              <LinesIcon size={26} />
+              <span className="flex flex-col gap-0.5">
+                <span className="text-lg font-bold">Read quietly</span>
+                <span className="text-sm font-medium">Short text, tap to answer</span>
+              </span>
+            </Link>
+            <Link href="/learn/voice" className="flex min-h-[68px] items-center gap-4 rounded-2xl bg-ink px-5 py-3 text-ground">
+              <HeadphonesIcon size={26} />
+              <span className="flex flex-col gap-0.5">
+                <span className="text-lg font-bold">Listen</span>
+                <span className="text-sm font-medium">Audio, answer out loud or type</span>
+              </span>
+            </Link>
+          </>
+        )}
+      </div>
+    </Screen>
   );
 }

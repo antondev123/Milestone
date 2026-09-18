@@ -5,7 +5,18 @@ export const TARGET_WORDS = 150;
 const MIN_TAIL_WORDS = 40;
 
 export function sentences(text: string): string[] {
-  const out = text.match(/[^.!?]+[.!?]+["”’)]?|[^.!?]+$/g) ?? [text];
+  const out: string[] = [];
+  const re = /[.!?]+["”’')\]]*(?=\s|$)/g;
+  let start = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text))) {
+    const before = text.slice(start, m.index);
+    // not a boundary: initials and abbreviations such as "U.S." or "Dr."
+    if (m[0] === "." && (/(?:^|[\s.(])[A-Z]$/.test(before) || /\b(?:Mr|Mrs|Ms|Dr|St|vs|etc|e\.g|i\.e|No)$/.test(before))) continue;
+    out.push(text.slice(start, m.index + m[0].length));
+    start = m.index + m[0].length;
+  }
+  out.push(text.slice(start));
   return out.map((s) => s.trim()).filter(Boolean);
 }
 
