@@ -1,8 +1,9 @@
 # STATUS
 
-Updated: 2026-09-18 (car-mode Dial screen for Listen; Study mode added)
+Updated: 2026-09-18 (app renamed to Milestone; car-mode Dial screen for Listen; Study mode added)
 
 ## Done
+- **App renamed to Milestone**: browser tab title and the Resume header. "Carry" stays as the name of the design palette and the `components/carry` folder.
 - Task 1: docs/OUTLINE.md
 - Task 2: docs/SCHEMA.md + src/types/lesson.ts (added `ActiveTrip` on Progress)
 - Task 3: Next.js 16 + TS + Tailwind 4 scaffold, README, .env.example, npm scripts (`dev`, `ingest`, `demo:reset`, `typecheck`). Runs on Node 24 with no tsx.

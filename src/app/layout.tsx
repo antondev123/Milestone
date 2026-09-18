@@ -18,7 +18,7 @@ const publicSans = Public_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Carry",
+  title: "Milestone",
   description: "Learning that rides along, and picks up mid-sentence wherever your last trip ended.",
 };
 

@@ -1,6 +1,6 @@
 # Study mode (hands-on) — mockup brief
 
-Product: Carry. Turns commute time into course progress. The EXISTING app has a hands-free
+Product: Milestone. Turns commute time into course progress. The EXISTING app has a hands-free
 "Listen" mode (dark, big targets, voice agent) and a "Read quietly" text mode. Both are for the
 commute. Do NOT redesign those.
 
