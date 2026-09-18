@@ -48,6 +48,7 @@ export function useReadAloud(opts: {
   const cur = useRef<Position | null>(null);
   const pendingSeek = useRef<number | null>(null); // seconds to seek to once the media is ready
   const raf = useRef(0);
+  const speedRef = useRef(1); // mirrored in state for the UI; read here so loadBlock stays stable
   const cb = useRef({ onBlockStart, onFinished });
   cb.current = { onBlockStart, onFinished };
 
@@ -114,7 +115,8 @@ export function useReadAloud(opts: {
       setBlockDuration(0);
       pendingSeek.current = null;
       a.src = ttsUrl(segmentId, block, true);
-      a.playbackRate = speed;
+      a.defaultPlaybackRate = speedRef.current;
+      a.playbackRate = speedRef.current;
       a.load();
       cb.current.onBlockStart?.(block);
       if (autoplay) {
@@ -143,7 +145,7 @@ export function useReadAloud(opts: {
           a.pause();
         });
     },
-    [segmentId, speed, blockCount, audio, fetchMeta],
+    [segmentId, blockCount, audio, fetchMeta],
   );
 
   // element events, bound once
@@ -185,6 +187,12 @@ export function useReadAloud(opts: {
     a.addEventListener("loadedmetadata", onMeta);
     a.addEventListener("ended", onEnded);
     a.addEventListener("error", onError);
+    // Re-bound mid-playback (deps changed): the cleanup below cancelled the loop and no `play`
+    // event will restart it, so resume it here.
+    if (!a.paused) {
+      cancelAnimationFrame(raf.current);
+      raf.current = requestAnimationFrame(tick);
+    }
     return () => {
       a.removeEventListener("play", onPlay);
       a.removeEventListener("pause", onPause);
@@ -247,8 +255,12 @@ export function useReadAloud(opts: {
   );
 
   const setSpeed = useCallback((s: number) => {
+    speedRef.current = s;
     setSpeedState(s);
-    if (audioRef.current) audioRef.current.playbackRate = s;
+    if (audioRef.current) {
+      audioRef.current.defaultPlaybackRate = s;
+      audioRef.current.playbackRate = s;
+    }
   }, []);
 
   return { playing, loading, error, speed, pos, blockDuration, play, pause, toggle, seek, setSpeed };
