@@ -34,7 +34,7 @@ export function Dial({
   const icon = Math.round(size * (84 / 260));
   return (
     <div className="relative grid place-items-center" style={{ width: size, height: size }}>
-      <svg viewBox="0 0 260 260" width={size} height={size} className="absolute inset-0 -rotate-90" aria-hidden="true">
+      <svg viewBox="0 0 260 260" width={size} height={size} className="pointer-events-none absolute inset-0 -rotate-90" aria-hidden="true">
         <circle cx="130" cy="130" r={R} fill="none" stroke="var(--color-ink-track)" strokeWidth="8" />
         <circle
           cx="130"
@@ -54,7 +54,7 @@ export function Dial({
         onClick={onTap}
         disabled={disabled}
         aria-label={label}
-        className={`grid place-items-center rounded-full bg-gold text-ink disabled:opacity-60 ${dimmed ? "opacity-60" : ""}`}
+        className={`relative grid place-items-center rounded-full bg-gold text-ink disabled:opacity-60 ${dimmed ? "opacity-60" : ""}`}
         style={{ width: btn, height: btn }}
       >
         {glyph === "pause" ? <PauseGlyph size={icon} /> : <PlayGlyph size={icon} />}

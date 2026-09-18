@@ -59,7 +59,7 @@ export function ReadAloudStrip({
       <button type="button" onClick={onTapText} className="min-w-0 flex-1 text-left" aria-label="Scroll to the sentence being read">
         <div ref={box} className="overflow-hidden whitespace-nowrap text-[15px] leading-[1.35]">
           {status ? (
-            <span className="text-muted-on-ink">{status}</span>
+            <span className={error ? "text-gold" : "text-muted-on-ink"}>{status}</span>
           ) : (
             <div ref={line} className="inline-block transition-transform duration-200 ease-out" style={{ transform: `translateX(${shift}px)` }}>
               {words.map((w, i) => (

@@ -62,30 +62,27 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   }, []);
 
   // boot: a study session, optional goto from the course map, then the segment under the cursor
-  const booted = useRef(false); // Strict Mode runs effects twice; a second goto would push the return stack again
+  // Strict Mode runs effects twice: the ref keeps this to one run (a second goto would push the return stack
+  // again). No per-run cancel flag: the first run's cleanup fires straight away in dev and would abort the boot.
+  const booted = useRef(false);
   useEffect(() => {
     if (booted.current) return;
     booted.current = true;
-    let live = true;
     (async () => {
-      fetch("/api/course").then((r) => r.json()).then((m: Manifest) => live && setManifest(m));
+      fetch("/api/course").then((r) => r.json()).then((m: Manifest) => setManifest(m));
       const p0 = (await persist(() => fetch("/api/progress").then((r) => r.json() as Promise<Progress>), setTrouble)) as Progress;
       // mid-trip from Listen or Read: keep that trip (same id and clock); otherwise open a study session
       if (!p0.activeTrip) await persist(() => postJSON("/api/session", { minutes: 45, mode: "study" }), setTrouble);
       else if (p0.activeTrip.mode !== "study") await persist(() => postJSON("/api/session", { carry: true, mode: "study" }), setTrouble);
       if (gotoTarget) await tool("goto", { target: gotoTarget });
       const p = (await persist(() => fetch("/api/progress").then((r) => r.json() as Promise<Progress>), setTrouble)) as Progress;
-      if (!live) return;
       const id = p.cursor?.segmentId ?? p.resume.segmentId;
       const block = p.cursor?.segmentId === id && p.cursor.phase === "read" ? p.cursor.blockIdx : 0;
       lastMarked.current = `${id}/${block}`;
       setStartBlock(block);
       await loadSegment(id);
-      if (live) setBooting(false);
+      setBooting(false);
     })();
-    return () => {
-      live = false;
-    };
   }, [gotoTarget, tool, loadSegment]);
 
   const blockTexts = useMemo(() => (seg ? splitBlocks(seg.script) : []), [seg]);
