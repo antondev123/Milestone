@@ -9,7 +9,9 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "ingest": "node --env-file=.env.local scripts/ingest.ts data/courses/sample",
-    "demo:reset": "node scripts/demo-reset.ts"
+    "demo:reset": "node scripts/demo-reset.ts",
+    "ledger": "node --env-file=.env.local scripts/ledger.ts",
+    "agent:configure": "node --env-file=.env.local scripts/configure-agent.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.126.0",

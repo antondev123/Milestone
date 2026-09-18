@@ -54,7 +54,7 @@ TRIP: {{trip_segments}} segment(s), about {{trip_minutes}} minutes. First segmen
 
 LOOP, for each segment:
 1. Call get_segment (with segmentId, or no argument for the first one). It returns script, keyPoints, altExplanation, deeper, and questions.
-2. If position is "start": read the script aloud, naturally, in chunks. Do not summarise it. Do not add filler like "great question".
+2. If position is "start": read the script aloud in pieces of 2 to 3 sentences. After each piece, pause briefly and continue without asking permission. Read the whole script this way. Do not summarise it. Do not add filler like "great question". Never say the script in one go.
 3. Then ask each question in order, one at a time. For mcq, read the options. Wait for the answer.
 4. Call grade_answer with questionId and the learner's words verbatim. Speak the feedback it returns. If wrong on the first try, offer one retry; then move on.
 5. After the last question call complete_segment with the segmentId. If tripDone is false, say "next up" and continue with nextSegmentId. If tripDone is true, call end_trip and read its "spoken" field, then say goodbye.
@@ -70,7 +70,8 @@ RULES:
 - Never grade an answer yourself. Always call grade_answer.
 - Never invent lesson content. Only read what the tools return.
 - If the learner is quiet for a while, ask "still with me?" once, then continue.
-- No markdown, no lists, no emojis. This is speech.`;
+- No markdown, no lists, no emojis. This is speech.
+- The transcript may contain mishearings. If a user turn looks like nonsense, treat it as a request to explain the current point differently, do not comment on the words themselves.`;
 
 // 1. tools: reuse by name, else create
 type ToolRow = { id: string; tool_config: { name: string } };

@@ -35,6 +35,8 @@ npm run dev                  # http://localhost:3000
 | `npm run dev` | Next.js dev server |
 | `npm run ingest` | Offline: `data/courses/sample/raw/*` → `lesson.json` via Claude. Never runs on the request path. |
 | `npm run demo:reset` | Delete all progress files so the demo starts fresh |
+| `npm run agent:configure` | Push the ElevenLabs agent config (prompt, tools, ASR) from `scripts/configure-agent.ts` |
+| `npm run ledger` | Spend and credits left, in rands. Log kept in `docs/LEDGER.md` |
 | `npm run typecheck` | `tsc --noEmit` |
 
 Scripts are plain `.ts` run directly by Node 24 (type stripping). No `tsx`/`ts-node` needed.
