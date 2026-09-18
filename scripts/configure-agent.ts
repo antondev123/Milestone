@@ -91,7 +91,7 @@ for (const t of TOOLS) {
 }
 
 // 2. agent
-const LLM = process.env.ELEVENLABS_LLM ?? "gemini-2.5-flash";
+const LLM = process.env.ELEVENLABS_LLM ?? "gemini-3.6-flash";
 await api("PATCH", `/agents/${agentId}`, {
   name: "Commute Tutor",
   conversation_config: {
