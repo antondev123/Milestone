@@ -1,6 +1,6 @@
 // Shared screen furniture: the page frame, top bar, mode pill and the lost-signal notice.
 import Link from "next/link";
-import { ChevronIcon, HeadphonesIcon, LinesIcon } from "./Icons";
+import { BookIcon, ChevronIcon, HeadphonesIcon } from "./Icons";
 
 /** `dark: "deep"` is the paused Listen screen: one shade darker so paused reads at a squint. */
 export function Screen({ children, dark = false, gap = "gap-7" }: { children: React.ReactNode; dark?: boolean | "deep"; gap?: string }) {
@@ -55,9 +55,9 @@ export function Pill({ icon, label, onClick, dark = false, pressed }: { icon: Re
   );
 }
 
-/** "Listen instead" / "Read instead". Switching never moves the learner's place. */
-export function ModePill({ to, onClick, dark = false }: { to: "listen" | "read"; onClick: () => void; dark?: boolean }) {
-  return <Pill icon={to === "listen" ? <HeadphonesIcon size={18} /> : <LinesIcon size={18} />} label={to === "listen" ? "Listen instead" : "Read instead"} onClick={onClick} dark={dark} />;
+/** "Hands-off instead" / "Hands-on instead". Switching never moves the learner's place. */
+export function ModePill({ to, onClick, dark = false }: { to: "hands-off" | "hands-on"; onClick: () => void; dark?: boolean }) {
+  return <Pill icon={to === "hands-off" ? <HeadphonesIcon size={18} /> : <BookIcon size={18} />} label={to === "hands-off" ? "Hands-off instead" : "Hands-on instead"} onClick={onClick} dark={dark} />;
 }
 
 export function SignalNotice({ show, dark = false }: { show: boolean; dark?: boolean }) {

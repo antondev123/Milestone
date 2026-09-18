@@ -32,7 +32,7 @@ export default function CourseMap() {
       </div>
 
       {herePlace && (
-        <Link href="/learn/text" className="flex min-h-[60px] items-center justify-center rounded-2xl bg-gold px-5 text-center text-lg font-bold text-ink">
+        <Link href="/learn/voice" className="flex min-h-[60px] items-center justify-center rounded-2xl bg-gold px-5 text-center text-lg font-bold text-ink">
           Resume {herePlace.section.number}, {herePlace.segment.title}
         </Link>
       )}

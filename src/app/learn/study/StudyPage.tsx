@@ -339,7 +339,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
       </div>
       <div className="mt-3 flex shrink-0 flex-col gap-1 border-t border-rule pt-3 text-[14px]">
         <Link href="/learn/voice?carry=1" className="flex min-h-10 items-center gap-2 font-semibold">
-          <HeadphonesIcon size={18} /> Switch to Listen mode
+          <HeadphonesIcon size={18} /> Switch to Hands-off
         </Link>
         <div className="flex items-center justify-between gap-3">
           <span className="text-muted">Your progress carries over.</span>
@@ -390,9 +390,9 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
               {legNav}
               <div className="mt-10 flex flex-col gap-2 border-t border-rule pt-5 text-[14px] lg:hidden">
                 <Link href="/learn/voice?carry=1" className="flex min-h-10 items-center gap-2 font-semibold">
-                  <HeadphonesIcon size={18} /> Switch to Listen mode
+                  <HeadphonesIcon size={18} /> Switch to Hands-off
                 </Link>
-                <span className="text-muted">Listening on the go? Your progress carries over.</span>
+                <span className="text-muted">On the move? Your progress carries over.</span>
                 <button type="button" onClick={endSession} className="self-start text-muted underline underline-offset-4">
                   End session
                 </button>

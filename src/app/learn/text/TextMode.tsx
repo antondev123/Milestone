@@ -125,7 +125,7 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
       <TopBar
         left={<BackLink href="/" />}
         title={leg ? `Leg ${leg.n} of ${leg.of}` : course.title}
-        right={<ModePill to="listen" onClick={() => router.push(plan ? "/learn/voice?carry=1" : "/learn/voice")} />}
+        right={<ModePill to="hands-off" onClick={() => router.push(plan ? "/learn/voice?carry=1" : "/learn/voice")} />}
       />
 
       <div className="h-1 overflow-hidden rounded-sm bg-track" aria-hidden="true">

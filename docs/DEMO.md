@@ -9,7 +9,7 @@ npm run demo:stage
 npm run dev
 ```
 
-`demo:stage` wipes progress, seeds the position (chapter 1 done, chapter 2 through 2.4, no trips, answers or streak) and arms the demo. Trips are open-ended everywhere else; the armed demo makes the **next Listen trip** exactly 2.5 parts 1 and 2, ending on its own after part 2. It runs **once**: after the summary, Listen is an ordinary open-ended trip from 2.5 part 3. Run `demo:stage` again for the next person. Moving somewhere else in Study or Read before the demo (cursor off 2.5 part 1) also disarms it.
+`demo:stage` wipes progress, seeds the position (chapter 1 done, chapter 2 through 2.4, no trips, answers or streak) and arms the demo. Trips are open-ended everywhere else; the armed demo makes the **next Hands-off (Listen) trip** exactly 2.5 parts 1 and 2, ending on its own after part 2. It runs **once**: after the summary, Hands-off is an ordinary open-ended trip from 2.5 part 3. Run `demo:stage` again for the next person. Moving somewhere else in Hands-on (Study) or Read before the demo (cursor off 2.5 part 1) also disarms it.
 
 Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`. Do not pre-open `/learn/voice`: it starts the trip the moment it opens.
 
@@ -17,8 +17,8 @@ Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`
 "Half of South Africa's workers commute by public transport, and most start courses they never finish. This is a real textbook, OpenStax Principles of Management, eighteen chapters, cut into commute-sized parts. We turn the trip into the lesson."
 
 ## Beat 1, land and go (10 s)
-- `/` shows *Chapter 2: Managerial Decision-Making, 11 of 31 legs done* and the resume card. "Chapter one done, a third of chapter two. I'm driving, so: Listen."
-- Tap **Listen**. The Dial: Topic, Section and the ring, no words. Tap the **dial**, the only tap.
+- `/` shows *Chapter 2: Managerial Decision-Making, 11 of 31 legs done* and the resume card. "Chapter one done, a third of chapter two. I'm driving, so: Hands-off."
+- Tap **Hands-off**. The Dial: Topic, Section and the ring, no words. Tap the **dial**, the only tap.
 - Tutor: "Back in chapter two, Managerial Decision-Making. Section two point five, part one of seven. Here we go." Then it starts reading on its own.
 
 ## Beat 2, the first minute (80 s)
@@ -47,11 +47,11 @@ Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`
 
 ## Extras if the room wants more
 - **"go to chapter one"** → the Topic line and ring change. **"take me to the chapter one quiz"** → the book's own review questions, graded and spoken back. **"I'm done."** ends the trip from anywhere.
-- Study mode (`/learn/study`): the same section as a page, read aloud with the words highlighted, tap a sentence and ask about it.
-- Tap **Listen** again after the summary: an ordinary open-ended trip from 2.5 part 3. The demo does not repeat until `npm run demo:stage`.
+- Hands-on (`/learn/study`, the old Study mode): the same section as a page, read aloud with the words highlighted, tap a sentence and ask about it.
+- Tap **Hands-off** again after the summary: an ordinary open-ended trip from 2.5 part 3. The demo does not repeat until `npm run demo:stage`.
 
 ## Fallbacks
-- Mic or ElevenLabs fails: Read mode (`/learn/text`) has the same content and tools with typed commands; a Read trip is open-ended, so tap **End trip** after part 2. `/learn/voice?text=1` runs the real agent without audio but takes no commands (the Dial is hands-free).
+- Mic or ElevenLabs fails: Read mode has no button any more; open `/learn/text` by URL. It has the same content and tools with typed commands; a Read trip is open-ended, so tap **End trip** after part 2. `/learn/voice?text=1` runs the real agent without audio but takes no commands (the Dial is hands-free).
 - Grading API down (no `ANTHROPIC_API_KEY`): MCQs grade locally; open answers fall back to keyword matching, which is lenient and accepts the answers above.
 - `ask` slow: the "One sec" filler covers ~3 s; on a timeout the tutor says "I couldn't check that one, say go" and reading resumes.
 - The trip does not end after part 2: the demo was not armed (someone browsed away or it already ran). Say "I'm done", run `npm run demo:stage`, reload.

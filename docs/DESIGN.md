@@ -10,7 +10,7 @@ Name: **Milestone** (was Carry). Logo and colours: the Milestone brand kit in `d
 ## 1. Principles
 
 1. **The route line is the brand.** A course is a taxi route: 8 stops, one per leg. It appears on Resume and Progress. Do not invent other progress visuals.
-2. **Show the promise, don't describe it.** The resume card shows the actual cut-off sentence. Listen mode opens with "Your place carried over from reading." These two moments are the core proof. Protect them.
+2. **Show the promise, don't describe it.** The resume card shows the actual cut-off sentence. Listen mode opens with "Your progress carried over from reading." These two moments are the core proof. Protect them.
 3. **Each mode is designed for its moment.** Read mode is light, calm and text-first. Listen mode is dark, glanceable, with big targets. They are not the same screen with sound on.
 4. **Nothing on screen we can't back up.** Every number comes from logged data. Every lesson line comes from the source document.
 
@@ -115,7 +115,7 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 **Pick-up marker (Read mode):** a 10px gold dot with a 2px ink ring, followed by "Picked up where your last trip ended" (14/600). The sentence just before it is shown in muted at 17px, so the reader can find their place.
 
-**Carried-over chip (Listen mode):** ink-raised fill, radius 12, gold dot, "Your place carried over from reading". Show it whenever the learner arrives from the other mode.
+**Carried-over chip (Listen mode):** ink-raised fill, radius 12, gold dot, "Your progress carried over from reading". Show it whenever the learner arrives from the other mode.
 
 **Answer button:** panel fill, 64px tall or more, radius 14, 17px left-aligned text. Selected and correct: ink fill, ground text at 600 weight, gold check icon, `aria-pressed="true"`.
 
@@ -138,7 +138,7 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 **1. Resume.** Wordmark with Settings and "Your progress" links. Three ruled groups: the chapter (label "Chapter 2: …", "n of N legs done", the route line), where you stopped (the resume block), and, pinned to the bottom, "How are you studying today?" with the Read quietly / Listen / Study buttons. No greeting or screen heading: the route and the cut-off sentence are the headline. A finished course shows "You finished the course." in the middle group.
 
-**2. Read mode.** Top bar, a 4px progress bar for the current leg, the leg title, the previous sentence in muted text, the pick-up marker, then the lesson in short paragraphs (about 40 words each). At the bottom: a "Check my understanding" button with "Get off any time. Your place is saved." underneath.
+**2. Read mode.** Top bar, a 4px progress bar for the current leg, the leg title, the previous sentence in muted text, the pick-up marker, then the lesson in short paragraphs (about 40 words each). At the bottom: a "Check my understanding" button with "Get off any time. Your progress is saved." underneath.
 
 **3. Listen mode: the Dial.** A driving screen, so no lesson text at all: the words are for the ears. Ink background (ink-deep while paused). Top bar ("Leg n of N", Read instead). The **Where block**: "Topic" then the chapter title in Fraunces 34, "Section" then the section title at 22. Centre: the **dial**, a 220px gold pause/play button inside an 8px ring that shows progress through the topic, notched at each section boundary so the ring also shows which section you are in; the ring creeps forward while the tutor reads (each block's slice of the part over its speaking time), holds on pause or barge-in, snaps on a "go back", and the button is only ever pause or play. Bottom row: the **mic button** (96px; outlined at rest, gold outline while the tutor listens, gold fill when a question is waiting for you, ground fill with a slashed mic when muted), the **state word** (one or two words at 18px: Speaking with a gold dot, Listening with four bars, Answer out loud, One sec, Paused, Mic off, a gold tick + That's right for three seconds), and **End** (64px, hold 700 ms, a gold arc fills while held). A 6px **voice strip** on the bottom edge: off when idle or paused, steady while speaking, dashed while listening, a sweep while connecting or thinking; the only animated element. Every state change has a short earcon so the screen is optional. Pause silences the tutor and closes the mic; Continue re-reads the interrupted block from its start. Mute closes the mic only; the lesson keeps going. There is no trip-length picker: the trip starts on arrival and the dial tap is the only tap; the carried-over chip shows above the dial until the session starts. A section or chapter finishing gets a rising earcon and is named aloud; a milestone gets a short fanfare and its label in the state word for three seconds. Layouts and the research behind them: the "Trip Car Mode" artifact.
 
@@ -165,7 +165,7 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 These states have no screens yet, and CONTEXT.md requires some of them. Build them plainly using the tokens above.
 
-1. **Dropped request or weak signal.** Say what happened and that progress is safe, e.g. "Lost signal. Your place is saved. Retrying." Never say anything that implies offline support.
+1. **Dropped request or weak signal.** Say what happened and that progress is safe, e.g. "Lost signal. Your progress is saved. Retrying." Never say anything that implies offline support.
 2. **Loading a leg**, especially audio on a slow connection.
 3. **Listen mode, playing vs paused.** Paused: ink-deep ground, play glyph, strip off, mic dimmed, "Paused".
 4. **Listen mode, answering.** No transcript on screen. The mic fills gold while the question is open; a right answer is a gold tick and "That's right" in the state line for three seconds; a wrong one changes nothing visually, the tutor explains and re-asks. The feedback box with the source line lives on the summary card and in Read mode.

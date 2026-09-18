@@ -13,7 +13,7 @@ Take an existing short course, transpose it offline into commute-sized **segment
 - **Voice mode** (driving): ElevenLabs Conversational AI agent. Barge-in, "repeat / explain differently / skip / go deeper", spoken quiz answers graded by Claude.
 - **Text mode** (taxi/bus): same lesson JSON as a lightweight chat UI, tap-to-answer quizzes, mobile-first, low data.
 
-Both write to the same progress store. Every trip ends with a **progress card** (segments done, mastered/weak topics, % of module, streak).
+Both write to the same progress store. Every trip ends with a **progress card** (segments done, % of module, streak).
 
 Audio is table stakes. The product is (a) curriculum-to-session transposition, (b) trip-shaped sessions with resume state, (c) a persistent progress artefact.
 

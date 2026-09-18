@@ -41,7 +41,7 @@ export default function VoiceMode({ legs, carriedFromReading, startId, carrying,
 
   return (
     <Screen dark={paused ? "deep" : true} gap="gap-6">
-      <TopBar left={back} title={leg ? `Leg ${leg.n} of ${leg.of}` : "Listen"} right={<ModePill to="read" dark onClick={() => router.push(plan ? "/learn/text?carry=1" : "/learn/text")} />} />
+      <TopBar left={back} title={leg ? `Leg ${leg.n} of ${leg.of}` : "Hands-off"} right={<ModePill to="hands-on" dark onClick={() => router.push("/learn/study")} />} />
 
       {carriedFromReading && (
         <div className="flex items-center gap-2.5 self-start rounded-xl bg-ink-raised px-3.5 py-2.5 text-[15px]">
