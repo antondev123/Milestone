@@ -43,10 +43,10 @@
           "prompt": "Which term best describes an organization that exchanges resources with its surrounding environment?",
           "type": "mcq",
           "options": [
-            "Open system",
+            "Scientific process",
             "Closed loop",
             "Bureaucratic hierarchy",
-            "Scientific process"
+            "Open system"
           ],
           "answer": "Open system",
           "rubric": "Correct answer is Open system; must select this exact option.",
@@ -59,9 +59,9 @@
           "type": "mcq",
           "options": [
             "Type of technology used",
-            "Size of the company logo",
+            "Manager's personal preference",
             "Number of holidays offered",
-            "Manager's personal preference"
+            "Size of the company logo"
           ],
           "answer": "Type of technology used",
           "rubric": "Correct answer is type of technology used; answer must match this reasoning about technology determining training needs.",

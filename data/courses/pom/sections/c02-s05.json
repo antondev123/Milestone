@@ -22,36 +22,36 @@
       "checkpoint": [
         {
           "id": "pom/c2/s5/g1/q1",
+          "prompt": "The taxi owner keeps paying to fix the old minibus because he has already spent so much on it. What is that?",
+          "type": "mcq",
+          "options": [
+            "Bounded rationality",
+            "Relying on a heuristic",
+            "Escalation of commitment",
+            "Uncertainty about the outcome"
+          ],
+          "answer": "Escalation of commitment",
+          "rubric": "Must select escalation of commitment: staying with a failing decision because of what has already been invested.",
+          "topic": "escalation-of-commitment",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c2/s5/g1/q2",
+          "prompt": "Why does time pressure make a good decision less likely?",
+          "type": "open",
+          "answer": "With little time to gather and think through information, managers fall back on heuristics, mental shortcuts that are fast but do not necessarily lead to the best solution.",
+          "rubric": "Must say that time pressure pushes managers to rely on heuristics or quick shortcuts instead of gathering and carefully processing information, and that these shortcuts can miss the best option.",
+          "topic": "time-constraints-heuristics",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c2/s5/g1/q3",
           "prompt": "List and describe at least three barriers to effective decision-making.",
           "type": "open",
           "answer": "Barriers include bounded rationality, where managers lack complete information and full cognitive capacity to process everything; escalation of commitment, where decision makers stay loyal to a poor decision despite worsening outcomes; time constraints, which push managers toward heuristics instead of thorough analysis; uncertainty, where outcomes of alternatives can never be fully known in advance; personal biases such as confirmation bias; and conflict between individuals.",
           "rubric": "Answer must name and briefly describe at least three distinct barriers from the list: bounded rationality, escalation of commitment, time constraints, uncertainty, personal biases, or conflict, with a correct description of each named barrier.",
           "topic": "decision-barriers-overview",
           "source": "book"
-        },
-        {
-          "id": "pom/c2/s5/g1/q2",
-          "prompt": "A manager keeps funding a failing project because she already spent so much money on it. This is an example of what?",
-          "type": "mcq",
-          "options": [
-            "Escalation of commitment",
-            "Bounded rationality",
-            "Confirmation bias",
-            "Process conflict"
-          ],
-          "answer": "Escalation of commitment",
-          "rubric": "Must select escalation of commitment.",
-          "topic": "escalation-of-commitment",
-          "source": "generated"
-        },
-        {
-          "id": "pom/c2/s5/g1/q3",
-          "prompt": "Explain why nonprogrammed decisions are harder to make rationally than programmed decisions.",
-          "type": "open",
-          "answer": "Nonprogrammed decisions are novel, so decision makers do not have established rules or prior experience to draw on, making it harder to know what information to gather or how to interpret it, unlike programmed decisions which follow known, repeated rules.",
-          "rubric": "Must mention that nonprogrammed decisions are novel or unfamiliar, lacking established rules, unlike programmed decisions which have known criteria.",
-          "topic": "programmed-vs-nonprogrammed",
-          "source": "generated"
         }
       ]
     },
@@ -75,7 +75,7 @@
           "id": "pom/c2/s5/g2/q1",
           "prompt": "Explain the concept of confirmation bias.",
           "type": "open",
-          "answer": "Confirmation bias is the tendency for a person to pay attention to information that confirms her existing beliefs and ignore information that conflicts with these existing beliefs, making it difficult to evaluate situations objectively, especially regarding people we like or dislike.",
+          "answer": "Confirmation bias is the tendency to pay attention to information that confirms your existing beliefs and to ignore information that conflicts with them, which makes it hard to judge situations and people objectively.",
           "rubric": "Must state that confirmation bias involves favouring or noticing information that supports existing beliefs while ignoring or discounting contradicting information.",
           "topic": "confirmation-bias",
           "source": "book"
@@ -85,13 +85,13 @@
           "prompt": "Why does challenging someone's strongly held belief often fail to change their mind?",
           "type": "mcq",
           "options": [
-            "It activates the reactive system, blocking reflective analysis",
-            "It has no effect on the brain",
-            "It always triggers satisficing",
-            "It removes bounded rationality"
+            "They are showing escalation of commitment",
+            "Similar-to-me bias makes them distrust you",
+            "Bounded rationality stops them processing new information",
+            "It feels threatening, so the reactive brain takes over"
           ],
-          "answer": "It activates the reactive system, blocking reflective analysis",
-          "rubric": "Must select the option about the reactive system blocking reflective analysis.",
+          "answer": "It feels threatening, so the reactive brain takes over",
+          "rubric": "Must select the option about the challenge feeling threatening and pushing the brain into the reactive rather than the reflective system.",
           "topic": "reactive-reflective-systems",
           "source": "generated"
         },
@@ -133,25 +133,25 @@
         },
         {
           "id": "pom/c2/s5/g3/q2",
-          "prompt": "A manager gives feedback by saying the report was late instead of saying you are lazy. What is this manager doing?",
+          "prompt": "A manager says the report was three days late, instead of saying you are careless. Why phrase it that way?",
           "type": "mcq",
           "options": [
-            "Keeping feedback focused on behaviour to avoid relationship conflict",
-            "Encouraging groupthink",
-            "Practising escalation of commitment",
-            "Demonstrating satisficing"
+            "To keep conflict about the task, not the person",
+            "To avoid confirmation bias in the performance review",
+            "To show commitment to the original deadline",
+            "To save time with a quick heuristic"
           ],
-          "answer": "Keeping feedback focused on behaviour to avoid relationship conflict",
-          "rubric": "Must select the option about keeping feedback focused on behaviour to avoid relationship conflict.",
+          "answer": "To keep conflict about the task, not the person",
+          "rubric": "Must select keeping the conflict about the task or behaviour rather than the person, which avoids relationship conflict.",
           "topic": "process-vs-relationship-conflict",
           "source": "generated"
         },
         {
           "id": "pom/c2/s5/g3/q3",
-          "prompt": "How did Satya Nadella's cultural changes at Microsoft help reduce destructive conflict?",
+          "prompt": "How did Satya Nadella's shift from a know-it-all to a learn-it-all culture improve decisions at Microsoft?",
           "type": "open",
-          "answer": "Nadella shifted Microsoft's culture from proving who knew the most toward curiosity, listening, and empathetic communication, including having leaders read a book on nonviolent communication, which encouraged honest process discussion while reducing personal attacks and relationship conflict.",
-          "rubric": "Answer must reference Nadella promoting empathy, listening, or nonviolent communication to shift culture away from personal attacks toward constructive discussion.",
+          "answer": "He asked leaders to listen, stay curious and communicate with empathy, including reading Nonviolent Communication, and he sought honest opinions. That reduced personal, relationship conflict and left room for open disagreement about ideas, which improves decisions.",
+          "rubric": "Must link the listening, empathy or learning culture to less personal or relationship conflict and more open, honest debate about ideas or processes.",
           "topic": "nadella-microsoft-culture",
           "source": "generated"
         }

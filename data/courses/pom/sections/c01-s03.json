@@ -25,8 +25,8 @@
           "type": "mcq",
           "options": [
             "Figurehead",
-            "Liaison",
-            "Leader"
+            "Leader",
+            "Liaison"
           ],
           "answer": "Figurehead",
           "rubric": "As head of an organizational unit, every manager performs some ceremonial duties. Mintzberg calls this the figurehead role.",
@@ -64,9 +64,9 @@
           "prompt": "A supervisor suggests a product change to a supplier. Which informational role is that?",
           "type": "mcq",
           "options": [
-            "Monitor",
+            "Disseminator",
             "Spokesperson",
-            "Disseminator"
+            "Monitor"
           ],
           "answer": "Spokesperson",
           "rubric": "In the spokesperson role, managers send information to people outside their organization, for example a supervisor suggesting a product modification to a supplier.",
@@ -104,8 +104,8 @@
           "prompt": "Deciding who gets funding, equipment, space and the boss's time is which decisional role?",
           "type": "mcq",
           "options": [
-            "Entrepreneur",
             "Negotiator",
+            "Entrepreneur",
             "Resource allocator"
           ],
           "answer": "Resource allocator",

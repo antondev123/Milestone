@@ -34,9 +34,9 @@
           "prompt": "Which type of decision benefits most from heuristics and satisficing?",
           "type": "mcq",
           "options": [
-            "Programmed, routine decisions",
-            "Ethical dilemmas involving stakeholders",
             "Major strategic nonprogrammed decisions",
+            "Ethical dilemmas involving stakeholders",
+            "Programmed, routine decisions",
             "Decisions requiring group brainstorming"
           ],
           "answer": "Programmed, routine decisions",
@@ -85,10 +85,10 @@
           "prompt": "Brainstorming is best described as a technique for which step of decision-making?",
           "type": "mcq",
           "options": [
-            "Generating multiple alternatives",
+            "Implementing the chosen alternative",
             "Evaluating effectiveness",
             "Recognizing a decision is needed",
-            "Implementing the chosen alternative"
+            "Generating multiple alternatives"
           ],
           "answer": "Generating multiple alternatives",
           "rubric": "Correct option is generating multiple alternatives.",
@@ -129,8 +129,8 @@
           "options": [
             "Systematically collected data and information",
             "The loudest opinion in the room",
-            "Whatever decision was made last time",
-            "The manager's personal preference"
+            "The manager's personal preference",
+            "Whatever decision was made last time"
           ],
           "answer": "Systematically collected data and information",
           "rubric": "Correct option is systematically collected data and information.",
@@ -178,10 +178,10 @@
           "prompt": "A manager focuses only on how a decision affects this quarter's profit and never considers the following years. What is missing from their analysis?",
           "type": "mcq",
           "options": [
+            "Satisficing on the first good option",
             "Consideration of long-term implications",
-            "Satisficing behavior",
-            "Groupthink prevention",
-            "Bounded rationality"
+            "Protection against groupthink",
+            "Awareness of bounded rationality"
           ],
           "answer": "Consideration of long-term implications",
           "rubric": "Correct option is consideration of long-term implications.",
@@ -211,10 +211,10 @@
           "prompt": "What mindset helps a manager avoid becoming paralyzed when no alternative is clearly the best?",
           "type": "mcq",
           "options": [
-            "Accepting that perfect decisions are unattainable",
+            "Choosing whichever option pleases the loudest stakeholder",
             "Waiting indefinitely for more data",
-            "Delegating the decision to avoid responsibility",
-            "Choosing whichever option pleases the loudest stakeholder"
+            "Accepting that perfect decisions are unattainable",
+            "Delegating the decision to avoid responsibility"
           ],
           "answer": "Accepting that perfect decisions are unattainable",
           "rubric": "Correct option is accepting that perfect decisions are unattainable.",

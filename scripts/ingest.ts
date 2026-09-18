@@ -3,6 +3,7 @@
 //   node --env-file=.env.local scripts/ingest.ts pom --chapters 1-3 [--concurrency 6] [--force]
 //   node --env-file=.env.local scripts/ingest.ts pom --section 1.2 --force
 //   node --env-file=.env.local scripts/ingest.ts pom --all
+//   node scripts/ingest.ts pom --chapters 1-3 --reshuffle   (reorder MCQ options in existing files, no Claude call)
 // Idempotent: a section is skipped when sections/cNN-sMM.json exists with the same sourceHash.
 // Writes per section, so a crashed run resumes where it stopped. Never called on the request path.
 import Anthropic from "@anthropic-ai/sdk";
@@ -10,6 +11,7 @@ import { createHash } from "node:crypto";
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Chapter, ChapterQuiz, Course, Question, SectionLesson, SectionMeta, Segment } from "../src/types/lesson.ts";
+import { orderMcqs } from "./mcq-order.ts";
 
 // ---------- args ----------
 const args = process.argv.slice(2);
@@ -19,6 +21,7 @@ function arg(name: string): string | undefined {
   return i >= 0 ? args[i + 1] : undefined;
 }
 const force = args.includes("--force");
+const reshuffle = args.includes("--reshuffle");
 const all = args.includes("--all");
 const concurrency = Number(arg("concurrency") ?? 6);
 const onlySection = arg("section");
@@ -151,11 +154,11 @@ Rules:
 - altExplanation: the same core idea explained with a different analogy, 80–150 words, spoken prose.
 - deeper: 100–200 words of extra depth, accurate, spoken prose.
 - example: one concrete worked example from South African working life, 60–120 words, spoken prose.
-- checkpoint: 2–3 questions per segment. If BOOK QUESTIONS are given for this section, distribute them across the segments where the content is covered, with type "open", source "book", prompt verbatim, answer = the given answer (or write one from the text if none is given), and a rubric stating precisely what a correct paraphrase MUST include. Then add generated questions (source "generated") so each segment has at least 2: mix "mcq" (3–4 options, exactly one correct, answer = the exact option text, options ≤ 8 words each, no "all of the above") and "open". For "open", options must be an empty array. Rubrics let a strict grader reject vague answers. topic is a short kebab-case tag; reuse tags across questions that test the same idea.
+- checkpoint: 2–3 questions per segment. If BOOK QUESTIONS are given for this section, distribute them across the segments where the content is covered, with type "open", source "book", prompt verbatim, answer = the given answer (or write one from the text if none is given), and a rubric stating precisely what a correct paraphrase MUST include. Then add generated questions (source "generated") so each segment has at least 2: mix "mcq" (3–4 options, exactly one correct, answer = the exact option text, options ≤ 8 words each, no "all of the above"; every wrong option is a real concept from this or an earlier section that a learner could plausibly confuse, never a throwaway like "it has no effect", and options are similar in length so the longest is not a giveaway) and "open". For "open", options must be an empty array. Rubrics let a strict grader reject vague answers. topic is a short kebab-case tag; reuse tags across questions that test the same idea.
 - Never invent facts not supported by the source except in "deeper" and "example".`;
 
 const QUIZ_SYSTEM = `You turn a textbook chapter's review questions into a short spoken chapter quiz for a commuter.
-Pick the 4–6 questions that best test understanding of the chapter (skip ones that ask about the learner personally or need an essay). Keep each prompt short and speakable, type "open", options [], source "book", answer = a model answer in 1–3 sentences drawn from the chapter material provided, rubric = what a correct paraphrase MUST include, topic = kebab-case tag.`;
+Pick the 4–6 questions that best test understanding of the chapter (skip ones that ask about the learner personally, need an essay, or that the CHAPTER MATERIAL does not actually answer). Keep each prompt short and speakable, type "open", options [], source "book", answer = a model answer in 1–3 sentences drawn from the chapter material provided, rubric = what a correct paraphrase MUST include, topic = kebab-case tag.`;
 
 // ---------- Claude ----------
 const client = new Anthropic({ maxRetries: 2 });
@@ -231,6 +234,7 @@ ${src.body}`;
       checkpoint: s.checkpoint.map((q, j) => finishQuestion(`${id}/q${j + 1}`, q)),
     };
   });
+  orderMcqs(segments.flatMap((s) => s.checkpoint));
   // sanity
   for (const s of segments) {
     if (s.checkpoint.length === 0) throw new Error(`${s.id}: no checkpoint`);
@@ -295,6 +299,22 @@ for (const ch of course.chapters) {
     if (s.words < MIN_WORDS || s.kind === "summary") continue;
     jobs.push({ chapter: ch, meta: s });
   }
+}
+if (reshuffle) {
+  let n = 0;
+  for (const job of jobs) {
+    const path = join(dir, `sections/c${pad(job.chapter.number)}-s${pad(job.meta.number.split(".")[1])}.json`);
+    if (!existsSync(path)) continue;
+    const lesson = JSON.parse(readFileSync(path, "utf8")) as SectionLesson;
+    const before = JSON.stringify(lesson);
+    orderMcqs(lesson.segments.flatMap((g) => g.checkpoint));
+    if (JSON.stringify(lesson) !== before) {
+      writeFileSync(path, JSON.stringify(lesson, null, 2) + "\n");
+      n++;
+    }
+  }
+  console.log(`reshuffle: reordered MCQ options in ${n} section file(s), no Claude calls`);
+  process.exit(0);
 }
 console.log(`ingest ${courseId} via ${model}: ${jobs.length} candidate sections, concurrency ${concurrency}`);
 

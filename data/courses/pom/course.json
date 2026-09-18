@@ -601,18 +601,18 @@
               "checkpoint": [
                 {
                   "id": "pom/c2/s5/g1/q1",
-                  "type": "open",
-                  "topic": "decision-barriers-overview"
-                },
-                {
-                  "id": "pom/c2/s5/g1/q2",
                   "type": "mcq",
                   "topic": "escalation-of-commitment"
                 },
                 {
+                  "id": "pom/c2/s5/g1/q2",
+                  "type": "open",
+                  "topic": "time-constraints-heuristics"
+                },
+                {
                   "id": "pom/c2/s5/g1/q3",
                   "type": "open",
-                  "topic": "programmed-vs-nonprogrammed"
+                  "topic": "decision-barriers-overview"
                 }
               ]
             },
@@ -1037,18 +1037,18 @@
           "checkpoint": [
             {
               "id": "pom/c2/s5/g1/q1",
-              "type": "open",
-              "topic": "decision-barriers-overview"
-            },
-            {
-              "id": "pom/c2/s5/g1/q2",
               "type": "mcq",
               "topic": "escalation-of-commitment"
             },
             {
+              "id": "pom/c2/s5/g1/q2",
+              "type": "open",
+              "topic": "time-constraints-heuristics"
+            },
+            {
               "id": "pom/c2/s5/g1/q3",
               "type": "open",
-              "topic": "programmed-vs-nonprogrammed"
+              "topic": "decision-barriers-overview"
             }
           ]
         },

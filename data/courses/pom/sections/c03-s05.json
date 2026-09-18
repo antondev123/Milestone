@@ -34,9 +34,9 @@
           "prompt": "Where did Taylor first witness soldiering and develop his ideas?",
           "type": "mcq",
           "options": [
+            "Harvard University",
             "Midvale Steel Company",
             "Wharton School of Business",
-            "Harvard University",
             "Stevens Institute"
           ],
           "answer": "Midvale Steel Company",
@@ -76,10 +76,10 @@
           "prompt": "Which principle led directly to modern coffee or tea breaks at work?",
           "type": "mcq",
           "options": [
-            "Develop a rule of science for each job",
-            "Scientifically select workers",
+            "Cooperation between labour and management",
             "Equal division of responsibility",
-            "Cooperation between labour and management"
+            "Develop a rule of science for each job",
+            "Scientifically select workers"
           ],
           "answer": "Develop a rule of science for each job",
           "rubric": "Must select the first principle about developing a scientific rule for each task.",
@@ -127,10 +127,10 @@
           "prompt": "What tool did Carl Barth invent to help calculate steel cutting?",
           "type": "mcq",
           "options": [
-            "A slide rule",
-            "A stopwatch",
             "A Gantt chart",
-            "A motion picture camera"
+            "A stopwatch",
+            "A motion picture camera",
+            "A slide rule"
           ],
           "answer": "A slide rule",
           "rubric": "Must select the slide rule.",
@@ -144,8 +144,8 @@
           "options": [
             "Seventeen basic hand motions",
             "Four management principles",
-            "Ten cost categories",
-            "Three shift schedules"
+            "Three shift schedules",
+            "Ten cost categories"
           ],
           "answer": "Seventeen basic hand motions",
           "rubric": "Must select seventeen basic hand motions.",
@@ -184,10 +184,10 @@
           "prompt": "What major aspect of management did Taylorism largely ignore?",
           "type": "mcq",
           "options": [
+            "Piecework pay for output",
             "Strategy and implementation",
-            "Time studies",
-            "Piecework pay",
-            "Cost accounting"
+            "Cost accounting and budgets",
+            "Time and motion studies"
           ],
           "answer": "Strategy and implementation",
           "rubric": "Must select strategy and implementation.",

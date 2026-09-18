@@ -1,4 +1,4 @@
-// Answer grading. MCQ is local string match. Open answers go to Claude with the rubric.
+// Answer grading. MCQ is local string match. Open answers go to Claude with the rubric, or keyword overlap when Claude is unavailable.
 import Anthropic from "@anthropic-ai/sdk";
 import type { GradeResponse, Question } from "@/types/lesson";
 import { logLlm } from "./log/log";
@@ -31,6 +31,8 @@ export async function gradeAnswer(question: Question, answer: string, opts: Grad
       const idx = /^[a-d]$/i.test(a) ? a.toLowerCase().charCodeAt(0) - 97 : /^[1-4]$/.test(a) ? Number(a) - 1 : -1;
       if (idx >= 0 && idx < options.length) picked = options[idx];
     }
+    // spoken: "I think it's escalation of commitment" names exactly one option
+    if (!picked) picked = spokenOption(options, a);
     if (!picked) {
       // spoken answers rarely match exactly; fall through to the LLM judge
       return llmGrade(question, a);
@@ -41,14 +43,41 @@ export async function gradeAnswer(question: Question, answer: string, opts: Grad
     return { correct, feedback: `Not quite. The answer is: ${question.answer}.` };
   }
 
-  if (!process.env.ANTHROPIC_API_KEY) {
-    // dev fallback: keyword overlap with the model answer
-    const keys = norm(question.answer).split(" ").filter((w) => w.length > 4);
-    const hits = keys.filter((k) => norm(a).includes(k)).length;
-    const correct = keys.length > 0 && hits / keys.length >= 0.3;
-    return { correct, feedback: correct ? "Good, that covers it." : `Not quite. ${question.answer}` };
-  }
   return llmGrade(question, a);
+}
+
+/** The one option whose words all appear in a spoken answer; undefined if none or several do. */
+function spokenOption(options: string[], answer: string): string | undefined {
+  const said = ` ${norm(answer)} `;
+  const hits = options.filter((o) => said.includes(` ${norm(o)} `));
+  return hits.length === 1 ? hits[0] : undefined;
+}
+
+// too common to count as evidence in the keyword fallback
+const STOP = new Set("about after their there these those which where while would could should other being because rather people managers manager".split(" "));
+
+/** No key, or the API failed: keyword overlap with the model answer. Lenient on purpose so a right answer on stage is not rejected. */
+function keywordGrade(question: Question, answer: string): GradeResponse {
+  if (question.type === "mcq") {
+    return { correct: false, feedback: `I did not catch which one. Say the letter, A to ${String.fromCharCode(64 + (question.options?.length ?? 4))}.` };
+  }
+  // five-letter word stems, so "believe" counts for "beliefs" but "interpersonal" does not count for "personal"
+  const stems = (s: string) => new Set(norm(s).split(" ").filter((w) => w.length > 4 && !STOP.has(w)).map((w) => w.slice(0, 5)));
+  const keys = [...stems(question.answer)];
+  const said = stems(answer);
+  const hits = keys.filter((k) => said.has(k)).length;
+  const correct = keys.length > 0 && (hits >= 3 || hits / keys.length >= 0.3);
+  return { correct, feedback: correct ? "Good, that covers it." : `Not quite. ${firstSentence(question.answer)}` };
+}
+
+/** First sentence of a model answer, cut at a clause break within ~25 words, so spoken feedback stays short. */
+function firstSentence(text: string): string {
+  const s = text.split(/(?<=[.!?])\s/)[0];
+  const w = s.split(/\s+/);
+  if (w.length <= 25) return s;
+  const head = w.slice(0, 25).join(" ");
+  const cut = Math.max(head.lastIndexOf(","), head.lastIndexOf(";"));
+  return `${cut > 40 ? head.slice(0, cut) : head}.`;
 }
 
 const schema = {
@@ -62,6 +91,16 @@ const schema = {
 } as const;
 
 async function llmGrade(question: Question, answer: string): Promise<GradeResponse> {
+  if (!process.env.ANTHROPIC_API_KEY) return keywordGrade(question, answer);
+  try {
+    return await claudeGrade(question, answer);
+  } catch (e) {
+    console.error(`[grade] ${(e as Error).message}; keyword fallback`);
+    return keywordGrade(question, answer);
+  }
+}
+
+async function claudeGrade(question: Question, answer: string): Promise<GradeResponse> {
   const t0 = Date.now();
   const res = await anthropic().messages.create({
     model: MODEL,

@@ -9,7 +9,7 @@ Before: `npm run demo:reset -- --seed` (position only: chapter 1 done, chapter 2
 - `/course`. "Eighteen chapters, a hundred and forty-four sections. Nothing is locked. Chapter one done, chapter two thirty-one percent. You're here: 2.5, part one of three, about three more commutes to finish the chapter."
 - Tap **Resume 2.5**, pick **10 min**. The tutor greets in its own words: "Back in chapter two… two parts fit." Tap **Continue** once.
 - Type in the Ask box: **"is satisficing the same as being lazy?"** → grounded answer, then tap **Continue**: "Back to Why We Can Never Fully Decide…" "That detour came from the book, and it resumed exactly where we were."
-- Tap **Skip**, **Continue**, answer the question. Tap **End trip**. Don't dwell.
+- Tap **Skip**, **Continue**, tap the answer (**Escalation of commitment**, the taxi-minibus story you just heard). Tap **End trip**. Don't dwell.
 
 ## Beat 2 — driving, voice mode (75 s) ← the heart
 - Switch tab. "Now I'm driving. Same book, same position." Pick **10 min**, tap the **dial**. The screen shows Topic, Section and the ring only, no words: "Nothing to read while I drive. Two buttons."
@@ -33,5 +33,5 @@ Before: `npm run demo:reset -- --seed` (position only: chapter 1 done, chapter 2
 - Mic or ElevenLabs fails: open `/learn/voice?text=1` and type the same commands into the box; it is the same agent and tools without audio. Or "let me show the taxi version" and do Beat 2 in text mode with the chips.
 - `goto` picks the wrong section: use an exact number, "go to section two point five".
 - `ask` slow: the "One sec" filler covers ~3 s; if it times out the tutor says "I couldn't check that one, say go" and reading resumes.
-- Grading API down: MCQs still grade locally; open answers fall back to keyword matching.
+- Grading API down (or no `ANTHROPIC_API_KEY`): MCQs still grade locally, spoken picks included ("it's escalation of commitment"); open answers fall back to keyword matching, which is lenient and accepts the rehearsed answers.
 - Reset between rehearsals: `npm run demo:reset -- --seed` (or `DELETE /api/progress` for a fresh start).

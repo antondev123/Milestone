@@ -34,10 +34,10 @@
           "prompt": "Which of these is NOT one of Porter's five forces?",
           "type": "mcq",
           "options": [
-            "Threat of substitute products",
             "Power of employees",
-            "Power of suppliers",
-            "Potential of new entrants"
+            "Potential of new entrants",
+            "Threat of substitute products",
+            "Power of suppliers"
           ],
           "answer": "Power of employees",
           "rubric": "Correct answer is Power of employees, since Porter's five forces are competition, new entrants, supplier power, buyer power, and substitutes.",
@@ -76,9 +76,9 @@
           "prompt": "According to the text, roughly how old is modern management as a formal field?",
           "type": "mcq",
           "options": [
+            "About 500 years old",
             "Less than 150 years old",
             "Over 2000 years old",
-            "About 500 years old",
             "As old as the pyramids"
           ],
           "answer": "Less than 150 years old",
@@ -100,10 +100,10 @@
           "prompt": "Which ancient literary work is cited as illustrating the management problem of succession planning?",
           "type": "mcq",
           "options": [
-            "King Lear",
-            "The Odyssey",
             "Julius Caesar",
-            "The Art of War"
+            "The Art of War",
+            "King Lear",
+            "The Odyssey"
           ],
           "answer": "King Lear",
           "rubric": "Correct answer is King Lear, referenced in the text as illustrating succession planning issues.",

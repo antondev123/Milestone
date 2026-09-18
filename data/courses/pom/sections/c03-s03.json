@@ -43,9 +43,9 @@
           "prompt": "Which invention allowed Renaissance business ideas to spread quickly across Europe?",
           "type": "mcq",
           "options": [
-            "The printing press",
-            "The compass",
             "The steam engine",
+            "The compass",
+            "The printing press",
             "The telegraph"
           ],
           "answer": "The printing press",

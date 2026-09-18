@@ -34,10 +34,10 @@
           "prompt": "A taxi association chairperson always adds two extra vehicles whenever there is a big soccer match, because this has worked well in the past. What is this an example of?",
           "type": "mcq",
           "options": [
-            "A heuristic",
-            "Escalation of commitment",
             "Groupthink",
-            "Bounded rationality"
+            "Bounded rationality",
+            "Escalation of commitment",
+            "A heuristic"
           ],
           "answer": "A heuristic",
           "rubric": "Must select 'A heuristic' as the correct answer.",
