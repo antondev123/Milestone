@@ -401,6 +401,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
         <Dial
           glyph={!live || isPaused ? "play" : "pause"}
           progress={legRing(leg)}
+          sections={leg?.sectionCount}
           dimmed={connecting || thinking}
           disabled={connecting || conv.status === "error"}
           size={dialSize}
