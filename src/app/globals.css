@@ -1,9 +1,39 @@
 @import "tailwindcss";
 
+/* Carry tokens. See docs/DESIGN.md §2. Gold is for fills, dots and bars only: never text on light grounds. */
+@theme {
+  --color-ground: #f5f2ec;
+  --color-panel: #ede7db;
+  --color-ink: #16324f;
+  --color-ink-deep: #0e2238;
+  --color-gold: #e0a419;
+  --color-muted: #5c6570;
+  --color-rule: #d6ccba;
+  --color-track: #ddd4c4;
+  --color-ink-raised: #22425f;
+  --color-ink-track: #2e4e6c;
+  --color-muted-on-ink: #b8c3cf;
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-public-sans), "Helvetica Neue", sans-serif;
+}
+
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
   -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }
