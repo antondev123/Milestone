@@ -15,7 +15,7 @@ export default function Home() {
           🚗 Driving — voice mode
         </Link>
       </div>
-      <p className="text-xs text-slate-500">Scaffold. Modes land in tasks 6–7.</p>
+      <p className="text-xs text-slate-500">Course: Principles of Management (OpenStax, CC BY 4.0), transposed into commute-sized parts.</p>
     </div>
   );
 }

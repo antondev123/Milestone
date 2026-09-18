@@ -20,12 +20,13 @@ Credit price: R0.0036 per credit. Voice runs about 500 credits per minute, so ro
 | 2026-09-18 | Voice test call 1, 71 s | ElevenLabs | 597 credits | R2.14 |
 | 2026-09-18 | TTS previews / misc | ElevenLabs | 219 credits | R0.78 |
 | 2026-09-18 | Voice test call 2, 235 s (repeat, go deeper, skip, quiz, explain) | ElevenLabs | 1,892 credits | R6.77 |
-| | **Running total** | | | **R11.06** |
+| 2026-09-18 | Ingest Principles of Management ch 1–3 (19 sections, 35 parts, 3 chapter quizzes), Sonnet 5, 24 calls | Anthropic | ~94k in / 96k out | R18.86 |
+| | **Running total** | | | **R29.92** |
 
 ## Rules of thumb for the event
 
 - 3-minute rehearsal: R5.40. Twenty rehearsals: R108.
-- Full ingest of a new course: about R1.30.
+- Ingesting one textbook section (1–5 parts): R0.40–R1.90. Chapters 1–3: R19. The whole 18-chapter book: about R110 (R55 on the Batch API).
 - A grade on Sonnet 5: about R0.03. Grading is never the cost problem.
 - Hard cap to stay under on ElevenLabs: keep 20,000 credits (about 40 min) in reserve for demo day.
 

@@ -1,0 +1,62 @@
+{
+  "id": "pom/c2/quiz",
+  "chapterId": "pom/c2",
+  "title": "Chapter 2 review",
+  "source": "book",
+  "questions": [
+    {
+      "id": "pom/c2/quiz/q1",
+      "prompt": "What are the two systems the brain uses in decision-making, and how do they relate to programmed versus nonprogrammed decisions?",
+      "type": "open",
+      "answer": "The brain has a reactive system, which is fast and intuitive, and a reflective system, which is slow, logical, and analytical. Programmed decisions suit the quick reactive system since they're routine, while nonprogrammed, novel decisions require the slower reflective system.",
+      "rubric": "Must mention reactive (fast/intuitive) and reflective (slow/logical) systems, and link reactive to programmed decisions and reflective to nonprogrammed decisions.",
+      "topic": "decision-making-systems",
+      "source": "book"
+    },
+    {
+      "id": "pom/c2/quiz/q2",
+      "prompt": "What is a heuristic, and when is it appropriate to use one?",
+      "type": "open",
+      "answer": "A heuristic is a mental shortcut built from prior experience that lets a decision maker reach a good-enough decision quickly. It's appropriate for routine, programmed, low-stakes decisions where speed matters more than finding the optimal choice.",
+      "rubric": "Must define heuristic as a mental shortcut from experience and note it's best for routine/repeated, low-stakes decisions rather than novel high-stakes ones.",
+      "topic": "heuristics",
+      "source": "book"
+    },
+    {
+      "id": "pom/c2/quiz/q3",
+      "prompt": "What is confirmation bias, and how does it hinder good decision-making?",
+      "type": "open",
+      "answer": "Confirmation bias is the tendency to notice and accept information that confirms our existing beliefs while ignoring or discounting information that contradicts them. It hinders decision-making because it prevents managers from considering all relevant evidence and triggers a reactive, defensive mindset instead of reflective thinking.",
+      "rubric": "Must define confirmation bias as favoring belief-confirming info and ignoring contradicting info, and explain it blocks objective evaluation or triggers reactive thinking.",
+      "topic": "confirmation-bias",
+      "source": "book"
+    },
+    {
+      "id": "pom/c2/quiz/q4",
+      "prompt": "What are the two types of conflict discussed in the chapter, and which is constructive versus destructive?",
+      "type": "open",
+      "answer": "The two types are process conflict, which is disagreement about the best way to do a task and is constructive, and relationship conflict, which is personal and based on personality differences, and is destructive.",
+      "rubric": "Must name process conflict as constructive/task-related and relationship conflict as destructive/personal.",
+      "topic": "conflict-types",
+      "source": "book"
+    },
+    {
+      "id": "pom/c2/quiz/q5",
+      "prompt": "What are the steps in the decision-making process, and which step do people often rush or skip?",
+      "type": "open",
+      "answer": "The decision-making process generally includes defining the problem, generating alternatives, analyzing options with evidence and critical thinking, selecting an alternative, implementing it, and evaluating the outcome. People often rush the step of generating alternatives, not spending enough time exploring multiple options.",
+      "rubric": "Must mention generating alternatives as the commonly rushed step, and reference the general sequence of defining problem, generating options, analyzing, selecting, implementing, evaluating (doesn't need exact wording).",
+      "topic": "decision-process-steps",
+      "source": "book"
+    },
+    {
+      "id": "pom/c2/quiz/q6",
+      "prompt": "What can groups or group leaders do to improve the quality of group decision-making?",
+      "type": "open",
+      "answer": "Groups can improve decisions by encouraging diverse perspectives and brainstorming, appointing a devil's advocate to challenge ideas, ensuring everyone has a chance to speak to avoid suppression of dissent, and working to find common ground to manage personality conflicts, all of which help prevent groupthink.",
+      "rubric": "Must mention at least two of: devil's advocate, avoiding groupthink/suppression of dissent, encouraging diverse input/brainstorming, ensuring everyone speaks.",
+      "topic": "group-decision-making",
+      "source": "book"
+    }
+  ]
+}

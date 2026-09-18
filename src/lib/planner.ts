@@ -8,10 +8,10 @@ import {
   type Mode,
   type Plan,
   type Progress,
-  type Segment,
+  type SegmentMeta,
 } from "@/types/lesson";
 
-export function segmentCostSec(seg: Segment, mode: Mode): number {
+export function segmentCostSec(seg: SegmentMeta, mode: Mode): number {
   return seg.durationSec + seg.checkpoint.length * CHECKPOINT_OVERHEAD_SEC[mode];
 }
 
@@ -28,7 +28,7 @@ export function planTrip(course: Course, progress: Progress, minutes: number, mo
 
   // 2–4. greedy fill
   let budget = minutes * 60 - INTRO_SEC;
-  const picked: Segment[] = [];
+  const picked: SegmentMeta[] = [];
   for (let i = startIdx; i < segments.length && picked.length < MAX_SEGMENTS_PER_TRIP; i++) {
     const seg = segments[i];
     if (done.has(seg.id) && picked.length > 0) continue;

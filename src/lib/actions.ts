@@ -1,7 +1,7 @@
 // One set of engine actions shared by the direct API routes (text/voice UIs)
 // and the ElevenLabs tool webhook route. Keep all business logic here.
-import { DEMO_USER_ID, findQuestion, findSegment, type Mode, type Plan, type Progress, type TripSummary, type GradeResponse } from "@/types/lesson";
-import { DEFAULT_COURSE_ID, loadCourse } from "./course";
+import { DEMO_USER_ID, type Mode, type Plan, type Progress, type TripSummary, type GradeResponse } from "@/types/lesson";
+import { DEFAULT_COURSE_ID, loadCourse, loadQuestionFull, loadSegmentFull } from "./course";
 import { getProgress, resetProgress } from "./store";
 import { planTrip } from "./planner";
 import { gradeAnswer } from "./grader";
@@ -28,10 +28,9 @@ export function actionStartSession(minutes: number, mode: Mode): Plan {
 
 /** Segment content for the agent/UI. Position tells whether to skip the script and go to the checkpoint. */
 export function actionGetSegment(segmentId?: string) {
-  const course = loadCourse(courseId);
   const progress = getProgress(userId, courseId);
   const id = segmentId ?? progress.resume.segmentId;
-  const seg = findSegment(course, id);
+  const seg = loadSegmentFull(courseId, id);
   if (!seg) throw new Error(`unknown segment ${id}`);
   const trip = progress.activeTrip;
   const idx = trip ? trip.segmentIds.indexOf(id) : -1;
@@ -46,11 +45,10 @@ export function actionGetSegment(segmentId?: string) {
 }
 
 export async function actionGrade(questionId: string, answer: string, mode: Mode): Promise<GradeResponse> {
-  const course = loadCourse(courseId);
-  const q = findQuestion(course, questionId);
+  const q = loadQuestionFull(courseId, questionId);
   if (!q) throw new Error(`unknown question ${questionId}`);
   const result = await gradeAnswer(q, answer);
-  recordCheckpoint(course, getProgress(userId, courseId), questionId, answer, result.correct, result.feedback, mode);
+  recordCheckpoint(getProgress(userId, courseId), q, answer, result.correct, result.feedback, mode);
   return result;
 }
 

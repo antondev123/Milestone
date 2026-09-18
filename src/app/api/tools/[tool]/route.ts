@@ -54,7 +54,7 @@ export async function POST(req: Request, { params }: Params) {
         const s = actionEndTrip();
         return NextResponse.json({
           ...s,
-          spoken: `Trip done. ${s.segmentIds.length} segment${s.segmentIds.length === 1 ? "" : "s"}, ${s.correct} of ${s.total} correct. You are ${s.modulePct} percent through the module.`,
+          spoken: `Trip done. ${s.segmentIds.length} segment${s.segmentIds.length === 1 ? "" : "s"}, ${s.correct} of ${s.total} correct. You are ${s.modulePct} percent through the chapter.`,
         });
       }
       default:

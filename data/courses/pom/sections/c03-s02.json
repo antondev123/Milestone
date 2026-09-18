@@ -1,0 +1,59 @@
+{
+  "id": "pom/c3/s2",
+  "title": "The Early Origins of Management",
+  "sourceHash": "6e027393c7fb",
+  "model": "claude-sonnet-5",
+  "segments": [
+    {
+      "id": "pom/c3/s2/g1",
+      "title": "Management in the Ancient World",
+      "durationSec": 190,
+      "sectionId": "pom/c3/s2",
+      "script": "Think about the taxi rank near you on a busy morning. Someone has to know how many taxis are going to Soweto, how many to Alex, who collects the fares, who keeps order in the queue. That coordination job is exactly what the earliest managers in human history were figuring out thousands of years ago. Let's travel back to Sumer, in what is now southern Iraq, the first proper city-based civilization. Sumerians ran a busy trading culture, selling grain, livestock, perfume, and pottery. Instead of just swapping goods, like trading maize for chickens, they invented clay coins, a bit like the tokens you might use at a fair, and each shape and size stood for a different value. But the real breakthrough was writing. Once merchants could write things down, they could keep records the way a spaza shop owner today writes down who owes what in a credit book. Writing and basic money meant people no longer had to find someone who wanted exactly what they were selling. That is the beginning of coordination, one of the core jobs of a manager. The Babylonians added rules. King Hammurabi wrote down two hundred and eighty two laws covering business deals, punishments, and even wages for doctors and bricklayers, much like a modern labour law setting minimum pay. But his wages were fixed, no bonuses. Later, King Nebuchadnezzar introduced the idea of incentives, paying cloth weavers more food the more cloth they produced, similar to how a taxi owner might pay a driver more if he brings in more fares. Now picture the pyramids of Egypt. Building them needed thousands of workers doing different jobs, stonecutters, pullers, greasers, all supervised carefully. The Egyptians discovered that one supervisor worked best over about ten workers, an early version of what we now call span of control, the number of people one manager can directly oversee. In China, the Han dynasty developed early bureaucracy, training scholars in Confucian teaching and promoting people based on how well they performed on tests, an early form of meritocracy, much like how a company today might promote based on qualifications and performance rather than who you know. The Greeks contributed division of labour, recognising that people have different strengths, and philosophers like Socrates encouraged open discussion, a bit like a good staff meeting at a Joburg clinic where nurses and doctors share information freely. The Romans, needing to run a massive empire, standardised weights, measures, and coins, similar to how South Africa uses one currency and one set of metric measurements across all nine provinces. They also had early corporations, selling shares to the public, much like buying shares in a JSE-listed company today. After Rome fell, Europe slid into the so-called Dark Ages, with little trade, while the Muslim and Chinese worlds kept flourishing, later described by travellers like Marco Polo.",
+      "keyPoints": [
+        "Sumerians introduced writing and early money, enabling coordination between traders",
+        "Babylonians contributed written laws and, later, incentive pay",
+        "Egyptians pioneered division of labour, coordination, and span of control",
+        "Chinese, Greek, and Roman civilisations added bureaucracy, division of labour, and standardisation"
+      ],
+      "altExplanation": "Imagine a big stokvel that grew so large it needed record books, rules about who contributes what, someone to check that everyone gets paid fairly, and a system deciding who supervises which group of members. That is basically what ancient civilizations built over centuries, piece by piece. The Sumerians gave the stokvel a notebook and coins. The Babylonians gave it a rulebook and then a bonus system. The Egyptians figured out how many members one organiser could handle. The Chinese figured out how to pick good organisers based on merit. The Greeks and Romans made sure everyone used the same measurements and even let people buy a stake in the stokvel like a share. Each civilization added one more tool to the management toolbox we still use today.",
+      "deeper": "It helps to see these contributions as solving different practical problems that any growing economy runs into. Sumer solved the record keeping and exchange problem, without writing and standardised currency, trade cannot scale beyond a small village. Babylon solved the problem of predictability and motivation, workers and traders need clear rules and, eventually, reasons to work harder. Egypt solved the problem of large scale physical coordination, when you have thousands of labourers, you need clear task division and a manageable ratio of supervisor to worker. China solved the problem of selecting capable administrators fairly rather than through favouritism, an early meritocratic idea still central to modern human resource management. Greece and Rome solved problems of shared standards and organisational form, without common measurements, wide scale trade breaks down, and without something like a corporation, raising capital from many people is impossible. Seeing management history this way shows that management was never invented in one moment, it accumulated as societies grew more complex and needed better tools to organise people and resources.",
+      "example": "Think of a large minibus taxi association operating across Gauteng. It needs an agreed system for collecting route fees, a rulebook for driver conduct similar to Hammurabi's code, incentives for drivers who complete more trips safely like Nebuchadnezzar's weavers, marshals supervising a manageable number of taxis at each rank like the Egyptian span of control, and a fair process for choosing rank managers based on experience and reliability, much like the Han dynasty's merit based promotions. Without these borrowed principles, an association of that size would collapse into chaos.",
+      "checkpoint": [
+        {
+          "id": "pom/c3/s2/g1/q1",
+          "prompt": "What were the contributions of the following groups to modern management: Sumerians, Babylonians, Egyptians, Chinese, Greeks, and Romans?",
+          "type": "open",
+          "answer": "We can track the concept of management from its development under the Sumerians. The Sumerians provided the concepts of writing and record keeping that allowed for an urban economy to develop, which in turn led to the establishment of small businesses. The Egyptians helped to pioneer the ideas of specialization of labor, span of control, and hierarchy of command. Sun Tzu developed subdivisions, various rankings of authority, and coordination. The Greeks and Romans built forerunners of the modern corporation and guilds.",
+          "rubric": "Answer must mention Sumerians contributing writing and record keeping enabling trade and small business, Egyptians contributing specialization of labor, span of control, and hierarchy of command, Sun Tzu or Chinese contributing subdivisions, ranks of authority, and coordination, and Greeks and Romans contributing forerunners of the corporation and guilds. Vague answers without naming at least three of these groups and their specific contribution should be rejected.",
+          "topic": "ancient-management-contributions",
+          "source": "book"
+        },
+        {
+          "id": "pom/c3/s2/g1/q2",
+          "prompt": "Which ancient civilization is credited with discovering that ten workers per supervisor was an ideal span of control?",
+          "type": "mcq",
+          "options": [
+            "The Egyptians",
+            "The Sumerians",
+            "The Romans",
+            "The Chinese"
+          ],
+          "answer": "The Egyptians",
+          "rubric": "Correct option is The Egyptians.",
+          "topic": "span-of-control",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c3/s2/g1/q3",
+          "prompt": "Explain the difference between Hammurabi's approach to wages and Nebuchadnezzar's approach, and why this matters for management.",
+          "type": "open",
+          "answer": "Hammurabi set fixed wages by law with no room for incentives, while Nebuchadnezzar introduced performance based incentives, paying weavers more food for producing more cloth.",
+          "rubric": "Answer must state that Hammurabi's code set fixed wages without incentives and that Nebuchadnezzar introduced incentive pay tied to production output, showing understanding of the shift from fixed to performance based pay.",
+          "topic": "incentives-history",
+          "source": "generated"
+        }
+      ]
+    }
+  ]
+}

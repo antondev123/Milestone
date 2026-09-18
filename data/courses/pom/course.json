@@ -1,0 +1,4957 @@
+{
+  "id": "pom",
+  "title": "Principles of Management",
+  "description": "The OpenStax Principles of Management textbook, transposed into commute-sized audio lessons with checkpoints.",
+  "estimatedMinutes": 178,
+  "license": {
+    "name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Principles of Management by OpenStax, via LibreTexts. Licensed CC BY 4.0. Adapted into spoken lessons."
+  },
+  "chapters": [
+    {
+      "id": "pom/c1",
+      "number": 1,
+      "title": "Managing and Performing",
+      "shortTitle": "Managing and Performing",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c1/s1",
+          "number": "1.1",
+          "title": "Introduction",
+          "kind": "content",
+          "words": 376,
+          "status": "ingested",
+          "sourceFile": "source/c01/c01-s01.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c1/s1/g1",
+              "title": "Why Management Class Actually Matters",
+              "durationSec": 176,
+              "sectionId": "pom/c1/s1",
+              "checkpoint": [
+                {
+                  "id": "pom/c1/s1/g1/q1",
+                  "type": "mcq",
+                  "topic": "management-levels"
+                },
+                {
+                  "id": "pom/c1/s1/g1/q2",
+                  "type": "open",
+                  "topic": "nature-of-managerial-work"
+                },
+                {
+                  "id": "pom/c1/s1/g1/q3",
+                  "type": "mcq",
+                  "topic": "managerial-roles"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c01-s01.json",
+          "sourceHash": "d1935906ef9e"
+        },
+        {
+          "id": "pom/c1/s2",
+          "number": "1.2",
+          "title": "What Do Managers Do?",
+          "kind": "content",
+          "words": 606,
+          "status": "ingested",
+          "sourceFile": "source/c01/c01-s02.md",
+          "objectives": [
+            "Understand what managers do to help organizations achieve top performance"
+          ],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c1/s2/g1",
+              "title": "The Busy, Talkative Reality of Managing",
+              "durationSec": 180,
+              "sectionId": "pom/c1/s2",
+              "checkpoint": [
+                {
+                  "id": "pom/c1/s2/g1/q1",
+                  "type": "open",
+                  "topic": "managerial-communication"
+                },
+                {
+                  "id": "pom/c1/s2/g1/q2",
+                  "type": "mcq",
+                  "topic": "kotter-study"
+                },
+                {
+                  "id": "pom/c1/s2/g1/q3",
+                  "type": "open",
+                  "topic": "managerial-communication"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c01-s02.json",
+          "sourceHash": "fc802fdad45b"
+        },
+        {
+          "id": "pom/c1/s3",
+          "number": "1.3",
+          "title": "The Roles Managers Play",
+          "kind": "content",
+          "words": 1129,
+          "status": "ingested",
+          "sourceFile": "source/c01/c01-s03.md",
+          "objectives": [
+            "What are the roles that managers play in organizations?"
+          ],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c1/s3/g1",
+              "title": "Interpersonal and Informational Roles of Managers",
+              "durationSec": 158,
+              "sectionId": "pom/c1/s3",
+              "checkpoint": [
+                {
+                  "id": "pom/c1/s3/g1/q1",
+                  "type": "mcq",
+                  "topic": "interpersonal-roles"
+                },
+                {
+                  "id": "pom/c1/s3/g1/q2",
+                  "type": "open",
+                  "topic": "interpersonal-roles"
+                },
+                {
+                  "id": "pom/c1/s3/g1/q3",
+                  "type": "mcq",
+                  "topic": "informational-roles"
+                }
+              ]
+            },
+            {
+              "id": "pom/c1/s3/g2",
+              "title": "The Decisional Roles Managers Fulfil",
+              "durationSec": 167,
+              "sectionId": "pom/c1/s3",
+              "checkpoint": [
+                {
+                  "id": "pom/c1/s3/g2/q1",
+                  "type": "mcq",
+                  "topic": "decisional-roles"
+                },
+                {
+                  "id": "pom/c1/s3/g2/q2",
+                  "type": "open",
+                  "topic": "decisional-roles"
+                },
+                {
+                  "id": "pom/c1/s3/g2/q3",
+                  "type": "mcq",
+                  "topic": "decisional-roles"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c01-s03.json",
+          "sourceHash": "5655b3bdc07c"
+        },
+        {
+          "id": "pom/c1/s4",
+          "number": "1.4",
+          "title": "Major Characteristics of the Manager's Job",
+          "kind": "content",
+          "words": 1563,
+          "status": "ingested",
+          "sourceFile": "source/c01/c01-s04.md",
+          "objectives": [
+            "Understand the characteristics that effective managers display"
+          ],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c1/s4/g1",
+              "title": "The Manager's Daily Pressures",
+              "durationSec": 185,
+              "sectionId": "pom/c1/s4",
+              "checkpoint": [
+                {
+                  "id": "pom/c1/s4/g1/q1",
+                  "type": "open",
+                  "topic": "levels-of-management"
+                },
+                {
+                  "id": "pom/c1/s4/g1/q2",
+                  "type": "mcq",
+                  "topic": "managerial-efficiency"
+                },
+                {
+                  "id": "pom/c1/s4/g1/q3",
+                  "type": "open",
+                  "topic": "competing-values"
+                }
+              ]
+            },
+            {
+              "id": "pom/c1/s4/g2",
+              "title": "Skills Across Levels and Departments",
+              "durationSec": 191,
+              "sectionId": "pom/c1/s4",
+              "checkpoint": [
+                {
+                  "id": "pom/c1/s4/g2/q1",
+                  "type": "open",
+                  "topic": "managerial-skills"
+                },
+                {
+                  "id": "pom/c1/s4/g2/q2",
+                  "type": "mcq",
+                  "topic": "managerial-skills"
+                },
+                {
+                  "id": "pom/c1/s4/g2/q3",
+                  "type": "open",
+                  "topic": "management-by-department"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c01-s04.json",
+          "sourceHash": "1a7a78a40566"
+        },
+        {
+          "id": "pom/c1/s5",
+          "number": "1.5",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 0,
+          "status": "source",
+          "sourceFile": "source/c01/c01-s05.md",
+          "objectives": [],
+          "keyTerms": [
+            {
+              "term": "Decisional role",
+              "definition": "One of the three major roles that a manager assumes in the organization."
+            },
+            {
+              "term": "Executive Managers",
+              "definition": "Generally, a team of individuals at the highest level ofmanagementof an organization."
+            },
+            {
+              "term": "First-line Managers",
+              "definition": "The level of management directly managing nonmanagerial employees."
+            },
+            {
+              "term": "Informational Role",
+              "definition": "One of the three major roles that a manager assumes in the organization."
+            },
+            {
+              "term": "Interpersonal Role",
+              "definition": "One of the three major roles that a manager assumes in the organization."
+            },
+            {
+              "term": "Middle Management",
+              "definition": "The managers in an organization at a level just below that of senior executives."
+            }
+          ],
+          "segments": []
+        }
+      ],
+      "segments": [
+        {
+          "id": "pom/c1/s1/g1",
+          "title": "Why Management Class Actually Matters",
+          "durationSec": 176,
+          "sectionId": "pom/c1/s1",
+          "checkpoint": [
+            {
+              "id": "pom/c1/s1/g1/q1",
+              "type": "mcq",
+              "topic": "management-levels"
+            },
+            {
+              "id": "pom/c1/s1/g1/q2",
+              "type": "open",
+              "topic": "nature-of-managerial-work"
+            },
+            {
+              "id": "pom/c1/s1/g1/q3",
+              "type": "mcq",
+              "topic": "managerial-roles"
+            }
+          ]
+        },
+        {
+          "id": "pom/c1/s2/g1",
+          "title": "The Busy, Talkative Reality of Managing",
+          "durationSec": 180,
+          "sectionId": "pom/c1/s2",
+          "checkpoint": [
+            {
+              "id": "pom/c1/s2/g1/q1",
+              "type": "open",
+              "topic": "managerial-communication"
+            },
+            {
+              "id": "pom/c1/s2/g1/q2",
+              "type": "mcq",
+              "topic": "kotter-study"
+            },
+            {
+              "id": "pom/c1/s2/g1/q3",
+              "type": "open",
+              "topic": "managerial-communication"
+            }
+          ]
+        },
+        {
+          "id": "pom/c1/s3/g1",
+          "title": "Interpersonal and Informational Roles of Managers",
+          "durationSec": 158,
+          "sectionId": "pom/c1/s3",
+          "checkpoint": [
+            {
+              "id": "pom/c1/s3/g1/q1",
+              "type": "mcq",
+              "topic": "interpersonal-roles"
+            },
+            {
+              "id": "pom/c1/s3/g1/q2",
+              "type": "open",
+              "topic": "interpersonal-roles"
+            },
+            {
+              "id": "pom/c1/s3/g1/q3",
+              "type": "mcq",
+              "topic": "informational-roles"
+            }
+          ]
+        },
+        {
+          "id": "pom/c1/s3/g2",
+          "title": "The Decisional Roles Managers Fulfil",
+          "durationSec": 167,
+          "sectionId": "pom/c1/s3",
+          "checkpoint": [
+            {
+              "id": "pom/c1/s3/g2/q1",
+              "type": "mcq",
+              "topic": "decisional-roles"
+            },
+            {
+              "id": "pom/c1/s3/g2/q2",
+              "type": "open",
+              "topic": "decisional-roles"
+            },
+            {
+              "id": "pom/c1/s3/g2/q3",
+              "type": "mcq",
+              "topic": "decisional-roles"
+            }
+          ]
+        },
+        {
+          "id": "pom/c1/s4/g1",
+          "title": "The Manager's Daily Pressures",
+          "durationSec": 185,
+          "sectionId": "pom/c1/s4",
+          "checkpoint": [
+            {
+              "id": "pom/c1/s4/g1/q1",
+              "type": "open",
+              "topic": "levels-of-management"
+            },
+            {
+              "id": "pom/c1/s4/g1/q2",
+              "type": "mcq",
+              "topic": "managerial-efficiency"
+            },
+            {
+              "id": "pom/c1/s4/g1/q3",
+              "type": "open",
+              "topic": "competing-values"
+            }
+          ]
+        },
+        {
+          "id": "pom/c1/s4/g2",
+          "title": "Skills Across Levels and Departments",
+          "durationSec": 191,
+          "sectionId": "pom/c1/s4",
+          "checkpoint": [
+            {
+              "id": "pom/c1/s4/g2/q1",
+              "type": "open",
+              "topic": "managerial-skills"
+            },
+            {
+              "id": "pom/c1/s4/g2/q2",
+              "type": "mcq",
+              "topic": "managerial-skills"
+            },
+            {
+              "id": "pom/c1/s4/g2/q3",
+              "type": "open",
+              "topic": "management-by-department"
+            }
+          ]
+        }
+      ],
+      "reviewFile": "chapters/c01-review.json",
+      "quizFile": "chapters/c01-quiz.json"
+    },
+    {
+      "id": "pom/c2",
+      "number": 2,
+      "title": "Managerial Decision-Making",
+      "shortTitle": "Managerial Decision-Making",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c2/s1",
+          "number": "2.1",
+          "title": "Introduction to Managerial Decision Making",
+          "kind": "intro",
+          "words": 0,
+          "status": "source",
+          "sourceFile": "source/c02/c02-s01.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c2/s2",
+          "number": "2.2",
+          "title": "Overview of Managerial Decision-Making",
+          "kind": "content",
+          "words": 1599,
+          "status": "ingested",
+          "sourceFile": "source/c02/c02-s02.md",
+          "objectives": [
+            "Understand the basic characteristics of decision making"
+          ],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c2/s2/g1",
+              "title": "Why Decisions Matter to Everyone",
+              "durationSec": 155,
+              "sectionId": "pom/c2/s2",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s2/g1/q1",
+                  "type": "open",
+                  "topic": "decision-outcomes"
+                },
+                {
+                  "id": "pom/c2/s2/g1/q2",
+                  "type": "open",
+                  "topic": "stakeholders"
+                },
+                {
+                  "id": "pom/c2/s2/g1/q3",
+                  "type": "mcq",
+                  "topic": "decision-outcomes"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s2/g2",
+              "title": "No Multiple Choice, Only Judgement",
+              "durationSec": 174,
+              "sectionId": "pom/c2/s2",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s2/g2/q1",
+                  "type": "open",
+                  "topic": "no-single-right-answer"
+                },
+                {
+                  "id": "pom/c2/s2/g2/q2",
+                  "type": "mcq",
+                  "topic": "ethics-in-decisions"
+                },
+                {
+                  "id": "pom/c2/s2/g2/q3",
+                  "type": "open",
+                  "topic": "stakeholders"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c02-s02.json",
+          "sourceHash": "a36a52a836da"
+        },
+        {
+          "id": "pom/c2/s3",
+          "number": "2.3",
+          "title": "How the Brain Processes Information to Make Decisions - Reflective and Reactive Systems",
+          "kind": "content",
+          "words": 707,
+          "status": "ingested",
+          "sourceFile": "source/c02/c02-s03.md",
+          "objectives": [
+            "Understand the two systems of decision-making in the brain"
+          ],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c2/s3/g1",
+              "title": "Reflective and Reactive Decision Systems",
+              "durationSec": 187,
+              "sectionId": "pom/c2/s3",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s3/g1/q1",
+                  "type": "open",
+                  "topic": "reflective-reactive-systems"
+                },
+                {
+                  "id": "pom/c2/s3/g1/q2",
+                  "type": "open",
+                  "topic": "emotional-intelligence"
+                },
+                {
+                  "id": "pom/c2/s3/g1/q3",
+                  "type": "mcq",
+                  "topic": "reflective-reactive-systems"
+                },
+                {
+                  "id": "pom/c2/s3/g1/q4",
+                  "type": "open",
+                  "topic": "emotions-decision-making"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c02-s03.json",
+          "sourceHash": "4e97a7b2e527"
+        },
+        {
+          "id": "pom/c2/s4",
+          "number": "2.4",
+          "title": "Programmed and Nonprogrammed Decisions",
+          "kind": "content",
+          "words": 853,
+          "status": "ingested",
+          "sourceFile": "source/c02/c02-s04.md",
+          "objectives": [
+            "Understand the difference between programmed and nonprogrammed decisions"
+          ],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c2/s4/g1",
+              "title": "Programmed Versus Nonprogrammed Decisions",
+              "durationSec": 166,
+              "sectionId": "pom/c2/s4",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s4/g1/q1",
+                  "type": "open",
+                  "topic": "programmed-vs-nonprogrammed"
+                },
+                {
+                  "id": "pom/c2/s4/g1/q2",
+                  "type": "mcq",
+                  "topic": "heuristics"
+                },
+                {
+                  "id": "pom/c2/s4/g1/q3",
+                  "type": "open",
+                  "topic": "reactive-reflective-systems"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c02-s04.json",
+          "sourceHash": "e3804e7193e2"
+        },
+        {
+          "id": "pom/c2/s5",
+          "number": "2.5",
+          "title": "Barriers to Effective Decision-Making",
+          "kind": "content",
+          "words": 2276,
+          "status": "ingested",
+          "sourceFile": "source/c02/c02-s05.md",
+          "objectives": [
+            "Understand the barriers that exist that make effective decision making difficult."
+          ],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c2/s5/g1",
+              "title": "Why We Can Never Fully Decide",
+              "durationSec": 160,
+              "sectionId": "pom/c2/s5",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s5/g1/q1",
+                  "type": "open",
+                  "topic": "decision-barriers-overview"
+                },
+                {
+                  "id": "pom/c2/s5/g1/q2",
+                  "type": "mcq",
+                  "topic": "escalation-of-commitment"
+                },
+                {
+                  "id": "pom/c2/s5/g1/q3",
+                  "type": "open",
+                  "topic": "programmed-vs-nonprogrammed"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s5/g2",
+              "title": "Our Own Minds Get in the Way",
+              "durationSec": 165,
+              "sectionId": "pom/c2/s5",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s5/g2/q1",
+                  "type": "open",
+                  "topic": "confirmation-bias"
+                },
+                {
+                  "id": "pom/c2/s5/g2/q2",
+                  "type": "mcq",
+                  "topic": "reactive-reflective-systems"
+                },
+                {
+                  "id": "pom/c2/s5/g2/q3",
+                  "type": "open",
+                  "topic": "reducing-bias"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s5/g3",
+              "title": "When Conflict Helps and Hurts",
+              "durationSec": 183,
+              "sectionId": "pom/c2/s5",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s5/g3/q1",
+                  "type": "open",
+                  "topic": "process-vs-relationship-conflict"
+                },
+                {
+                  "id": "pom/c2/s5/g3/q2",
+                  "type": "mcq",
+                  "topic": "process-vs-relationship-conflict"
+                },
+                {
+                  "id": "pom/c2/s5/g3/q3",
+                  "type": "open",
+                  "topic": "nadella-microsoft-culture"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c02-s05.json",
+          "sourceHash": "6f7631b23e06"
+        },
+        {
+          "id": "pom/c2/s6",
+          "number": "2.6",
+          "title": "Improving the Quality of Decision-Making",
+          "kind": "content",
+          "words": 3923,
+          "status": "ingested",
+          "sourceFile": "source/c02/c02-s06.md",
+          "objectives": [
+            "Understand how a manager can improve his or her individual decision making."
+          ],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c2/s6/g1",
+              "title": "Experience and Quick Everyday Decisions",
+              "durationSec": 147,
+              "sectionId": "pom/c2/s6",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s6/g1/q1",
+                  "type": "open",
+                  "topic": "satisficing"
+                },
+                {
+                  "id": "pom/c2/s6/g1/q2",
+                  "type": "mcq",
+                  "topic": "satisficing"
+                },
+                {
+                  "id": "pom/c2/s6/g1/q3",
+                  "type": "open",
+                  "topic": "bounded-rationality"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s6/g2",
+              "title": "Generating Many Good Alternatives",
+              "durationSec": 151,
+              "sectionId": "pom/c2/s6",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s6/g2/q1",
+                  "type": "open",
+                  "topic": "decision-making-steps"
+                },
+                {
+                  "id": "pom/c2/s6/g2/q2",
+                  "type": "mcq",
+                  "topic": "brainstorming"
+                },
+                {
+                  "id": "pom/c2/s6/g2/q3",
+                  "type": "open",
+                  "topic": "stakeholder-input"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s6/g3",
+              "title": "Analyzing Options With Evidence and Critical Thinking",
+              "durationSec": 156,
+              "sectionId": "pom/c2/s6",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s6/g3/q1",
+                  "type": "mcq",
+                  "topic": "evidence-based-decision-making"
+                },
+                {
+                  "id": "pom/c2/s6/g3/q2",
+                  "type": "open",
+                  "topic": "logical-fallacies"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s6/g4",
+              "title": "Long-Term Thinking and Ethical Decision-Making",
+              "durationSec": 157,
+              "sectionId": "pom/c2/s6",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s6/g4/q1",
+                  "type": "open",
+                  "topic": "ethical-decision-making"
+                },
+                {
+                  "id": "pom/c2/s6/g4/q2",
+                  "type": "mcq",
+                  "topic": "long-term-thinking"
+                }
+              ]
+            },
+            {
+              "id": "pom/c2/s6/g5",
+              "title": "Selecting, Acting, and Learning From Decisions",
+              "durationSec": 158,
+              "sectionId": "pom/c2/s6",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s6/g5/q1",
+                  "type": "mcq",
+                  "topic": "selecting-alternatives"
+                },
+                {
+                  "id": "pom/c2/s6/g5/q2",
+                  "type": "open",
+                  "topic": "escalation-of-commitment"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c02-s06.json",
+          "sourceHash": "8bbc01a686ef"
+        },
+        {
+          "id": "pom/c2/s7",
+          "number": "2.7",
+          "title": "Group Decision-Making",
+          "kind": "content",
+          "words": 959,
+          "status": "ingested",
+          "sourceFile": "source/c02/c02-s07.md",
+          "objectives": [
+            "Understand the advantages and disadvantages of group decision-making, and how managers can improve the quality of group decision-making"
+          ],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c2/s7/g1",
+              "title": "Making Better Decisions Together",
+              "durationSec": 175,
+              "sectionId": "pom/c2/s7",
+              "checkpoint": [
+                {
+                  "id": "pom/c2/s7/g1/q1",
+                  "type": "open",
+                  "topic": "group-decision-advantages"
+                },
+                {
+                  "id": "pom/c2/s7/g1/q2",
+                  "type": "open",
+                  "topic": "group-decision-disadvantages"
+                },
+                {
+                  "id": "pom/c2/s7/g1/q3",
+                  "type": "open",
+                  "topic": "group-decision-improvement"
+                },
+                {
+                  "id": "pom/c2/s7/g1/q4",
+                  "type": "mcq",
+                  "topic": "devils-advocate"
+                },
+                {
+                  "id": "pom/c2/s7/g1/q5",
+                  "type": "open",
+                  "topic": "process-vs-relationship-conflict"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c02-s07.json",
+          "sourceHash": "150a709658e6"
+        },
+        {
+          "id": "pom/c2/s8",
+          "number": "2.8",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 0,
+          "status": "source",
+          "sourceFile": "source/c02/c02-s08.md",
+          "objectives": [],
+          "keyTerms": [
+            {
+              "term": "Bounded rationality",
+              "definition": "The concept that when we make decisions, we cannot be fully rational because we don't have all the possible information or the cognitive processing ability to make fully informed, completely rational decisions."
+            },
+            {
+              "term": "Brainstorming",
+              "definition": "A process of generating as many ideas or alternatives as possible, often in groups."
+            },
+            {
+              "term": "Confirmation Bias",
+              "definition": "The tendency to pay attention to information that confirms our existing beliefs and to ignore or discount information that conflicts with our existing beliefs."
+            },
+            {
+              "term": "Creativity",
+              "definition": "The generation of new or original ideas."
+            },
+            {
+              "term": "Critical Thinking",
+              "definition": "A disciplined process of evaluating the quality of information, especially by identifying logical fallacies in arguments."
+            },
+            {
+              "term": "Decision-making",
+              "definition": "The action or process of thinking through possible options and selecting one."
+            },
+            {
+              "term": "Devil's Advocate",
+              "definition": "A group member who intentionally takes on the role of being critical of the group's ideas in order to discourage groupthink and encourage deep thought and discussion about issues prior to making decisions."
+            },
+            {
+              "term": "Emotional Intelligence",
+              "definition": "The ability to understand and manage emotions in oneself and in others."
+            },
+            {
+              "term": "Escalation of Commitment",
+              "definition": "The tendency of decision makers to remain committed to poor decision, even when doing so leads to increasingly negative outcomes."
+            },
+            {
+              "term": "Evidence-based Decision-making",
+              "definition": "A process of collecting the best available evidence prior to making a decision."
+            },
+            {
+              "term": "Groupthink",
+              "definition": "The tendency of a group to reach agreement very quickly and without substantive discussion."
+            },
+            {
+              "term": "Heuristics",
+              "definition": "Mental shortcuts that allow a decision maker to reach a good decision quickly. They are strategies that develop based on prior experience."
+            },
+            {
+              "term": "Nonprogrammed Decisions",
+              "definition": "Decisions that are novel and not based on well-defined or known criteria."
+            },
+            {
+              "term": "Process conflict",
+              "definition": "Conflict about the best way to do something; conflict that is task-oriented and constructive, and not focused on the individuals involved."
+            },
+            {
+              "term": "Programmed Decision",
+              "definition": "Decisions that are repeated over time and for which an existing set of rules can be developed."
+            },
+            {
+              "term": "Reactive System",
+              "definition": "System of decision-making in the brain that is quick and intuitive."
+            },
+            {
+              "term": "Reflective System",
+              "definition": "System of decision-making in the brain that is logical, analytical, and methodical."
+            },
+            {
+              "term": "Relationship Conflict",
+              "definition": "Conflict between individuals that is based on personal (or personality) differences; this type of conflict tends to be destructive rather than constructive."
+            },
+            {
+              "term": "Satisficing",
+              "definition": "Choosing the first acceptable solution to minimize time spent on a decision."
+            },
+            {
+              "term": "Stakeholders",
+              "definition": "Individuals or groups who are impacted by the organization. These include owners, employees, customers, suppliers, and members of the community in which the organization is located."
+            },
+            {
+              "term": "Suppression of Dissent",
+              "definition": "When a group member exerts his or her power to prevent others from voicing their thoughts or opinions."
+            }
+          ],
+          "segments": []
+        }
+      ],
+      "segments": [
+        {
+          "id": "pom/c2/s2/g1",
+          "title": "Why Decisions Matter to Everyone",
+          "durationSec": 155,
+          "sectionId": "pom/c2/s2",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s2/g1/q1",
+              "type": "open",
+              "topic": "decision-outcomes"
+            },
+            {
+              "id": "pom/c2/s2/g1/q2",
+              "type": "open",
+              "topic": "stakeholders"
+            },
+            {
+              "id": "pom/c2/s2/g1/q3",
+              "type": "mcq",
+              "topic": "decision-outcomes"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s2/g2",
+          "title": "No Multiple Choice, Only Judgement",
+          "durationSec": 174,
+          "sectionId": "pom/c2/s2",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s2/g2/q1",
+              "type": "open",
+              "topic": "no-single-right-answer"
+            },
+            {
+              "id": "pom/c2/s2/g2/q2",
+              "type": "mcq",
+              "topic": "ethics-in-decisions"
+            },
+            {
+              "id": "pom/c2/s2/g2/q3",
+              "type": "open",
+              "topic": "stakeholders"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s3/g1",
+          "title": "Reflective and Reactive Decision Systems",
+          "durationSec": 187,
+          "sectionId": "pom/c2/s3",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s3/g1/q1",
+              "type": "open",
+              "topic": "reflective-reactive-systems"
+            },
+            {
+              "id": "pom/c2/s3/g1/q2",
+              "type": "open",
+              "topic": "emotional-intelligence"
+            },
+            {
+              "id": "pom/c2/s3/g1/q3",
+              "type": "mcq",
+              "topic": "reflective-reactive-systems"
+            },
+            {
+              "id": "pom/c2/s3/g1/q4",
+              "type": "open",
+              "topic": "emotions-decision-making"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s4/g1",
+          "title": "Programmed Versus Nonprogrammed Decisions",
+          "durationSec": 166,
+          "sectionId": "pom/c2/s4",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s4/g1/q1",
+              "type": "open",
+              "topic": "programmed-vs-nonprogrammed"
+            },
+            {
+              "id": "pom/c2/s4/g1/q2",
+              "type": "mcq",
+              "topic": "heuristics"
+            },
+            {
+              "id": "pom/c2/s4/g1/q3",
+              "type": "open",
+              "topic": "reactive-reflective-systems"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s5/g1",
+          "title": "Why We Can Never Fully Decide",
+          "durationSec": 160,
+          "sectionId": "pom/c2/s5",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s5/g1/q1",
+              "type": "open",
+              "topic": "decision-barriers-overview"
+            },
+            {
+              "id": "pom/c2/s5/g1/q2",
+              "type": "mcq",
+              "topic": "escalation-of-commitment"
+            },
+            {
+              "id": "pom/c2/s5/g1/q3",
+              "type": "open",
+              "topic": "programmed-vs-nonprogrammed"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s5/g2",
+          "title": "Our Own Minds Get in the Way",
+          "durationSec": 165,
+          "sectionId": "pom/c2/s5",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s5/g2/q1",
+              "type": "open",
+              "topic": "confirmation-bias"
+            },
+            {
+              "id": "pom/c2/s5/g2/q2",
+              "type": "mcq",
+              "topic": "reactive-reflective-systems"
+            },
+            {
+              "id": "pom/c2/s5/g2/q3",
+              "type": "open",
+              "topic": "reducing-bias"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s5/g3",
+          "title": "When Conflict Helps and Hurts",
+          "durationSec": 183,
+          "sectionId": "pom/c2/s5",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s5/g3/q1",
+              "type": "open",
+              "topic": "process-vs-relationship-conflict"
+            },
+            {
+              "id": "pom/c2/s5/g3/q2",
+              "type": "mcq",
+              "topic": "process-vs-relationship-conflict"
+            },
+            {
+              "id": "pom/c2/s5/g3/q3",
+              "type": "open",
+              "topic": "nadella-microsoft-culture"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s6/g1",
+          "title": "Experience and Quick Everyday Decisions",
+          "durationSec": 147,
+          "sectionId": "pom/c2/s6",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s6/g1/q1",
+              "type": "open",
+              "topic": "satisficing"
+            },
+            {
+              "id": "pom/c2/s6/g1/q2",
+              "type": "mcq",
+              "topic": "satisficing"
+            },
+            {
+              "id": "pom/c2/s6/g1/q3",
+              "type": "open",
+              "topic": "bounded-rationality"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s6/g2",
+          "title": "Generating Many Good Alternatives",
+          "durationSec": 151,
+          "sectionId": "pom/c2/s6",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s6/g2/q1",
+              "type": "open",
+              "topic": "decision-making-steps"
+            },
+            {
+              "id": "pom/c2/s6/g2/q2",
+              "type": "mcq",
+              "topic": "brainstorming"
+            },
+            {
+              "id": "pom/c2/s6/g2/q3",
+              "type": "open",
+              "topic": "stakeholder-input"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s6/g3",
+          "title": "Analyzing Options With Evidence and Critical Thinking",
+          "durationSec": 156,
+          "sectionId": "pom/c2/s6",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s6/g3/q1",
+              "type": "mcq",
+              "topic": "evidence-based-decision-making"
+            },
+            {
+              "id": "pom/c2/s6/g3/q2",
+              "type": "open",
+              "topic": "logical-fallacies"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s6/g4",
+          "title": "Long-Term Thinking and Ethical Decision-Making",
+          "durationSec": 157,
+          "sectionId": "pom/c2/s6",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s6/g4/q1",
+              "type": "open",
+              "topic": "ethical-decision-making"
+            },
+            {
+              "id": "pom/c2/s6/g4/q2",
+              "type": "mcq",
+              "topic": "long-term-thinking"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s6/g5",
+          "title": "Selecting, Acting, and Learning From Decisions",
+          "durationSec": 158,
+          "sectionId": "pom/c2/s6",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s6/g5/q1",
+              "type": "mcq",
+              "topic": "selecting-alternatives"
+            },
+            {
+              "id": "pom/c2/s6/g5/q2",
+              "type": "open",
+              "topic": "escalation-of-commitment"
+            }
+          ]
+        },
+        {
+          "id": "pom/c2/s7/g1",
+          "title": "Making Better Decisions Together",
+          "durationSec": 175,
+          "sectionId": "pom/c2/s7",
+          "checkpoint": [
+            {
+              "id": "pom/c2/s7/g1/q1",
+              "type": "open",
+              "topic": "group-decision-advantages"
+            },
+            {
+              "id": "pom/c2/s7/g1/q2",
+              "type": "open",
+              "topic": "group-decision-disadvantages"
+            },
+            {
+              "id": "pom/c2/s7/g1/q3",
+              "type": "open",
+              "topic": "group-decision-improvement"
+            },
+            {
+              "id": "pom/c2/s7/g1/q4",
+              "type": "mcq",
+              "topic": "devils-advocate"
+            },
+            {
+              "id": "pom/c2/s7/g1/q5",
+              "type": "open",
+              "topic": "process-vs-relationship-conflict"
+            }
+          ]
+        }
+      ],
+      "reviewFile": "chapters/c02-review.json",
+      "quizFile": "chapters/c02-quiz.json"
+    },
+    {
+      "id": "pom/c3",
+      "number": 3,
+      "title": "The History of Management",
+      "shortTitle": "History of Management",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c3/s1",
+          "number": "3.1",
+          "title": "Introduction to The History of Management",
+          "kind": "content",
+          "words": 1213,
+          "status": "ingested",
+          "sourceFile": "source/c03/c03-s01.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c3/s1/g1",
+              "title": "Michael Porter and Competitive Strategy",
+              "durationSec": 156,
+              "sectionId": "pom/c3/s1",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s1/g1/q1",
+                  "type": "open",
+                  "topic": "porter-generic-strategies"
+                },
+                {
+                  "id": "pom/c3/s1/g1/q2",
+                  "type": "mcq",
+                  "topic": "porter-five-forces"
+                },
+                {
+                  "id": "pom/c3/s1/g1/q3",
+                  "type": "open",
+                  "topic": "porter-purpose"
+                }
+              ]
+            },
+            {
+              "id": "pom/c3/s1/g2",
+              "title": "Ancient Roots of Modern Management",
+              "durationSec": 171,
+              "sectionId": "pom/c3/s1",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s1/g2/q1",
+                  "type": "mcq",
+                  "topic": "modern-management-age"
+                },
+                {
+                  "id": "pom/c3/s1/g2/q2",
+                  "type": "open",
+                  "topic": "management-transformation-causes"
+                },
+                {
+                  "id": "pom/c3/s1/g2/q3",
+                  "type": "mcq",
+                  "topic": "succession-planning-history"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c03-s01.json",
+          "sourceHash": "ec0f18af428e"
+        },
+        {
+          "id": "pom/c3/s2",
+          "number": "3.2",
+          "title": "The Early Origins of Management",
+          "kind": "content",
+          "words": 1030,
+          "status": "ingested",
+          "sourceFile": "source/c03/c03-s02.md",
+          "objectives": [
+            "Be able to describe management in the ancient world."
+          ],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c3/s2/g1",
+              "title": "Management in the Ancient World",
+              "durationSec": 190,
+              "sectionId": "pom/c3/s2",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s2/g1/q1",
+                  "type": "open",
+                  "topic": "ancient-management-contributions"
+                },
+                {
+                  "id": "pom/c3/s2/g1/q2",
+                  "type": "mcq",
+                  "topic": "span-of-control"
+                },
+                {
+                  "id": "pom/c3/s2/g1/q3",
+                  "type": "open",
+                  "topic": "incentives-history"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c03-s02.json",
+          "sourceHash": "6e027393c7fb"
+        },
+        {
+          "id": "pom/c3/s3",
+          "number": "3.3",
+          "title": "The Italian Renaissance",
+          "kind": "content",
+          "words": 292,
+          "status": "ingested",
+          "sourceFile": "source/c03/c03-s03.md",
+          "objectives": [
+            "Understand how the Italian Rennaisance affected the progression of management theory."
+          ],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c3/s3/g1",
+              "title": "The Italian Renaissance and Business",
+              "durationSec": 177,
+              "sectionId": "pom/c3/s3",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s3/g1/q1",
+                  "type": "open",
+                  "topic": "italian-renaissance-definition"
+                },
+                {
+                  "id": "pom/c3/s3/g1/q2",
+                  "type": "open",
+                  "topic": "renaissance-managerial-legacy"
+                },
+                {
+                  "id": "pom/c3/s3/g1/q3",
+                  "type": "mcq",
+                  "topic": "printing-press-spread"
+                },
+                {
+                  "id": "pom/c3/s3/g1/q4",
+                  "type": "open",
+                  "topic": "rise-of-managers"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c03-s03.json",
+          "sourceHash": "ec0b22d401c5"
+        },
+        {
+          "id": "pom/c3/s4",
+          "number": "3.4",
+          "title": "The Industrial Revolution",
+          "kind": "content",
+          "words": 1061,
+          "status": "ingested",
+          "sourceFile": "source/c03/c03-s04.md",
+          "objectives": [
+            "Understand how the Industrial Revolution affected the progress of management theory."
+          ],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c3/s4/g1",
+              "title": "How Trade and Smith Built Factories",
+              "durationSec": 146,
+              "sectionId": "pom/c3/s4",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s4/g1/q1",
+                  "type": "open",
+                  "topic": "adam-smith-specialization"
+                },
+                {
+                  "id": "pom/c3/s4/g1/q2",
+                  "type": "mcq",
+                  "topic": "adam-smith-specialization"
+                },
+                {
+                  "id": "pom/c3/s4/g1/q3",
+                  "type": "open",
+                  "topic": "specialization-coordination"
+                }
+              ]
+            },
+            {
+              "id": "pom/c3/s4/g2",
+              "title": "Factories Grow, Workers Resist",
+              "durationSec": 168,
+              "sectionId": "pom/c3/s4",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s4/g2/q1",
+                  "type": "open",
+                  "topic": "industrial-revolution-legacy"
+                },
+                {
+                  "id": "pom/c3/s4/g2/q2",
+                  "type": "mcq",
+                  "topic": "worker-motivation-factories"
+                },
+                {
+                  "id": "pom/c3/s4/g2/q3",
+                  "type": "open",
+                  "topic": "worker-motivation-factories"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c03-s04.json",
+          "sourceHash": "5f697ce77e2a"
+        },
+        {
+          "id": "pom/c3/s5",
+          "number": "3.5",
+          "title": "Taylor-Made Management",
+          "kind": "content",
+          "words": 3023,
+          "status": "ingested",
+          "sourceFile": "source/c03/c03-s05.md",
+          "objectives": [
+            "Understand how Frederick Winslow Taylor influenced management theory, and how efficiency in management affects current management theory."
+          ],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c3/s5/g1",
+              "title": "The World Before Taylor",
+              "durationSec": 165,
+              "sectionId": "pom/c3/s5",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s5/g1/q1",
+                  "type": "open",
+                  "topic": "soldiering"
+                },
+                {
+                  "id": "pom/c3/s5/g1/q2",
+                  "type": "mcq",
+                  "topic": "taylor-background"
+                }
+              ]
+            },
+            {
+              "id": "pom/c3/s5/g2",
+              "title": "The Four Principles of Scientific Management",
+              "durationSec": 153,
+              "sectionId": "pom/c3/s5",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s5/g2/q1",
+                  "type": "open",
+                  "topic": "taylor-change"
+                },
+                {
+                  "id": "pom/c3/s5/g2/q2",
+                  "type": "mcq",
+                  "topic": "taylor-principles"
+                },
+                {
+                  "id": "pom/c3/s5/g2/q3",
+                  "type": "open",
+                  "topic": "taylor-principles"
+                }
+              ]
+            },
+            {
+              "id": "pom/c3/s5/g3",
+              "title": "Taylor's Team of Contributors",
+              "durationSec": 152,
+              "sectionId": "pom/c3/s5",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s5/g3/q1",
+                  "type": "open",
+                  "topic": "taylor-associates"
+                },
+                {
+                  "id": "pom/c3/s5/g3/q2",
+                  "type": "mcq",
+                  "topic": "taylor-associates"
+                },
+                {
+                  "id": "pom/c3/s5/g3/q3",
+                  "type": "mcq",
+                  "topic": "gilbreth-motion-study"
+                }
+              ]
+            },
+            {
+              "id": "pom/c3/s5/g4",
+              "title": "Taylor's Flaws and Lasting Legacy",
+              "durationSec": 156,
+              "sectionId": "pom/c3/s5",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s5/g4/q1",
+                  "type": "open",
+                  "topic": "taylor-shortcomings"
+                },
+                {
+                  "id": "pom/c3/s5/g4/q2",
+                  "type": "mcq",
+                  "topic": "taylor-shortcomings"
+                },
+                {
+                  "id": "pom/c3/s5/g4/q3",
+                  "type": "open",
+                  "topic": "taylor-shortcomings"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c03-s05.json",
+          "sourceHash": "4c9107e51b14"
+        },
+        {
+          "id": "pom/c3/s6",
+          "number": "3.6",
+          "title": "Administrative and Bureaucratic Management",
+          "kind": "content",
+          "words": 1641,
+          "status": "ingested",
+          "sourceFile": "source/c03/c03-s06.md",
+          "objectives": [
+            "Understand how bureaucratic and administrative management complement scientific management."
+          ],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c3/s6/g1",
+              "title": "Fayol and the Art of Administration",
+              "durationSec": 171,
+              "sectionId": "pom/c3/s6",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s6/g1/q1",
+                  "type": "open",
+                  "topic": "fayol-vs-taylor"
+                },
+                {
+                  "id": "pom/c3/s6/g1/q2",
+                  "type": "mcq",
+                  "topic": "unity-of-command"
+                },
+                {
+                  "id": "pom/c3/s6/g1/q3",
+                  "type": "open",
+                  "topic": "esprit-de-corps"
+                }
+              ]
+            },
+            {
+              "id": "pom/c3/s6/g2",
+              "title": "Weber's Bureaucracy and Structure",
+              "durationSec": 179,
+              "sectionId": "pom/c3/s6",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s6/g2/q1",
+                  "type": "open",
+                  "topic": "fayol-weber-contributions"
+                },
+                {
+                  "id": "pom/c3/s6/g2/q2",
+                  "type": "open",
+                  "topic": "line-of-authority"
+                },
+                {
+                  "id": "pom/c3/s6/g2/q3",
+                  "type": "mcq",
+                  "topic": "bureaucracy-merit"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c03-s06.json",
+          "sourceHash": "a03b49efe2e9"
+        },
+        {
+          "id": "pom/c3/s7",
+          "number": "3.7",
+          "title": "Human Relations Movement",
+          "kind": "content",
+          "words": 2369,
+          "status": "ingested",
+          "sourceFile": "source/c03/c03-s07.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c3/s7/g1",
+              "title": "Human Relations and the Hawthorne Studies",
+              "durationSec": 180,
+              "sectionId": "pom/c3/s7",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s7/g1/q1",
+                  "type": "open",
+                  "topic": "human-relations-vs-scientific-management"
+                },
+                {
+                  "id": "pom/c3/s7/g1/q2",
+                  "type": "mcq",
+                  "topic": "hawthorne-relay-assembly"
+                },
+                {
+                  "id": "pom/c3/s7/g1/q3",
+                  "type": "open",
+                  "topic": "hawthorne-bank-wiring"
+                }
+              ]
+            },
+            {
+              "id": "pom/c3/s7/g2",
+              "title": "Barnard and the Zone of Indifference",
+              "durationSec": 183,
+              "sectionId": "pom/c3/s7",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s7/g2/q1",
+                  "type": "open",
+                  "topic": "zone-of-indifference"
+                },
+                {
+                  "id": "pom/c3/s7/g2/q2",
+                  "type": "mcq",
+                  "topic": "barnard-incentives"
+                },
+                {
+                  "id": "pom/c3/s7/g2/q3",
+                  "type": "open",
+                  "topic": "barnard-authority"
+                }
+              ]
+            },
+            {
+              "id": "pom/c3/s7/g3",
+              "title": "Follett on Power and Conflict",
+              "durationSec": 184,
+              "sectionId": "pom/c3/s7",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s7/g3/q1",
+                  "type": "open",
+                  "topic": "follett-conflict-resolution"
+                },
+                {
+                  "id": "pom/c3/s7/g3/q2",
+                  "type": "mcq",
+                  "topic": "follett-window-example"
+                },
+                {
+                  "id": "pom/c3/s7/g3/q3",
+                  "type": "open",
+                  "topic": "follett-background"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c03-s07.json",
+          "sourceHash": "a6cb45a0d074"
+        },
+        {
+          "id": "pom/c3/s8",
+          "number": "3.8",
+          "title": "Contingency and System Management",
+          "kind": "content",
+          "words": 760,
+          "status": "ingested",
+          "sourceFile": "source/c03/c03-s08.md",
+          "objectives": [
+            "Understand how contingency and systems management transformed management thought."
+          ],
+          "keyTerms": [],
+          "segments": [
+            {
+              "id": "pom/c3/s8/g1",
+              "title": "Systems and Contingency Thinking",
+              "durationSec": 170,
+              "sectionId": "pom/c3/s8",
+              "checkpoint": [
+                {
+                  "id": "pom/c3/s8/g1/q1",
+                  "type": "open",
+                  "topic": "systems-contingency-contribution"
+                },
+                {
+                  "id": "pom/c3/s8/g1/q2",
+                  "type": "open",
+                  "topic": "evidence-based-management"
+                },
+                {
+                  "id": "pom/c3/s8/g1/q3",
+                  "type": "mcq",
+                  "topic": "systems-theory"
+                },
+                {
+                  "id": "pom/c3/s8/g1/q4",
+                  "type": "mcq",
+                  "topic": "contingency-theory"
+                },
+                {
+                  "id": "pom/c3/s8/g1/q5",
+                  "type": "open",
+                  "topic": "contingency-theory"
+                }
+              ]
+            }
+          ],
+          "lessonFile": "sections/c03-s08.json",
+          "sourceHash": "769561e4d066"
+        },
+        {
+          "id": "pom/c3/s9",
+          "number": "3.9",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 250,
+          "status": "source",
+          "sourceFile": "source/c03/c03-s09.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": []
+        }
+      ],
+      "segments": [
+        {
+          "id": "pom/c3/s1/g1",
+          "title": "Michael Porter and Competitive Strategy",
+          "durationSec": 156,
+          "sectionId": "pom/c3/s1",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s1/g1/q1",
+              "type": "open",
+              "topic": "porter-generic-strategies"
+            },
+            {
+              "id": "pom/c3/s1/g1/q2",
+              "type": "mcq",
+              "topic": "porter-five-forces"
+            },
+            {
+              "id": "pom/c3/s1/g1/q3",
+              "type": "open",
+              "topic": "porter-purpose"
+            }
+          ]
+        },
+        {
+          "id": "pom/c3/s1/g2",
+          "title": "Ancient Roots of Modern Management",
+          "durationSec": 171,
+          "sectionId": "pom/c3/s1",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s1/g2/q1",
+              "type": "mcq",
+              "topic": "modern-management-age"
+            },
+            {
+              "id": "pom/c3/s1/g2/q2",
+              "type": "open",
+              "topic": "management-transformation-causes"
+            },
+            {
+              "id": "pom/c3/s1/g2/q3",
+              "type": "mcq",
+              "topic": "succession-planning-history"
+            }
+          ]
+        },
+        {
+          "id": "pom/c3/s2/g1",
+          "title": "Management in the Ancient World",
+          "durationSec": 190,
+          "sectionId": "pom/c3/s2",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s2/g1/q1",
+              "type": "open",
+              "topic": "ancient-management-contributions"
+            },
+            {
+              "id": "pom/c3/s2/g1/q2",
+              "type": "mcq",
+              "topic": "span-of-control"
+            },
+            {
+              "id": "pom/c3/s2/g1/q3",
+              "type": "open",
+              "topic": "incentives-history"
+            }
+          ]
+        },
+        {
+          "id": "pom/c3/s3/g1",
+          "title": "The Italian Renaissance and Business",
+          "durationSec": 177,
+          "sectionId": "pom/c3/s3",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s3/g1/q1",
+              "type": "open",
+              "topic": "italian-renaissance-definition"
+            },
+            {
+              "id": "pom/c3/s3/g1/q2",
+              "type": "open",
+              "topic": "renaissance-managerial-legacy"
+            },
+            {
+              "id": "pom/c3/s3/g1/q3",
+              "type": "mcq",
+              "topic": "printing-press-spread"
+            },
+            {
+              "id": "pom/c3/s3/g1/q4",
+              "type": "open",
+              "topic": "rise-of-managers"
+            }
+          ]
+        },
+        {
+          "id": "pom/c3/s4/g1",
+          "title": "How Trade and Smith Built Factories",
+          "durationSec": 146,
+          "sectionId": "pom/c3/s4",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s4/g1/q1",
+              "type": "open",
+              "topic": "adam-smith-specialization"
+            },
+            {
+              "id": "pom/c3/s4/g1/q2",
+              "type": "mcq",
+              "topic": "adam-smith-specialization"
+            },
+            {
+              "id": "pom/c3/s4/g1/q3",
+              "type": "open",
+              "topic": "specialization-coordination"
+            }
+          ]
+        },
+        {
+          "id": "pom/c3/s4/g2",
+          "title": "Factories Grow, Workers Resist",
+          "durationSec": 168,
+          "sectionId": "pom/c3/s4",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s4/g2/q1",
+              "type": "open",
+              "topic": "industrial-revolution-legacy"
+            },
+            {
+              "id": "pom/c3/s4/g2/q2",
+              "type": "mcq",
+              "topic": "worker-motivation-factories"
+            },
+            {
+              "id": "pom/c3/s4/g2/q3",
+              "type": "open",
+              "topic": "worker-motivation-factories"
+            }
+          ]
+        },
+        {
+          "id": "pom/c3/s5/g1",
+          "title": "The World Before Taylor",
+          "durationSec": 165,
+          "sectionId": "pom/c3/s5",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s5/g1/q1",
+              "type": "open",
+              "topic": "soldiering"
+            },
+            {
+              "id": "pom/c3/s5/g1/q2",
+              "type": "mcq",
+              "topic": "taylor-background"
+            }
+          ]
+        },
+        {
+          "id": "pom/c3/s5/g2",
+          "title": "The Four Principles of Scientific Management",
+          "durationSec": 153,
+          "sectionId": "pom/c3/s5",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s5/g2/q1",
+              "type": "open",
+              "topic": "taylor-change"
+            },
+            {
+              "id": "pom/c3/s5/g2/q2",
+              "type": "mcq",
+              "topic": "taylor-principles"
+            },
+            {
+              "id": "pom/c3/s5/g2/q3",
+              "type": "open",
+              "topic": "taylor-principles"
+            }
+          ]
+        },
+        {
+          "id": "pom/c3/s5/g3",
+          "title": "Taylor's Team of Contributors",
+          "durationSec": 152,
+          "sectionId": "pom/c3/s5",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s5/g3/q1",
+              "type": "open",
+              "topic": "taylor-associates"
+            },
+            {
+              "id": "pom/c3/s5/g3/q2",
+              "type": "mcq",
+              "topic": "taylor-associates"
+            },
+            {
+              "id": "pom/c3/s5/g3/q3",
+              "type": "mcq",
+              "topic": "gilbreth-motion-study"
+            }
+          ]
+        },
+        {
+          "id": "pom/c3/s5/g4",
+          "title": "Taylor's Flaws and Lasting Legacy",
+          "durationSec": 156,
+          "sectionId": "pom/c3/s5",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s5/g4/q1",
+              "type": "open",
+              "topic": "taylor-shortcomings"
+            },
+            {
+              "id": "pom/c3/s5/g4/q2",
+              "type": "mcq",
+              "topic": "taylor-shortcomings"
+            },
+            {
+              "id": "pom/c3/s5/g4/q3",
+              "type": "open",
+              "topic": "taylor-shortcomings"
+            }
+          ]
+        },
+        {
+          "id": "pom/c3/s6/g1",
+          "title": "Fayol and the Art of Administration",
+          "durationSec": 171,
+          "sectionId": "pom/c3/s6",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s6/g1/q1",
+              "type": "open",
+              "topic": "fayol-vs-taylor"
+            },
+            {
+              "id": "pom/c3/s6/g1/q2",
+              "type": "mcq",
+              "topic": "unity-of-command"
+            },
+            {
+              "id": "pom/c3/s6/g1/q3",
+              "type": "open",
+              "topic": "esprit-de-corps"
+            }
+          ]
+        },
+        {
+          "id": "pom/c3/s6/g2",
+          "title": "Weber's Bureaucracy and Structure",
+          "durationSec": 179,
+          "sectionId": "pom/c3/s6",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s6/g2/q1",
+              "type": "open",
+              "topic": "fayol-weber-contributions"
+            },
+            {
+              "id": "pom/c3/s6/g2/q2",
+              "type": "open",
+              "topic": "line-of-authority"
+            },
+            {
+              "id": "pom/c3/s6/g2/q3",
+              "type": "mcq",
+              "topic": "bureaucracy-merit"
+            }
+          ]
+        },
+        {
+          "id": "pom/c3/s7/g1",
+          "title": "Human Relations and the Hawthorne Studies",
+          "durationSec": 180,
+          "sectionId": "pom/c3/s7",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s7/g1/q1",
+              "type": "open",
+              "topic": "human-relations-vs-scientific-management"
+            },
+            {
+              "id": "pom/c3/s7/g1/q2",
+              "type": "mcq",
+              "topic": "hawthorne-relay-assembly"
+            },
+            {
+              "id": "pom/c3/s7/g1/q3",
+              "type": "open",
+              "topic": "hawthorne-bank-wiring"
+            }
+          ]
+        },
+        {
+          "id": "pom/c3/s7/g2",
+          "title": "Barnard and the Zone of Indifference",
+          "durationSec": 183,
+          "sectionId": "pom/c3/s7",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s7/g2/q1",
+              "type": "open",
+              "topic": "zone-of-indifference"
+            },
+            {
+              "id": "pom/c3/s7/g2/q2",
+              "type": "mcq",
+              "topic": "barnard-incentives"
+            },
+            {
+              "id": "pom/c3/s7/g2/q3",
+              "type": "open",
+              "topic": "barnard-authority"
+            }
+          ]
+        },
+        {
+          "id": "pom/c3/s7/g3",
+          "title": "Follett on Power and Conflict",
+          "durationSec": 184,
+          "sectionId": "pom/c3/s7",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s7/g3/q1",
+              "type": "open",
+              "topic": "follett-conflict-resolution"
+            },
+            {
+              "id": "pom/c3/s7/g3/q2",
+              "type": "mcq",
+              "topic": "follett-window-example"
+            },
+            {
+              "id": "pom/c3/s7/g3/q3",
+              "type": "open",
+              "topic": "follett-background"
+            }
+          ]
+        },
+        {
+          "id": "pom/c3/s8/g1",
+          "title": "Systems and Contingency Thinking",
+          "durationSec": 170,
+          "sectionId": "pom/c3/s8",
+          "checkpoint": [
+            {
+              "id": "pom/c3/s8/g1/q1",
+              "type": "open",
+              "topic": "systems-contingency-contribution"
+            },
+            {
+              "id": "pom/c3/s8/g1/q2",
+              "type": "open",
+              "topic": "evidence-based-management"
+            },
+            {
+              "id": "pom/c3/s8/g1/q3",
+              "type": "mcq",
+              "topic": "systems-theory"
+            },
+            {
+              "id": "pom/c3/s8/g1/q4",
+              "type": "mcq",
+              "topic": "contingency-theory"
+            },
+            {
+              "id": "pom/c3/s8/g1/q5",
+              "type": "open",
+              "topic": "contingency-theory"
+            }
+          ]
+        }
+      ],
+      "reviewFile": "chapters/c03-review.json",
+      "quizFile": "chapters/c03-quiz.json"
+    },
+    {
+      "id": "pom/c4",
+      "number": 4,
+      "title": "External and Internal Organizational Environments and Corporate Culture",
+      "shortTitle": "External and Internal Organizational",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c4/s1",
+          "number": "4.1",
+          "title": "Introduction to External and Internal Organizational Environments and Corporate Culture",
+          "kind": "content",
+          "words": 1324,
+          "status": "source",
+          "sourceFile": "source/c04/c04-s01.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c4/s2",
+          "number": "4.2",
+          "title": "The Organization's External Environment",
+          "kind": "content",
+          "words": 1873,
+          "status": "source",
+          "sourceFile": "source/c04/c04-s02.md",
+          "objectives": [
+            "Be able to define the external environment of organizations."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c4/s3",
+          "number": "4.3",
+          "title": "External Environments and Industries",
+          "kind": "content",
+          "words": 1071,
+          "status": "source",
+          "sourceFile": "source/c04/c04-s03.md",
+          "objectives": [
+            "Identify contemporary external forces pressuring organizations."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c4/s4",
+          "number": "4.4",
+          "title": "Organizational Designs and Structures",
+          "kind": "content",
+          "words": 2864,
+          "status": "source",
+          "sourceFile": "source/c04/c04-s04.md",
+          "objectives": [
+            "Identify different types of organizational structures and their strengths and weaknesses."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c4/s5",
+          "number": "4.5",
+          "title": "The Internal Organization and External Environments",
+          "kind": "content",
+          "words": 1191,
+          "status": "source",
+          "sourceFile": "source/c04/c04-s05.md",
+          "objectives": [
+            "Explain how organizations organize to meet external market threats and opportunities."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c4/s6",
+          "number": "4.6",
+          "title": "Corporate Cultures",
+          "kind": "content",
+          "words": 914,
+          "status": "source",
+          "sourceFile": "source/c04/c04-s06.md",
+          "objectives": [
+            "Identify the fit between organizational cultures and the external environment."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c4/s7",
+          "number": "4.7",
+          "title": "Organizing for Change in the 21st Century",
+          "kind": "content",
+          "words": 451,
+          "status": "source",
+          "sourceFile": "source/c04/c04-s07.md",
+          "objectives": [
+            "Identify environmental trends, demands, and opportunities facing organizations."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c4/s8",
+          "number": "4.8",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 0,
+          "status": "source",
+          "sourceFile": "source/c04/c04-s08.md",
+          "objectives": [],
+          "keyTerms": [
+            {
+              "term": "Adhocracy culture",
+              "definition": "Creates an environment of innovating, visioning the future, accepting of managing change, and risk taking, rule-breaking, experimentation, entrepreneurship, and uncertainty."
+            },
+            {
+              "term": "Clan culture",
+              "definition": "Focuses on relationships, team building, commitment, empowering human development, engagement, mentoring, and coaching."
+            },
+            {
+              "term": "Competing Values Framework",
+              "definition": "Developed by Kim Cameron and Robert Quinn this model is used for diagnosing an organization's cultural effectiveness and examining its fit with its environment."
+            },
+            {
+              "term": "Complex-Stable environments",
+              "definition": "Environments that have a large number of external elements, and elements are dissimilar and where elements remain the same or change slowly."
+            },
+            {
+              "term": "Complex-Unstable environments",
+              "definition": "Environments that have a large number of external elements, and elements are dissimilar and where elements change frequently and unpredictably"
+            },
+            {
+              "term": "Corporate culture",
+              "definition": "Defines how motivating employees' beliefs, behaviors, relationships, and ways they work creates a culture that is based on the values the organization believes in."
+            },
+            {
+              "term": "Divisional structure",
+              "definition": "An organizational structure characterized by functional departments grouped under a division head."
+            },
+            {
+              "term": "Domain",
+              "definition": "The purpose of the organization from which its strategies, organizational capabilities, resources, and management systems are mobilized to support the enterprise's purpose."
+            },
+            {
+              "term": "Functional structure",
+              "definition": "The earliest and most used organizational designs."
+            },
+            {
+              "term": "Geographic structure",
+              "definition": "An Organizational option aimed at moving from a mechanistic to more organic design to serve customers faster and with relevant products and services; as such, this structure is organized by locations of customers that a company serves."
+            },
+            {
+              "term": "Government and political environment forces",
+              "definition": "The global economy and changing political actions increase uncertainty for businesses, while creating opportunities for some industries and instability in others."
+            },
+            {
+              "term": "Hierarchy culture",
+              "definition": "Emphasizes efficiency, process and cost control, organizational improvement, technical expertise, precision, problem solving, elimination of errors, logical, cautious and conservative, management and operational analysis, careful decision making."
+            },
+            {
+              "term": "Horizontal organizational structures",
+              "definition": "A \"flatter\" organizational structure often found in matrix organizations where individuals relish the breath and development that their team offers."
+            },
+            {
+              "term": "Internal dimensions of organizations",
+              "definition": "How an organization's culture affects and influences its strategy."
+            },
+            {
+              "term": "Market culture",
+              "definition": "Focuses on delivering value, competing, delivering shareholder value, goal achievement, driving and delivering results, speedy decisions, hard driving through barriers, directive, commanding, competing and getting things done"
+            },
+            {
+              "term": "Matrix structure",
+              "definition": "An organizational structure close in approach to organic systems that attempt to respond to environmental uncertainty, complexity, and instability."
+            },
+            {
+              "term": "McKinsey 7-S model",
+              "definition": "A popular depiction of internal organizational dimensions."
+            },
+            {
+              "term": "Mechanistic organizational structures",
+              "definition": "Best suited for environments that range from stable and simple to low-moderate uncertainty and have a formal \"pyramid' structure."
+            },
+            {
+              "term": "Natural disaster and human induced environmental problems",
+              "definition": "Events such as high-impact hurricanes, extreme temperatures and the rise in CO2 emissions as well as `man-made' environmental disasters such as water and food crises; biodiversity loss and ecosystem collapse; large-scale involuntary migration are a force that affects organizations."
+            },
+            {
+              "term": "Networked-team structure",
+              "definition": "A form of the horizontal organization."
+            },
+            {
+              "term": "Organic organizational structures",
+              "definition": "The opposite of a functional organizational form that works best in unstable, complex changing environments."
+            },
+            {
+              "term": "Organizational structures",
+              "definition": "A broad term that covers both mechanistic and organic organizational structures."
+            },
+            {
+              "term": "Simple-Stable environments",
+              "definition": "Environments that have a small number of external elements, and elements are similar, and the elements remain the same or change slowly."
+            },
+            {
+              "term": "Simple-Unstable environments",
+              "definition": "Environments that have a small number of external elements, and elements are similar and where elements change frequently and unpredictably."
+            },
+            {
+              "term": "Socio-cultural environment forces",
+              "definition": "Include different generations' values, beliefs, attitudes and habits, customs and traditions, habits and lifestyles."
+            },
+            {
+              "term": "Technological forces",
+              "definition": "Environmental influence on organizations where speed, price, service, and quality of products and services are dimensions of organizations' competitive advantage in this era."
+            },
+            {
+              "term": "Virtual structure",
+              "definition": "A recent organizational structure that has emerged in the 1990's and early 2000's as a response to requiring more flexibility, solution based tasks on demand, less geographical constraints, and accessibility to dispersed expertise."
+            }
+          ],
+          "segments": []
+        }
+      ],
+      "segments": []
+    },
+    {
+      "id": "pom/c5",
+      "number": 5,
+      "title": "Ethics, Corporate Responsibility, and Sustainability",
+      "shortTitle": "Ethics, Corporate Responsibility, and",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c5/s1",
+          "number": "5.1",
+          "title": "Introduction",
+          "kind": "content",
+          "words": 691,
+          "status": "source",
+          "sourceFile": "source/c05/c05-s01.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c5/s2",
+          "number": "5.2",
+          "title": "Ethics and Business Ethics Defined",
+          "kind": "content",
+          "words": 1016,
+          "status": "source",
+          "sourceFile": "source/c05/c05-s02.md",
+          "objectives": [
+            "Understand what ethics and business ethics are"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c5/s3",
+          "number": "5.3",
+          "title": "Dimensions of Ethics- The Individual Level",
+          "kind": "content",
+          "words": 1210,
+          "status": "source",
+          "sourceFile": "source/c05/c05-s03.md",
+          "objectives": [
+            "Understand the types of values that affect business ethics at the individual level."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c5/s4",
+          "number": "5.4",
+          "title": "Ethical Principles and Responsible Decision-Making",
+          "kind": "content",
+          "words": 2280,
+          "status": "source",
+          "sourceFile": "source/c05/c05-s04.md",
+          "objectives": [
+            "Understand the major ethical principles that can be used by individuals and organizations."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c5/s5",
+          "number": "5.5",
+          "title": "Leadership- Ethics at the Organizational Level",
+          "kind": "content",
+          "words": 2959,
+          "status": "source",
+          "sourceFile": "source/c05/c05-s05.md",
+          "objectives": [
+            "Understand the importance of ethical leadership in organizations."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c5/s6",
+          "number": "5.6",
+          "title": "Ethics, Corporate Culture, and Compliance",
+          "kind": "content",
+          "words": 938,
+          "status": "source",
+          "sourceFile": "source/c05/c05-s06.md",
+          "objectives": [
+            "Understand the differences between values-based ethics and compliance in organizations."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c5/s7",
+          "number": "5.7",
+          "title": "Corporate Social Responsibility (CSR)",
+          "kind": "content",
+          "words": 1826,
+          "status": "source",
+          "sourceFile": "source/c05/c05-s07.md",
+          "objectives": [
+            "Understand the value that CSR (corporate social responsibility) programs offer to organizations and society."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c5/s8",
+          "number": "5.8",
+          "title": "Ethics around the Globe",
+          "kind": "content",
+          "words": 1553,
+          "status": "source",
+          "sourceFile": "source/c05/c05-s08.md",
+          "objectives": [
+            "What are ethical issues we encounter in the global environment?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c5/s9",
+          "number": "5.9",
+          "title": "Emerging Trends in Ethics, CSR, and Compliance",
+          "kind": "content",
+          "words": 1785,
+          "status": "source",
+          "sourceFile": "source/c05/c05-s09.md",
+          "objectives": [
+            "Identify forecasts about contemporary ethical and corporate social responsibility issues."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c5/s10",
+          "number": "5.10",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 0,
+          "status": "source",
+          "sourceFile": "source/c05/c05-s10.md",
+          "objectives": [],
+          "keyTerms": [
+            {
+              "term": "Business ethics",
+              "definition": "The area of applied ethics that focuses on real-world situations and the context and environment in which transactions occur."
+            },
+            {
+              "term": "Corporate culture",
+              "definition": "The beliefs and behaviors that determine how a company's employees and management interact inside an organization and also handle outside business transactions. Corporate culture develops organically over time from the cumulative traits of the leaders and the people that the company hires."
+            },
+            {
+              "term": "Ethical dilemma",
+              "definition": "A situation in which a difficult choice has to be made between two courses of action with ethical consequences."
+            },
+            {
+              "term": "Ethical relativism",
+              "definition": "Holds that people set their own moral standards for judging their actions, based on self interest."
+            },
+            {
+              "term": "Ethics",
+              "definition": "The code of moral principles and values that governs the behaviors of a person or group with respect to what is right or wrong."
+            },
+            {
+              "term": "Instrumental values",
+              "definition": "The preferred means of behavior used to obtain desired goals."
+            },
+            {
+              "term": "Justice",
+              "definition": "Four major tenets: (1) All individuals should be treated equally; (2) Justice is served when all persons have equal opportunities and advantages; (3) Fair decision practices, procedures, and agreements among parties should be practiced; (4) Punishment is served to someone who inflicts harm."
+            },
+            {
+              "term": "Moral entrepreneur",
+              "definition": "Someone who creates a new ethical norm."
+            },
+            {
+              "term": "Normative ethics",
+              "definition": "The field of ethics concerned with our asking how should and ought we live and act."
+            },
+            {
+              "term": "Rights",
+              "definition": "Legal rights are entitlements that are limited to a particular legal system and jurisdiction, while moral rights are universal and based on norms in every society."
+            },
+            {
+              "term": "servant leadership",
+              "definition": "Involves selflessly working with followers to achieve shared goals that improve collective, rather than individual, welfare."
+            },
+            {
+              "term": "Stakeholder",
+              "definition": "Any group or individual who can affect or is affected by the achievement of an organization's objectives. The use of the term stakeholder has become commonplace in organizations."
+            },
+            {
+              "term": "Stakeholder management",
+              "definition": "The systematic identification, analysis, planning, and implementation of actions designed to engage with stakeholders"
+            },
+            {
+              "term": "Stewardship",
+              "definition": "Concerned with empowering followers to make decisions and gain control over their work."
+            },
+            {
+              "term": "Terminal values",
+              "definition": "Desired goals, objectives, or end states that individuals wish to pursue."
+            },
+            {
+              "term": "Virtue ethics",
+              "definition": "Grounded in one's character, focusing on what type of person one ought to be."
+            }
+          ],
+          "segments": []
+        }
+      ],
+      "segments": [],
+      "reviewFile": "chapters/c05-review.json"
+    },
+    {
+      "id": "pom/c6",
+      "number": 6,
+      "title": "International Management",
+      "shortTitle": "International Management",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c6/s1",
+          "number": "6.1",
+          "title": "Introduction to International Management",
+          "kind": "content",
+          "words": 998,
+          "status": "source",
+          "sourceFile": "source/c06/c06-s01.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c6/s2",
+          "number": "6.2",
+          "title": "Importance of International Management",
+          "kind": "content",
+          "words": 1002,
+          "status": "source",
+          "sourceFile": "source/c06/c06-s02.md",
+          "objectives": [
+            "Why is it important to understand and appreciate the importance of international management in today's world?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c6/s3",
+          "number": "6.3",
+          "title": "Hofstede's Cultural Framework",
+          "kind": "content",
+          "words": 2288,
+          "status": "source",
+          "sourceFile": "source/c06/c06-s03.md",
+          "objectives": [
+            "What is culture, and how can culture be understood through Hofstede's cultural framework?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c6/s4",
+          "number": "6.4",
+          "title": "The GLOBE Framework",
+          "kind": "content",
+          "words": 1451,
+          "status": "source",
+          "sourceFile": "source/c06/c06-s04.md",
+          "objectives": [
+            "How are regions of the world categorized using the GLOBE framework, and how does this categorization enhance understanding of cross-cultural leadership?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c6/s5",
+          "number": "6.5",
+          "title": "Cultural Stereotyping and Social Institutions",
+          "kind": "content",
+          "words": 2676,
+          "status": "source",
+          "sourceFile": "source/c06/c06-s05.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c6/s6",
+          "number": "6.6",
+          "title": "Cross-Cultural Assignments",
+          "kind": "content",
+          "words": 1439,
+          "status": "source",
+          "sourceFile": "source/c06/c06-s06.md",
+          "objectives": [
+            "What steps can you take to be better prepared for cross-cultural assignments?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c6/s7",
+          "number": "6.7",
+          "title": "Strategies for Expanding Globally",
+          "kind": "content",
+          "words": 1556,
+          "status": "source",
+          "sourceFile": "source/c06/c06-s07.md",
+          "objectives": [
+            "What are the main strategies that companies can use to go international?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c6/s8",
+          "number": "6.8",
+          "title": "The Necessity of Global Markets",
+          "kind": "content",
+          "words": 4115,
+          "status": "source",
+          "sourceFile": "source/c06/c06-s08.md",
+          "objectives": [
+            "Why might it be necessary for a company to go international, and how might it accomplish this goal?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c6/s9",
+          "number": "6.9",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 0,
+          "status": "source",
+          "sourceFile": "source/c06/c06-s09.md",
+          "objectives": [],
+          "keyTerms": [
+            {
+              "term": "Born globals",
+              "definition": "Companies that operate internationally from the day that they are created."
+            },
+            {
+              "term": "Christianity",
+              "definition": "Faith based on the life, teachings, death, and resurrection of Jesus."
+            },
+            {
+              "term": "Clusters",
+              "definition": "Representing countries that share similar cultural characteristics."
+            },
+            {
+              "term": "Cultural Intelligence",
+              "definition": "Refers to the individuals' capabilities to function and manage effectively in culturally diverse settings."
+            },
+            {
+              "term": "Cultural paradox",
+              "definition": "Insights from an understanding of culture may not necessarily coincide with reality in that culture."
+            },
+            {
+              "term": "Cultural stereotyping",
+              "definition": "Occurs when one assumes that all people within a culture act, think, and behave the same way."
+            },
+            {
+              "term": "DHL Global Connected Index",
+              "definition": "Index tracking the flow of capital, information, trade, and human resources and representing the degree of globalization."
+            },
+            {
+              "term": "E-commerce",
+              "definition": "Buying and selling of products using the Internet."
+            },
+            {
+              "term": "Education",
+              "definition": "Socializing experiences that prepare individuals to act in society."
+            },
+            {
+              "term": "Emerging market multinationals",
+              "definition": "Influential companies from emerging markets that are competing headon with established multinationals and rewriting the rules of competition by using new business models."
+            },
+            {
+              "term": "Emerging markets",
+              "definition": "Those markets in countries that present tremendous potential for multinational."
+            },
+            {
+              "term": "Expatriate",
+              "definition": "Foreign employee who moves and works in another country for an extended period of time."
+            },
+            {
+              "term": "Exporting",
+              "definition": "International entry mode where a company sends a product to an international market and fills the order like a domestic order."
+            },
+            {
+              "term": "Foreign direct investment (FDI)",
+              "definition": "Refers to deliberate efforts of a country or company to invest in another country through the form of ownership positions in companies in another country."
+            },
+            {
+              "term": "Foreign direct investment (FDI)",
+              "definition": "Involves a company investing in another country through the construction of facilities and buildings in another country."
+            },
+            {
+              "term": "Global strategy",
+              "definition": "Where all operations and activities are managed fairly similarly worldwide."
+            },
+            {
+              "term": "Globalization",
+              "definition": "Worldwide phenomenon whereby the countries of the world are becoming more interconnected and where trade barriers are disappearing."
+            },
+            {
+              "term": "GLOBE project",
+              "definition": "More recent cultural project involving 170 researchers who collected data on 17,000 managers from 62 countries around the world. ."
+            },
+            {
+              "term": "High-rigor cross-cultural training",
+              "definition": "Methods of training where participants are much more actively engaged in the training process and can learn some tacit aspects of cross-cultural differences."
+            },
+            {
+              "term": "Hinduism",
+              "definition": "Represented by all those who honor the ancient scriptures called the Vedas."
+            },
+            {
+              "term": "Hofstede model of national culture",
+              "definition": "Project involving survey of over 88,000 employees in IBM subsidiaries from 72 countries."
+            },
+            {
+              "term": "Immigration",
+              "definition": "Movement of people from their home country to other countries; will continue to grow worldwide."
+            },
+            {
+              "term": "Individualism",
+              "definition": "Degree to which a society focuses on the relationship of the individual to the group."
+            },
+            {
+              "term": "International franchising",
+              "definition": "Where a company will license the complete business model."
+            },
+            {
+              "term": "International strategic alliances",
+              "definition": "Two or more companies from different countries enter into an agreement to conduct joint business activities."
+            },
+            {
+              "term": "Islam",
+              "definition": "Religion whose essence is described in the Qur'an as the submission to the will of Allah (God)."
+            },
+            {
+              "term": "Licensing",
+              "definition": "Contractual agreement whereby a company is given the right to another company's trademarks, know-how, and other intangible assets in return for a royalty or a fee."
+            },
+            {
+              "term": "Local strategy",
+              "definition": "Company's operations are adapted to fit some specific countries."
+            },
+            {
+              "term": "Low-rigor cross-cultural training",
+              "definition": "Training where individuals are exposed to critical information to help them understand the realities of a different culture but are not actively engaged in their learning."
+            },
+            {
+              "term": "Masuclinity",
+              "definition": "Degree to which a society emphasizes traditional masculine qualities, such as advancement and earnings."
+            },
+            {
+              "term": "Political risk",
+              "definition": "Degree to which political decisions can impact a business's ability to survive in a country."
+            },
+            {
+              "term": "Postarrival cross-cultural training",
+              "definition": "Training provided after the expatriate has arrived to the intended destination."
+            },
+            {
+              "term": "Power distance",
+              "definition": "Refers to the degree to which societies accept power differences and authority in society."
+            },
+            {
+              "term": "Predeparture cross-cultural training",
+              "definition": "Learning opportunities provided prior to departure."
+            },
+            {
+              "term": "Regional strategy",
+              "definition": "Where the multinational adapts activities and operations to regional requirementst."
+            },
+            {
+              "term": "Religion",
+              "definition": "Shared set of beliefs, activities, and institutions based on faith in supernatural forces."
+            },
+            {
+              "term": "Social institution",
+              "definition": "Complex of positions, roles, norms, and values lodged in particular types of social structures and organizing relatively stable patterns of human resources with respect to fundamental problems in . . . sustaining viable societal structures within a given environment."
+            },
+            {
+              "term": "Social stratification",
+              "definition": "Degree to which social benefits are unequally distributed; those patterns are perpetuated for life."
+            },
+            {
+              "term": "Tariffs",
+              "definition": "Extra charges that are added to the price of international products in the form of additional taxes or higher prices as a way to give domestic companies a price advantage while also protecting these companies from foreign competition."
+            },
+            {
+              "term": "Trade agreements",
+              "definition": "Popular policy instruments that countries agree on to eliminate cross-border barriers to trade and to promote global integration."
+            },
+            {
+              "term": "Uncertainty avoidance",
+              "definition": "Refers to the degree to which people in a society are comfortable with uncertainty and unpredictable situations."
+            },
+            {
+              "term": "Uppsala model of internationalization",
+              "definition": "Model that argues that as firms learn more about a specific market, they become more committed by investing more resources into that market."
+            }
+          ],
+          "segments": []
+        }
+      ],
+      "segments": [],
+      "reviewFile": "chapters/c06-review.json"
+    },
+    {
+      "id": "pom/c7",
+      "number": 7,
+      "title": "Entrepreneurship",
+      "shortTitle": "Entrepreneurship",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c7/s1",
+          "number": "7.1",
+          "title": "Introduction to Entrepreneurship",
+          "kind": "content",
+          "words": 844,
+          "status": "source",
+          "sourceFile": "source/c07/c07-s01.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c7/s2",
+          "number": "7.2",
+          "title": "Entrepreneurship",
+          "kind": "content",
+          "words": 2549,
+          "status": "source",
+          "sourceFile": "source/c07/c07-s02.md",
+          "objectives": [
+            "Why do people become entrepreneurs, and what are the different types of entrepreneurs?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c7/s3",
+          "number": "7.3",
+          "title": "Characteristics of Successful Entrepreneurs",
+          "kind": "content",
+          "words": 1423,
+          "status": "source",
+          "sourceFile": "source/c07/c07-s03.md",
+          "objectives": [
+            "What characteristics do successful entrepreneurs share?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c7/s4",
+          "number": "7.4",
+          "title": "Small Business",
+          "kind": "content",
+          "words": 1108,
+          "status": "source",
+          "sourceFile": "source/c07/c07-s04.md",
+          "objectives": [
+            "How do small businesses contribute to the U.S. economy?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c7/s5",
+          "number": "7.5",
+          "title": "Start Your Own Business",
+          "kind": "content",
+          "words": 3483,
+          "status": "source",
+          "sourceFile": "source/c07/c07-s05.md",
+          "objectives": [
+            "What are the first steps to take if you are starting your own business?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c7/s6",
+          "number": "7.6",
+          "title": "Managing a Small Business",
+          "kind": "content",
+          "words": 1624,
+          "status": "source",
+          "sourceFile": "source/c07/c07-s06.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c7/s7",
+          "number": "7.7",
+          "title": "The Large Impact of Small Business",
+          "kind": "content",
+          "words": 798,
+          "status": "source",
+          "sourceFile": "source/c07/c07-s07.md",
+          "objectives": [
+            "What are the advantages and disadvantages facing owners of small businesses?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c7/s8",
+          "number": "7.8",
+          "title": "The Small Business Administration",
+          "kind": "content",
+          "words": 561,
+          "status": "source",
+          "sourceFile": "source/c07/c07-s08.md",
+          "objectives": [
+            "How does the Small Business Administration help small businesses?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c7/s9",
+          "number": "7.9",
+          "title": "Trends in Entrepreneurship and Small-Business Ownership",
+          "kind": "content",
+          "words": 1316,
+          "status": "source",
+          "sourceFile": "source/c07/c07-s09.md",
+          "objectives": [
+            "What trends are shaping entrepreneurship and small-business ownership?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c7/s10",
+          "number": "7.10",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 0,
+          "status": "source",
+          "sourceFile": "source/c07/c07-s10.md",
+          "objectives": [],
+          "keyTerms": [
+            {
+              "term": "Angel investors",
+              "definition": "Individual investors or groups of experienced investors who provide financing for start-up businesses by investing their own funds."
+            },
+            {
+              "term": "Business plan",
+              "definition": "A formal written statement that describes in detail the idea for a new business and how it will be carried out; includes a general description of the company, the qualifications of the owner(s), a description of the product or service, an analysis of the market, and a financial plan."
+            },
+            {
+              "term": "Debt",
+              "definition": "A form of business financing consisting of borrowed funds that must be repaid with interest over a stated time period."
+            },
+            {
+              "term": "Entrepreneurs",
+              "definition": "People with vision, drive, and creativity who are willing to take the risk of starting and managing a business to make a profit, or greatly changing the scope and direction of an existing firm."
+            },
+            {
+              "term": "Equity",
+              "definition": "A form of business financing consisting of funds raised through the sale of stock (i.e., ownership) in a business."
+            },
+            {
+              "term": "Intrapreneurs",
+              "definition": "Entrepreneurs who apply their creativity, vision, and risk-taking within a large corporation, rather than starting a company of their own."
+            },
+            {
+              "term": "Small business",
+              "definition": "A business with under 500 employees that is independently managed, is owned by an individual or a small group of investors, is based locally, and is not a dominant company in its industry."
+            },
+            {
+              "term": "Small Business Administration (SBA)",
+              "definition": "A government agency that speaks on behalf of small business; specifically it helps people start and manage small businesses, advises them in the areas of finance and management, and helps them win federal contracts."
+            },
+            {
+              "term": "Small Business Investment Company (SBIC)",
+              "definition": "Privately owned and managed investment companies that are licensed by the Small Business Administration and provide long-term financing for small businesses."
+            },
+            {
+              "term": "Venture Capital",
+              "definition": "Financing obtained from venture capitalists, investment firms that specialize in financing small, high-growth companies and receive an ownership interest and a voice in management in return for their money."
+            }
+          ],
+          "segments": []
+        }
+      ],
+      "segments": [],
+      "reviewFile": "chapters/c07-review.json"
+    },
+    {
+      "id": "pom/c8",
+      "number": 8,
+      "title": "Strategic Analysis - Understanding a Firm's Competitive Environment",
+      "shortTitle": "Strategic Analysis",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c8/s1",
+          "number": "8.1",
+          "title": "Introduction to Strategic Analysis",
+          "kind": "content",
+          "words": 307,
+          "status": "source",
+          "sourceFile": "source/c08/c08-s01.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c8/s2",
+          "number": "8.2",
+          "title": "Gaining Advantages by Understanding the Competitive Environment",
+          "kind": "content",
+          "words": 603,
+          "status": "source",
+          "sourceFile": "source/c08/c08-s02.md",
+          "objectives": [
+            "What is strategic analysis, and why do firms need to analyze their competitive environment?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c8/s3",
+          "number": "8.3",
+          "title": "Using SWOT for Strategic Analysis",
+          "kind": "content",
+          "words": 899,
+          "status": "source",
+          "sourceFile": "source/c08/c08-s03.md",
+          "objectives": [
+            "What is a SWOT analysis, and what can it reveal about a firm?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c8/s4",
+          "number": "8.4",
+          "title": "A Firm's External Macro Environment - PESTEL",
+          "kind": "content",
+          "words": 2049,
+          "status": "source",
+          "sourceFile": "source/c08/c08-s04.md",
+          "objectives": [
+            "What makes up a firm's external macro environment, and what tools do strategists use to understand it?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c8/s5",
+          "number": "8.5",
+          "title": "A Firm's Micro Environment- Porter's Five Forces",
+          "kind": "content",
+          "words": 1302,
+          "status": "source",
+          "sourceFile": "source/c08/c08-s05.md",
+          "objectives": [
+            "What makes up a firm's external micro environment, and what tools do strategists use to understand it?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c8/s6",
+          "number": "8.6",
+          "title": "The Internal Environment",
+          "kind": "content",
+          "words": 1411,
+          "status": "source",
+          "sourceFile": "source/c08/c08-s06.md",
+          "objectives": [
+            "How and why do managers conduct an internal analysis of their firms?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c8/s7",
+          "number": "8.7",
+          "title": "Competition, Strategy, and Competitive Advantage",
+          "kind": "content",
+          "words": 1046,
+          "status": "source",
+          "sourceFile": "source/c08/c08-s07.md",
+          "objectives": [
+            "What does it mean to compete with other firms in a business environment, what does it mean when a firm has a competitive advantage over its rivals, and what generic strategies can a firm implement to gain advantage over its rivals?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c8/s8",
+          "number": "8.8",
+          "title": "Strategic Positioning",
+          "kind": "content",
+          "words": 193,
+          "status": "source",
+          "sourceFile": "source/c08/c08-s08.md",
+          "objectives": [
+            "What elements go into determining a firm's strategic position?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c8/s9",
+          "number": "8.9",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 0,
+          "status": "source",
+          "sourceFile": "source/c08/c08-s09.md",
+          "objectives": [],
+          "keyTerms": [
+            {
+              "term": "Barriers to Entry",
+              "definition": "Industry factors (such as high start-up costs) that can prevent new firms from successfully launching new operations in that industry."
+            },
+            {
+              "term": "Buyer Power",
+              "definition": "In the relationship between a firm and its customers, buyers with high power can negotiate product price or features, while buyers with low power cannot."
+            },
+            {
+              "term": "Capabilities",
+              "definition": "A firm's skill at coordinating and leveraging resources to create value."
+            },
+            {
+              "term": "Competition",
+              "definition": "Business actions a firm undertakes to attract customers to its products and away from competitors' products."
+            },
+            {
+              "term": "Competitive Advantage",
+              "definition": "When a firm successfully attracts more customers, earns more profit, or returns more value to its shareholders than rival firms do."
+            },
+            {
+              "term": "Competitive Environment",
+              "definition": "Factors and situations both inside the firm and outside the firm that have the potential to impact its operations and success."
+            },
+            {
+              "term": "Cost-leadership Strategy",
+              "definition": "A generic business-level strategy in which a firm tightly controls costs throughout its value chain activities in order to offer customers low-priced goods and services at a profit."
+            },
+            {
+              "term": "Demographics",
+              "definition": "Part of PESTEL that includes facts about the income, education, age, and ethnic and racial composition of a population."
+            },
+            {
+              "term": "Differentiation Strategy",
+              "definition": "A generic business-level strategy in which firms add value to their products and services in order to attract customers who are willing to pay a higher price."
+            },
+            {
+              "term": "Economic Factors",
+              "definition": "PESTEL category that includes facts (such as unemployment rates, interest rates, and commodity prices) about the state of the local, national, or global economy."
+            },
+            {
+              "term": "Environmental Factors",
+              "definition": "PESTEL category that examines a firm's external situation with respect to the natural environment, including pollution, natural resource availability and preservation, and alternative energy."
+            },
+            {
+              "term": "Environmental Scanning",
+              "definition": "The systematic and intentional analysis of a firm's internal state and its external environment."
+            },
+            {
+              "term": "External Environment",
+              "definition": "The aspects of the world at large and of a firm's industry that can impact its operations"
+            },
+            {
+              "term": "External Factors",
+              "definition": "Things in the world or industry environments that may impact a firm's operations or success, such as the economy, government actions, or supplier power. Strategic decisions can be made in response to these things but normally cannot directly influence or change them."
+            },
+            {
+              "term": "Focus Strategy",
+              "definition": "A generic business-level competitive strategy that firms use in combination with either a cost-leadership or differentiation strategy in order to target a smaller demographic or geographic market with specialized products or services."
+            },
+            {
+              "term": "Generic Business-Level Strategies",
+              "definition": "Basic methods of organizing firm value chain activities to compete in a product market that can be used by any sized firm in any industry"
+            },
+            {
+              "term": "Industry",
+              "definition": "A group of firms all offering products or services in a single category, for example restaurants or athletic equipment."
+            },
+            {
+              "term": "Industry Rivalry",
+              "definition": "One of Porter's Five Forces; refers to the intensity of competition between firms in an industry."
+            },
+            {
+              "term": "Internal Environment",
+              "definition": "Innermost layer of a firm's competitive environment, including members of the firm itself (such as employees and managers), investors in the firm, and the resources and capabilities of a firm."
+            },
+            {
+              "term": "Internal Factors",
+              "definition": "Characteristics of a firm itself, such as resources and capabilities, that the firm can use to successfully compete against its rivals."
+            },
+            {
+              "term": "Legal Factors",
+              "definition": "In PESTEL, the laws impacting business, such as those governing contracts and intellectual property rights and illegal activities, such as online piracy."
+            },
+            {
+              "term": "Macro Environment",
+              "definition": "The outermost layer of elements in a firm's external environment that can impact a business but are generally beyond the firm's direct control, such as the economy and political activity."
+            },
+            {
+              "term": "Micro Environment",
+              "definition": "The middle layer of elements in a firm's external environment, primarily concerned with a firm's industry situation."
+            },
+            {
+              "term": "New Entrants",
+              "definition": "One of Porter's Five Forces, the threat of new entrants assesses the potential that a new firm will start operations in an industry."
+            },
+            {
+              "term": "Opportunity",
+              "definition": "A situation that a firm has the resources and capabilities to take advantage of."
+            },
+            {
+              "term": "PESTEL",
+              "definition": "A strategic analysis tool that examines several distinct categories in the macro environment: political, economic, sociocultural, technological, environmental, and legal."
+            },
+            {
+              "term": "Political Factors",
+              "definition": "PESTEL factor that identifies political activities in the macro environment that may be relevant to a firm's operations."
+            },
+            {
+              "term": "Porter's Five Forces",
+              "definition": "Evaluates the interconnected relationships between various actors in an industry, including competing firms, their suppliers, and their customers, by examining five forces: industry rivalry, threat of new entrants, threat of substitutes, supplier power, and buyer power."
+            },
+            {
+              "term": "Primary Activities",
+              "definition": "Firm activities on the value chain that are directly responsible for creating, selling, or servicing a product or service, such as manufacturing and marketing."
+            },
+            {
+              "term": "Resources",
+              "definition": "Things a firm has, such as cash and skilled employees, that it can use to create products or services."
+            },
+            {
+              "term": "Sociocultural Factors",
+              "definition": "PESTEL category that identifies trends, facts, and changes in society's composition, tastes, and behaviors, including demographics."
+            },
+            {
+              "term": "Strategic Analysis",
+              "definition": "Process that firms use to study and understand their competitive environment."
+            },
+            {
+              "term": "Strategic Group",
+              "definition": "Businesses offering similar products or services and following the same generic competitive strategy."
+            },
+            {
+              "term": "Strategic Positioning",
+              "definition": "Firm's decisions on how to organize its actions and operate to effectively serve customers and compete against rivals."
+            },
+            {
+              "term": "Strategy",
+              "definition": "Process of planning and implementing actions that will lead to success in competition."
+            },
+            {
+              "term": "Strengths",
+              "definition": "Resources and capabilities of a firm; what it is good at."
+            },
+            {
+              "term": "Substitutes",
+              "definition": "One of Porter's Five Forces; products or services outside a firm's industry that can satisfy the same customer needs as industry products or services can."
+            },
+            {
+              "term": "Supplier Power",
+              "definition": "One of Porter's Five Forces; describes the balance of power in the relationship between firms in an industry and their suppliers."
+            },
+            {
+              "term": "Support Activities",
+              "definition": "Value chain activities that a firm performs to sustain itself; do not directly create a product or service but are necessary to support the firm's existence, such as accounting and human resources."
+            },
+            {
+              "term": "Switching Costs",
+              "definition": "Penalty, financial or otherwise, that a consumer bears when giving up the use of a product currently being used to select a competing product or service."
+            },
+            {
+              "term": "SWOT",
+              "definition": "Strategic analysis tool used to examine a firm's situation by looking at its strengths, weaknesses, opportunities, and threats"
+            },
+            {
+              "term": "Technological Factors",
+              "definition": "PESTEL category that includes factors such as the Internet, social media, automation, and other innovations that impact how businesses compete or how they manufacture, market, or sell their goods or services."
+            },
+            {
+              "term": "Threat",
+              "definition": "Anything in the competitive environment that would make it harder for a firm to be successful."
+            },
+            {
+              "term": "Value Chain",
+              "definition": "Sequence of activities that firms perform to turn inputs (parts or supplies) into outputs (goods or services)."
+            },
+            {
+              "term": "VRIO",
+              "definition": "analytical tool that evaluates a firm's resources and capabilities to determine whether or not it can support an advantage for the firm in the competitive environment: value, rarity, imitation, and organization."
+            },
+            {
+              "term": "Weaknesses",
+              "definition": "Things that a firm does not have good capabilities to perform or gaps in firm resources."
+            }
+          ],
+          "segments": []
+        }
+      ],
+      "segments": [],
+      "reviewFile": "chapters/c08-review.json"
+    },
+    {
+      "id": "pom/c9",
+      "number": 9,
+      "title": "The Strategic Management Process - Achieving and Sustaining Competitive Advantage",
+      "shortTitle": "Strategic Management Process",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c9/s1",
+          "number": "9.1",
+          "title": "Introduction",
+          "kind": "content",
+          "words": 382,
+          "status": "source",
+          "sourceFile": "source/c09/c09-s01.md",
+          "objectives": [
+            "What is the strategic management process?",
+            "What is the difference between a firm's vision and its mission?",
+            "Why is strategic analysis important to strategy formulation?",
+            "What are strategic objectives, levels of strategy, and a grand strategy? How are they related?",
+            "How and why do managers plan? Why are goals important in the planning process?",
+            "How and why do managers evaluate the effectiveness of strategic plans?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c9/s2",
+          "number": "9.2",
+          "title": "Strategic Management",
+          "kind": "content",
+          "words": 176,
+          "status": "source",
+          "sourceFile": "source/c09/c09-s02.md",
+          "objectives": [
+            "What is the strategic management process?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c9/s3",
+          "number": "9.3",
+          "title": "Firm Vision and Mission",
+          "kind": "content",
+          "words": 393,
+          "status": "source",
+          "sourceFile": "source/c09/c09-s03.md",
+          "objectives": [
+            "What is the difference between a firm's vision and its mission?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c9/s4",
+          "number": "9.4",
+          "title": "The Role of Strategic Analysis in Formulating a Strategy",
+          "kind": "content",
+          "words": 372,
+          "status": "source",
+          "sourceFile": "source/c09/c09-s04.md",
+          "objectives": [
+            "Why is strategic analysis important to strategy formulation?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c9/s5",
+          "number": "9.5",
+          "title": "Strategic Objectives and Levels of Strategy",
+          "kind": "content",
+          "words": 1596,
+          "status": "source",
+          "sourceFile": "source/c09/c09-s05.md",
+          "objectives": [
+            "What are strategic objectives, levels of strategy, and a grand strategy? How are they related?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c9/s6",
+          "number": "9.6",
+          "title": "Planning Firm Actions to Implement Strategies",
+          "kind": "content",
+          "words": 2831,
+          "status": "source",
+          "sourceFile": "source/c09/c09-s06.md",
+          "objectives": [
+            "How and why do managers plan? Why are goals important in the planning process?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c9/s7",
+          "number": "9.7",
+          "title": "Measuring and Evaluating Strategic Performance",
+          "kind": "content",
+          "words": 669,
+          "status": "source",
+          "sourceFile": "source/c09/c09-s07.md",
+          "objectives": [
+            "How and why do managers evaluate the effectiveness of strategic plans?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c9/s8",
+          "number": "9.8",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 0,
+          "status": "source",
+          "sourceFile": "source/c09/c09-s08.md",
+          "objectives": [],
+          "keyTerms": [
+            {
+              "term": "BCG Matrix:",
+              "definition": "a tool used to evaluate the various business units in a corporation."
+            },
+            {
+              "term": "Benchmarking:",
+              "definition": "a performance evaluation technique where the standard for a firm's performance is based on another firm's superior performance."
+            },
+            {
+              "term": "Business-Level Strategy:",
+              "definition": "ways that single-product firms organize their activities to succeed against rivals; at this level, include cost leadership and differentiation."
+            },
+            {
+              "term": "Corporate Strategy:",
+              "definition": "the broadest level of strategy, concerned with decisions about growing, maintaining, or shrinking very large companies."
+            },
+            {
+              "term": "Defensive Strategy:",
+              "definition": "a grand strategy pursued by companies facing challenges."
+            },
+            {
+              "term": "Goal:",
+              "definition": "something that a firm is trying to accomplish; can also be called an objective."
+            },
+            {
+              "term": "Growth Strategy:",
+              "definition": "a grand strategy to increase the size of the firm in terms of revenue, market share, geographic reach, or a combination of these elements."
+            },
+            {
+              "term": "Implementation:",
+              "definition": "the execution of a strategy by planning and assigning actions to employees to carry out in order to accomplish the company's strategic objectives."
+            },
+            {
+              "term": "International Strategy:",
+              "definition": "the level of strategy concerned with the large-scale actions involved in entering a brand-new geographic market."
+            },
+            {
+              "term": "Long-Term Strategic Plan:",
+              "definition": "company actions to achieve an objective that will take a year or longer to accomplish."
+            },
+            {
+              "term": "Mission Statement:",
+              "definition": "a general description of how the firm will try to accomplish the firm's vision."
+            },
+            {
+              "term": "Operational Planning:",
+              "definition": "first-line strategic planning consisting of specific daily and short-term actions that employees will perform to make the company function."
+            },
+            {
+              "term": "Performance Measurement:",
+              "definition": "the evaluation of firm activities to determine the success of that activity in helping the firm reach its strategic objectives."
+            },
+            {
+              "term": "Plan:",
+              "definition": "a decision to carry out a particular action in order to achieve a specific goal, including decisions about when and how the action should be accomplished and what resources will be required to carry out the action."
+            },
+            {
+              "term": "Short-Term Strategic Plan:",
+              "definition": "company actions to achieve an objective in a time frame of a year or less."
+            },
+            {
+              "term": "SMART Framework:",
+              "definition": "an acronym for the characteristics of good goals: specific, measurable, achievable, relevant, and time-bound."
+            },
+            {
+              "term": "Stability Strategy:",
+              "definition": "a grand strategy for a company that wants maintain its current income, market share, or geographic reach. ."
+            },
+            {
+              "term": "Strategic Analysis:",
+              "definition": "the systematic examination of a firm's internal and external situation that informs managerial decision-making."
+            },
+            {
+              "term": "Strategic Management Process:",
+              "definition": "the set of activities that firm managers undertake in order to try to put their firms in the best possible position to compete successfully in the marketplace."
+            },
+            {
+              "term": "Strategic Objectives:",
+              "definition": "the big-picture goals for the company: what the company will do to try to fulfill its mission."
+            },
+            {
+              "term": "Strategic Planning:",
+              "definition": "connects the company's actions back to its vision and mission statements."
+            },
+            {
+              "term": "Tactical Planning:",
+              "definition": "mid-level strategic planning consisting of broad ideas of what a company should do to pursue its mission."
+            },
+            {
+              "term": "Vision Statement:",
+              "definition": "a broad expression of what a business's founders want that business to accomplish."
+            }
+          ],
+          "segments": []
+        }
+      ],
+      "segments": [],
+      "reviewFile": "chapters/c09-review.json"
+    },
+    {
+      "id": "pom/c10",
+      "number": 10,
+      "title": "Organizational Structure and Change",
+      "shortTitle": "Organizational Structure and Change",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c10/s1",
+          "number": "10.1",
+          "title": "Introduction",
+          "kind": "content",
+          "words": 336,
+          "status": "source",
+          "sourceFile": "source/c10/c10-s01.md",
+          "objectives": [
+            "What are mechanistic versus organic organizational structures?",
+            "What are the fundamental dimensions of change?",
+            "How do managers deal with change?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c10/s2",
+          "number": "10.2",
+          "title": "Organizational Structures and Design",
+          "kind": "content",
+          "words": 2776,
+          "status": "source",
+          "sourceFile": "source/c10/c10-s02.md",
+          "objectives": [
+            "What are mechanistic versus organic organizational structures?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c10/s3",
+          "number": "10.3",
+          "title": "Organizational Change",
+          "kind": "content",
+          "words": 1690,
+          "status": "source",
+          "sourceFile": "source/c10/c10-s03.md",
+          "objectives": [
+            "What are the fundamental dimensions of change?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c10/s4",
+          "number": "10.4",
+          "title": "Managing Change",
+          "kind": "content",
+          "words": 6233,
+          "status": "source",
+          "sourceFile": "source/c10/c10-s04.md",
+          "objectives": [
+            "How do managers deal with change?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c10/s5",
+          "number": "10.5",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 0,
+          "status": "source",
+          "sourceFile": "source/c10/c10-s05.md",
+          "objectives": [],
+          "keyTerms": [
+            {
+              "term": "Abundance-based change",
+              "definition": "Leaders assume that employees will change if they can be inspired to aim for greater degrees of excellence in their work."
+            },
+            {
+              "term": "Appreciative conversations",
+              "definition": "Intense, positively framed discussions that help people to develop common ground as they work together to cocreate a positive vision of an ideal future for their organization."
+            },
+            {
+              "term": "Appreciative inquiry model",
+              "definition": "A model specifically designed as an abundance-based, bottom-up, positive approach."
+            },
+            {
+              "term": "Boundary Conditions",
+              "definition": "Define the degree of discretion that is available to employees for self-directed action."
+            },
+            {
+              "term": "Bureaucratic model",
+              "definition": "Max Weber's model that states that organizations will find efficiencies when they divide the duties of labor, allow people to specialize, and create structure for coordinating their differentiated efforts within a hierarchy of responsibility."
+            },
+            {
+              "term": "Centralization",
+              "definition": "The concentration of control of an activity or organization under a single authority."
+            },
+            {
+              "term": "Change agents",
+              "definition": "People in the organization who view themselves as agents who have discretion to act."
+            },
+            {
+              "term": "Change management",
+              "definition": "The process of designing and implementing change."
+            },
+            {
+              "term": "Command-and-control",
+              "definition": "The way in which people report to one another or connect to coordinate their efforts in accomplishing the work of the organization."
+            },
+            {
+              "term": "Complex Adaptive Systems (CAS)",
+              "definition": "A model that views organizations as constantly developing and adapting to their environment, much like a living organism."
+            },
+            {
+              "term": "Conventional mindset",
+              "definition": "Leaders assume that most people are inclined to resist change and therefore need to be managed in a way that encourages them to accept change."
+            },
+            {
+              "term": "Culture change",
+              "definition": "Involves reshaping and reimagining the core identity of the organization."
+            },
+            {
+              "term": "Deficit-based change",
+              "definition": "Leaders assume that employees will change if they know they will otherwise face negative consequences."
+            },
+            {
+              "term": "Differentiation",
+              "definition": "The process of organizing employees into groups that focus on specific functions in the organization."
+            },
+            {
+              "term": "Disturbances",
+              "definition": "Can cause tension amongst employees, but can also be positive and a catalyst for change."
+            },
+            {
+              "term": "Emergent or bottom-up approach",
+              "definition": "Organizations exist as socially constructed systems in which people are constantly making sense of and enacting an organizational reality as they interact with others in a system."
+            },
+            {
+              "term": "Entrepreneurship",
+              "definition": "The process of designing, launching, and running a new business."
+            },
+            {
+              "term": "Flat organization",
+              "definition": "A horizontal organizational structure in which many individuals across the whole system are empowered to make organizational decisions."
+            },
+            {
+              "term": "Formal organization",
+              "definition": "A fixed set of rules of organizational procedures and structures."
+            },
+            {
+              "term": "Formalization",
+              "definition": "The process of making a status formal for the practice of formal acceptance."
+            },
+            {
+              "term": "Geographic structures",
+              "definition": "Occur when organizations are set up to deliver a range of products within a geographic area or region."
+            },
+            {
+              "term": "Group-level change",
+              "definition": "Centers on the relationships between people and focuses on helping people to work more effectively together."
+            },
+            {
+              "term": "Horizontal organizational structure",
+              "definition": "Flat organizational structure in which many individuals across the whole system are empowered to make organizational decisions."
+            },
+            {
+              "term": "Incremental change",
+              "definition": "Small refinements in current organizational practices or routines that do not challenge, but rather build on or improve, existing aspects and practices within the organization."
+            },
+            {
+              "term": "Individual-level change",
+              "definition": "Focuses on how to help employees to improve some active aspect of their performance or the knowledge they need to continue to contribute to the organization in an effective manner."
+            },
+            {
+              "term": "Informal organization",
+              "definition": "The connecting social structure in organizations that denotes the evolving network of interactions among its employees, unrelated to the firm's formal authority structure."
+            },
+            {
+              "term": "Intentionality",
+              "definition": "The degree to which the change is intentionally designed or purposefully implemented."
+            },
+            {
+              "term": "Kotter's change model",
+              "definition": "An overall framework for designing a long-term change process."
+            },
+            {
+              "term": "Level of organization",
+              "definition": "The breadth of the systems that need to be changed within an organization."
+            },
+            {
+              "term": "Lewin's change model",
+              "definition": "Explains a very basic process that accompanies most organizational changes."
+            },
+            {
+              "term": "Managed change",
+              "definition": "How leaders in an organization intentionally shape shifts that occur in the organization when market conditions shift, supply sources change, or adaptations are introduced in the processes for accomplishing work over time."
+            },
+            {
+              "term": "Matrix structure",
+              "definition": "An organizational structure that groups people by function and by product team simultaneously."
+            },
+            {
+              "term": "Mechanistic bureaucratic structure",
+              "definition": "Describes organizations characterized by (1) centralized authority, (2) formalized procedures and practices, and (3) specialized functions. They are usually resistant to change."
+            },
+            {
+              "term": "OD consultant",
+              "definition": "Someone who has expertise in change management processes."
+            },
+            {
+              "term": "Organic bureaucratic structure",
+              "definition": "Used in organizations that face unstable and dynamic environments and need to quickly adapt to change."
+            },
+            {
+              "term": "Organizational change",
+              "definition": "The movement that organizations take as they move from one state to a future state."
+            },
+            {
+              "term": "Organizational design",
+              "definition": "The process by which managers define organizational structure and culture so that the organization can achieve its goals."
+            },
+            {
+              "term": "Organizational development (OD)",
+              "definition": "Techniques and methods that managers can use to increase the adaptability of their organization."
+            },
+            {
+              "term": "Organization-level change",
+              "definition": "A change that affects an entire organizational system or several of its units."
+            },
+            {
+              "term": "Organizational structure",
+              "definition": "The system of task and reporting relationships that control and motivate colleagues to achieve organizational goals."
+            },
+            {
+              "term": "Participatory management",
+              "definition": "Includes employees in deliberations about key business decisions."
+            },
+            {
+              "term": "Planned change",
+              "definition": "An intentional activity or set of intentional activities that are designed to create movement toward a specific goal or end."
+            },
+            {
+              "term": "Positive or appreciative mindset",
+              "definition": "Leaders assume that people are inclined to embrace change when they are respected as individuals with intrinsic worth, agency, and capability"
+            },
+            {
+              "term": "Product structures",
+              "definition": "Occurs when businesses organize their employees according to product lines or lines of business."
+            },
+            {
+              "term": "Scope of change",
+              "definition": "The degree to which the required change will disrupt current patterns and routines."
+            },
+            {
+              "term": "Span of control",
+              "definition": "The scope of the work that any one person in the organization will be accountable for."
+            },
+            {
+              "term": "Specialization",
+              "definition": "The degree to which people are organized into subunits according to their expertise — for example, human resources, finance, marketing, or manufacturing."
+            },
+            {
+              "term": "Strategic change",
+              "definition": "A change, either incremental or transformational, that helps align an organization's operations with its strategic mission and objectives."
+            },
+            {
+              "term": "Structural change",
+              "definition": "Changes in the overall formal relationships, or the architecture of relationships, within an organization."
+            },
+            {
+              "term": "Technological change",
+              "definition": "Implementation of new technologies often forces organizations to change."
+            },
+            {
+              "term": "Top-down change",
+              "definition": "Relies on mechanistic assumptions about the nature of an organization."
+            },
+            {
+              "term": "Transformational change",
+              "definition": "Significant shifts in an organizational system that may cause significant disruption to some underlying aspect of the organization, its processes, or its structures."
+            },
+            {
+              "term": "Unplanned change",
+              "definition": "An unintentional activity that is usually the result of informal organizing."
+            },
+            {
+              "term": "Vertical organizational structure",
+              "definition": "Organizational structures found in large mechanistic organizations; also called \"tall\" structures due to the presence of many levels of management."
+            }
+          ],
+          "segments": []
+        }
+      ],
+      "segments": [],
+      "reviewFile": "chapters/c10-review.json"
+    },
+    {
+      "id": "pom/c11",
+      "number": 11,
+      "title": "Human Resource Management",
+      "shortTitle": "Human Resource Management",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c11/s1",
+          "number": "11.1",
+          "title": "Introduction",
+          "kind": "content",
+          "words": 431,
+          "status": "source",
+          "sourceFile": "source/c11/c11-s01.md",
+          "objectives": [
+            "What has been the evolution of human resource management over the years, and what is the current value it provides to an organization?",
+            "How does the human resources compliance role of HR provide value to a company?",
+            "How do performance management practices impact company performance?",
+            "How do companies use rewards strategies to influence employee performance and motivation?",
+            "What is talent acquisition, and how can it create a competitive advantage for a company?",
+            "What are the benefits of talent development and succession planning?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c11/s2",
+          "number": "11.2",
+          "title": "An Introduction to Human Resource Management",
+          "kind": "content",
+          "words": 1129,
+          "status": "source",
+          "sourceFile": "source/c11/c11-s02.md",
+          "objectives": [
+            "What has been the evolution of human resource management (HRM) over the years, and what is the current value it provides to an organization?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c11/s3",
+          "number": "11.3",
+          "title": "Human Resource Management and Compliance",
+          "kind": "content",
+          "words": 1170,
+          "status": "source",
+          "sourceFile": "source/c11/c11-s03.md",
+          "objectives": [
+            "How does the human resources compliance role of HR add value to an organization?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c11/s4",
+          "number": "11.4",
+          "title": "Performance Management",
+          "kind": "content",
+          "words": 2155,
+          "status": "source",
+          "sourceFile": "source/c11/c11-s04.md",
+          "objectives": [
+            "How do performance management practices impact company performance?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c11/s5",
+          "number": "11.5",
+          "title": "Influencing Employee Performance and Motivation",
+          "kind": "content",
+          "words": 1900,
+          "status": "source",
+          "sourceFile": "source/c11/c11-s05.md",
+          "objectives": [
+            "How do companies use rewards strategies to influence employee performance and motivation?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c11/s6",
+          "number": "11.6",
+          "title": "Building an Organization for the Future",
+          "kind": "content",
+          "words": 1077,
+          "status": "source",
+          "sourceFile": "source/c11/c11-s06.md",
+          "objectives": [
+            "What is talent acquisition, and how can it create a competitive advantage for a company?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c11/s7",
+          "number": "11.7",
+          "title": "Talent Development and Succession Planning",
+          "kind": "content",
+          "words": 2298,
+          "status": "source",
+          "sourceFile": "source/c11/c11-s07.md",
+          "objectives": [
+            "What are the benefits of talent development and succession planning?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c11/s8",
+          "number": "11.8",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 0,
+          "status": "source",
+          "sourceFile": "source/c11/c11-s08.md",
+          "objectives": [],
+          "keyTerms": [
+            {
+              "term": "360 assessment",
+              "definition": "An evaluation tool that collects feedback from manager, peers, direct reports, and customers."
+            },
+            {
+              "term": "9-box",
+              "definition": "A matrix tool used to evaluate an organization's talent pool based on performance and potential factors."
+            },
+            {
+              "term": "Competencies",
+              "definition": "A set of defined behaviors that an organization might utilize to define standards for success."
+            },
+            {
+              "term": "Employee life cycle",
+              "definition": "The various stages of engagement of an employee — attraction, recruitment, onboarding, development, retention, separation."
+            },
+            {
+              "term": "Employer-employee relationship",
+              "definition": "The employment relationship; the legal link between employers and employees that exists when a person performs work or services under specific conditions in return for payment."
+            },
+            {
+              "term": "Human capital",
+              "definition": "The skills, knowledge, and experience of an individual or group, and that value to an organization."
+            },
+            {
+              "term": "Human resource management",
+              "definition": "The management of people within organizations, focusing on the touchpoints of the employee life cycle."
+            },
+            {
+              "term": "Human resources compliance",
+              "definition": "The HR role to ensure adherence to laws and regulations that govern the employment relationship."
+            },
+            {
+              "term": "Merit matrix",
+              "definition": "A calculation table that provides a framework for merit increases based on performance levels."
+            },
+            {
+              "term": "Pay-for-performance model",
+              "definition": "The process and structure for tying individual performance levels to rewards levels"
+            },
+            {
+              "term": "Performance management",
+              "definition": "The process by which an organization ensures that its overall goals are being met by evaluating the performance of individuals within that organization."
+            },
+            {
+              "term": "Society for Human Resource Management",
+              "definition": "The world's largest HR professional society, with more than 285,000 members in more than 165 countries. It is a leading provider of resources serving the needs of HR professionals."
+            },
+            {
+              "term": "Succession planning",
+              "definition": "The process of identifying and developing new leaders and high-potential employees to replace current employees at a future time."
+            },
+            {
+              "term": "Talent acquisition",
+              "definition": "The process of finding and acquiring skilled candidates for employment within a company; it generally refers to a long-term view of building talent pipelines, rather than short-term recruitment."
+            },
+            {
+              "term": "Talent development",
+              "definition": "Integrated HR processes that are created to attract, develop, motivate, and retain employees."
+            },
+            {
+              "term": "Talent review calibration process",
+              "definition": "The meeting in which an organization's 9-box matrix is reviewed and discussed, with input and sharing from organizational leadership."
+            },
+            {
+              "term": "Total rewards strategy",
+              "definition": "As coined by World at Work, includes compensation, benefits, work-life effectiveness, recognition, performance management, and talent development."
+            },
+            {
+              "term": "Training, stretch assignments, individual assessments, individual development plans",
+              "definition": "These are tools that may be used in talent development: Training — a forum for learning in person or online Stretch assignments — challenge roles for high-potential employees Individual assessments — personality and work style inventories of employees Individual development plans — documents that highlight an individual employee's opportunities for growth and path of action"
+            },
+            {
+              "term": "War for talent",
+              "definition": "Coined by McKinsey & Company in 1997, it refers to the increasing competition for recruiting and retaining talented employees."
+            }
+          ],
+          "segments": []
+        }
+      ],
+      "segments": [],
+      "reviewFile": "chapters/c11-review.json"
+    },
+    {
+      "id": "pom/c12",
+      "number": 12,
+      "title": "Diversity in Organizations",
+      "shortTitle": "Diversity in Organizations",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c12/s1",
+          "number": "12.1",
+          "title": "Introduction",
+          "kind": "content",
+          "words": 381,
+          "status": "source",
+          "sourceFile": "source/c12/c12-s01.md",
+          "objectives": [
+            "What is diversity?",
+            "How diverse is the workforce?",
+            "How does diversity impact companies and the workforce?",
+            "What is workplace discrimination, and how does it affect different social identity groups?",
+            "What key theories help managers understand the benefits and challenges of managing the diverse workforce?",
+            "How can managers reap benefits from diversity and mitigate its challenges?",
+            "What can organizations do to ensure applicants, employees, and customers from all backgrounds are valued?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c12/s2",
+          "number": "12.2",
+          "title": "An Introduction to Workplace Diversity",
+          "kind": "content",
+          "words": 408,
+          "status": "source",
+          "sourceFile": "source/c12/c12-s02.md",
+          "objectives": [
+            "What is diversity?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c12/s3",
+          "number": "12.3",
+          "title": "Diversity and the Workforce",
+          "kind": "content",
+          "words": 4239,
+          "status": "source",
+          "sourceFile": "source/c12/c12-s03.md",
+          "objectives": [
+            "How diverse is the workforce?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c12/s4",
+          "number": "12.4",
+          "title": "Diversity and Its Impact on Companies",
+          "kind": "content",
+          "words": 1685,
+          "status": "source",
+          "sourceFile": "source/c12/c12-s04.md",
+          "objectives": [
+            "How does diversity impact companies and the workforce?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c12/s5",
+          "number": "12.5",
+          "title": "Challenges of Diversity",
+          "kind": "content",
+          "words": 2068,
+          "status": "source",
+          "sourceFile": "source/c12/c12-s05.md",
+          "objectives": [
+            "What is workplace discrimination, and how does it affect different social identity groups?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c12/s6",
+          "number": "12.6",
+          "title": "Key Diversity Theories",
+          "kind": "content",
+          "words": 1523,
+          "status": "source",
+          "sourceFile": "source/c12/c12-s06.md",
+          "objectives": [
+            "What key theories help managers understand the benefits and challenges of managing the diverse workforce?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c12/s7",
+          "number": "12.7",
+          "title": "Benefits and Challenges of Workplace Diversity",
+          "kind": "content",
+          "words": 624,
+          "status": "source",
+          "sourceFile": "source/c12/c12-s07.md",
+          "objectives": [
+            "How can managers reap benefits from diversity and mitigate its challenges?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c12/s8",
+          "number": "12.8",
+          "title": "Recommendations for Managing Diversity",
+          "kind": "content",
+          "words": 1222,
+          "status": "source",
+          "sourceFile": "source/c12/c12-s08.md",
+          "objectives": [
+            "What can organizations do to ensure applicants, employees, and customers from all backgrounds are valued?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c12/s9",
+          "number": "12.9",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 0,
+          "status": "source",
+          "sourceFile": "source/c12/c12-s09.md",
+          "objectives": [],
+          "keyTerms": [
+            {
+              "term": "Access discrimination",
+              "definition": "A catchall term that describes when people are denied employment opportunities because of their identity group or personal characteristics such as sex, race, or age."
+            },
+            {
+              "term": "Access-and-legitimacy perspective",
+              "definition": "Focuses on the benefits that a diverse workforce can bring to a business that wishes to operate within a diverse set of markets or with culturally diverse clients. Treating an employee or applicant less favorably due to their age. Forbids discrimination against individuals who are age 40 and above, including offensive or derogatory remarks that create a hostile work environment. Prohibits discrimination in employment, public services, public accommodations, and telecommunications against people with disabilities. Differences between team members regarding characteristics such as expertise, experiences, and perspectives. Multiple perspectives stemming from the cultural differences between group or organizational members result in creative problem-solving and innovation. An interpersonal form of discrimination that manifests in ways that are not visible or readily identifiable. Diversity in characteristics that are non-observable such as attitudes, values, and beliefs, such as religion. Occurs when an employee or applicant is treated unfavorably due to their physical or mental disability. A culturally diverse workforce is a moral duty that must be maintained in order to create a just and fair society. Relationships in which the mentor and the mentee differ in terms of their status within the company and within larger society. Identity-based differences among and between people that affect their lives as applicants, employees, and customers. An organization that enforces laws and issues guidelines for employment-related treatment according to Title VII of the Civil Rights Act of 1964. An amendment to the Fair Labor Standards Act of 1938. Provides new parents, including adoptive and foster parents, with 12 weeks of unpaid leave (or paid leave only if earned by the employee) to care for the new child and requires that nursing mothers have the right to express milk on workplace premises. An invisible barrier based on the prejudicial beliefs of organizational decision makers that prevents women from moving beyond certain levels within a company. A dysfunction in decision-making that is common in homogeneous groups due to group pressures and group members' desire for conformity and consensus. Any unwelcome conduct that is based on characteristics such as age, race, national origin, disability, sex, or pregnancy status. Differences in traits that are deep-level and may be concealed or revealed at discretion by individuals who possess them. Interviews that are be structured objectively to remove bias from the selection process. A collective of individuals who share the same demographic characteristics such as race, sex, or age The degree to which employees are accepted and treated fairly by their organization. Posits that the different life experiences, skills, and perspectives that members of diverse cultural identity groups possess can be a valuable resource in the context of work groups. Membership in an identity group based on hidden diversity traits such as sexual orientation or a nonobservable disability that may be concealed or revealed. Explains the circumstances in which prejudiced people might act on their prejudices. Explains under what conditions individuals act on their prejudices. Ways in which organizations seek to ensure that members of diverse groups are valued and treated fairly within organizations. A stereotype that portrays Asian men and women as obedient and successful and is often used to justify socioeconomic disparities between other racial minority groups. Treating someone unfavorably because of their country of origin, accent, ethnicity, or appearance. The decision to not disclose one's invisible social identity. Treating an employee or applicant unfairly because of pregnancy status, childbirth, or medical conditions related to pregnancy or childbirth. Prohibits any discrimination as it relates to pregnancy in hiring, firing, compensation, training, job assignment, insurance, or any other employment conditions. Treating employees or applicants unfairly because of their race or because of physical characteristics typically associated with race such as skin color, hair color, hair texture, or certain facial features. When employees or applicants are treated unfairly because of their religious beliefs. Demonstrates how a diverse workforce can create a sustainable competitive advantage for organizations. The decision to disclose one's invisible social identity. Describes a situation in which dominant group members perceive that they are experiencing discrimination based on their race or sex. Explains how individuals encode information about others based on their demographic characteristics. When employees or applicants are treated unfairly because of their sex, including unfair treatment due to gender, transgender status, or sexual orientation. Harassment based on a person's sex, and can (but does not have to) include unwanted sexual advances, requests for sexual favors, or physical and verbal acts of a sexual nature. Individuals' preferences for interacting with others like themselves can result in diversity having a negative effect on group and organizational outcomes. Self-concept based on an individual's physical, social, and mental characteristics. Overgeneralization of characteristics about groups that are the basis for prejudice and discrimination. System of activities arranged to engage employees in a manner that assists the organization in achieving a sustainable competitive advantage. Diversity in the form of characteristics of individuals that are readily visible, including, but not limited to, age, body size, visible disabilities, race, or sex. A situation in which people are employed but are treated differently while employed, mainly by receiving different and unequal job-related opportunities or rewards. A temporary documented status that authorizes individuals from other countries to permanently or temporarily live and work in the United States. Unfair treatment in the job hiring process or at work that is based on the identity group, physical or mental condition, or personal characteristic of an applicant or employee."
+            }
+          ],
+          "segments": []
+        }
+      ],
+      "segments": [],
+      "reviewFile": "chapters/c12-review.json"
+    },
+    {
+      "id": "pom/c13",
+      "number": 13,
+      "title": "Leadership",
+      "shortTitle": "Leadership",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c13/s1",
+          "number": "13.1",
+          "title": "Introduction",
+          "kind": "content",
+          "words": 701,
+          "status": "source",
+          "sourceFile": "source/c13/c13-s01.md",
+          "objectives": [
+            "What is the nature of leadership and the leadership process?",
+            "What are the processes associated with people coming to leadership positions?",
+            "How do leaders influence and move their followers to action?",
+            "What are the trait perspectives on leadership?",
+            "What are the behavioral perspectives on leadership?",
+            "What are the situational perspectives on leadership?",
+            "What does the concept \"substitute for leadership\" mean?",
+            "What are the characteristics of transactional, transformational, and charismatic leadership?",
+            "How do different approaches and styles of leadership impact what is needed now?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c13/s2",
+          "number": "13.2",
+          "title": "The Nature of Leadership",
+          "kind": "content",
+          "words": 692,
+          "status": "source",
+          "sourceFile": "source/c13/c13-s02.md",
+          "objectives": [
+            "What is the nature of leadership and the leadership process?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c13/s3",
+          "number": "13.3",
+          "title": "The Leadership Process",
+          "kind": "content",
+          "words": 1985,
+          "status": "source",
+          "sourceFile": "source/c13/c13-s03.md",
+          "objectives": [
+            "What are the processes associated with people coming to leadership positions?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c13/s4",
+          "number": "13.4",
+          "title": "Types of Leaders and Leader Emergence",
+          "kind": "content",
+          "words": 2449,
+          "status": "source",
+          "sourceFile": "source/c13/c13-s04.md",
+          "objectives": [
+            "How do leaders influence and move their followers to action?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c13/s5",
+          "number": "13.5",
+          "title": "The Trait Approach to Leadership",
+          "kind": "content",
+          "words": 1762,
+          "status": "source",
+          "sourceFile": "source/c13/c13-s05.md",
+          "objectives": [
+            "What are the trait perspectives on leadership?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c13/s6",
+          "number": "13.6",
+          "title": "Behavioral Approaches to Leadership",
+          "kind": "content",
+          "words": 1244,
+          "status": "source",
+          "sourceFile": "source/c13/c13-s06.md",
+          "objectives": [
+            "What are the behavioral perspectives on leadership?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c13/s7",
+          "number": "13.7",
+          "title": "Situational (Contingency) Approaches to Leadership",
+          "kind": "content",
+          "words": 2228,
+          "status": "source",
+          "sourceFile": "source/c13/c13-s07.md",
+          "objectives": [
+            "What are the situational perspectives on leadership?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c13/s8",
+          "number": "13.8",
+          "title": "Substitutes for and Neutralizers of Leadership",
+          "kind": "content",
+          "words": 1314,
+          "status": "source",
+          "sourceFile": "source/c13/c13-s08.md",
+          "objectives": [
+            "What does the concept \"substitute for leadership\" mean?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c13/s9",
+          "number": "13.9",
+          "title": "Transformational, Visionary, and Charismatic Leadership",
+          "kind": "content",
+          "words": 1807,
+          "status": "source",
+          "sourceFile": "source/c13/c13-s09.md",
+          "objectives": [
+            "What are the characteristics of transactional, transformational, and charismatic leadership?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c13/s10",
+          "number": "13.10",
+          "title": "Leadership Needs in the 21st Century",
+          "kind": "content",
+          "words": 669,
+          "status": "source",
+          "sourceFile": "source/c13/c13-s10.md",
+          "objectives": [
+            "How do different approaches and styles of leadership impact what is needed now?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c13/s11",
+          "number": "13.11",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 0,
+          "status": "source",
+          "sourceFile": "source/c13/c13-s11.md",
+          "objectives": [],
+          "keyTerms": [
+            {
+              "term": "Charisma",
+              "definition": "A special personal magnetic charm or appeal that arouses loyalty and enthusiasm in a leaderfollower relationship. A person who possesses legitimate power that arises from \"exceptional sanctity, heroism, or exemplary character.\" A \"relationship-oriented\" leader behavior that is supportive, friendly, and focused on personal needs and interpersonal relationships. A theory advanced by Dr. Fred E. Fiedler that suggests that different leadership styles are effective as a function of the favorableness of the leadership situation least preferred. The person placed in the leadership position by forces outside the group. The person who becomes a group's leader by virtue of processes and dynamics internal to the group. That individual who is recognized by those outside the group as the official leader of the group. The belief that some people are born to be leaders and others are not. That individual whom members of the group acknowledge as their leader. A \"task-oriented\" leader behavior that is focused on goal attainment, organizing and scheduling work, solving problems, and maintaining work processes. A social (interpersonal) influence relationship between two or more persons who depend on each other to attain certain mutual goals in a group situation. The person with whom the leader least likes to work. A theory that posits that leadership is path- and goal-oriented, suggesting that different leadership styles are effective as a function of the task confronting the group. A leader who moves and changes things \"in a big way\" by inspiring others to perform the extraordinary. A leader who influences others through an emotional and/or intellectual attraction to the leader's dreams of what \"can be.\""
+            }
+          ],
+          "segments": []
+        }
+      ],
+      "segments": [],
+      "reviewFile": "chapters/c13-review.json"
+    },
+    {
+      "id": "pom/c14",
+      "number": 14,
+      "title": "Work Motivation for Performance",
+      "shortTitle": "Work Motivation for Performance",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c14/s1",
+          "number": "14.1",
+          "title": "Motivation- Direction and Intensity",
+          "kind": "content",
+          "words": 1582,
+          "status": "source",
+          "sourceFile": "source/c14/c14-s01.md",
+          "objectives": [
+            "Define motivation and distinguish direction and intensity of motivation."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c14/s2",
+          "number": "14.2",
+          "title": "Content Theories of Motivation",
+          "kind": "content",
+          "words": 5853,
+          "status": "source",
+          "sourceFile": "source/c14/c14-s02.md",
+          "objectives": [
+            "Describe a content theory of motivation."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c14/s3",
+          "number": "14.3",
+          "title": "Process Theories of Motivation",
+          "kind": "content",
+          "words": 9121,
+          "status": "source",
+          "sourceFile": "source/c14/c14-s03.md",
+          "objectives": [
+            "Describe the process theories of motivation, and compare and contrast the main process theories of motivation: operant conditioning theory, equity theory, goal theory, and expectancy theory."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c14/s4",
+          "number": "14.4",
+          "title": "Recent Research on Motivation Theories",
+          "kind": "content",
+          "words": 1271,
+          "status": "source",
+          "sourceFile": "source/c14/c14-s04.md",
+          "objectives": [
+            "Describe the modern advancements in the study of human motivation."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c14/s5",
+          "number": "14.5",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 474,
+          "status": "source",
+          "sourceFile": "source/c14/c14-s05.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": []
+        }
+      ],
+      "segments": []
+    },
+    {
+      "id": "pom/c15",
+      "number": 15,
+      "title": "Managing Teams",
+      "shortTitle": "Managing Teams",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c15/s1",
+          "number": "15.1",
+          "title": "Teamwork in the Workplace",
+          "kind": "content",
+          "words": 1211,
+          "status": "source",
+          "sourceFile": "source/c15/c15-s01.md",
+          "objectives": [
+            "What is a team, and what makes a team effective?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c15/s2",
+          "number": "15.2",
+          "title": "Team Development Over Time",
+          "kind": "content",
+          "words": 1390,
+          "status": "source",
+          "sourceFile": "source/c15/c15-s02.md",
+          "objectives": [
+            "How do teams develop over time?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c15/s3",
+          "number": "15.3",
+          "title": "Things to Consider When Managing Teams",
+          "kind": "content",
+          "words": 1907,
+          "status": "source",
+          "sourceFile": "source/c15/c15-s03.md",
+          "objectives": [
+            "What are some key considerations in managing teams?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c15/s4",
+          "number": "15.4",
+          "title": "Opportunities and Challenges to Team Building",
+          "kind": "content",
+          "words": 865,
+          "status": "source",
+          "sourceFile": "source/c15/c15-s04.md",
+          "objectives": [
+            "What are the benefits of conflict for a team?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c15/s5",
+          "number": "15.5",
+          "title": "Team Diversity",
+          "kind": "content",
+          "words": 883,
+          "status": "source",
+          "sourceFile": "source/c15/c15-s05.md",
+          "objectives": [
+            "How does team diversity enhance decision-making and problem-solving?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c15/s6",
+          "number": "15.6",
+          "title": "Multicultural Teams",
+          "kind": "content",
+          "words": 2471,
+          "status": "source",
+          "sourceFile": "source/c15/c15-s06.md",
+          "objectives": [
+            "What are some challenges and best practices for managing and working with multicultural teams?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c15/s7",
+          "number": "15.7",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 174,
+          "status": "source",
+          "sourceFile": "source/c15/c15-s07.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": []
+        }
+      ],
+      "segments": []
+    },
+    {
+      "id": "pom/c16",
+      "number": 16,
+      "title": "Managerial Communication",
+      "shortTitle": "Managerial Communication",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c16/s1",
+          "number": "16.1",
+          "title": "The Process of Managerial Communication",
+          "kind": "content",
+          "words": 571,
+          "status": "source",
+          "sourceFile": "source/c16/c16-s01.md",
+          "objectives": [
+            "Understand and describe the communication process."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c16/s2",
+          "number": "16.2",
+          "title": "Types of Communications in Organizations",
+          "kind": "content",
+          "words": 1203,
+          "status": "source",
+          "sourceFile": "source/c16/c16-s02.md",
+          "objectives": [
+            "Know the types of communications that occur in organizations."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c16/s3",
+          "number": "16.3",
+          "title": "Factors Affecting Communications and the Roles of Managers",
+          "kind": "content",
+          "words": 1155,
+          "status": "source",
+          "sourceFile": "source/c16/c16-s03.md",
+          "objectives": [
+            "Understand how power, status, purpose, and interpersonal skills affect communications in organizations."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c16/s4",
+          "number": "16.4",
+          "title": "Managerial Communication and Corporate Reputation",
+          "kind": "content",
+          "words": 700,
+          "status": "source",
+          "sourceFile": "source/c16/c16-s04.md",
+          "objectives": [
+            "Describe how corporate reputations are defined by how an organization communicates to its stakeholders."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c16/s5",
+          "number": "16.5",
+          "title": "The Major Channels of Management Communication Are Talking, Listening, Reading, and Writing",
+          "kind": "content",
+          "words": 3882,
+          "status": "source",
+          "sourceFile": "source/c16/c16-s05.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c16/s6",
+          "number": "16.6",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 1365,
+          "status": "source",
+          "sourceFile": "source/c16/c16-s06.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": []
+        }
+      ],
+      "segments": []
+    },
+    {
+      "id": "pom/c17",
+      "number": 17,
+      "title": "Organizational Planning and Controlling",
+      "shortTitle": "Organizational Planning and Controlling",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c17/s1",
+          "number": "17.1",
+          "title": "Is Planning Important?",
+          "kind": "content",
+          "words": 1032,
+          "status": "source",
+          "sourceFile": "source/c17/c17-s01.md",
+          "objectives": [
+            "Understand the importance of planning and why organizations need to plan and control."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c17/s2",
+          "number": "17.2",
+          "title": "The Planning Process",
+          "kind": "content",
+          "words": 1817,
+          "status": "source",
+          "sourceFile": "source/c17/c17-s02.md",
+          "objectives": [
+            "Outline the planning and controlling processes."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c17/s3",
+          "number": "17.3",
+          "title": "Types of Plans",
+          "kind": "content",
+          "words": 1361,
+          "status": "source",
+          "sourceFile": "source/c17/c17-s03.md",
+          "objectives": [
+            "Identify different types of plans and control systems employed by organizations."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c17/s4",
+          "number": "17.4",
+          "title": "Goals or Outcome Statements",
+          "kind": "content",
+          "words": 778,
+          "status": "source",
+          "sourceFile": "source/c17/c17-s04.md",
+          "objectives": [
+            "Explain the individual and organizational effects associated with goal setting and planning."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c17/s5",
+          "number": "17.5",
+          "title": "Formal Organizational Planning in Practice",
+          "kind": "content",
+          "words": 1932,
+          "status": "source",
+          "sourceFile": "source/c17/c17-s05.md",
+          "objectives": [
+            "Understand how planning occurs in today's organizations."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c17/s6",
+          "number": "17.6",
+          "title": "Employees' Responses to Planning",
+          "kind": "content",
+          "words": 5189,
+          "status": "source",
+          "sourceFile": "source/c17/c17-s06.md",
+          "objectives": [
+            "Discuss the impact that control has on organizational members."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c17/s7",
+          "number": "17.7",
+          "title": "Management by Objectives- A Planning and Control Technique",
+          "kind": "content",
+          "words": 1138,
+          "status": "source",
+          "sourceFile": "source/c17/c17-s07.md",
+          "objectives": [
+            "Describe management by objectives as a philosophy and as a management tool/technique; describe its effects."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c17/s8",
+          "number": "17.8",
+          "title": "The Control- and Involvement-Oriented Approaches to Planning and Controlling",
+          "kind": "content",
+          "words": 1274,
+          "status": "source",
+          "sourceFile": "source/c17/c17-s08.md",
+          "objectives": [
+            "Differentiate between the execution of the planning and controlling activities under control- and involvement-oriented management practices."
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c17/s9",
+          "number": "17.9",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 220,
+          "status": "source",
+          "sourceFile": "source/c17/c17-s09.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": []
+        }
+      ],
+      "segments": []
+    },
+    {
+      "id": "pom/c18",
+      "number": 18,
+      "title": "Management of Technology and Innovation",
+      "shortTitle": "Management of Technology and Innovation",
+      "objectives": [],
+      "sections": [
+        {
+          "id": "pom/c18/s1",
+          "number": "18.1",
+          "title": "MTI--Its Importance Now and In the Future",
+          "kind": "content",
+          "words": 2360,
+          "status": "source",
+          "sourceFile": "source/c18/c18-s01.md",
+          "objectives": [
+            "What do we mean by the management of technology and innovation (MTI), and why is it crucial?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c18/s2",
+          "number": "18.2",
+          "title": "Developing Technology and Innovation",
+          "kind": "content",
+          "words": 855,
+          "status": "source",
+          "sourceFile": "source/c18/c18-s02.md",
+          "objectives": [
+            "How do organizations develop technology and innovation?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c18/s3",
+          "number": "18.3",
+          "title": "External Sources of Technology and Innovation",
+          "kind": "content",
+          "words": 617,
+          "status": "source",
+          "sourceFile": "source/c18/c18-s03.md",
+          "objectives": [
+            "What are external sources of technology and innovation development, and when are they best used?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c18/s4",
+          "number": "18.4",
+          "title": "Internal Sources of Technology and Innovation",
+          "kind": "content",
+          "words": 682,
+          "status": "source",
+          "sourceFile": "source/c18/c18-s04.md",
+          "objectives": [
+            "What are internal sources of technology and innovation development, and when are they best used?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c18/s5",
+          "number": "18.5",
+          "title": "Management Entrepreneurship Skills for Technology and Innovation",
+          "kind": "content",
+          "words": 384,
+          "status": "source",
+          "sourceFile": "source/c18/c18-s05.md",
+          "objectives": [
+            "How and why do entrepreneurs need to develop MTI skills?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c18/s6",
+          "number": "18.6",
+          "title": "Skills Needed for MTI",
+          "kind": "content",
+          "words": 1167,
+          "status": "source",
+          "sourceFile": "source/c18/c18-s06.md",
+          "objectives": [
+            "No matter what method is used, what skills do you need to successfully manage technology and innovation?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c18/s7",
+          "number": "18.7",
+          "title": "Managing Now for Future Technology and Innovation",
+          "kind": "content",
+          "words": 165,
+          "status": "source",
+          "sourceFile": "source/c18/c18-s07.md",
+          "objectives": [
+            "How do you look into the future to keep pace?"
+          ],
+          "keyTerms": [],
+          "segments": []
+        },
+        {
+          "id": "pom/c18/s8",
+          "number": "18.8",
+          "title": "Summary",
+          "kind": "summary",
+          "words": 175,
+          "status": "source",
+          "sourceFile": "source/c18/c18-s08.md",
+          "objectives": [],
+          "keyTerms": [],
+          "segments": []
+        }
+      ],
+      "segments": []
+    }
+  ]
+}

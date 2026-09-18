@@ -1,0 +1,1158 @@
+{
+  "generatedAt": "2026-09-18T12:08:06.165Z",
+  "warnings": [],
+  "sections": {
+    "1.1": {
+      "words": 376,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "1.2": {
+      "words": 606,
+      "conceptChecks": 1,
+      "answered": 1,
+      "footnotesStripped": 11,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "1.3": {
+      "words": 1129,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 6,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "1.4": {
+      "words": 1563,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 1,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "1.5": {
+      "words": 0,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 0
+    },
+    "2.1": {
+      "words": 0,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 0
+    },
+    "2.2": {
+      "words": 1599,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "2.3": {
+      "words": 707,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 5,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "2.4": {
+      "words": 853,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "2.5": {
+      "words": 2276,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 3,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "2.6": {
+      "words": 3923,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 2,
+      "mojibakeLeft": 0,
+      "plannedSegments": 5
+    },
+    "2.7": {
+      "words": 959,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "2.8": {
+      "words": 0,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 0
+    },
+    "3.1": {
+      "words": 1213,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 2,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "3.2": {
+      "words": 1030,
+      "conceptChecks": 1,
+      "answered": 1,
+      "footnotesStripped": 6,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "3.3": {
+      "words": 292,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 3,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "3.4": {
+      "words": 1061,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 17,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "3.5": {
+      "words": 3023,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 4
+    },
+    "3.6": {
+      "words": 1641,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 5,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "3.7": {
+      "words": 2369,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 9,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "3.8": {
+      "words": 760,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 4,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "3.9": {
+      "words": 250,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "4.1": {
+      "words": 1324,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 3,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "4.2": {
+      "words": 1873,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 8,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "4.3": {
+      "words": 1071,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 3,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "4.4": {
+      "words": 2864,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 16,
+      "mojibakeLeft": 0,
+      "plannedSegments": 4
+    },
+    "4.5": {
+      "words": 1191,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 9,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "4.6": {
+      "words": 914,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 5,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "4.7": {
+      "words": 451,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 4,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "4.8": {
+      "words": 0,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 0
+    },
+    "5.1": {
+      "words": 691,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "5.2": {
+      "words": 1016,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 11,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "5.3": {
+      "words": 1210,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 5,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "5.4": {
+      "words": 2280,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 5,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "5.5": {
+      "words": 2959,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 16,
+      "mojibakeLeft": 0,
+      "plannedSegments": 4
+    },
+    "5.6": {
+      "words": 938,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 10,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "5.7": {
+      "words": 1826,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 18,
+      "mojibakeLeft": 1,
+      "plannedSegments": 3
+    },
+    "5.8": {
+      "words": 1553,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 13,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "5.9": {
+      "words": 1785,
+      "conceptChecks": 1,
+      "answered": 1,
+      "footnotesStripped": 9,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "5.10": {
+      "words": 0,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 0
+    },
+    "6.1": {
+      "words": 998,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 1,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "6.2": {
+      "words": 1002,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 9,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "6.3": {
+      "words": 2288,
+      "conceptChecks": 4,
+      "answered": 1,
+      "footnotesStripped": 3,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "6.4": {
+      "words": 1451,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 3,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "6.5": {
+      "words": 2676,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 11,
+      "mojibakeLeft": 0,
+      "plannedSegments": 4
+    },
+    "6.6": {
+      "words": 1439,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 9,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "6.7": {
+      "words": 1556,
+      "conceptChecks": 1,
+      "answered": 1,
+      "footnotesStripped": 3,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "6.8": {
+      "words": 4115,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 19,
+      "mojibakeLeft": 0,
+      "plannedSegments": 5
+    },
+    "6.9": {
+      "words": 0,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 0
+    },
+    "7.1": {
+      "words": 844,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "7.2": {
+      "words": 2549,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 13,
+      "mojibakeLeft": 0,
+      "plannedSegments": 4
+    },
+    "7.3": {
+      "words": 1423,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 3,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "7.4": {
+      "words": 1108,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 4,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "7.5": {
+      "words": 3483,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 4,
+      "mojibakeLeft": 0,
+      "plannedSegments": 5
+    },
+    "7.6": {
+      "words": 1624,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 1,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "7.7": {
+      "words": 798,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 3,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "7.8": {
+      "words": 561,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 2,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "7.9": {
+      "words": 1316,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 10,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "7.10": {
+      "words": 0,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 0
+    },
+    "8.1": {
+      "words": 307,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 2,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "8.2": {
+      "words": 603,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "8.3": {
+      "words": 899,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 1,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "8.4": {
+      "words": 2049,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 2,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "8.5": {
+      "words": 1302,
+      "conceptChecks": 1,
+      "answered": 1,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "8.6": {
+      "words": 1411,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 5,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "8.7": {
+      "words": 1046,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "8.8": {
+      "words": 193,
+      "conceptChecks": 1,
+      "answered": 1,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "8.9": {
+      "words": 0,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 0
+    },
+    "9.1": {
+      "words": 382,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "9.2": {
+      "words": 176,
+      "conceptChecks": 1,
+      "answered": 1,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "9.3": {
+      "words": 393,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 3,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "9.4": {
+      "words": 372,
+      "conceptChecks": 1,
+      "answered": 1,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "9.5": {
+      "words": 1596,
+      "conceptChecks": 4,
+      "answered": 1,
+      "footnotesStripped": 1,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "9.6": {
+      "words": 2831,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 2,
+      "mojibakeLeft": 0,
+      "plannedSegments": 4
+    },
+    "9.7": {
+      "words": 669,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "9.8": {
+      "words": 0,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 0
+    },
+    "10.1": {
+      "words": 336,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "10.2": {
+      "words": 2776,
+      "conceptChecks": 4,
+      "answered": 1,
+      "footnotesStripped": 6,
+      "mojibakeLeft": 0,
+      "plannedSegments": 4
+    },
+    "10.3": {
+      "words": 1690,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 5,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "10.4": {
+      "words": 6233,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 14,
+      "mojibakeLeft": 0,
+      "plannedSegments": 5
+    },
+    "10.5": {
+      "words": 0,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 0
+    },
+    "11.1": {
+      "words": 431,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "11.2": {
+      "words": 1129,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 1,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "11.3": {
+      "words": 1170,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "11.4": {
+      "words": 2155,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 4,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "11.5": {
+      "words": 1900,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 3,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "11.6": {
+      "words": 1077,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "11.7": {
+      "words": 2298,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "11.8": {
+      "words": 0,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 0
+    },
+    "12.1": {
+      "words": 381,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "12.2": {
+      "words": 408,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 10,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "12.3": {
+      "words": 4239,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 81,
+      "mojibakeLeft": 0,
+      "plannedSegments": 5
+    },
+    "12.4": {
+      "words": 1685,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 14,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "12.5": {
+      "words": 2068,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 18,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "12.6": {
+      "words": 1523,
+      "conceptChecks": 1,
+      "answered": 1,
+      "footnotesStripped": 13,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "12.7": {
+      "words": 624,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 3,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "12.8": {
+      "words": 1222,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 4,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "12.9": {
+      "words": 0,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 0
+    },
+    "13.1": {
+      "words": 701,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "13.2": {
+      "words": 692,
+      "conceptChecks": 1,
+      "answered": 1,
+      "footnotesStripped": 5,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "13.3": {
+      "words": 1985,
+      "conceptChecks": 1,
+      "answered": 1,
+      "footnotesStripped": 12,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "13.4": {
+      "words": 2449,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 19,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "13.5": {
+      "words": 1762,
+      "conceptChecks": 1,
+      "answered": 0,
+      "footnotesStripped": 18,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "13.6": {
+      "words": 1244,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 11,
+      "mojibakeLeft": 4,
+      "plannedSegments": 2
+    },
+    "13.7": {
+      "words": 2228,
+      "conceptChecks": 4,
+      "answered": 1,
+      "footnotesStripped": 19,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "13.8": {
+      "words": 1314,
+      "conceptChecks": 1,
+      "answered": 1,
+      "footnotesStripped": 3,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "13.9": {
+      "words": 1807,
+      "conceptChecks": 1,
+      "answered": 1,
+      "footnotesStripped": 17,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "13.10": {
+      "words": 669,
+      "conceptChecks": 1,
+      "answered": 1,
+      "footnotesStripped": 3,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "13.11": {
+      "words": 0,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 0
+    },
+    "14.1": {
+      "words": 1582,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "14.2": {
+      "words": 5853,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 5
+    },
+    "14.3": {
+      "words": 9121,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 5,
+      "plannedSegments": 5
+    },
+    "14.4": {
+      "words": 1271,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "14.5": {
+      "words": 474,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "15.1": {
+      "words": 1211,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "15.2": {
+      "words": 1390,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "15.3": {
+      "words": 1907,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "15.4": {
+      "words": 865,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "15.5": {
+      "words": 883,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "15.6": {
+      "words": 2471,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 4
+    },
+    "15.7": {
+      "words": 174,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "16.1": {
+      "words": 571,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "16.2": {
+      "words": 1203,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "16.3": {
+      "words": 1155,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "16.4": {
+      "words": 700,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "16.5": {
+      "words": 3882,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 5
+    },
+    "16.6": {
+      "words": 1365,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "17.1": {
+      "words": 1032,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "17.2": {
+      "words": 1817,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 4,
+      "plannedSegments": 3
+    },
+    "17.3": {
+      "words": 1361,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "17.4": {
+      "words": 778,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "17.5": {
+      "words": 1932,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "17.6": {
+      "words": 5189,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 5
+    },
+    "17.7": {
+      "words": 1138,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "17.8": {
+      "words": 1274,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "17.9": {
+      "words": 220,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "18.1": {
+      "words": 2360,
+      "conceptChecks": 2,
+      "answered": 1,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 3
+    },
+    "18.2": {
+      "words": 855,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "18.3": {
+      "words": 617,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "18.4": {
+      "words": 682,
+      "conceptChecks": 3,
+      "answered": 1,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 1,
+      "plannedSegments": 1
+    },
+    "18.5": {
+      "words": 384,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "18.6": {
+      "words": 1167,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 2
+    },
+    "18.7": {
+      "words": 165,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    },
+    "18.8": {
+      "words": 175,
+      "conceptChecks": 0,
+      "answered": 0,
+      "footnotesStripped": 0,
+      "mojibakeLeft": 0,
+      "plannedSegments": 1
+    }
+  }
+}

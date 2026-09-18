@@ -1,0 +1,62 @@
+{
+  "id": "pom/c1/quiz",
+  "chapterId": "pom/c1",
+  "title": "Chapter 1 review",
+  "source": "book",
+  "questions": [
+    {
+      "id": "pom/c1/quiz/q1",
+      "prompt": "According to Henry Mintzberg, what are the three major roles managers perform?",
+      "type": "open",
+      "answer": "Mintzberg said managers fulfill interpersonal roles like figurehead, leader, and liaison; informational roles like monitor, disseminator, and spokesperson; and decisional roles like entrepreneur, disturbance handler, resource allocator, and negotiator.",
+      "rubric": "Must mention the three role categories: interpersonal, informational, and decisional, with at least one example role from any category.",
+      "topic": "mintzberg-managerial-roles",
+      "source": "book"
+    },
+    {
+      "id": "pom/c1/quiz/q2",
+      "prompt": "How do managers actually spend most of their working time, according to Kotter and other studies?",
+      "type": "open",
+      "answer": "Managers work in short, fragmented bursts rather than long uninterrupted planning sessions, and spend seventy to ninety percent of their time talking and interacting with other people rather than working alone.",
+      "rubric": "Must include that managerial work is fragmented/interrupted and that most time is spent communicating/interacting with people, not solo planning.",
+      "topic": "nature-of-managerial-work",
+      "source": "book"
+    },
+    {
+      "id": "pom/c1/quiz/q3",
+      "prompt": "What are the four decisional roles managers fulfill?",
+      "type": "open",
+      "answer": "The four decisional roles are entrepreneur, who drives proactive change; disturbance handler, who reacts to crises; resource allocator, who decides how limited resources like money and time are distributed; and negotiator, who bargains with people inside and outside the organization.",
+      "rubric": "Must name all four roles: entrepreneur, disturbance handler, resource allocator, negotiator, ideally with brief description of each.",
+      "topic": "decisional-roles",
+      "source": "book"
+    },
+    {
+      "id": "pom/c1/quiz/q4",
+      "prompt": "How does the importance of technical, human relations, and conceptual skills change across management levels?",
+      "type": "open",
+      "answer": "First-line managers rely more on technical skills, executives rely more on conceptual skills for big-picture thinking, and human relations skills, like communicating and working with people, remain important at every level of management.",
+      "rubric": "Must state that technical skill matters more at lower levels, conceptual skill matters more at higher levels, and human relations skill is important throughout.",
+      "topic": "managerial-skills-by-level",
+      "source": "book"
+    },
+    {
+      "id": "pom/c1/quiz/q5",
+      "prompt": "Why might management be considered an occupation rather than a formal profession?",
+      "type": "open",
+      "answer": "Unlike professions such as law or medicine, management lacks a universal licensing requirement or standardized body of certified knowledge, and managers often learn through experience and informal role modeling rather than a single formal credentialing process.",
+      "rubric": "Must convey that management lacks formal licensing/standard credentialing found in true professions and is often learned through experience rather than uniform certification.",
+      "topic": "management-as-occupation",
+      "source": "book"
+    },
+    {
+      "id": "pom/c1/quiz/q6",
+      "prompt": "What daily pressures and trends are reshaping the demands placed on modern managers?",
+      "type": "open",
+      "answer": "Managers face fragmented, mostly verbal workdays with competing demands from employees, customers, and shareholders that must be prioritized by urgency, and downsizing has increased the number of direct reports, making efficiency and stronger entrepreneurial and leadership skills essential.",
+      "rubric": "Must mention fragmented/verbal nature of work, competing demands needing prioritization, and increased span of control from downsizing driving need for efficiency and leadership.",
+      "topic": "modern-management-pressures",
+      "source": "book"
+    }
+  ]
+}
