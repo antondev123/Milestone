@@ -111,7 +111,7 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
   if (!course || !plan)
     return (
       <Screen>
-        <p className="text-[17px] text-muted">Getting your place…</p>
+        <p className="text-[17px] text-muted">Getting your progress…</p>
       </Screen>
     );
 
@@ -125,7 +125,7 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
       <TopBar
         left={<BackLink href="/" />}
         title={leg ? `Leg ${leg.n} of ${leg.of}` : course.title}
-        right={<ModePill to="listen" onClick={() => router.push(plan ? "/learn/voice?carry=1" : "/learn/voice")} />}
+        right={<ModePill to="hands-off" onClick={() => router.push(plan ? "/learn/voice?carry=1" : "/learn/voice")} />}
       />
 
       <div className="h-1 overflow-hidden rounded-sm bg-track" aria-hidden="true">
@@ -285,7 +285,7 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
         )}
 
         <div className="flex items-center justify-between border-t border-rule text-sm text-muted">
-          <span>Get off any time. Your place is saved.</span>
+          <span>Get off any time. Your progress is saved.</span>
           <button onClick={finish} disabled={busy} className="min-h-11 font-semibold text-ink underline underline-offset-4">
             End trip
           </button>

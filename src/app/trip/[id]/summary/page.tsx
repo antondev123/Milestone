@@ -9,13 +9,9 @@ import { routeState, tripMinutes } from "@/lib/view";
 import { BackLink, Screen, TopBar } from "@/components/carry/Chrome";
 import { RouteLine } from "@/components/carry/RouteLine";
 import { Group } from "@/components/carry/Group";
-import { CheckIcon, HeadphonesIcon, LinesIcon } from "@/components/carry/Icons";
+import { BookIcon, CheckIcon, HeadphonesIcon } from "@/components/carry/Icons";
 
 export const dynamic = "force-dynamic";
-
-function pretty(topic: string) {
-  return topic.replace(/-/g, " ");
-}
 
 export default async function Summary({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -44,7 +40,7 @@ export default async function Summary({ params }: { params: Promise<{ id: string
 
   return (
     <Screen gap="gap-[26px]">
-      <TopBar left={<BackLink href="/" />} title={trip.mode === "voice" ? "Trip done, listened" : trip.mode === "study" ? "Session done, studied" : "Trip done, read"} />
+      <TopBar left={<BackLink href="/" />} title={trip.mode === "voice" ? "Trip done, hands-off" : trip.mode === "study" ? "Session done, hands-on" : "Trip done, read"} />
 
       <div className="flex flex-col gap-2">
         <h1 className="font-display text-[34px] leading-[1.12] font-semibold tracking-[-0.015em]">You arrived with progress.</h1>
@@ -112,21 +108,6 @@ export default async function Summary({ params }: { params: Promise<{ id: string
         </Link>
       )}
 
-      {(trip.mastered.length > 0 || trip.weak.length > 0) && (
-        <Group>
-          <div className="grid grid-cols-2">
-          <div className="flex flex-col gap-1 pr-3.5">
-            <div className="text-sm font-semibold text-muted">Solid</div>
-            <ul className="text-[15px]">{trip.mastered.length ? trip.mastered.map((t) => <li key={t}>{pretty(t)}</li>) : <li className="text-muted">Keep going</li>}</ul>
-          </div>
-          <div className="flex flex-col gap-1 border-l border-rule pl-3.5">
-            <div className="text-sm font-semibold text-muted">Worth another look</div>
-            <ul className="text-[15px]">{trip.weak.length ? trip.weak.map((t) => <li key={t}>{pretty(t)}</li>) : <li className="text-muted">Nothing yet</li>}</ul>
-          </div>
-          </div>
-        </Group>
-      )}
-
       <Group label="Next leg picks up at" gap="gap-1.5">
         <div className="text-[17px] font-semibold">
           {nextSection ? `${nextSection.number} ${nextSection.title}, ` : ""}
@@ -138,14 +119,14 @@ export default async function Summary({ params }: { params: Promise<{ id: string
       {course.license && <p className="text-sm text-muted">{course.license.attribution}</p>}
 
       <div className="mt-auto flex flex-col gap-3">
-        <Link href="/learn/text" className="flex min-h-[60px] items-center justify-center gap-3 rounded-2xl bg-gold px-5 text-lg font-bold text-ink">
-          <LinesIcon />
-          Read the next leg
+        <Link href="/learn/voice" className="flex min-h-[60px] items-center justify-center gap-3 rounded-2xl bg-gold px-5 text-lg font-bold text-ink">
+          <HeadphonesIcon />
+          Next leg, hands-off
         </Link>
         <div className="flex items-center justify-between">
-          <Link href="/learn/voice" className="flex min-h-11 items-center gap-2 text-[15px] font-semibold underline underline-offset-4">
-            <HeadphonesIcon size={18} />
-            Listen instead
+          <Link href="/learn/study" className="flex min-h-11 items-center gap-2 text-[15px] font-semibold underline underline-offset-4">
+            <BookIcon size={18} />
+            Hands-on instead
           </Link>
           <Link href="/course" className="flex min-h-11 items-center text-[15px] font-semibold underline underline-offset-4">
             All chapters

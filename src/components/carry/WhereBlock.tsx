@@ -8,7 +8,7 @@ export function WhereBlock({ leg }: { leg: Leg | undefined }) {
       <div className="flex flex-col gap-2.5">
         <div className="h-0.5 bg-muted-on-ink" aria-hidden="true" />
         <div className="text-[15px] text-muted-on-ink">Topic</div>
-        <div className="font-display text-[34px] leading-[1.12] font-semibold tracking-[-0.015em]">Getting your place…</div>
+        <div className="font-display text-[34px] leading-[1.12] font-semibold tracking-[-0.015em]">Getting your progress…</div>
       </div>
     );
   }

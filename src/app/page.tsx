@@ -8,7 +8,7 @@ import { RouteLine } from "@/components/carry/RouteLine";
 import { Screen } from "@/components/carry/Chrome";
 import { Group, GroupLabel, Hairline } from "@/components/carry/Group";
 import { MilestoneLogo } from "@/components/carry/MilestoneLogo";
-import { BookIcon, HeadphonesIcon, LinesIcon } from "@/components/carry/Icons";
+import { BookIcon, HeadphonesIcon } from "@/components/carry/Icons";
 
 export const dynamic = "force-dynamic";
 
@@ -65,25 +65,18 @@ export default function Resume() {
         ) : (
           <>
             <GroupLabel>How are you studying today?</GroupLabel>
-            <Link href="/learn/text" className="flex min-h-[68px] items-center gap-4 rounded-2xl bg-gold px-5 py-3 text-ink">
-              <LinesIcon size={26} />
-              <span className="flex flex-col gap-0.5">
-                <span className="text-lg font-bold">Read quietly</span>
-                <span className="text-sm font-medium">Short text, tap to answer</span>
-              </span>
-            </Link>
             <Link href="/learn/voice" className="flex min-h-[68px] items-center gap-4 rounded-2xl bg-ink px-5 py-3 text-ground">
               <HeadphonesIcon size={26} />
               <span className="flex flex-col gap-0.5">
-                <span className="text-lg font-bold">Listen</span>
-                <span className="text-sm font-medium">Audio, answer out loud or type</span>
+                <span className="text-lg font-bold">Hands-off</span>
+                <span className="text-sm font-medium">Just listen, answer out loud</span>
               </span>
             </Link>
             <Link href="/learn/study" className="flex min-h-[68px] items-center gap-4 rounded-2xl bg-panel px-5 py-3 text-ink">
               <BookIcon size={26} />
               <span className="flex flex-col gap-0.5">
-                <span className="text-lg font-bold">Study</span>
-                <span className="text-sm font-medium">Not travelling: the book, read aloud, ask anything</span>
+                <span className="text-lg font-bold">Hands-on</span>
+                <span className="text-sm font-medium">Read along with the book, tap any line to ask</span>
               </span>
             </Link>
           </>

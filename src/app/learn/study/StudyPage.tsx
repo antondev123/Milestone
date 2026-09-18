@@ -2,18 +2,16 @@
 // Study mode: the book as a page, read aloud on request with the spoken word tracked, an assistant
 // beside it, and a tap/type checkpoint. Hands-on, not a commute. The server still owns the place:
 // every block the reader reaches is `mark`ed, so Listen and Read modes pick up there.
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { BackLink, Pill, SignalNotice, TopBar } from "@/components/carry/Chrome";
-import { CheckIcon, HeadphonesIcon, SpeakerIcon } from "@/components/carry/Icons";
+import { BackLink, ModePill, Pill, SignalNotice, TopBar } from "@/components/carry/Chrome";
+import { CheckIcon, SpeakerIcon, StopIcon } from "@/components/carry/Icons";
 import { persist, postJSON } from "@/components/carry/net";
 import { installErrorLog, setLogSession } from "@/lib/log/client";
 import { AssistantFab, AssistantSheet } from "@/components/study/AssistantSheet";
 import { AssistantThread, type Message } from "@/components/study/AssistantThread";
 import { Checkpoint, type StudyQuestion } from "@/components/study/Checkpoint";
 import { LegNav, type LegLink } from "@/components/study/LegNav";
-import { PhoneButton, PhonePreview } from "@/components/study/PhonePreview";
 import { ReadAloudStrip } from "@/components/study/ReadAloudStrip";
 import { Reader } from "@/components/study/Reader";
 import { SectionPicker, type PickerManifest } from "@/components/study/SectionPicker";
@@ -54,7 +52,6 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   const [asking, setAsking] = useState(false);
   const [trouble, setTrouble] = useState(false);
   const [booting, setBooting] = useState(true);
-  const [phone, setPhone] = useState(false); // desktop-only phone preview (iframe), remembered across reloads
   const lastMarked = useRef<string>("");
   const checkRef = useRef<HTMLDivElement>(null);
   // one Checkpoint instance: phone inline or desktop column, never both (each would POST `check`)
@@ -236,28 +233,11 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
     await arrive(id, completed);
   }
 
-  // restore an open preview on reload; never inside the preview frame itself (it shares localStorage)
-  useEffect(() => {
-    if (window.self !== window.top) return;
-    try {
-      if (localStorage.getItem(PHONE_KEY) === "1") setPhone(true);
-    } catch {}
-  }, []);
-
-  function openPhone() {
-    player.pause(); // the frame shares the server cursor; do not read aloud in both
-    setPhone(true);
-    try {
-      localStorage.setItem(PHONE_KEY, "1");
-    } catch {}
+  /** Hands-off carries this trip over (`?carry=1`); the Dial picks up at the block marked here. */
+  function goHandsOff() {
+    player.pause();
+    router.push("/learn/voice?carry=1");
   }
-
-  const closePhone = useCallback(() => {
-    setPhone(false);
-    try {
-      localStorage.removeItem(PHONE_KEY);
-    } catch {}
-  }, []);
 
   async function endSession() {
     player.pause();
@@ -296,7 +276,13 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
       left={<BackLink href="/" />}
       title={leg ? `Leg ${leg.n} of ${leg.of} · ${leg.section}` : courseTitle}
       onTitleClick={seg ? () => setPickerOpen(true) : undefined}
-      right={<Pill icon={<SpeakerIcon size={18} off={!audioOn} />} label={audioOn ? "Read aloud" : "Audio off"} pressed={audioOn} onClick={toggleAudio} />}
+      right={
+        <div className="flex items-center gap-2">
+          {/* icon only on phones so the leg title keeps its room */}
+          <ModePill to="hands-off" onClick={goHandsOff} compact />
+          <Pill icon={<SpeakerIcon size={18} off={!audioOn} />} label={audioOn ? "Read aloud" : "Audio off"} pressed={audioOn} onClick={toggleAudio} compact />
+        </div>
+      }
     />
   );
 
@@ -331,22 +317,15 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
         >
           Check my understanding
         </button>
-        <PhoneButton onClick={openPhone} />
       </div>
       {/* the middle is one flex region; whatever is inside owns the single scroll (the thread, or the checkpoint) */}
       <div className="flex min-h-0 flex-1 flex-col">
         {desktop && asideTab === "check" && checkOpen ? <div className="min-h-0 flex-1 overflow-y-auto">{checkpoint(true)}</div> : assistant()}
       </div>
-      <div className="mt-3 flex shrink-0 flex-col gap-1 border-t border-rule pt-3 text-[14px]">
-        <Link href="/learn/voice?carry=1" className="flex min-h-10 items-center gap-2 font-semibold">
-          <HeadphonesIcon size={18} /> Switch to Listen mode
-        </Link>
-        <div className="flex items-center justify-between gap-3">
-          <span className="text-muted">Your place carries over.</span>
-          <button type="button" onClick={endSession} className="min-h-9 text-muted underline underline-offset-4">
-            End session
-          </button>
-        </div>
+      <div className="mt-3 flex shrink-0 flex-col border-t border-rule pt-3">
+        <button type="button" onClick={endSession} className={`${END_BUTTON} min-h-11 text-[15px]`}>
+          <StopIcon size={18} /> End session
+        </button>
       </div>
     </>
   );
@@ -357,7 +336,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
         <SignalNotice show={trouble} />
         {booting || !seg ? (
           <p className="text-[17px] text-muted" role="status">
-            Getting your place…
+            Getting your progress…
           </p>
         ) : (
           <>
@@ -382,21 +361,15 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
                       >
                         <CheckIcon size={22} /> Check my understanding
                       </button>
-                      <p className="mt-3 text-center text-[14px] text-muted">Get off any time. Your place is saved.</p>
+                      <p className="mt-3 text-center text-[14px] text-muted">Get off any time. Your progress is saved.</p>
                     </div>
                   )}
                 </div>
               )}
               {legNav}
-              <div className="mt-10 flex flex-col gap-2 border-t border-rule pt-5 text-[14px] lg:hidden">
-                <Link href="/learn/voice?carry=1" className="flex min-h-10 items-center gap-2 font-semibold">
-                  <HeadphonesIcon size={18} /> Switch to Listen mode
-                </Link>
-                <span className="text-muted">Listening on the go? Your place carries over.</span>
-                <button type="button" onClick={endSession} className="self-start text-muted underline underline-offset-4">
-                  End session
-                </button>
-              </div>
+              <button type="button" onClick={endSession} className={`mt-4 ${END_BUTTON} min-h-[60px] text-[17px] lg:hidden`}>
+                <StopIcon size={20} /> End session
+              </button>
             </Reader>
           </>
         )}
@@ -406,17 +379,9 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
         </AssistantSheet>
         <SectionPicker open={pickerOpen} onClose={() => setPickerOpen(false)} manifest={manifest} hereSection={section} completed={completed} busy={booting} onPick={jumpToSection} />
       </StudyLayout>
-    <PhonePreview open={phone} onClose={closePhone} src={phoneSrc()} />
     </>
   );
 }
 
-const PHONE_KEY = "study:phone";
-
-// Same route and query (keeps ?goto=), flagged so the embedded page can tell it is a preview.
-function phoneSrc(): string {
-  if (typeof window === "undefined") return "/learn/study?frame=1";
-  const q = new URLSearchParams(window.location.search);
-  q.set("frame", "1");
-  return `/learn/study?${q}`;
-}
+/** Outlined, full width: ending is always one clear tap, never the primary (docs/DESIGN.md §3). */
+const END_BUTTON = "flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-ink px-4 font-semibold";

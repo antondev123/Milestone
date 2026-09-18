@@ -35,8 +35,9 @@ export function RouteLine({
   const n = Math.max(1, route.total);
   const step = n === 1 ? 0 : (W - PAD * 2) / (n - 1);
   const x = (i: number) => PAD + i * step;
-  // solid ink up to the furthest finished-or-current stop
-  const lastSolid = route.current ?? route.done.lastIndexOf(true);
+  // solid ink only joins a finished stop to the next finished-or-current one, so legs skipped by
+  // a jump stay hollow on the dotted line instead of looking passed
+  const solid = (i: number) => route.done[i] && (route.done[i + 1] || route.current === i + 1);
   const at = (i: number) => ({ animationDelay: `${i * STEP_MS}ms` });
   // keep the label on the canvas: hug the stop's outer edge at either end of the line
   const cx = route.current === null ? 0 : x(route.current);
@@ -50,7 +51,7 @@ export function RouteLine({
       {route.done.map((_, i) => (
         <circle key={`o${i}`} cx={x(i)} cy={Y} r={6} fill="var(--color-ground)" stroke="var(--color-muted)" strokeWidth={2} />
       ))}
-      {Array.from({ length: Math.max(0, lastSolid) }, (_, i) => (
+      {Array.from({ length: n - 1 }, (_, i) => i).filter(solid).map((i) => (
         <line
           key={`s${i}`}
           className="route-seg"
