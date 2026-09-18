@@ -20,6 +20,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Plan, ToolReply } from "@/types/lesson";
 import { useBargeInDucking } from "./useBargeInDucking";
 import type { Leg, LegIndex } from "@/lib/view";
+import { milestoneLabel } from "@/lib/milestones";
 import { Dial, legRing } from "./carry/Dial";
 import { MicButton, type MicState } from "./carry/MicButton";
 import { HoldButton } from "./carry/HoldButton";
@@ -32,7 +33,11 @@ import { useMicRecorder } from "./useMicRecorder";
 
 const CONTINUE = "continue";
 const GRACE_MS = 700; // let a late barge-in win the race against auto-continue
-const FLASH_MS = 3000; // "That's right" stays in the state line this long
+const FLASH_MS = 3000; // "That's right" / a milestone label stays in the state line this long
+// Trips are open-ended, so this is not a trip length: it is the credit guard for a forgotten tab.
+const HARD_STOP_MS = 2 * 60 * 60_000;
+
+type Flash = { kind: "correct" } | { kind: "milestone"; label: string };
 
 async function post(tool: string, body: Record<string, unknown> = {}): Promise<ToolReply> {
   const r = await fetch(`/api/tools/${tool}`, {
@@ -57,10 +62,9 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const [err, setErr] = useState<string | null>(null);
   const [ctx, setCtx] = useState<number | null>(null);
   const [loc, setLoc] = useState<string>("");
-  const [typed, setTyped] = useState("");
   const [asking, setAsking] = useState(false); // a question is waiting for the learner
   const [thinking, setThinking] = useState(false); // a tool call is in flight (grading, grounded ask)
-  const [flash, setFlash] = useState<"correct" | null>(null);
+  const [flash, setFlash] = useState<Flash | null>(null);
   const [holding, setHolding] = useState(false);
   const agentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID;
   // ?debug=1 shows the mic/duck meter for calibrating thresholds in rehearsal
@@ -97,11 +101,6 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const sendUser = (text: string) => {
     try {
       if (!ended.current) conv.sendUserMessage(text);
-    } catch {}
-  };
-  const sendContext = (text: string) => {
-    try {
-      if (!ended.current) conv.sendContextualUpdate(text);
     } catch {}
   };
   /**
@@ -214,21 +213,31 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       askingRef.current = true;
       setAsking(true);
       earcon.ask();
-    } else if (r.correct !== undefined || r.kind === "read") {
+    } else if (r.correct !== undefined || r.kind === "read" || r.more) {
+      // `more` means the server wants reading to carry on, so no question is open (e.g. after a skip)
       askingRef.current = false;
       setAsking(false);
     }
-    if (r.correct === true) {
-      earcon.correct();
-      setFlash("correct");
+    const showFlash = (f: Flash) => {
+      setFlash(f);
       if (flashTimer.current) clearTimeout(flashTimer.current);
       flashTimer.current = window.setTimeout(() => setFlash(null), FLASH_MS);
+    };
+    if (r.correct === true) {
+      earcon.correct();
+      showFlash({ kind: "correct" });
     }
+    // a milestone earned on the road: the line is spoken, the earcon and label make it land while driving
+    if (r.milestones?.length) {
+      earcon.milestone();
+      showFlash({ kind: "milestone", label: milestoneLabel(r.milestones[0]) });
+    }
+    // a section or chapter finished (the spoken line names it); the ring notches on the Dial
     const next = r.segmentId ? legs?.[r.segmentId] : undefined;
-    if (next && prevLeg.current && (next.chapter !== prevLeg.current.chapter || next.sectionIdx !== prevLeg.current.sectionIdx)) earcon.tick();
+    if (next && prevLeg.current && (next.chapter !== prevLeg.current.chapter || next.sectionIdx !== prevLeg.current.sectionIdx)) earcon.section();
     if (next) prevLeg.current = next;
     onReply?.(r);
-    // the planned legs ran out and the server ended the trip: speak the closing line, then hand over
+    // the course itself ran out and the server ended the trip: speak the closing line, then hand over
     if (r.kind === "end" && r.tripId) {
       autoContinue.current = false;
       const id = r.tripId;
@@ -269,18 +278,11 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     return JSON.stringify({ t: r.say });
   });
 
-  // hard stop: a forgotten tab must not burn credits
+  // hard stop: the trip has no planned length, but a forgotten tab must not burn credits
   useEffect(() => {
     if (conv.status !== "connected") return;
-    const nudge = window.setTimeout(
-      () => sendContext("The trip is nearly over. Finish the current point, then call end_trip."),
-      Math.max(30_000, (plan.estMinutes + 1) * 60_000),
-    );
-    const stop = window.setTimeout(() => void finish(), (plan.estMinutes + 3) * 60_000);
-    return () => {
-      clearTimeout(nudge);
-      clearTimeout(stop);
-    };
+    const stop = window.setTimeout(() => void finish(), HARD_STOP_MS);
+    return () => clearTimeout(stop);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [conv.status]);
 
@@ -378,11 +380,11 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   else if (connecting) word = "Connecting";
   else if (isPaused) word = "Paused";
   else if (holding) word = "Keep holding";
-  else if (flash === "correct")
+  else if (flash)
     word = (
       <>
         <CheckIcon size={22} color="var(--color-gold)" />
-        That&rsquo;s right
+        {flash.kind === "correct" ? <>That&rsquo;s right</> : flash.label}
       </>
     );
   else if (conv.isMuted) word = <Dotted>Mic off</Dotted>;
@@ -391,7 +393,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   else if (tutorTalking) word = <Dotted>Speaking</Dotted>;
   else word = <Bars>Listening</Bars>;
 
-  const dialSize = textOnly.current && live ? 200 : 260;
+  const dialSize = 260;
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -424,34 +426,6 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
         <HoldButton onHold={() => void finish()} onHoldingChange={setHolding} disabled={!live} />
       </div>
 
-      {/* ?text=1 only: the demo fallback and browsers without a mic. Never on a normal car session. */}
-      {live && textOnly.current && (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            const t = typed.trim();
-            if (!t) return;
-            barged.current = true;
-            cancel();
-            clientLog("transcript", { role: "user", text: t, typed: true }); // the SDK does not echo typed turns
-            sendUser(t);
-            setTyped("");
-          }}
-          className="flex gap-2"
-        >
-          <label htmlFor="typed" className="sr-only">
-            Type a command
-          </label>
-          <input
-            id="typed"
-            value={typed}
-            onChange={(e) => setTyped(e.target.value)}
-            placeholder="go, skip, quiz me…"
-            className="min-h-14 flex-1 rounded-[14px] border-2 border-muted-on-ink bg-transparent px-4 text-[17px] text-ground outline-none placeholder:text-muted-on-ink focus:border-gold"
-          />
-          <button className="min-h-14 rounded-[14px] bg-gold px-5 text-[17px] font-bold text-ink">Send</button>
-        </form>
-      )}
 
       {debugOn && live && (
         <p className="font-mono text-[11px] text-gold">

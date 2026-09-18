@@ -64,13 +64,12 @@ TripSummary { tripId, startedAt, minutes, mode, segmentIds, correct, total,
 
 ## 5. Session planning algorithm
 
-Input: `minutes`, `progress.resume`, `mode`. Output: `Plan { segmentIds[], estMinutes }`.
+Trips are open-ended: there is no trip length to pick and no budget. Input: `progress.resume`, `mode`. Output: `Plan { startAt }`.
 
-1. Start at the resume pointer (or first incomplete segment).
-2. Budget = minutes × 60 − 30 s intro. Per-segment cost = `durationSec` + checkpoint overhead (voice 60 s/question, text 30 s/question).
-3. Greedily append segments in order while cost fits. Always include ≥ 1 segment even if it overruns slightly (never return an empty plan).
-4. Cap at 6 segments. End on a checkpoint so the trip closes cleanly.
-5. On each segment/checkpoint completion, write the resume pointer immediately, so a killed trip resumes mid-module next time. Trip end = user says "done" / taps end / plan exhausted → generate TripSummary.
+1. Start at the resume pointer (or first incomplete segment; top of the course if everything is done).
+2. The cursor then walks the course in order, part after part, section after section, until the learner ends the trip (or the course runs out).
+3. Along the way the tutor says what just finished, by name ("Section two point five, …, done. Next, …", "Chapter two, …, done."), and any milestone the moment it is earned ("Milestone: first hands-free trip."), then keeps reading. Listen mode adds an earcon to each.
+4. On each segment/checkpoint completion, write the resume pointer immediately, so a killed trip resumes mid-module next time. Trip end = user says "done" / holds End / taps End trip / course exhausted → generate TripSummary (`minutes` = elapsed).
 
 ## 6. Real vs stubbed (demo)
 

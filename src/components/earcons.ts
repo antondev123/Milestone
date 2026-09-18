@@ -53,6 +53,17 @@ export const earcon = {
   },
   correct: () => tone(523, 220, 0, 784),
   tick: () => tone(880, 35, 0, undefined, 0.6),
+  /** a section or chapter finished: rising pair, wider than `ask` */
+  section: () => {
+    tone(523, 90);
+    tone(784, 140, 100);
+  },
+  /** a milestone earned: short rising fanfare (`end` is its falling mirror) */
+  milestone: () => {
+    tone(523, 100);
+    tone(659, 100, 110);
+    tone(784, 220, 220);
+  },
   end: () => {
     tone(659, 120);
     tone(523, 120, 130);

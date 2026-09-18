@@ -6,7 +6,6 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { Plan, ToolReply } from "@/types/lesson";
 import type { LegIndex } from "@/lib/view";
-import { TripPicker } from "@/components/TripPicker";
 import { BackLink, ModePill, PrimaryButton, Screen, SignalNotice, TopBar } from "@/components/carry/Chrome";
 import { Feedback, stripVerdict } from "@/components/carry/Feedback";
 import { persist, postJSON } from "@/components/carry/net";
@@ -64,7 +63,7 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
     setLast(r);
     const tone = r.correct === undefined ? undefined : r.correct ? "ok" : "bad";
     say({ who: "tutor", text: r.say, tone, offer: r.offer, segmentId: r.segmentId });
-    // the trip ended itself (planned legs ran out): let the closing line show, then the summary
+    // the course ran out and the trip ended itself: let the closing line show, then the summary
     if (r.kind === "end" && r.tripId) {
       const id = r.tripId;
       setTimeout(() => router.push(`/trip/${id}/summary`), 1500);
@@ -81,33 +80,23 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
     }
   }
 
-  async function start(minutes: number) {
-    setBusy(true);
-    const p: Plan = await persist(() => postJSON<Plan>("/api/session", { minutes, mode: "text" }), setTrouble);
-    setPlan(p);
-    say({ who: "tutor", text: p.greeting ?? `${p.segmentIds.length} parts fit in ${minutes} minutes.`, tone: "aside" });
-    const target = params.get("goto");
-    if (target) await step("goto", { target });
-    await step("next");
-  }
-
-  // Arrived from Listen mid-trip (?carry=1): keep that trip instead of asking its length again.
+  // Trips are open-ended and start on arrival, no length to pick. Arrived from Listen mid-trip
+  // (?carry=1): keep that trip; if it is gone (404), start a fresh one.
   const carrying = params.get("carry") === "1";
-  const [carryFailed, setCarryFailed] = useState(false);
-  const carried = useRef(false); // Strict Mode runs effects twice; a second carry + next would skip a block
+  const started = useRef(false); // Strict Mode runs effects twice; a second start + next would skip a block
   useEffect(() => {
-    if (!carrying || carried.current) return;
-    carried.current = true;
+    if (started.current) return;
+    started.current = true;
     (async () => {
       setBusy(true);
-      const p = await persist(() => postJSON<Plan | { error: string }>("/api/session", { carry: true, mode: "text" }), setTrouble);
-      if (!("tripId" in p)) {
-        setCarryFailed(true);
-        setBusy(false);
-        return;
-      }
-      setPlan(p);
-      if (p.greeting) say({ who: "tutor", text: p.greeting, tone: "aside" });
+      let p: Plan | { error: string } = { error: "no active trip" };
+      if (carrying) p = await persist(() => postJSON<Plan | { error: string }>("/api/session", { carry: true, mode: "text" }), setTrouble);
+      const fresh = !("tripId" in p);
+      if (fresh) p = await persist(() => postJSON<Plan>("/api/session", { mode: "text" }), setTrouble);
+      setPlan(p as Plan);
+      say({ who: "tutor", text: (p as Plan).greeting ?? "Here we go.", tone: "aside" });
+      const target = params.get("goto");
+      if (fresh && target) await step("goto", { target });
       await step("next");
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -119,17 +108,10 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
     router.push(`/trip/${r.tripId}/summary`);
   }
 
-  if (!course || (carrying && !plan && !carryFailed))
+  if (!course || !plan)
     return (
       <Screen>
         <p className="text-[17px] text-muted">Getting your place…</p>
-      </Screen>
-    );
-  if (!plan)
-    return (
-      <Screen>
-        <TopBar left={<BackLink href="/" />} title="Read quietly" right={<ModePill to="listen" onClick={() => router.push(plan ? "/learn/voice?carry=1" : "/learn/voice")} />} />
-        <TripPicker label="Read quietly: short text, tap to answer" onStart={start} busy={busy} />
       </Screen>
     );
 

@@ -59,7 +59,7 @@ Everything the agent does not need (ids, options arrays, flags) stays in the cli
 
 ## 6. Test checklist
 
-Text-only rehearsal without a mic: open `/learn/voice?text=1`, start, and type commands in the box. Same agent, same tools, no TTS credits.
+Text-only rehearsal without a mic: open `/learn/voice?text=1` and tap the dial. Same agent, same tools, no TTS credits; it reads on its own but takes no commands (the Dial is hands-free, so there is no text box; use Read mode for a typed run).
 
 1. `npm run dev`, open `/learn/voice`, pick 10 min, Start talking. Allow mic.
 2. Agent greets with the server line ("Back in chapter one… Here we go") and starts reading by itself: the client arms auto-continue before the session, so the first `listening` sends "continue" and the agent calls `next`. No "go" needed.
@@ -81,4 +81,4 @@ Text-only rehearsal without a mic: open `/learn/voice?text=1`, start, and type c
 
 ## 9. Cost notes
 
-ElevenLabs bills ~500 credits per minute of conversation regardless of tokens, plus LLM passthrough. Smaller tool returns cut only the passthrough line (~R0.20/min → ~R0.12/min); the reason for the block discipline is reliability and latency, not rands. The client ends the session at `estMinutes + 3` and nudges the agent to wrap up at `estMinutes + 1`. `max_duration_seconds` is 2400 as a backstop.
+ElevenLabs bills ~500 credits per minute of conversation regardless of tokens, plus LLM passthrough. Smaller tool returns cut only the passthrough line (~R0.20/min → ~R0.12/min); the reason for the block discipline is reliability and latency, not rands. Trips are open-ended (no planned length); the client hard-stops a forgotten tab after 2 hours (`HARD_STOP_MS` in `VoiceAgent.tsx`). `max_duration_seconds` is 7200 as the agent-side backstop (run `npm run agent:configure` after changing it).

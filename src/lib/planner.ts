@@ -1,51 +1,22 @@
-// Session planner: fit N segments into the minutes the user has. See docs/OUTLINE.md §5.
-import {
-  CHECKPOINT_OVERHEAD_SEC,
-  INTRO_SEC,
-  MAX_SEGMENTS_PER_TRIP,
-  allSegments,
-  type Course,
-  type Mode,
-  type Plan,
-  type Progress,
-  type SegmentMeta,
-} from "@/types/lesson";
+// Session planner: trips are open-ended (they run until the learner ends them), so all the
+// planner does is pick where the trip starts. See docs/OUTLINE.md §5.
+import { allSegments, type Course, type Mode, type Plan, type Progress } from "@/types/lesson";
 
-export function segmentCostSec(seg: SegmentMeta, mode: Mode): number {
-  return seg.durationSec + seg.checkpoint.length * CHECKPOINT_OVERHEAD_SEC[mode];
-}
-
-export function planTrip(course: Course, progress: Progress, minutes: number, mode: Mode): Plan {
+export function planTrip(course: Course, progress: Progress, _mode: Mode): Plan {
   const segments = allSegments(course);
   const done = new Set(progress.segmentsCompleted);
 
-  // 1. start at resume pointer, else first incomplete segment
+  // start at resume pointer, else first incomplete segment
   let startIdx = segments.findIndex((s) => s.id === progress.resume.segmentId);
   if (startIdx < 0 || done.has(segments[startIdx].id)) {
     startIdx = segments.findIndex((s) => !done.has(s.id));
   }
   if (startIdx < 0) startIdx = 0; // course finished: replay from the top
-
-  // 2–4. greedy fill
-  let budget = minutes * 60 - INTRO_SEC;
-  const picked: SegmentMeta[] = [];
-  for (let i = startIdx; i < segments.length && picked.length < MAX_SEGMENTS_PER_TRIP; i++) {
-    const seg = segments[i];
-    if (done.has(seg.id) && picked.length > 0) continue;
-    const cost = segmentCostSec(seg, mode);
-    if (cost > budget && picked.length > 0) break;
-    picked.push(seg);
-    budget -= cost;
-  }
-
-  const estMinutes = Math.round(
-    (INTRO_SEC + picked.reduce((a, s) => a + segmentCostSec(s, mode), 0)) / 60,
-  );
+  const first = segments[startIdx];
 
   return {
     tripId: `trip-${Date.now().toString(36)}`,
-    segmentIds: picked.map((s) => s.id),
-    estMinutes,
-    startAt: { segmentId: picked[0].id, position: progress.resume.segmentId === picked[0].id ? progress.resume.position : "start" },
+    segmentIds: [],
+    startAt: { segmentId: first.id, position: progress.resume.segmentId === first.id ? progress.resume.position : "start" },
   };
 }
