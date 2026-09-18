@@ -6,7 +6,7 @@ import { DEFAULT_COURSE_ID, loadCourse } from "@/lib/course";
 import { courseFinished, currentChapter, greeting, hereId, legIndex, resumeCard, routeState } from "@/lib/view";
 import { RouteLine } from "@/components/carry/RouteLine";
 import { Screen } from "@/components/carry/Chrome";
-import { HeadphonesIcon, LinesIcon } from "@/components/carry/Icons";
+import { BookIcon, HeadphonesIcon, LinesIcon } from "@/components/carry/Icons";
 
 export const dynamic = "force-dynamic";
 
@@ -77,6 +77,13 @@ export default function Resume() {
               <span className="flex flex-col gap-0.5">
                 <span className="text-lg font-bold">Listen</span>
                 <span className="text-sm font-medium">Audio, answer out loud or type</span>
+              </span>
+            </Link>
+            <Link href="/learn/study" className="flex min-h-[68px] items-center gap-4 rounded-2xl bg-panel px-5 py-3 text-ink">
+              <BookIcon size={26} />
+              <span className="flex flex-col gap-0.5">
+                <span className="text-lg font-bold">Study</span>
+                <span className="text-sm font-medium">Not travelling: the book, read aloud, ask anything</span>
               </span>
             </Link>
           </>

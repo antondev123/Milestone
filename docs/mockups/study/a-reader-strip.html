@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study mode A — Reader with a now-reading strip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#F5F2EC; --panel:#EDE7DB; --ink:#16324F; --gold:#E0A419; --muted:#5C6570;
+  --rule:#D6CCBA; --track:#DDD4C4; --ink-raised:#22425F; --ink-track:#2E4E6C; --muted-on-ink:#B8C3CF;
+  --ink-deep:#0B2137;
+  --serif:"Fraunces",Georgia,serif; --sans:"Public Sans",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:#D9D5CD;color:var(--ink);font-family:var(--sans)}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit;padding:0}
+button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+svg.i{width:24px;height:24px;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;flex:none}
+
+/* ---------- backdrop layout ---------- */
+.wrap{display:flex;flex-wrap:wrap;gap:36px;align-items:flex-start;justify-content:center;padding:40px 24px 64px}
+.caption{width:390px;font:500 13px/1.4 var(--sans);color:#4A4F56;margin:14px 0 0;text-align:center}
+
+/* ---------- phone frame ---------- */
+.frame{width:390px;height:844px;border-radius:52px;background:var(--ink);padding:10px;flex:none}
+.screen{position:relative;width:370px;height:824px;border-radius:42px;background:var(--ground);overflow:hidden;display:flex;flex-direction:column}
+
+/* ---------- top bar ---------- */
+.top{position:relative;height:44px;margin-top:14px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 12px}
+.top .title{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:600 15px var(--sans);color:var(--ink);white-space:nowrap}
+.top .back{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:22px}
+.pill{height:44px;border:2px solid var(--ink);border-radius:22px;display:flex;align-items:center;gap:8px;padding:0 14px 0 10px;font:600 14px var(--sans);color:var(--ink)}
+.pill .on,.pill .off{display:flex;align-items:center;gap:8px}
+.screen.off .pill .on{display:none}
+.screen:not(.off) .pill .off{display:none}
+
+/* ---------- reading page ---------- */
+.scroll{flex:1;overflow-y:auto;scrollbar-width:none;position:relative}
+.scroll::-webkit-scrollbar{display:none}
+.page{position:relative;padding:12px 24px 200px;font:400 19px/1.6 var(--sans);color:var(--ink)}
+.screen.off .page{padding-bottom:56px}
+.page h1{font:600 30px/1.2 var(--serif);margin:10px 0 20px;letter-spacing:-.01em}
+.page h2{font:600 24px/1.25 var(--serif);margin:34px 0 12px}
+.page p{margin:0 0 20px}
+.page .lead{font-weight:700}
+.page sup{font-size:12px;line-height:0;vertical-align:super;margin-left:1px;color:var(--muted)}
+.lo{background:var(--panel);border-radius:20px;padding:18px 20px 20px;margin:0 0 26px}
+.lo .lo-label{font:600 20px/1.2 var(--serif);margin:0 0 10px}
+.lo ol{margin:0;padding-left:22px;font-size:18px;line-height:1.5}
+.pagemark{display:flex;align-items:center;gap:12px;margin:8px 0 30px;color:var(--muted);font:500 13px var(--sans)}
+.pagemark::before,.pagemark::after{content:"";flex:1;height:1px;background:var(--rule)}
+
+/* sentences and words */
+.s{cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+.s.cur{color:var(--ink-deep)}
+.w{border-radius:4px;padding:1px 2px;margin:-1px -2px;transition:background-color .12s}
+.w.cur{background:rgba(224,164,25,.35)}
+.screen.off .w.cur{background:transparent}
+.screen.off .s.cur{color:inherit}
+#rule{position:absolute;left:10px;width:3px;background:var(--gold);border-radius:2px;top:0;height:0;transition:top .25s,height .25s;pointer-events:none}
+.screen.off #rule{display:none}
+.askbtn{display:inline-flex;align-items:center;justify-content:center;height:24px;padding:0 9px;margin-left:8px;border:1.5px solid var(--ink);border-radius:12px;font:600 12px var(--sans);color:var(--ink);vertical-align:2px;line-height:1;background:var(--ground)}
+.screen.off .askbtn{display:none}
+
+/* ---------- checkpoint ---------- */
+.checkpoint{margin-top:44px;padding-top:32px;border-top:1px solid var(--rule)}
+.checkpoint h2{font:600 28px/1.2 var(--serif);margin:0 0 6px}
+.qnum{font:600 13px var(--sans);color:var(--muted);margin:20px 0 6px}
+.q{font:500 19px/1.5 var(--sans);margin:0 0 14px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:64px;padding:0 20px;background:var(--panel);border:2px solid transparent;border-radius:14px;font:500 18px var(--sans);color:var(--ink);text-align:left;transition:background-color .15s}
+.opt svg{color:var(--gold);display:none}
+.opt.correct{background:var(--ink);color:var(--ground)}
+.opt.correct svg{display:block}
+.opt.wrong{border-color:var(--ink)}
+.opt:disabled{cursor:default}
+.fb{border:2px solid var(--ink);border-radius:16px;padding:16px 18px;margin-top:16px}
+.fb[hidden]{display:none}
+.fb .verdict{font:600 22px/1.2 var(--serif);margin:0}
+.fb p{margin:8px 0 0;font:400 16px/1.5 var(--sans)}
+.src{margin-top:10px;font:italic 400 14px/1.4 var(--serif);color:var(--muted)}
+textarea{width:100%;min-height:124px;resize:vertical;background:var(--ground);border:2px solid var(--rule);border-radius:16px;padding:14px 16px;font:400 17px/1.5 var(--sans);color:var(--ink)}
+textarea::placeholder{color:var(--muted)}
+.primary{width:100%;min-height:60px;margin-top:14px;background:var(--gold);color:var(--ink);border-radius:16px;font:700 18px var(--sans);display:flex;align-items:center;justify-content:center;gap:10px}
+.primary:disabled{cursor:default;opacity:.55}
+.primary .dots{display:inline-flex;gap:4px}
+.primary .dots i{width:6px;height:6px;border-radius:3px;background:var(--ink);animation:blink 1s infinite}
+.primary .dots i:nth-child(2){animation-delay:.2s}.primary .dots i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.switch{margin:36px 0 0;text-align:center;font:500 14px/1.5 var(--sans);color:var(--muted)}
+.switch button{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;font:600 15px var(--sans);color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- mini-player strip ---------- */
+.strip{position:absolute;left:0;right:0;bottom:0;height:72px;background:var(--ink);color:var(--ground);display:flex;align-items:center;gap:4px;padding:0 8px 0 8px;border-radius:0 0 42px 42px}
+.screen.off .strip{display:none}
+.strip .ctl{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:22px;flex:none;color:var(--ground)}
+.strip .ctl:active{background:var(--ink-raised)}
+.strip .play svg{width:28px;height:28px}
+.strip .play .pause{display:none}
+.strip.playing .play .pause{display:block}
+.strip.playing .play .go{display:none}
+.stripText{flex:1;min-width:0;height:44px;display:flex;flex-direction:column;justify-content:center;gap:7px;cursor:pointer;overflow:hidden}
+.stripBox{overflow:hidden;height:22px;position:relative}
+#stripLine{display:inline-block;white-space:nowrap;font:500 16px/22px var(--sans);transition:transform .25s ease;will-change:transform;padding:0 4px}
+.sw{border-radius:3px;padding:0 2px;margin:0 -2px}
+.sw.cur{background:rgba(224,164,25,.5)}
+.bar{height:3px;background:var(--ink-track);border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .3s}
+.speed{width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex:none}
+.speed span{display:inline-flex;align-items:center;justify-content:center;height:26px;padding:0 7px;border:1.5px solid var(--muted-on-ink);border-radius:12px;font:600 12px var(--sans);color:var(--ground);letter-spacing:.01em}
+
+/* ---------- FAB ---------- */
+.fab{position:absolute;right:16px;bottom:88px;width:56px;height:56px;border-radius:28px;background:var(--ink);color:var(--ground);display:flex;align-items:center;justify-content:center;transition:bottom .2s}
+.screen.off .fab{bottom:20px}
+.fab svg{width:26px;height:26px}
+
+/* ---------- assistant sheet ---------- */
+.scrim{position:absolute;inset:0;background:rgba(22,50,79,.35);opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.open{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;height:60%;background:var(--ground);border-radius:20px 20px 42px 42px;transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column}
+.sheet.open{transform:translateY(0)}
+.handle{width:36px;height:4px;border-radius:2px;background:var(--track);margin:10px auto 6px;flex:none}
+.sheetHead{display:flex;align-items:center;justify-content:space-between;padding:0 8px 0 20px;flex:none}
+.sheetHead h3{font:600 22px/1.2 var(--serif);margin:0}
+.sheetHead .x{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:22px}
+.ctx{margin:8px 20px 0;padding:10px 12px 10px 14px;border-left:3px solid var(--gold);background:var(--panel);border-radius:0 12px 12px 0;font:italic 400 15px/1.45 var(--serif);color:var(--ink);flex:none}
+.ctx small{display:block;font:600 12px var(--sans);color:var(--muted);margin-bottom:3px;font-style:normal}
+.ctx[hidden]{display:none}
+.msgs{flex:1;overflow-y:auto;scrollbar-width:none;padding:12px 20px 8px;display:flex;flex-direction:column;gap:10px}
+.msgs::-webkit-scrollbar{display:none}
+.m{max-width:88%;padding:10px 14px;border-radius:16px;font:400 16px/1.5 var(--sans)}
+.m.user{align-self:flex-end;background:var(--ink);color:var(--ground);border-bottom-right-radius:6px}
+.m.ai{align-self:flex-start;background:var(--panel);color:var(--ink);border-bottom-left-radius:6px}
+.m q{font-style:italic;font-family:var(--serif);quotes:"\201C" "\201D"}
+.m .src{margin-top:8px;font-size:13px}
+.m.typing{display:flex;gap:5px;padding:14px 16px}
+.m.typing i{width:7px;height:7px;border-radius:4px;background:var(--muted);animation:blink 1s infinite}
+.m.typing i:nth-child(2){animation-delay:.2s}.m.typing i:nth-child(3){animation-delay:.4s}
+.chips{display:flex;gap:8px;padding:6px 20px 8px;overflow-x:auto;scrollbar-width:none;flex:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;height:44px;display:flex;align-items:center;padding:0 14px;border:1.5px solid var(--ink);border-radius:12px;font:600 14px var(--sans);color:var(--ink);white-space:nowrap}
+.compose{display:flex;gap:8px;align-items:center;padding:6px 16px 22px 20px;flex:none}
+.compose input{flex:1;min-width:0;height:48px;border:2px solid var(--rule);border-radius:16px;background:var(--ground);padding:0 14px;font:400 16px var(--sans);color:var(--ink)}
+.compose input::placeholder{color:var(--muted)}
+.compose .send{width:48px;height:48px;border-radius:16px;background:var(--gold);color:var(--ink);display:flex;align-items:center;justify-content:center;flex:none}
+
+/* ---------- team notes ---------- */
+.notes{width:390px;max-width:100%;background:var(--ground);border-radius:20px;padding:22px 24px 24px;color:var(--ink);flex:none}
+.notes h2{font:600 22px/1.2 var(--serif);margin:0 0 4px}
+.notes .sub{font:500 13px var(--sans);color:var(--muted);margin:0 0 14px}
+.notes h4{font:600 13px var(--sans);color:var(--muted);margin:16px 0 6px}
+.notes ul{margin:0;padding-left:18px;font:400 14px/1.5 var(--sans)}
+.notes li{margin:0 0 6px}
+.notes code{font:500 12.5px ui-monospace,Menlo,Consolas,monospace;background:var(--panel);padding:1px 5px;border-radius:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div>
+<div class="frame"><div class="screen" id="screen">
+
+  <!-- top bar -->
+  <div class="top">
+    <button class="back" aria-label="Back"><svg class="i" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="title">1.4 · Leg 5 of 8</div>
+    <button class="pill" id="audioToggle" aria-label="Toggle read-aloud">
+      <span class="on"><svg class="i" viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>Read aloud</span>
+      <span class="off"><svg class="i" viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M16 9l6 6M22 9l-6 6"/></svg>Audio off</span>
+    </button>
+  </div>
+
+  <!-- reading page -->
+  <div class="scroll" id="scroll">
+    <div class="page" id="page">
+      <div id="rule"></div>
+      <div id="content"></div>
+
+      <!-- checkpoint -->
+      <section class="checkpoint" id="checkpoint">
+        <h2>Check your understanding</h2>
+        <div class="qnum">Question 1 of 2</div>
+        <p class="q">According to classical management theory, what is the most direct reports a manager can reasonably handle?</p>
+        <div class="opts" id="opts">
+          <button class="opt" data-v="Seven">Seven<svg class="i" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></button>
+          <button class="opt" data-v="Twelve">Twelve<svg class="i" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></button>
+          <button class="opt" data-v="Thirty">Thirty<svg class="i" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></button>
+        </div>
+        <div class="fb" id="fb1" hidden>
+          <h3 class="verdict" id="fb1v"></h3>
+          <p id="fb1t"></p>
+          <div class="src">From Principles of Management by OpenStax, section 1.4</div>
+        </div>
+
+        <div class="qnum">Question 2 of 2</div>
+        <p class="q">Why does the chapter call efficiency the core management skill of the twenty-first century?</p>
+        <textarea id="openAns" placeholder="Answer in a sentence or two"></textarea>
+        <button class="primary" id="checkBtn" disabled><span id="checkLbl">Check my answer</span></button>
+        <div class="fb" id="fb2" hidden>
+          <h3 class="verdict" id="fb2v"></h3>
+          <p id="fb2t"></p>
+          <div class="src">From Principles of Management by OpenStax, section 1.4</div>
+        </div>
+
+        <div class="switch">
+          <button><svg class="i" viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><path d="M4 15h3v5H4zM17 15h3v5h-3z"/></svg>Switch to Listen mode</button>
+          <div>Your place carries over.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- floating assistant button -->
+  <button class="fab" id="fab" aria-label="Ask about this passage"><svg class="i" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></button>
+
+  <!-- mini-player strip -->
+  <div class="strip" id="strip">
+    <button class="ctl play" id="playBtn" aria-label="Play or pause">
+      <svg class="i go" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+      <svg class="i pause" viewBox="0 0 24 24" style="stroke-width:2.6"><path d="M8 5v14M16 5v14"/></svg>
+    </button>
+    <div class="stripText" id="stripText" title="Scroll to the spoken sentence">
+      <div class="stripBox"><span id="stripLine"></span></div>
+      <div class="bar"><i id="barFill"></i></div>
+    </div>
+    <button class="ctl" id="prevBtn" aria-label="Back one sentence"><svg class="i" viewBox="0 0 24 24"><path d="M6 6v12M18 18l-8-6 8-6z"/></svg></button>
+    <button class="ctl" id="nextBtn" aria-label="Forward one sentence"><svg class="i" viewBox="0 0 24 24"><path d="M18 6v12M6 18l8-6-8-6z"/></svg></button>
+    <button class="speed" id="speedBtn" aria-label="Playback speed"><span id="speedLbl">1.0×</span></button>
+  </div>
+
+  <!-- assistant sheet -->
+  <div class="scrim" id="scrim"></div>
+  <div class="sheet" id="sheet" role="dialog" aria-label="Ask about this passage">
+    <div class="handle"></div>
+    <div class="sheetHead">
+      <h3>Ask about this passage</h3>
+      <button class="x" id="closeSheet" aria-label="Close"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="ctx" id="ctx" hidden><small>Asking about</small><span id="ctxQuote"></span></div>
+    <div class="msgs" id="msgs"></div>
+    <div class="chips">
+      <button class="chip" data-chip="explain">Explain this sentence</button>
+      <button class="chip" data-chip="example">Give me an example</button>
+      <button class="chip" data-chip="quiz">Quiz me on this</button>
+    </div>
+    <div class="compose">
+      <input id="askInput" type="text" placeholder="Ask anything about 1.4" autocomplete="off">
+      <button class="send" id="sendBtn" aria-label="Send"><svg class="i" viewBox="0 0 24 24"><path d="M4 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+
+</div></div>
+<p class="caption">Direction A · Reader with a now-reading strip · 390×844. Tap a sentence to jump, long-press to ask.</p>
+</div>
+
+<!-- notes for the team -->
+<aside class="notes">
+  <h2>Notes for the team</h2>
+  <p class="sub">Direction A — reader with a now-reading strip</p>
+  <h4>What it optimises for</h4>
+  <ul>
+    <li>The book as it is. One reflowed page, real headings, objectives box, footnote and page marker. Nothing sits between the learner and the text except a single pinned line.</li>
+    <li>Eyes and ears in sync: word highlight in the page, the same sentence mirrored in the strip, so scrolling away never loses the place. Tap the strip to snap back.</li>
+    <li>Audio off degrades to a plain reader with zero chrome; ask and checkpoint keep working.</li>
+  </ul>
+  <h4>What it costs</h4>
+  <ul>
+    <li>72px strip plus a floating button on a 390px screen. Long sentences scroll inside the strip like a teleprompter, which some people find busy; a two-line strip would trade height for calm.</li>
+    <li>Word highlight inside Fraunces headings is louder than in body text; we may skip word-level on headings and only rule the sentence.</li>
+  </ul>
+  <h4>What the engine needs</h4>
+  <ul>
+    <li>Word timing from ElevenLabs TTS <code>with_timestamps</code> (character offsets) mapped onto the verbatim leg text in <code>data/courses/pom/verbatim/</code>. Cursor stays block-level on the server; the client owns word and sentence index inside the block.</li>
+    <li>Sentence tap or −1/+1 is a client seek inside the current block (no server call). Crossing a block boundary calls <code>next</code> or <code>goto</code>. A small sentence splitter is needed (abbreviations, quotes, footnote markers glued to the last word).</li>
+    <li>The sheet calls <code>ask</code> with the tapped sentence prepended as context; <code>explain</code> already grounds on the segment. Playback pauses while the sheet is open and resumes at the same word.</li>
+    <li>Checkpoint: MCQ graded locally; open answer goes to the grader (~4 s, mocked here at 1.5 s). Keep the textarea editable on "Partly there" so a retry is one tap.</li>
+  </ul>
+</aside>
+
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+
+  /* ---------- content (verbatim from source-1.4.txt) ---------- */
+  var blocks = [
+    { t:'h1', s:["1.4 Major Characteristics of the Manager's Job"] },
+    { t:'lo', s:["Understand the characteristics that effective managers display"] },
+    { t:'p', lead:true, fn:{idx:6, n:"20"},
+      gist:"Managers have always felt short of time, but late in the twentieth century demand on their time grew while the day stayed at 24 hours. Working longer stopped paying off, so their work became brief, fragmented and mostly spoken.",
+      s:[
+        "Time is fragmented.",
+        "Managers have acknowledged from antiquity that they never seem to have enough time to get all those things done that need to be done.",
+        "In the latter years of the twentieth century, however, a new phenomenon arose: demand for time from those in leadership roles increased, while the number of hours in a day remained constant.",
+        "Increased work hours was one reaction to such demand, but managers quickly discovered that the day had just 24 hours and that working more of them produced diminishing marginal returns.",
+        "According to one researcher, “Managers are overburdened with obligations yet cannot easily delegate their tasks.",
+        "As a result, they are driven to overwork and forced to do many tasks superficially.",
+        "Brevity, fragmentation, and verbal communication characterize their work.”"
+      ]},
+    { t:'p', lead:true,
+      gist:"Every group around a manager wants something different: employees want time, customers want speed and quality, supervisors want budget, shareholders want returns. Nobody gets everything, so decisions tend to go to whatever is most urgent and closest.",
+      s:[
+        "Values compete and the various roles are in tension.",
+        "Managers clearly cannot satisfy everyone.",
+        "Employees want more time to do their jobs; customers want products and services delivered quickly and at high quality levels.",
+        "Supervisors want more money to spend on equipment, training, and product development; shareholders want returns on investment maximized.",
+        "A manager caught in the middle cannot deliver to each of these people what each most wants; decisions are often based on the urgency of the need and the proximity of the problem."
+      ]},
+    { t:'p', lead:true,
+      gist:"Reorganisations removed middle management, so the managers who stayed ended up with about twice as many direct reports. Classical theory says seven is the reasonable ceiling; with today's technology many managers have 20 or 30.",
+      s:[
+        "The job is overloaded.",
+        "In recent years, many North American and global businesses were reorganized to make them more efficient, nimble, and competitive.",
+        "For the most part, this reorganization meant decentralizing many processes along with the wholesale elimination of middle management layers.",
+        "Many managers who survived such downsizing found that their number of direct reports had doubled.",
+        "Classical management theory suggests that seven is the maximum number of direct reports a manager can reasonably handle.",
+        "Today, high-speed information technology and remarkably efficient telecommunication systems mean that many managers have as many as 20 or 30 people reporting to them directly."
+      ]},
+    { t:'p', lead:true,
+      gist:"Four pressures stack up: less time, time broken into smaller pieces, work that follows managers home and on holiday, and more responsibility in flatter organisations. Getting more done with less is what the chapter calls the core skill of the century.",
+      s:[
+        "Efficiency is a core skill.",
+        "With less time than they need, with time fragmented into increasingly smaller units during the workday, with the workplace following many managers out the door and even on vacation, and with many more responsibilities loaded onto managers in downsized, flatter organizations, efficiency has become the core management skill of the twenty-first century."
+      ]},
+    { t:'h2', s:["What Varies in a Manager's Job?"] },
+    { t:'p', label:"The Emphasis",
+      gist:"The entrepreneur part of the job matters more now. Managers have to watch for threats like competitors' breakthroughs and shorter product cycles, and for opportunities like underserved niches, good hires, mergers or better equipment.",
+      s:[
+        "The entrepreneur role is gaining importance.",
+        "Managers must increasingly be aware of threats and opportunities in their environment.",
+        "Threats include technological breakthroughs on the part of competitors, obsolescence in a manager's organization, and dramatically shortened product cycles.",
+        "Opportunities might include product or service niches that are underserved, out-of-cycle hiring opportunities, mergers, purchases, or upgrades in equipment, space, or other assets.",
+        "Managers who are carefully attuned to the marketplace and competitive environment will look for opportunities to gain an advantage."
+      ]},
+    { t:'p',
+      gist:"The leader part matters more too. Organisations only win if they can attract, train, keep and promote good people, so managers must act as mentors. Losing a capable worker stalls everything, and even a great replacement takes time to reach the old level.",
+      s:[
+        "So is the leader role gaining importance.",
+        "Managers must be more sophisticated as strategists and mentors.",
+        "A manager's job involves much more than simple caretaking in a division of a large organization.",
+        "Unless organizations are able to attract, train, motivate, retain, and promote good people, they cannot possibly hope to gain advantage over the competition.",
+        "Thus, as leaders, managers must constantly act as mentors to those in the organization with promise and potential.",
+        "When organizations lose a highly capable worker, all else in their world will come to a halt until they can replace that worker.",
+        "Even if they find someone ideally suited and superbly qualified for a vacant position, they must still train, motivate, and inspire that new recruit, and live with the knowledge that productivity levels will be lower for a while than they were with their previous employee."
+      ]},
+    { t:'h2', s:["Managerial Responsibilities"] },
+    { t:'p',
+      gist:"The chapter defines management as planning, organizing, directing and controlling, and says managers' own descriptions of their responsibilities fall into nine kinds of activity, listed on the next page.",
+      s:[
+        "An important question often raised about managers is: What responsibilities do managers have in organizations?",
+        "According to our definition, managers are involved in planning, organizing, directing, and controlling.",
+        "Managers have described their responsibilities that can be aggregated into nine major types of activity.",
+        "These include:"
+      ]},
+    { t:'page', text:"10 (1.4.1)" }
+  ];
+
+  var words = [], sentences = [];
+  var content = $('content');
+
+  function mkSentence(text, opts){
+    var s = document.createElement('span');
+    s.className = 's' + (opts.bold ? ' lead' : '');
+    var si = sentences.length;
+    s.dataset.i = si;
+    var first = words.length;
+    var parts = text.split(' ');
+    parts.forEach(function(p, k){
+      var w = document.createElement('span');
+      w.className = 'w';
+      w.textContent = p;
+      words.push({ el:w, si:si, text:p });
+      s.appendChild(w);
+      if (k < parts.length - 1) s.appendChild(document.createTextNode(' '));
+    });
+    if (opts.fn){ var sup = document.createElement('sup'); sup.textContent = opts.fn; s.appendChild(sup); }
+    sentences.push({ el:s, text:text, first:first, last:words.length - 1, block:opts.block });
+    return s;
+  }
+
+  blocks.forEach(function(b){
+    var el;
+    if (b.t === 'h1'){ el = document.createElement('h1'); el.appendChild(mkSentence(b.s[0], {block:b})); }
+    else if (b.t === 'h2'){ el = document.createElement('h2'); el.appendChild(mkSentence(b.s[0], {block:b})); }
+    else if (b.t === 'lo'){
+      el = document.createElement('div'); el.className = 'lo';
+      var lab = document.createElement('div'); lab.className = 'lo-label'; lab.textContent = 'Learning objectives';
+      var ol = document.createElement('ol'); var li = document.createElement('li');
+      li.appendChild(mkSentence(b.s[0], {block:b})); ol.appendChild(li);
+      el.appendChild(lab); el.appendChild(ol);
+    }
+    else if (b.t === 'page'){ el = document.createElement('div'); el.className = 'pagemark'; el.textContent = b.text; }
+    else {
+      el = document.createElement('p');
+      if (b.label){ var lb = document.createElement('b'); lb.className = 'lead'; lb.textContent = b.label + ' '; el.appendChild(lb); }
+      b.s.forEach(function(t, k){
+        el.appendChild(mkSentence(t, { bold: b.lead && k === 0, fn: (b.fn && b.fn.idx === k) ? b.fn.n : null, block:b }));
+        if (k < b.s.length - 1) el.appendChild(document.createTextNode(' '));
+      });
+    }
+    content.appendChild(el);
+  });
+
+  /* ---------- playback state ---------- */
+  var screen = $('screen'), scroller = $('scroll'), page = $('page'), rule = $('rule');
+  var strip = $('strip'), stripLine = $('stripLine'), stripBox = stripLine.parentNode, barFill = $('barFill');
+  var askBtn = document.createElement('button'); askBtn.className = 'askbtn'; askBtn.textContent = 'Ask';
+  var wi = 0, curSi = -1, playing = false, timer = null, speed = 1, audioOn = true, finished = false;
+  var BASE = 1000 / 2.6;
+  var speeds = [1, 1.25, 1.5, 0.8];
+
+  function positionRule(){
+    if (curSi < 0) return;
+    var rects = sentences[curSi].el.getClientRects();
+    if (!rects.length) return;
+    var pr = page.getBoundingClientRect();
+    var top = rects[0].top - pr.top, bottom = rects[rects.length - 1].bottom - pr.top;
+    rule.style.top = (top + 2) + 'px';
+    rule.style.height = Math.max(0, bottom - top - 4) + 'px';
+  }
+
+  // Scroll inside the page pane only. scrollIntoView would also scroll the overflow:hidden .screen and shove the top bar off.
+  function scrollToEl(el){
+    var r = el.getBoundingClientRect(), sr = scroller.getBoundingClientRect();
+    var bottom = r.bottom - sr.top, limit = scroller.clientHeight - (audioOn ? 72 : 0) - 16;
+    if (bottom > limit) scroller.scrollTo({ top: scroller.scrollTop + (bottom - limit), behavior:'smooth' });
+  }
+  var screenEl = document.querySelector('.screen');
+  screenEl.addEventListener('scroll', function(){ screenEl.scrollTop = 0; screenEl.scrollLeft = 0; });
+  function scrollToSentence(force){
+    if (curSi < 0) return;
+    var el = sentences[curSi].el;
+    var r = el.getBoundingClientRect(), sr = scroller.getBoundingClientRect();
+    var top = r.top - sr.top, bottom = r.bottom - sr.top;
+    var bandTop = 24, bandBottom = scroller.clientHeight - (audioOn ? 72 : 0) - 48;
+    if (force || top < bandTop || bottom > bandBottom){
+      scroller.scrollTo({ top: scroller.scrollTop + top - scroller.clientHeight * 0.28, behavior:'smooth' });
+    }
+  }
+
+  function buildStrip(si){
+    stripLine.innerHTML = '';
+    var s = sentences[si];
+    for (var i = s.first; i <= s.last; i++){
+      var sw = document.createElement('span'); sw.className = 'sw'; sw.dataset.i = i; sw.textContent = words[i].text;
+      stripLine.appendChild(sw);
+      if (i < s.last) stripLine.appendChild(document.createTextNode(' '));
+    }
+    stripLine.style.transform = 'translateX(0)';
+  }
+
+  function setSentence(si){
+    if (curSi >= 0) sentences[curSi].el.classList.remove('cur');
+    curSi = si;
+    var s = sentences[si];
+    s.el.classList.add('cur');
+    s.el.appendChild(askBtn);
+    buildStrip(si);
+    positionRule();
+    if (audioOn) scrollToSentence(false);
+  }
+
+  function updateStrip(i){
+    var prev = stripLine.querySelector('.sw.cur'); if (prev) prev.classList.remove('cur');
+    var sw = stripLine.querySelector('.sw[data-i="' + i + '"]');
+    if (!sw) return;
+    sw.classList.add('cur');
+    var boxW = stripBox.clientWidth, lineW = stripLine.scrollWidth;
+    var tx = 0;
+    if (lineW > boxW){
+      var mid = sw.offsetLeft + sw.offsetWidth / 2;
+      tx = boxW / 2 - mid;
+      tx = Math.min(0, Math.max(boxW - lineW, tx));
+    }
+    stripLine.style.transform = 'translateX(' + tx + 'px)';
+  }
+
+  function setWord(i){
+    finished = false;
+    wi = i;
+    var prev = document.querySelector('.page .w.cur'); if (prev) prev.classList.remove('cur');
+    var w = words[i];
+    w.el.classList.add('cur');
+    if (w.si !== curSi) setSentence(w.si);
+    updateStrip(i);
+    barFill.style.width = ((i + 1) / words.length * 100) + '%';
+  }
+
+  function schedule(){
+    clearTimeout(timer);
+    var t = words[wi].text, d = BASE;
+    if (/[.!?”"]$/.test(t)) d += 380; else if (/[,;:]$/.test(t)) d += 140;
+    timer = setTimeout(step, d / speed);
+  }
+  function step(){
+    if (!playing) return;
+    if (wi + 1 >= words.length){ finish(); return; }
+    setWord(wi + 1);
+    schedule();
+  }
+  function finish(){
+    playing = false; finished = true; clearTimeout(timer);
+    strip.classList.remove('playing');
+    barFill.style.width = '100%';
+    stripLine.innerHTML = 'End of the passage. Check your understanding below.';
+    stripLine.style.transform = 'translateX(0)';
+    scroller.scrollTo({ top: $('checkpoint').offsetTop - 12, behavior:'smooth' });
+  }
+  function play(){
+    if (!audioOn) return;
+    if (finished || wi >= words.length - 1){ setWord(0); }
+    playing = true; strip.classList.add('playing');
+    scrollToSentence(false);
+    schedule();
+  }
+  function pause(){
+    playing = false; clearTimeout(timer); strip.classList.remove('playing');
+  }
+  function jumpTo(i, keepPlaying){
+    setWord(i);
+    if (playing) schedule();
+    else if (keepPlaying) play();
+  }
+  function jumpSentence(delta){
+    var si = Math.max(0, Math.min(sentences.length - 1, curSi + delta));
+    jumpTo(sentences[si].first, false);
+    scrollToSentence(false);
+  }
+
+  $('playBtn').addEventListener('click', function(){ playing ? pause() : play(); });
+  $('prevBtn').addEventListener('click', function(){ jumpSentence(-1); });
+  $('nextBtn').addEventListener('click', function(){ jumpSentence(1); });
+  $('speedBtn').addEventListener('click', function(){
+    var k = (speeds.indexOf(speed) + 1) % speeds.length; speed = speeds[k];
+    $('speedLbl').textContent = speed.toFixed(speed === 1.25 ? 2 : 1) + '×';
+    if (playing) schedule();
+  });
+  $('stripText').addEventListener('click', function(){ scrollToSentence(true); });
+
+  /* audio toggle */
+  $('audioToggle').addEventListener('click', function(){
+    audioOn = !audioOn;
+    screen.classList.toggle('off', !audioOn);
+    if (!audioOn) pause();
+    else { positionRule(); scrollToSentence(false); }
+  });
+
+  /* tap = jump, long-press = ask */
+  var pressTimer = null, pressSi = -1, longFired = false, startX = 0, startY = 0;
+  page.addEventListener('pointerdown', function(e){
+    if (e.target.closest('.askbtn')) return;
+    var s = e.target.closest('.s'); if (!s) return;
+    pressSi = +s.dataset.i; longFired = false; startX = e.clientX; startY = e.clientY;
+    clearTimeout(pressTimer);
+    pressTimer = setTimeout(function(){ longFired = true; openSheet(pressSi); }, 500);
+  });
+  page.addEventListener('pointermove', function(e){
+    if (pressSi < 0) return;
+    if (Math.abs(e.clientX - startX) > 8 || Math.abs(e.clientY - startY) > 8){ clearTimeout(pressTimer); pressSi = -1; }
+  });
+  page.addEventListener('pointerup', function(e){
+    clearTimeout(pressTimer);
+    if (pressSi < 0 || longFired){ pressSi = -1; return; }
+    if (audioOn) jumpTo(sentences[pressSi].first, false);
+    pressSi = -1;
+  });
+  page.addEventListener('pointercancel', function(){ clearTimeout(pressTimer); pressSi = -1; });
+  page.addEventListener('contextmenu', function(e){ if (e.target.closest('.s')) e.preventDefault(); });
+  askBtn.addEventListener('click', function(e){ e.stopPropagation(); openSheet(curSi); });
+
+  /* ---------- assistant sheet ---------- */
+  var sheet = $('sheet'), scrim = $('scrim'), msgs = $('msgs'), ctxBox = $('ctx'), ctxQuote = $('ctxQuote'), askInput = $('askInput');
+  var ctxSi = -1, quizPending = false, resumeAfter = false;
+  var SRC = '<div class="src">From Principles of Management by OpenStax, section 1.4</div>';
+
+  function addMsg(role, html){
+    var m = document.createElement('div'); m.className = 'm ' + role; m.innerHTML = html;
+    msgs.appendChild(m); msgs.scrollTop = msgs.scrollHeight; return m;
+  }
+  function reply(html, delay){
+    var t = document.createElement('div'); t.className = 'm ai typing'; t.innerHTML = '<i></i><i></i><i></i>';
+    msgs.appendChild(t); msgs.scrollTop = msgs.scrollHeight;
+    setTimeout(function(){ t.remove(); addMsg('ai', html); }, delay || 800);
+  }
+  function q(text){ return '<q>' + text + '</q>'; }
+  function targetSentence(){ return sentences[ctxSi >= 0 ? ctxSi : Math.max(0, curSi)]; }
+
+  function openSheet(si){
+    resumeAfter = playing; pause();
+    ctxSi = (si == null) ? -1 : si;
+    if (ctxSi >= 0){ ctxBox.hidden = false; ctxQuote.textContent = '“' + sentences[ctxSi].text + '”'; }
+    else ctxBox.hidden = true;
+    sheet.classList.add('open'); scrim.classList.add('open');
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  function closeSheet(){
+    sheet.classList.remove('open'); scrim.classList.remove('open');
+    if (resumeAfter && audioOn) play(); resumeAfter = false;
+  }
+  $('fab').addEventListener('click', function(){ openSheet(null); });
+  $('closeSheet').addEventListener('click', closeSheet);
+  scrim.addEventListener('click', closeSheet);
+
+  /* seed exchange */
+  addMsg('user', "What does 'diminishing marginal returns' mean here?");
+  addMsg('ai', 'It means each extra hour of work gives back less than the one before. The passage says managers ' + q('quickly discovered that the day had just 24 hours and that working more of them produced diminishing marginal returns') + ' — with time fragmented and tasks done superficially, adding hours stops adding output.' + SRC);
+
+  document.querySelectorAll('.chip').forEach(function(c){
+    c.addEventListener('click', function(){
+      var kind = c.dataset.chip, s = targetSentence();
+      if (kind === 'explain'){
+        addMsg('user', 'Explain this sentence');
+        var g = s.block && s.block.gist ? s.block.gist : 'This is the section heading; it names what the rest of the passage is about.';
+        reply('The sentence is ' + q(s.text) + ' In plain terms: ' + g + SRC);
+      } else if (kind === 'example'){
+        addMsg('user', 'Give me an example');
+        reply('Take the line ' + q('Many managers who survived such downsizing found that their number of direct reports had doubled.') + ' Picture a regional manager with six store leads. A reorganisation removes the district layer, and twelve store leads now report to her. Classical theory puts the reasonable ceiling at seven, so she leans on the telecommunication tools the chapter mentions, and on being efficient, to keep up.' + SRC);
+      } else {
+        addMsg('user', 'Quiz me on this');
+        quizPending = true;
+        reply('Quick check from this passage: the chapter names four pressures that make efficiency the core skill. Can you name two? (Hint: one of them follows managers out the door.)');
+      }
+    });
+  });
+
+  function send(){
+    var t = askInput.value.trim(); if (!t) return;
+    askInput.value = '';
+    addMsg('user', t.replace(/</g, '&lt;'));
+    if (quizPending){
+      quizPending = false;
+      reply('Good. The four the chapter lists are: less time than they need, time fragmented into smaller units, the workplace following managers out the door and on vacation, and more responsibilities in downsized, flatter organizations.' + SRC, 1100);
+    } else {
+      var s = targetSentence();
+      reply('The closest line in the passage is ' + q(s.text) + ' Want me to explain it, or give an example?' + SRC, 1100);
+    }
+  }
+  $('sendBtn').addEventListener('click', send);
+  askInput.addEventListener('keydown', function(e){ if (e.key === 'Enter') send(); });
+
+  /* ---------- checkpoint ---------- */
+  var mcqDone = false;
+  $('opts').addEventListener('click', function(e){
+    var b = e.target.closest('.opt'); if (!b || mcqDone) return;
+    document.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('wrong'); });
+    var fb = $('fb1'); fb.hidden = false;
+    if (b.dataset.v === 'Seven'){
+      b.classList.add('correct'); mcqDone = true;
+      document.querySelectorAll('.opt').forEach(function(o){ o.disabled = true; });
+      $('fb1v').textContent = "That's right.";
+      $('fb1t').textContent = 'Classical management theory puts the ceiling at seven, even though many managers today have as many as 20 or 30 people reporting to them directly.';
+    } else {
+      b.classList.add('wrong');
+      $('fb1v').textContent = 'Not quite.';
+      $('fb1t').textContent = 'Look back at the paragraph that begins "The job is overloaded." It gives the number classical management theory suggests. Try again.';
+    }
+    scrollToEl(fb);
+  });
+
+  var ta = $('openAns'), checkBtn = $('checkBtn'), checkLbl = $('checkLbl');
+  ta.addEventListener('input', function(){ checkBtn.disabled = ta.value.trim().length === 0; });
+  checkBtn.addEventListener('click', function(){
+    var a = ta.value.trim(); if (!a) return;
+    checkBtn.disabled = true;
+    checkLbl.innerHTML = 'Checking <span class="dots"><i></i><i></i><i></i></span>';
+    $('fb2').hidden = true;
+    setTimeout(function(){
+      var good = /less time|fragment|overload|responsib|flatter|downsiz|vacation|out the door|smaller units|more to do|less/i.test(a);
+      $('fb2v').textContent = good ? 'Good answer.' : 'Partly there.';
+      $('fb2t').textContent = good
+        ? 'You picked up the chapter’s reasoning: managers have less time, it is broken into smaller units, work follows them home, and flatter organizations load them with more responsibility.'
+        : 'The chapter ties it to four pressures: less time than they need, time fragmented into smaller units, the workplace following managers out the door, and more responsibilities in downsized, flatter organizations.';
+      $('fb2').hidden = false;
+      checkLbl.textContent = good ? 'Checked' : 'Check again';
+      checkBtn.disabled = good;
+      scrollToEl($('fb2'));
+    }, 1500);
+  });
+
+  /* ---------- init ---------- */
+  setWord(0);
+  scroller.scrollTop = 0;
+  window.addEventListener('resize', positionRule);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ positionRule(); updateStrip(wi); });
+})();
+</script>
+</body>
+</html>

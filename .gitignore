@@ -6,6 +6,8 @@ out
 *.tsbuildinfo
 next-env.d.ts
 data/progress/*.json
+# read-aloud cache (regenerable, billed per block)
+data/tts/
 !data/progress/.gitkeep
 
 # raw pdftotext dumps are regenerable

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Study mode mockups</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ground:#F5F2EC;--panel:#EDE7DB;--ink:#16324F;--gold:#E0A419;--muted:#5C6570;--rule:#D6CCBA}
+body{margin:0;background:var(--ground);color:var(--ink);font:17px/1.6 'Public Sans',sans-serif;padding:32px 24px 64px}
+main{max-width:760px;margin:0 auto}
+h1{font:600 34px/1.12 Fraunces,Georgia,serif;letter-spacing:-.015em;margin:0 0 8px}
+p.lead{color:var(--muted);margin:0 0 28px}
+a.card{display:block;background:var(--panel);border-radius:20px;padding:22px;margin:0 0 16px;text-decoration:none;color:inherit}
+a.card h2{font:600 22px/1.2 Fraunces,Georgia,serif;margin:0 0 6px}
+a.card p{margin:0;color:var(--muted);font-size:15px}
+a.card span{display:inline-block;margin-top:12px;background:var(--gold);color:var(--ink);font-weight:700;font-size:15px;padding:10px 16px;border-radius:22px}
+h3{font:600 20px/1.2 Fraunces,Georgia,serif;margin:36px 0 10px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+td,th{text-align:left;padding:10px 8px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:600}
+</style></head><body><main>
+<h1>Study mode: three directions</h1>
+<p class="lead">Hands-on, not commuting. The book as it is, read-aloud with the spoken words tracked, an assistant to ask, and a normal tap/type checkpoint. Separate from Listen mode; the place carries over. Each mockup is interactive: press play, toggle audio off, open the assistant, answer the questions.</p>
+
+<a class="card" href="a-reader-strip.html"><h2>A. Reader with a now-reading strip</h2><p>Reflowed page in Carry type. Word highlight on the page, current sentence mirrored in a pinned mini-player at the bottom. Assistant as a bottom sheet. Checkpoint inline at the end of the passage.</p><span>Open A</span></a>
+<a class="card" href="b-page-panel.html"><h2>B. The page as printed, assistant beside it</h2><p>White PDF-style page cards with the LibreTexts look. Highlighter-pen overlay for word and sentence. Floating control pill. Assistant is an edge drawer on the phone and a persistent right column on tablet. Checkpoint slides up as a sheet.</p><span>Open B</span></a>
+<a class="card" href="c-ticker-thread.html"><h2>C. Teleprompter ticker, assistant anchored to sentences</h2><p>Sticky ink strip under the top bar where the current sentence fills in word by word. The page stays quiet (gold rule only). Questions are inline cards pinned to the sentence they were asked about; collapse to a margin dot. Concept check in the book's own style.</p><span>Open C</span></a>
+
+<h3>What they share</h3>
+<table>
+<tr><th>Thing</th><th>Same in all three</th></tr>
+<tr><td>Source of truth</td><td>Verbatim leg text (chapter 1 today), split into sentences on the client. No page images.</td></tr>
+<tr><td>Word timing</td><td>ElevenLabs TTS with timestamps, mapped onto the leg text. Mocked here at 2.6 words/s.</td></tr>
+<tr><td>Cursor</td><td>Server keeps segment + block; sentence/word index is client state. Crossing a block calls the existing <code>next</code>.</td></tr>
+<tr><td>Assistant</td><td>Existing <code>ask</code> tool with the tapped sentence prepended as context. Answers end with the source line.</td></tr>
+<tr><td>Checkpoint</td><td>Existing <code>answer</code> tool. MCQ local, open answer via the grader (~4 s).</td></tr>
+<tr><td>Audio off</td><td>All read-aloud chrome collapses; assistant and checkpoint keep working.</td></tr>
+</table>
+</main></body></html>

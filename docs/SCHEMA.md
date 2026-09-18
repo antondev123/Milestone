@@ -180,7 +180,9 @@ Progress +=  cursor?, detours[] {at, segmentId, question, topic}, bookmarks[], p
 TripSummary += explored[]   detour topics this trip
 Plan += greeting            server-composed opening line
 
-ToolReply { kind: "read"|"ask"|"say"|"end", say, loc, more, options?, correct?, tripId?, segmentId?, offer? }
+ToolReply { kind: "read"|"ask"|"say"|"end", say, loc, more, options?, correct?, tripId?, segmentId?, offer?, qIdx? }
+  qIdx: set on kind "ask" so study mode can render the question locally
+Mode = "voice" | "text" | "study"   (study = hands-on reader; trips log as "studied")
 ```
 `progress.resume` is kept as a mirror of the cursor on every mutation so the planner and summary page are unchanged.
 
@@ -191,8 +193,14 @@ ToolReply { kind: "read"|"ask"|"say"|"end", say, loc, more, options?, correct?, 
 | `next` | `{ peek?: true }` (peek warms the cache without moving) |
 | `explain` | `{ how: "again" \| "simpler" \| "deeper" \| "example" }` |
 | `answer` | `{ text, mode? }` |
-| `ask` | `{ question }` |
+| `ask` | `{ question, context? }` (`context` = a tapped sentence, prepended for the model; `mode: "study"` skips the spoken detour and the "Say continue" tail) |
 | `goto` | `{ target }` (spoken words) |
 | `where_am_i` | – |
 | `interrupted` | – (client barge-in signal) |
 | `end_trip` | – → ToolReply + TripSummary fields + `spoken` |
+| `mark` | `{ segmentId, blockIdx }` study mode: the reader reached a block; cursor moves there (served, not heard) so Listen re-reads it |
+| `check` | `{ segmentId }` study mode: open the checkpoint (phase ask, q1) or reply "Part done."; `answer` grades from here |
+
+### Read-aloud (GET /api/tts)
+
+`?segmentId=&blockIdx=` → `{ text, words: [{start, end}], model, voice }`; `&audio=1` → `audio/mpeg`. One ElevenLabs call per block, cached under `TTS_CACHE_DIR` (default `data/tts`). `words` has one entry per `text.split(/s+/)` item.

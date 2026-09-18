@@ -121,6 +121,16 @@ export function actionExplain(how: string): ToolReply {
   return cursor.explain(course, getProgress(userId, courseId), h);
 }
 
+export function actionMark(segmentId: string, blockIdx: number): ToolReply {
+  const course = loadCourse(courseId);
+  return cursor.mark(course, getProgress(userId, courseId), segmentId, blockIdx);
+}
+
+export function actionCheck(segmentId: string): ToolReply {
+  const course = loadCourse(courseId);
+  return cursor.startCheck(course, getProgress(userId, courseId), segmentId);
+}
+
 export async function actionAnswer(text: string, mode: Mode): Promise<ToolReply> {
   const course = loadCourse(courseId);
   return cursor.answer(course, getProgress(userId, courseId), text, mode);
@@ -165,7 +175,11 @@ export function actionGoto(target: string): ToolReply {
 
 const recentAsks = new Map<string, { q: string; a: string }[]>();
 
-export async function actionAsk(question: string): Promise<ToolReply> {
+/**
+ * context: a sentence the learner tapped (study mode) — prepended for the model, not stored.
+ * detour=false (study mode): no spoken detour bookkeeping and no "Say continue" tail.
+ */
+export async function actionAsk(question: string, opts: { context?: string; detour?: boolean } = {}): Promise<ToolReply> {
   const course = loadCourse(courseId);
   const progress = getProgress(userId, courseId);
   const { cursor: c, segment, place } = cursor.contextFor(course, progress);
@@ -173,7 +187,8 @@ export async function actionAsk(question: string): Promise<ToolReply> {
   const recent = recentAsks.get(key) ?? [];
   let result;
   try {
-    result = await askBook(course, segment, place, question, recent);
+    const asked = opts.context ? `About this sentence from the passage: "${opts.context}"\n\n${question}` : question;
+    result = await askBook(course, segment, place, asked, recent);
   } catch (e) {
     console.error(`[ask] failed: ${(e as Error).message}`);
     return cursor.commitReply(course, progress, { kind: "say", say: "I could not check that one right now. Say go to carry on.", loc: "", more: false });
@@ -190,7 +205,7 @@ export async function actionAsk(question: string): Promise<ToolReply> {
       sayText += ` ${offer.say}`;
     }
   }
-  if (!cur.detour!.offered && !offer) {
+  if (cur && !cur.detour!.offered && !offer) {
     cur.detour!.offered = true;
     sayText += " Say continue when you are ready.";
   }

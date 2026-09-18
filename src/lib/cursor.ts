@@ -5,6 +5,7 @@ import {
   parentId,
   type Course,
   type Cursor,
+  type Mode,
   type Progress,
   type Question,
   type Segment,
@@ -197,7 +198,7 @@ function askQuestion(course: Course, progress: Progress, c: Cursor, prefix: stri
   }
   c.served = true;
   c.heard = true;
-  return { kind: "ask", say: `${prefix}${say.question(q.prompt, q.options)}`.trim(), loc: loc(course, c), more: false, options: q.options };
+  return { kind: "ask", say: `${prefix}${say.question(q.prompt, q.options)}`.trim(), loc: loc(course, c), more: false, options: q.options, qIdx: c.qIdx };
 }
 
 function quizQuestion(course: Course, progress: Progress, c: Cursor): ToolReply {
@@ -219,9 +220,46 @@ function quizQuestion(course: Course, progress: Progress, c: Cursor): ToolReply 
   return { kind: "ask", say: `${intro}${say.question(q.prompt, q.options)}`, loc: loc(course, c), more: false, options: q.options };
 }
 
+// ---------- study mode (hands-on reader) ----------
+
+/**
+ * The reader has reached the start of a block. Point the cursor there so Listen and Read modes
+ * pick up at the same block. heard=false means "mid-block": serveNext re-reads it ("Back to it.")
+ * and the resume card cuts at the end of the previous block.
+ */
+export function mark(course: Course, progress: Progress, segmentId: string, blockIdx: number): ToolReply {
+  const c = ensureCursor(course, progress);
+  const seg = segmentFull(course.id, segmentId);
+  if (c.segmentId !== segmentId) moveTo(c, segmentId);
+  const n = blocks(seg.script).length;
+  c.blockIdx = Math.max(0, Math.min(n - 1, Math.floor(blockIdx)));
+  c.phase = "read";
+  c.served = true;
+  c.heard = false;
+  delete c.lastReply;
+  delete c.detour;
+  return commit(course, progress, c, { kind: "say", say: "", loc: loc(course, c), more: false });
+}
+
+/** Open the checkpoint for a segment. The existing answer() grades and advances from here. */
+export function startCheck(course: Course, progress: Progress, segmentId: string): ToolReply {
+  const c = ensureCursor(course, progress);
+  if (c.segmentId !== segmentId) moveTo(c, segmentId);
+  delete c.detour;
+  delete c.quiz;
+  if (c.phase === "done") return commit(course, progress, c, { kind: "say", say: "Part done.", loc: loc(course, c), more: true });
+  if (c.phase !== "ask") {
+    c.phase = "ask";
+    c.qIdx = 0;
+    c.attempt = 0;
+    c.served = false;
+  }
+  return commit(course, progress, c, askQuestion(course, progress, c, ""));
+}
+
 // ---------- answer ----------
 
-export async function answer(course: Course, progress: Progress, text: string, mode: "voice" | "text"): Promise<ToolReply> {
+export async function answer(course: Course, progress: Progress, text: string, mode: Mode): Promise<ToolReply> {
   const c = ensureCursor(course, progress);
   const q = currentQuestion(course, c);
   if (!q || (c.phase !== "ask" && !c.quiz)) {

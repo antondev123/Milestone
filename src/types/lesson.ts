@@ -1,7 +1,7 @@
 // Source of truth for lesson + progress shapes. See docs/SCHEMA.md for intent.
 // Everything downstream (parse, ingest, planner, text mode, voice tools, summary) imports from here.
 
-export type Mode = "voice" | "text";
+export type Mode = "voice" | "text" | "study"; // study = hands-on reader, not a commute
 
 // ---------- Lesson ----------
 // Two layers: *Meta shapes live in data/courses/<id>/course.json (the manifest, always in memory);
@@ -208,6 +208,7 @@ export interface ToolReply {
   tripId?: string;
   segmentId?: string;
   offer?: { sectionId: string; say: string }; // ask() found a better section; goto on "yes"
+  qIdx?: number; // which checkpoint question this is (set on kind "ask"); study mode renders it locally
 }
 
 export interface Progress {
@@ -260,7 +261,7 @@ export interface GradeResponse {
 
 // ---------- Helpers ----------
 
-export const CHECKPOINT_OVERHEAD_SEC: Record<Mode, number> = { voice: 60, text: 30 };
+export const CHECKPOINT_OVERHEAD_SEC: Record<Mode, number> = { voice: 60, text: 30, study: 30 };
 export const INTRO_SEC = 30;
 export const MAX_SEGMENTS_PER_TRIP = 6;
 export const DEMO_USER_ID = "demo";
