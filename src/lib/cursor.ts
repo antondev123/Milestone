@@ -14,7 +14,7 @@ import {
 import { blocks } from "./chunk";
 import { loadChapterQuiz, loadQuestionFull, loadSegmentFull } from "./course";
 import { gradeAnswer } from "./grader";
-import { completeSegment, recordCheckpoint } from "./progress";
+import { completeSegment, endTrip, recordCheckpoint } from "./progress";
 import * as say from "./say";
 import { saveProgress } from "./store";
 
@@ -164,9 +164,17 @@ export function serveNext(course: Course, progress: Progress, opts: { peek?: boo
   return opts.peek ? r : commit(course, progress, c, r);
 }
 
+/** Out of planned content: the trip ends itself; the reply carries tripId so the UI moves to the summary. */
 function endReply(course: Course, progress: Progress, c: Cursor, peek?: boolean): ToolReply {
-  const r: ToolReply = { kind: "end", say: "That is everything planned for this trip. Say I'm done to finish, or go to keep going.", loc: loc(course, c), more: false };
-  return peek ? r : commit(course, progress, c, r);
+  if (peek || !progress.activeTrip) {
+    const r: ToolReply = { kind: "end", say: "That is the end of the course so far.", loc: loc(course, c), more: false };
+    return peek ? r : commit(course, progress, c, r);
+  }
+  const summary = endTrip(course, progress);
+  delete c.lastReply; // "again" after the trip should not replay the closing line
+  c.updatedAt = new Date().toISOString();
+  saveProgress(progress);
+  return { kind: "end", say: say.tripEnd(progress, course, summary), loc: "end", more: false, tripId: summary.tripId, segmentId: c.segmentId };
 }
 
 function readBlock(course: Course, progress: Progress, c: Cursor, prefix: string): ToolReply {

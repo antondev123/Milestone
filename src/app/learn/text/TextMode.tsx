@@ -64,7 +64,11 @@ function TextMode({ legs, source, carriedFromVoice }: TextModeProps) {
     setLast(r);
     const tone = r.correct === undefined ? undefined : r.correct ? "ok" : "bad";
     say({ who: "tutor", text: r.say, tone, offer: r.offer, segmentId: r.segmentId });
-    if (r.kind === "end" && r.tripId) router.push(`/trip/${r.tripId}/summary`);
+    // the trip ended itself (planned legs ran out): let the closing line show, then the summary
+    if (r.kind === "end" && r.tripId) {
+      const id = r.tripId;
+      setTimeout(() => router.push(`/trip/${id}/summary`), 1500);
+    }
   }
 
   async function step(name: string, body: Record<string, unknown> = {}, echo?: string) {
