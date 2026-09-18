@@ -143,6 +143,7 @@ export interface TripSummary {
   modulePct: number; // 0–100, of the current chapter
   streakDays: number;
   explored?: string[]; // detour topics this trip
+  milestones?: string[]; // milestone ids first earned on this trip (src/lib/milestones.ts)
 }
 
 /** A trip in flight. Cleared when the trip ends and becomes a TripSummary. */

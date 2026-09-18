@@ -4,6 +4,7 @@ import Link from "next/link";
 import { actionProgress } from "@/lib/actions";
 import { DEFAULT_COURSE_ID, loadCourse } from "@/lib/course";
 import { chapterOf, findSegment, sectionOf } from "@/types/lesson";
+import { milestoneLabel } from "@/lib/milestones";
 import { routeState, tripMinutes } from "@/lib/view";
 import { BackLink, Screen, TopBar } from "@/components/carry/Chrome";
 import { RouteLine } from "@/components/carry/RouteLine";
@@ -52,6 +53,20 @@ export default async function Summary({ params }: { params: Promise<{ id: string
         <Stat big={`${trip.correct}/${trip.total}`} small="checks right" />
         <Stat big={String(trip.streakDays)} small={`day streak`} />
       </dl>
+
+      {trip.milestones && trip.milestones.length > 0 && (
+        <div className="flex flex-col gap-2 rounded-[20px] bg-panel p-[18px]">
+          <div className="text-[15px] text-muted">{trip.milestones.length === 1 ? "Milestone reached" : "Milestones reached"}</div>
+          <ul className="flex flex-col gap-2">
+            {trip.milestones.map((id) => (
+              <li key={id} className="flex items-center gap-3 text-[17px] font-semibold">
+                <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-gold ring-2 ring-ink" aria-hidden="true" />
+                {milestoneLabel(id)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="flex flex-col gap-3">
         <div className="flex items-baseline justify-between gap-4">

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { actionProgress } from "@/lib/actions";
 import { DEFAULT_COURSE_ID, loadCourse } from "@/lib/course";
-import { courseFinished, currentChapter, routeState, tripRows } from "@/lib/view";
+import { courseFinished, currentChapter, milestoneRows, routeState, tripRows } from "@/lib/view";
 import { BackLink, Screen, TopBar } from "@/components/carry/Chrome";
 import { RouteLine } from "@/components/carry/RouteLine";
 
@@ -12,6 +12,7 @@ export default function ProgressPage() {
   const course = loadCourse(DEFAULT_COURSE_ID);
   const progress = actionProgress();
   const rows = tripRows(course, progress);
+  const milestones = milestoneRows(progress);
   const minutes = rows.reduce((a, r) => a + r.minutes, 0);
   const chapter = currentChapter(course, progress);
   const route = routeState(chapter, progress, (n) => `Next: leg ${n}`);
@@ -51,6 +52,21 @@ export default function ProgressPage() {
           All chapters
         </Link>
       </div>
+
+      {milestones.length > 0 && (
+        <div className="flex flex-col">
+          <h2 className="pb-2 text-[17px] font-semibold">Milestones</h2>
+          <ul>
+            {milestones.map((m) => (
+              <li key={m.id} className="flex min-h-14 items-center gap-3 border-t border-rule py-2 last:border-b">
+                <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-gold ring-2 ring-ink" aria-hidden="true" />
+                <span className="flex-1 text-base font-semibold">{m.label}</span>
+                <span className="shrink-0 text-sm text-muted">{m.when}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {rows.length > 0 && (
         <div className="flex flex-col">

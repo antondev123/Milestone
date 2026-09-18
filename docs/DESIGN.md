@@ -106,6 +106,8 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 **Feedback box:** 2px ink outline, radius 16. It holds a verdict (Fraunces 22), one sentence of explanation, and a source line: "From [SOURCE DOC], section [X]". **The source line is required.** It is our visible proof that lessons are grounded.
 
+**Milestone card (Summary):** panel fill, radius 20, padding 18. "Milestone reached" (15, muted), then one row per milestone: the 10px gold dot with a 2px ink ring and the label at 17/600. On Progress, a "Milestones" list uses the trip-row layout (dot and label left, day right). Milestones are named stops earned from logged data (`src/lib/milestones.ts`), awarded once, only for what that trip did. No badges, no points, no emoji.
+
 **Trip row (Progress):** 56px tall, with hairlines above and below. The left side shows the day and part of day (16/600) over what was covered and in which mode (14, muted). The right side shows the minutes (16/600).
 
 **Icons:** 24px inline stroke SVGs, stroke width 2, round caps and joins, using `currentColor`. There are five, with their paths:
