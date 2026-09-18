@@ -1,0 +1,58 @@
+[
+  {
+    "id": "bfGb7JTLUnZebZRiFYyq",
+    "name": "Adam",
+    "blurb": "Distinct, deep and engaging",
+    "accent": "american",
+    "sample": "/voices/bfGb7JTLUnZebZRiFYyq.mp3"
+  },
+  {
+    "id": "4O1sYUnmtThcBoSBrri7",
+    "name": "Maya",
+    "blurb": "Friendly and cheerful",
+    "accent": "indian",
+    "sample": "/voices/4O1sYUnmtThcBoSBrri7.mp3"
+  },
+  {
+    "id": "zfWx5IjUaWGWTId9hv9t",
+    "name": "Atlas",
+    "blurb": "Deep, powerful cinematic announcer voice…",
+    "accent": "american",
+    "sample": "/voices/zfWx5IjUaWGWTId9hv9t.mp3"
+  },
+  {
+    "id": "vChnJZ1Cu89g2XXumPfT",
+    "name": "Lara",
+    "blurb": "Natural, relatable & engaging",
+    "accent": "american",
+    "sample": "/voices/vChnJZ1Cu89g2XXumPfT.mp3"
+  },
+  {
+    "id": "dfeOmy6Uay63tNhyO99j",
+    "name": "Kristen",
+    "blurb": "Natural, upbeat and focused",
+    "accent": "american",
+    "sample": "/voices/dfeOmy6Uay63tNhyO99j.mp3"
+  },
+  {
+    "id": "l30f87tf05uxyknGdDw6",
+    "name": "Alistair",
+    "blurb": "Clear, neutral and informative",
+    "accent": "british",
+    "sample": "/voices/l30f87tf05uxyknGdDw6.mp3"
+  },
+  {
+    "id": "h2sm0NbeIZXHBzJOMYcQ",
+    "name": "Natasha",
+    "blurb": "Informative, smooth and calm",
+    "accent": "american",
+    "sample": "/voices/h2sm0NbeIZXHBzJOMYcQ.mp3"
+  },
+  {
+    "id": "D11AWvkESE7DJwqIVi7L",
+    "name": "Brian",
+    "blurb": "Clean, professional and balanced",
+    "accent": "american",
+    "sample": "/voices/D11AWvkESE7DJwqIVi7L.mp3"
+  }
+]

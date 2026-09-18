@@ -233,6 +233,7 @@ export interface Progress {
   quizResults?: QuizResult[];
   /** Stage demo armed by `npm run demo:stage`: the next Listen trip is exactly these legs, then it ends itself; runs once (src/lib/demo.ts). */
   demo?: { segmentIds: string[]; tripId?: string };
+  voiceId?: string; // learner's chosen voice (data/voices.json); unset = ELEVENLABS_VOICE_ID / agent default
 }
 
 // ---------- Session plan (ephemeral) ----------

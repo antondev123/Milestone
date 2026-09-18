@@ -122,3 +122,15 @@ export const PhoneIcon = (p: P) => (
     <path d="M11 18.5h2" />
   </Svg>
 );
+
+export const PlayIcon = (p: P) => (
+  <Svg {...p}>
+    <path d="M8 5.5v13l10-6.5z" />
+  </Svg>
+);
+
+export const StopIcon = (p: P) => (
+  <Svg {...p}>
+    <rect x="6.5" y="6.5" width="11" height="11" rx="1.5" />
+  </Svg>
+);

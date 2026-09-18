@@ -25,9 +25,14 @@ export default function Resume() {
     <Screen>
       <div className="flex h-11 items-center justify-between">
         <div className="font-display text-[26px] font-semibold tracking-[-0.01em]">Milestone</div>
-        <Link href="/progress" className="flex min-h-11 items-center px-1 text-[15px] font-semibold underline underline-offset-4">
-          Your progress
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/settings" className="flex min-h-11 items-center px-1 text-[15px] font-semibold underline underline-offset-4">
+            Settings
+          </Link>
+          <Link href="/progress" className="flex min-h-11 items-center px-1 text-[15px] font-semibold underline underline-offset-4">
+            Your progress
+          </Link>
+        </div>
       </div>
 
       <div className="flex flex-col gap-2">
