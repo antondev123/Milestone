@@ -1,8 +1,9 @@
 "use client";
 // The leg's checkpoint with a tap/type UI. The server owns which question is open: `check` opens
 // the checkpoint (or reports it done), `answer` grades and advances with the same retry rule the
-// voice agent uses, and this component only mirrors what those replies say.
-import { useEffect, useState } from "react";
+// voice agent uses, and this component only mirrors what those replies say. Moving on lives in
+// the page's leg footer (`LegNav`), which turns its "Next leg" gold once `onDone` fires.
+import { useEffect, useRef, useState } from "react";
 import { PrimaryButton } from "@/components/carry/Chrome";
 import { Feedback, stripVerdict } from "@/components/carry/Feedback";
 import { CheckIcon } from "@/components/carry/Icons";
@@ -17,8 +18,7 @@ export function Checkpoint({
   section,
   legLabel,
   tool,
-  onNextLeg,
-  hasNextLeg,
+  onDone,
   inline = false,
 }: {
   segmentId: string;
@@ -27,9 +27,8 @@ export function Checkpoint({
   section: string;
   legLabel: string; // "Leg 5"
   tool: (name: string, body?: Record<string, unknown>) => Promise<ToolReply>;
-  onNextLeg: () => void;
-  hasNextLeg: boolean;
-  inline?: boolean; // desktop column: no top rule, smaller titles (the phone flow puts it under the passage)
+  onDone: () => void;
+  inline?: boolean; // desktop column: smaller titles (the phone flow puts it under the passage with its own rule)
 }) {
   const [qIdx, setQIdx] = useState<number | null>(null);
   const [done, setDone] = useState(false);
@@ -38,6 +37,8 @@ export function Checkpoint({
   const [wrong, setWrong] = useState<string[]>([]); // options tapped and missed on this question
   const [typed, setTyped] = useState("");
   const [feedback, setFeedback] = useState<{ correct: boolean; text: string; advance: boolean } | null>(null);
+  const top = useRef<HTMLElement>(null);
+  const tail = useRef<HTMLDivElement>(null); // feedback + next button: scrolled clear of the pinned strip
 
   useEffect(() => {
     let live = true;
@@ -56,6 +57,16 @@ export function Checkpoint({
       live = false;
     };
   }, [segmentId, tool]);
+
+  useEffect(() => {
+    if (!done) return;
+    onDone();
+    top.current?.scrollIntoView({ block: "start", behavior: "smooth" });
+  }, [done, onDone]);
+
+  useEffect(() => {
+    if (feedback) tail.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }, [feedback]);
 
   async function submit(text: string) {
     if (busy || !text.trim()) return;
@@ -78,27 +89,27 @@ export function Checkpoint({
     setWrong([]);
     setTyped("");
     setQIdx((q) => (q ?? 0) + 1);
+    top.current?.scrollIntoView({ block: "start", behavior: "smooth" });
   }
 
   const src = `From ${source}, section ${section}`;
   const q = qIdx != null ? questions[qIdx] : undefined;
 
   return (
-    <section className={`flex flex-col gap-5 ${inline ? "" : "mt-10 border-t border-rule pt-8"}`} aria-label="Check your understanding">
+    <section ref={top} className="fade-up flex scroll-mt-[76px] flex-col gap-5" aria-label="Check your understanding">
       <h2 className={`font-display leading-[1.15] font-semibold ${inline ? "text-[24px]" : "text-[28px]"}`}>{done ? `${legLabel} done` : "Check your understanding"}</h2>
 
       {done ? (
-        <>
+        <div className="fade-up flex flex-col gap-5">
           {feedback && <Feedback correct={feedback.correct} text={feedback.text} source={src} />}
-          <p className="text-[17px] leading-[1.6] text-muted">{hasNextLeg ? "Your place is saved. Carry on whenever you like." : "That was the last leg. Your place is saved."}</p>
-          {hasNextLeg && <PrimaryButton onClick={onNextLeg}>Next leg</PrimaryButton>}
-        </>
+          <p className="text-[17px] leading-[1.6] text-muted">Your place is saved. Carry on whenever you like.</p>
+        </div>
       ) : !q ? (
         <p className="text-[17px] text-muted" role="status">
           Loading the question…
         </p>
       ) : (
-        <>
+        <div key={qIdx} className="fade-up flex flex-col gap-5">
           <div className="text-[14px] font-semibold text-muted">
             Question {qIdx! + 1} of {questions.length}
           </div>
@@ -160,9 +171,13 @@ export function Checkpoint({
               Checking…
             </div>
           )}
-          {feedback && <Feedback correct={feedback.correct} text={feedback.text} source={src} />}
-          {feedback?.advance && !done && <PrimaryButton onClick={next}>Next question</PrimaryButton>}
-        </>
+          {feedback && (
+            <div ref={tail} className="fade-up flex scroll-mb-[110px] flex-col gap-5">
+              <Feedback correct={feedback.correct} text={feedback.text} source={src} />
+              {feedback.advance && !done && <PrimaryButton onClick={next}>Next question</PrimaryButton>}
+            </div>
+          )}
+        </div>
       )}
     </section>
   );

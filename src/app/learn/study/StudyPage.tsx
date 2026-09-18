@@ -11,16 +11,19 @@ import { persist, postJSON } from "@/components/carry/net";
 import { AssistantFab, AssistantSheet } from "@/components/study/AssistantSheet";
 import { AssistantThread, type Message } from "@/components/study/AssistantThread";
 import { Checkpoint, type StudyQuestion } from "@/components/study/Checkpoint";
+import { LegNav, type LegLink } from "@/components/study/LegNav";
 import { ReadAloudStrip } from "@/components/study/ReadAloudStrip";
 import { Reader } from "@/components/study/Reader";
+import { SectionPicker, type PickerManifest } from "@/components/study/SectionPicker";
 import { StudyLayout } from "@/components/study/StudyLayout";
+import { useMediaQuery } from "@/components/study/useMediaQuery";
 import { nextSpeed, useReadAloud, type Position } from "@/components/study/useReadAloud";
 import { blocks as splitBlocks } from "@/lib/chunk";
 import { indexBlock } from "@/lib/reading";
 import type { LegIndex } from "@/lib/view";
 import type { Progress, Segment, ToolReply } from "@/types/lesson";
 
-type Manifest = { title: string; chapters: { sections: { id: string; number: string; segments: { id: string }[] }[] }[] };
+type Manifest = { title: string } & PickerManifest;
 type Loaded = { id: string; title: string; script: string; questions: StudyQuestion[] };
 
 export interface StudyPageProps {
@@ -39,6 +42,9 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   const [audioOn, setAudioOn] = useState(true);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [checkOpen, setCheckOpen] = useState(false);
+  const [checkDone, setCheckDone] = useState(false); // this leg's checkpoint finished: the footer's Next leg goes gold
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [completed, setCompleted] = useState<Set<string>>(() => new Set());
   const [asideTab, setAsideTab] = useState<"ask" | "check">("ask");
   const [thread, setThread] = useState<Message[]>([]);
   const [askContext, setAskContext] = useState<string | null>(null);
@@ -47,6 +53,8 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   const [booting, setBooting] = useState(true);
   const lastMarked = useRef<string>("");
   const checkRef = useRef<HTMLDivElement>(null);
+  // one Checkpoint instance: phone inline or desktop column, never both (each would POST `check`)
+  const desktop = useMediaQuery("(min-width: 1024px)");
 
   const tool = useCallback(
     (name: string, body: Record<string, unknown> = {}): Promise<ToolReply> =>
@@ -80,6 +88,8 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
       const block = p.cursor?.segmentId === id && p.cursor.phase === "read" ? p.cursor.blockIdx : 0;
       lastMarked.current = `${id}/${block}`;
       setStartBlock(block);
+      setCompleted(new Set(p.segmentsCompleted));
+      setCheckDone(p.segmentsCompleted.includes(id));
       await loadSegment(id);
       setBooting(false);
     })();
@@ -115,7 +125,13 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   const legLabel = leg ? `Leg ${leg.n}` : "Leg";
 
   const order = useMemo(() => manifest?.chapters.flatMap((c) => c.sections.flatMap((s) => s.segments.map((g) => g.id))) ?? [], [manifest]);
-  const nextId = seg ? order[order.indexOf(seg.id) + 1] ?? null : null;
+  const legLink = (id: string | undefined): LegLink | null => {
+    const l = id ? legs[id] : undefined;
+    return id && l ? { id, caption: `${l.section} · ${l.sectionTitle}${l.partCount > 1 ? `, part ${l.partIndex}` : ""}` } : null;
+  };
+  const at = seg ? order.indexOf(seg.id) : -1;
+  const prevLeg = at > 0 ? legLink(order[at - 1]) : null;
+  const nextLeg = at >= 0 ? legLink(order[at + 1]) : null;
 
   function toggleAudio() {
     if (audioOn) player.pause();
@@ -145,7 +161,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
 
   function openAsk(sentence?: string) {
     if (sentence) setAskContext(sentence);
-    if (window.matchMedia("(min-width: 1024px)").matches) setAsideTab("ask");
+    if (desktop) setAsideTab("ask");
     else {
       player.pause();
       setSheetOpen(true);
@@ -155,9 +171,17 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   function openCheck() {
     player.pause();
     setCheckOpen(true);
-    if (window.matchMedia("(min-width: 1024px)").matches) setAsideTab("check");
+    if (desktop) setAsideTab("check");
     else setTimeout(() => checkRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
   }
+
+  const onCheckDone = useCallback(() => {
+    setCheckDone(true);
+    fetch("/api/progress")
+      .then((r) => r.json() as Promise<Progress>)
+      .then((p) => setCompleted(new Set(p.segmentsCompleted)))
+      .catch(() => {});
+  }, []);
 
   async function ask(question: string) {
     const ctx = askContext;
@@ -168,35 +192,40 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
     setThread((t) => [...t, { who: "tutor", text: r.say, offer: r.offer }]);
   }
 
-  async function goThere(sectionId: string) {
-    const m = sectionId.match(/.*\/c(\d+)\/s(\d+)$/);
-    if (!m) return;
-    player.pause();
-    await tool("goto", { target: `section ${m[1]}.${m[2]}` });
-    setThread([]);
-    setAskContext(null);
-    setSheetOpen(false);
-    const p = (await fetch("/api/progress").then((r) => r.json())) as Progress;
-    const id = p.cursor?.segmentId ?? p.resume.segmentId;
+  // land on a segment after the server moved: fresh thread, closed panels, page top
+  async function arrive(id: string, done: Set<string>) {
     lastMarked.current = `${id}/0`;
     setStartBlock(0);
     setCheckOpen(false);
+    setCheckDone(done.has(id));
+    setCompleted(done);
+    setAsideTab("ask");
+    setThread([]);
+    setAskContext(null);
+    setSheetOpen(false);
+    setPickerOpen(false);
     await loadSegment(id);
     window.scrollTo({ top: 0 });
   }
 
-  async function nextLeg() {
-    if (!nextId) return;
+  /** Section picker and the assistant's "Go there now": `goto` resolves "section N.M" to its first part. */
+  async function jumpToSection(sectionNumber: string) {
     player.pause();
-    await tool("mark", { segmentId: nextId, blockIdx: 0 });
-    lastMarked.current = `${nextId}/0`;
-    setStartBlock(0);
-    setCheckOpen(false);
-    setAsideTab("ask");
-    setThread([]);
-    setAskContext(null);
-    await loadSegment(nextId);
-    window.scrollTo({ top: 0 });
+    await tool("goto", { target: `section ${sectionNumber}` });
+    const p = (await fetch("/api/progress").then((r) => r.json())) as Progress;
+    await arrive(p.cursor?.segmentId ?? p.resume.segmentId, new Set(p.segmentsCompleted));
+  }
+
+  function goThere(sectionId: string) {
+    const m = sectionId.match(/.*\/c(\d+)\/s(\d+)$/);
+    if (m) void jumpToSection(`${m[1]}.${m[2]}`);
+  }
+
+  /** Leg footer: `mark` moves the cursor without completing the leg being left ("get off any time"). */
+  async function jumpToLeg(id: string) {
+    player.pause();
+    await tool("mark", { segmentId: id, blockIdx: 0 });
+    await arrive(id, completed);
   }
 
   async function endSession() {
@@ -226,13 +255,16 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   const checkpoint = (inline = false) =>
     seg &&
     checkOpen && (
-      <Checkpoint segmentId={seg.id} questions={seg.questions} source={source} section={section} legLabel={legLabel} tool={tool} onNextLeg={nextLeg} hasNextLeg={!!nextId} inline={inline} />
+      <Checkpoint segmentId={seg.id} questions={seg.questions} source={source} section={section} legLabel={legLabel} tool={tool} onDone={onCheckDone} inline={inline} />
     );
+
+  const legNav = seg && <LegNav prev={prevLeg} next={nextLeg} primaryNext={checkDone} disabled={!manifest} onGo={jumpToLeg} />;
 
   const topBar = (
     <TopBar
       left={<BackLink href="/" />}
       title={leg ? `Leg ${leg.n} of ${leg.of} · ${leg.section}` : courseTitle}
+      onTitleClick={seg ? () => setPickerOpen(true) : undefined}
       right={<Pill icon={<SpeakerIcon size={18} off={!audioOn} />} label={audioOn ? "Read aloud" : "Audio off"} pressed={audioOn} onClick={toggleAudio} />}
     />
   );
@@ -271,7 +303,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
       </div>
       {/* the middle is one flex region; whatever is inside owns the single scroll (the thread, or the checkpoint) */}
       <div className="flex min-h-0 flex-1 flex-col">
-        {asideTab === "check" && checkOpen ? <div className="min-h-0 flex-1 overflow-y-auto">{checkpoint(true)}</div> : assistant()}
+        {desktop && asideTab === "check" && checkOpen ? <div className="min-h-0 flex-1 overflow-y-auto">{checkpoint(true)}</div> : assistant()}
       </div>
       <div className="mt-3 flex shrink-0 flex-col gap-1 border-t border-rule pt-3 text-[14px]">
         <Link href="/learn/voice?carry=1" className="flex min-h-10 items-center gap-2 font-semibold">
@@ -303,18 +335,26 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
             </div>
           )}
           <Reader title={seg.title} blocks={index} pos={audioOn ? pos : null} audioOn={audioOn} onTapSentence={(p) => player.seek(p, { play: true })} onAsk={(s) => openAsk(s)}>
-            <div ref={checkRef} className="lg:hidden">
-              {checkOpen ? (
-                checkpoint()
-              ) : (
-                <div className="mt-8 border-t border-rule pt-6">
-                  <button type="button" onClick={openCheck} className="flex min-h-[60px] w-full items-center justify-center gap-3 rounded-2xl bg-gold px-5 text-lg font-bold text-ink">
-                    <CheckIcon size={22} /> Check my understanding
-                  </button>
-                  <p className="mt-3 text-center text-[14px] text-muted">Get off any time. Your place is saved.</p>
-                </div>
-              )}
-            </div>
+            {!desktop && (
+              <div ref={checkRef} className="mt-10 scroll-mt-[76px] border-t border-rule pt-8 lg:hidden">
+                {checkOpen ? (
+                  checkpoint()
+                ) : (
+                  <div>
+                    {/* gold until the leg's checkpoint is done; then the footer's Next leg is the one primary */}
+                    <button
+                      type="button"
+                      onClick={openCheck}
+                      className={`flex min-h-[60px] w-full items-center justify-center gap-3 rounded-2xl px-5 text-lg font-bold text-ink ${checkDone ? "border-2 border-ink" : "bg-gold"}`}
+                    >
+                      <CheckIcon size={22} /> Check my understanding
+                    </button>
+                    <p className="mt-3 text-center text-[14px] text-muted">Get off any time. Your place is saved.</p>
+                  </div>
+                )}
+              </div>
+            )}
+            {legNav}
             <div className="mt-10 flex flex-col gap-2 border-t border-rule pt-5 text-[14px] lg:hidden">
               <Link href="/learn/voice?carry=1" className="flex min-h-10 items-center gap-2 font-semibold">
                 <HeadphonesIcon size={18} /> Switch to Listen mode
@@ -327,10 +367,11 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
           </Reader>
         </>
       )}
-      {seg && !sheetOpen && <AssistantFab onClick={() => openAsk()} lifted={!!strip} />}
+      {seg && !sheetOpen && !checkOpen && <AssistantFab onClick={() => openAsk()} lifted={!!strip} />}
       <AssistantSheet open={sheetOpen} onClose={() => setSheetOpen(false)}>
         {assistant()}
       </AssistantSheet>
+      <SectionPicker open={pickerOpen} onClose={() => setPickerOpen(false)} manifest={manifest} hereSection={section} completed={completed} busy={booting} onPick={jumpToSection} />
     </StudyLayout>
   );
 }

@@ -20,11 +20,19 @@ export function BackLink({ href, label = "Back to course" }: { href: string; lab
   );
 }
 
-export function TopBar({ left, title, right }: { left: React.ReactNode; title: string; right?: React.ReactNode }) {
+/** `onTitleClick` makes the title a button (Study: opens the section picker); same text style, small down chevron. */
+export function TopBar({ left, title, right, onTitleClick }: { left: React.ReactNode; title: string; right?: React.ReactNode; onTitleClick?: () => void }) {
   return (
     <div className="flex h-11 items-center justify-between gap-3">
       <div className="flex min-w-11 shrink-0">{left}</div>
-      <div className="truncate text-[15px] font-semibold">{title}</div>
+      {onTitleClick ? (
+        <button type="button" onClick={onTitleClick} aria-haspopup="dialog" className="-mx-2 flex min-h-11 min-w-0 items-center gap-0.5 rounded-full px-1 text-[15px] font-semibold">
+          <span className="truncate">{title}</span>
+          <ChevronIcon size={14} className="shrink-0 -rotate-90" />
+        </button>
+      ) : (
+        <div className="truncate text-[15px] font-semibold">{title}</div>
+      )}
       <div className="flex min-w-11 shrink-0 justify-end">{right}</div>
     </div>
   );
