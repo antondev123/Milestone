@@ -25,8 +25,8 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       mime = a.mime;
     }
   }
-  if (!path || !existsSync(path)) return NextResponse.json({ error: "no such recording" }, { status: 404 });
-  const body = readFileSync(path);
+  if (!path || !existsSync(/*turbopackIgnore: true*/ path)) return NextResponse.json({ error: "no such recording" }, { status: 404 });
+  const body = readFileSync(/*turbopackIgnore: true*/ path);
   const res = new NextResponse(new Uint8Array(body), {
     headers: { "content-type": mime, "content-length": String(body.length), "cache-control": "private, no-store", "content-disposition": `inline; filename="${id}-${kind}${clip ? "" : mime.includes("mpeg") ? ".mp3" : ".webm"}"` },
   });
