@@ -21,6 +21,13 @@ export interface Leg {
   of: number;
   chapter: number;
   section: string; // "1.3"
+  // For the Listen dial: Topic / Section words and a coarse ring, no lesson text on screen.
+  chapterTitle: string;
+  sectionTitle: string;
+  sectionIdx: number; // 1-based among the chapter's teachable sections
+  sectionCount: number;
+  partIndex: number; // 1-based within the section
+  partCount: number;
 }
 
 export type LegIndex = Record<string, Leg>;
@@ -29,9 +36,21 @@ export type LegIndex = Record<string, Leg>;
 export function legIndex(course: Course): LegIndex {
   const out: LegIndex = {};
   for (const ch of course.chapters) {
-    ch.sections.forEach((s) =>
-      s.segments.forEach((g) => {
-        out[g.id] = { n: ch.segments.findIndex((x) => x.id === g.id) + 1, of: ch.segments.length, chapter: ch.number, section: s.number };
+    const teachable = ch.sections.filter((s) => s.segments.length > 0);
+    teachable.forEach((s, si) =>
+      s.segments.forEach((g, gi) => {
+        out[g.id] = {
+          n: ch.segments.findIndex((x) => x.id === g.id) + 1,
+          of: ch.segments.length,
+          chapter: ch.number,
+          section: s.number,
+          chapterTitle: ch.shortTitle || ch.title,
+          sectionTitle: s.title,
+          sectionIdx: si + 1,
+          sectionCount: teachable.length,
+          partIndex: gi + 1,
+          partCount: s.segments.length,
+        };
       }),
     );
   }

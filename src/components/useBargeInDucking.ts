@@ -29,7 +29,8 @@ const BUFFER_MAX_HZ = 8000;
 
 export type DuckingDebug = { input: number; floor: number; ratio: number; output: number; phase: Phase };
 
-export function useBargeInDucking(conv: Conv, debugEnabled = false) {
+/** `isPaused`: while the dial is paused the output is held at 0 by VoiceAgent; ducking must not touch it. */
+export function useBargeInDucking(conv: Conv, debugEnabled = false, isPaused: () => boolean = () => false) {
   const [ducked, setDucked] = useState(false);
   const [debug, setDebug] = useState<DuckingDebug>({ input: 0, floor: 0, ratio: 0, output: 0, phase: "idle" });
 
@@ -55,7 +56,7 @@ export function useBargeInDucking(conv: Conv, debugEnabled = false) {
     let i = 0;
     const tick = () => {
       i += 1;
-      convRef.current.setVolume({ volume: Math.min(1, DUCK_LEVEL + ((1 - DUCK_LEVEL) * i) / steps) });
+      if (!isPaused()) convRef.current.setVolume({ volume: Math.min(1, DUCK_LEVEL + ((1 - DUCK_LEVEL) * i) / steps) });
       if (i < steps) setTimeout(tick, RESTORE_MS / steps);
       else if (phase.current === "restoring") setPhase("idle");
     };
@@ -65,7 +66,7 @@ export function useBargeInDucking(conv: Conv, debugEnabled = false) {
   /** Server confirmed the barge-in: hold silence until the agent speaks again. */
   function onInterruption() {
     if (phase.current === "ducked") {
-      convRef.current.setVolume({ volume: 0 });
+      if (!isPaused()) convRef.current.setVolume({ volume: 0 });
       confirmedAt.current = Date.now();
       setPhase("confirmed");
     }
@@ -74,7 +75,7 @@ export function useBargeInDucking(conv: Conv, debugEnabled = false) {
   /** Agent started a new utterance: back to full volume. */
   function onAgentStarts() {
     if (phase.current === "confirmed") {
-      convRef.current.setVolume({ volume: 1 });
+      if (!isPaused()) convRef.current.setVolume({ volume: 1 });
       setPhase("idle");
     }
   }
@@ -110,7 +111,7 @@ export function useBargeInDucking(conv: Conv, debugEnabled = false) {
           streak.current = candidate ? streak.current + 1 : 0;
           if (!candidate) floor.current += FLOOR_ALPHA * (input - floor.current);
           if (streak.current >= CANDIDATE_POLLS) {
-            c.setVolume({ volume: DUCK_LEVEL });
+            if (!isPaused()) c.setVolume({ volume: DUCK_LEVEL });
             duckedAt.current = Date.now();
             streak.current = 0;
             setPhase("ducked");
