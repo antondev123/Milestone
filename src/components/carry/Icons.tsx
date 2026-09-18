@@ -79,6 +79,13 @@ export const SkipIcon = (p: P & { back?: boolean }) => (
   </Svg>
 );
 
+export const MicOffIcon = (p: P) => (
+  <Svg {...p}>
+    <rect x="9" y="3" width="6" height="11" rx="3" />
+    <path d="M5 11a7 7 0 0 0 14 0M12 18v3M4 4l16 16" />
+  </Svg>
+);
+
 export const CheckIcon = (p: P & { color?: string }) => (
   <svg
     width={p.size ?? 22}

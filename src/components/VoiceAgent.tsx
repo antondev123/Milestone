@@ -7,18 +7,30 @@
 // finishes speaking (mode → listening) and nothing interrupted it, we send a text "continue" turn so
 // the agent calls `next` again. Barge-in cancels the pending continue and tells the server, so the
 // interrupted block is re-read after the driver's command. See docs/ELEVENLABS.md.
+//
+// Screen: the car-mode Dial (docs/DESIGN.md §4.3). No lesson text; Topic and Section are the only
+// words. One pause/play dial with the topic ring, a mic button that carries the mic states, hold-to-end,
+// a one-word state line and a 6px voice strip. Every state change has an earcon so the screen is optional.
+//
+// Pause has no SDK primitive on WebRTC. Pause = output volume 0, mic closed, auto-continue gated, and
+// `interrupted` posted so the server marks the block unheard. Continue = volume and mic back, then a
+// "continue" turn: the agent calls `next` and the same block is read again from its start.
 import { ConversationProvider, useConversation, useConversationClientTool } from "@elevenlabs/react";
 import { useEffect, useRef, useState } from "react";
 import type { Plan, ToolReply } from "@/types/lesson";
 import { useBargeInDucking } from "./useBargeInDucking";
-import type { LegIndex } from "@/lib/view";
-import { Feedback, stripVerdict } from "./carry/Feedback";
-import { MicIcon, PlayGlyph } from "./carry/Icons";
-
-type Line = { who: "you" | "agent"; text: string };
+import type { Leg, LegIndex } from "@/lib/view";
+import { Dial, legRing } from "./carry/Dial";
+import { MicButton, type MicState } from "./carry/MicButton";
+import { HoldButton } from "./carry/HoldButton";
+import { VoiceStrip, type StripState } from "./carry/VoiceStrip";
+import { WhereBlock } from "./carry/WhereBlock";
+import { CheckIcon } from "./carry/Icons";
+import { earcon, primeEarcons, setEarconsEnabled } from "./earcons";
 
 const CONTINUE = "continue";
 const GRACE_MS = 700; // let a late barge-in win the race against auto-continue
+const FLASH_MS = 3000; // "That's right" stays in the state line this long
 
 async function post(tool: string, body: Record<string, unknown> = {}): Promise<ToolReply> {
   const r = await fetch(`/api/tools/${tool}`, {
@@ -29,25 +41,25 @@ async function post(tool: string, body: Record<string, unknown> = {}): Promise<T
   return r.json() as Promise<ToolReply>;
 }
 
-function Inner({
-  plan,
-  onTripEnd,
-  onReply,
-  source,
-  legs,
-}: {
+type Props = {
   plan: Plan;
   onTripEnd: (tripId: string) => void;
   onReply?: (r: ToolReply) => void;
-  source?: string;
   legs?: LegIndex;
-}) {
-  const [lines, setLines] = useState<Line[]>([]);
+  leg?: Leg; // where the learner is now; drives the Where block and the ring
+  paused: boolean;
+  onPausedChange: (paused: boolean) => void;
+};
+
+function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPausedChange }: Props) {
   const [err, setErr] = useState<string | null>(null);
   const [ctx, setCtx] = useState<number | null>(null);
   const [loc, setLoc] = useState<string>("");
   const [typed, setTyped] = useState("");
-  const [graded, setGraded] = useState<ToolReply | null>(null); // last graded answer, shown in the feedback box
+  const [asking, setAsking] = useState(false); // a question is waiting for the learner
+  const [thinking, setThinking] = useState(false); // a tool call is in flight (grading, grounded ask)
+  const [flash, setFlash] = useState<"correct" | null>(null);
+  const [holding, setHolding] = useState(false);
   const agentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID;
   // ?debug=1 shows the mic/duck meter for calibrating thresholds in rehearsal
   const [debugOn] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug"));
@@ -61,6 +73,11 @@ function Inner({
   const prefetch = useRef<Promise<ToolReply> | null>(null);
   const ended = useRef(false);
   const textOnly = useRef(false);
+  const paused = useRef(false);
+  const askingRef = useRef(false); // mirrors `asking` for the timers
+  const mutedBeforePause = useRef(false);
+  const flashTimer = useRef<number | null>(null);
+  const prevLeg = useRef<Leg | undefined>(leg);
   const cancel = () => {
     if (timer.current) {
       clearTimeout(timer.current);
@@ -79,8 +96,8 @@ function Inner({
     } catch {}
   };
   /**
-   * The one way a voice trip ends. Idempotent: the agent's end_trip tool, the End trip button and
-   * the hard-stop timer all land here, and only the first caller does anything. Close the session
+   * The one way a voice trip ends. Idempotent: the agent's end_trip tool, the End button and the
+   * hard-stop timer all land here, and only the first caller does anything. Close the session
    * first so nothing (auto-continue, ducking, the agent) can fire another tool mid-navigation,
    * then hand over to the summary. Calls the server at most once per trip.
    */
@@ -89,6 +106,7 @@ function Inner({
     ended.current = true;
     autoContinue.current = false;
     cancel();
+    earcon.end();
     try {
       await conv.endSession();
     } catch {}
@@ -99,14 +117,14 @@ function Inner({
   const conv = useConversation({
     onMessage: (m) => {
       const msg = m as unknown as { message: string; source: "user" | "ai" | "agent" };
-      if (msg.source === "user" && msg.message === CONTINUE) return; // synthetic, keep the transcript clean
+      if (msg.source === "user" && msg.message === CONTINUE) return; // synthetic
       if (msg.source === "user") {
         barged.current = true;
         cancel();
       }
-      setLines((prev) => [...prev, { who: msg.source === "user" ? "you" : "agent", text: msg.message }]);
       if (msg.source !== "user") ducking.current?.onAgentStarts();
-      if (msg.source !== "user" && textOnly.current && autoContinue.current && !ended.current) {
+      // never auto-"continue" into an open question: the agent would grade the word as the answer
+      if (msg.source !== "user" && textOnly.current && autoContinue.current && !ended.current && !paused.current && !askingRef.current) {
         cancel();
         timer.current = window.setTimeout(() => sendUser(CONTINUE), 1500);
       }
@@ -126,9 +144,9 @@ function Inner({
         return;
       }
       // listening: the agent stopped talking, either naturally or because it was cut off
-      if (!autoContinue.current || barged.current || ended.current) return;
+      if (!autoContinue.current || barged.current || ended.current || paused.current || askingRef.current) return;
       timer.current = window.setTimeout(() => {
-        if (barged.current) return;
+        if (barged.current || paused.current) return;
         sendUser(CONTINUE);
       }, GRACE_MS);
     },
@@ -142,31 +160,57 @@ function Inner({
     onError: (message) => setErr(String(message)),
   });
 
-  ducking.current = useBargeInDucking(conv, debugOn);
+  ducking.current = useBargeInDucking(conv, debugOn, () => paused.current);
   const { ducked, debug } = ducking.current;
-  // `ducked` flips the orb the instant we hear the driver; isSpeaking lags by a few hundred ms
+  // `ducked` flips the screen the instant we hear the driver; isSpeaking lags by a few hundred ms
   const tutorTalking = conv.isSpeaking && !ducked;
 
-  /** Keep everything except the words away from the LLM. */
+  /** Keep everything except the words away from the LLM. Everything else here feeds the screen. */
   const absorb = (r: ToolReply): string => {
     autoContinue.current = r.more === true && !ended.current;
     if (r.loc) setLoc(r.loc);
-    if (r.correct !== undefined) setGraded(r);
-    else if (r.kind === "read" || r.kind === "ask") setGraded(null);
+    if (r.kind === "ask") {
+      askingRef.current = true;
+      setAsking(true);
+      earcon.ask();
+    } else if (r.correct !== undefined || r.kind === "read") {
+      askingRef.current = false;
+      setAsking(false);
+    }
+    if (r.correct === true) {
+      earcon.correct();
+      setFlash("correct");
+      if (flashTimer.current) clearTimeout(flashTimer.current);
+      flashTimer.current = window.setTimeout(() => setFlash(null), FLASH_MS);
+    }
+    const next = r.segmentId ? legs?.[r.segmentId] : undefined;
+    if (next && prevLeg.current && (next.chapter !== prevLeg.current.chapter || next.sectionIdx !== prevLeg.current.sectionIdx)) earcon.tick();
+    if (next) prevLeg.current = next;
     onReply?.(r);
     return JSON.stringify({ t: r.say });
   };
+  /** Every tool goes through here so the screen can show "One sec" while the server works. */
+  const run = async (call: () => Promise<ToolReply>): Promise<string> => {
+    setThinking(true);
+    try {
+      return absorb(await call());
+    } finally {
+      setThinking(false);
+    }
+  };
 
-  useConversationClientTool("next", async () => {
-    const r = await post("next");
-    if (r.more && r.kind === "read") void post("next", { peek: true }); // warm the next block (no commit)
-    return absorb(r);
-  });
-  useConversationClientTool("explain", async (p: { how?: string }) => absorb(await post("explain", { how: p?.how ?? "simpler" })));
-  useConversationClientTool("answer", async (p: { text?: string }) => absorb(await post("answer", { text: p?.text ?? "" })));
-  useConversationClientTool("ask", async (p: { question?: string }) => absorb(await post("ask", { question: p?.question ?? "" })));
-  useConversationClientTool("goto", async (p: { target?: string }) => absorb(await post("goto", { target: p?.target ?? "" })));
-  useConversationClientTool("where_am_i", async () => absorb(await post("where_am_i")));
+  useConversationClientTool("next", () =>
+    run(async () => {
+      const r = await post("next");
+      if (r.more && r.kind === "read") void post("next", { peek: true }); // warm the next block (no commit)
+      return r;
+    }),
+  );
+  useConversationClientTool("explain", (p: { how?: string }) => run(() => post("explain", { how: p?.how ?? "simpler" })));
+  useConversationClientTool("answer", (p: { text?: string }) => run(() => post("answer", { text: p?.text ?? "" })));
+  useConversationClientTool("ask", (p: { question?: string }) => run(() => post("ask", { question: p?.question ?? "" })));
+  useConversationClientTool("goto", (p: { target?: string }) => run(() => post("goto", { target: p?.target ?? "" })));
+  useConversationClientTool("where_am_i", () => run(() => post("where_am_i")));
   useConversationClientTool("end_trip", async () => {
     const r = await post("end_trip");
     if (r.tripId) {
@@ -193,6 +237,13 @@ function Inner({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [conv.status]);
 
+  useEffect(
+    () => () => {
+      if (flashTimer.current) clearTimeout(flashTimer.current);
+    },
+    [],
+  );
+
   function start() {
     if (!agentId) {
       setErr("NEXT_PUBLIC_ELEVENLABS_AGENT_ID is not set");
@@ -208,6 +259,8 @@ function Inner({
     // ?text=1 → text-only session (no mic, no TTS): same agent, same tools. For debugging and for
     // browsers without microphone access. Auto-continue then keys off agent messages instead of speech.
     textOnly.current = new URLSearchParams(window.location.search).get("text") === "1";
+    primeEarcons(); // inside the user's tap, so the browser lets later earcons play
+    setEarconsEnabled(!textOnly.current);
     conv.startSession({
       agentId,
       connectionType: textOnly.current ? "websocket" : "webrtc",
@@ -217,42 +270,80 @@ function Inner({
     });
   }
 
-  const live = conv.status === "connected";
-  const caption = lines.filter((l) => l.who === "agent").at(-1)?.text;
-  const heard = lines.at(-1)?.who === "you" ? lines.at(-1)?.text : undefined;
-  const where = graded?.segmentId ? legs?.[graded.segmentId] : undefined;
+  function setPaused(on: boolean) {
+    paused.current = on;
+    onPausedChange(on);
+  }
+  function pause() {
+    if (paused.current || ended.current) return;
+    setPaused(true);
+    cancel();
+    barged.current = true; // whatever the agent finishes saying now does not count as heard
+    mutedBeforePause.current = conv.isMuted;
+    try {
+      conv.setVolume({ volume: 0 });
+      conv.setMuted(true);
+    } catch {}
+    void post("interrupted");
+    // A user turn cuts the agent off server-side; the prompt answers "pause" with "Holding." and waits.
+    sendUser("pause");
+    earcon.pause();
+  }
+  function resume() {
+    if (!paused.current || ended.current) return;
+    setPaused(false);
+    cancel();
+    barged.current = true; // a late mode→listening from the silent tail must not double-send
+    try {
+      conv.setVolume({ volume: 1 });
+      conv.setMuted(mutedBeforePause.current);
+    } catch {}
+    earcon.resume();
+    // Mid-question, "continue" would be graded as an answer; "repeat" re-serves the question (explain again).
+    sendUser(askingRef.current ? "repeat the question" : CONTINUE);
+  }
+  function toggleMute() {
+    if (!live || paused.current || textOnly.current) return;
+    const next = !conv.isMuted;
+    try {
+      conv.setMuted(next);
+    } catch {
+      return; // no mic to mute (text-only, or permission denied)
+    }
+    if (next) earcon.mute();
+    else earcon.unmute();
+  }
 
-  let label = "Ready when you are";
-  if (conv.status === "connecting") label = "Connecting";
-  else if (conv.status === "error") label = "Something went wrong";
-  else if (live) label = conv.isMuted ? "Mic muted" : tutorTalking ? "Now playing" : "Listening";
+  const live = conv.status === "connected";
+  const connecting = conv.status === "connecting";
+
+  // ----- the screen is a pure function of the flow state -----
+  const strip: StripState = !live && !connecting ? "off" : isPaused ? "off" : connecting || thinking ? "sweep" : tutorTalking ? "steady" : "dashed";
+  const mic: MicState = !live || isPaused || textOnly.current ? "off" : conv.isMuted ? "muted" : asking ? "question" : tutorTalking ? "rest" : "listening";
+  let word: React.ReactNode;
+  if (conv.status === "error") word = "Something went wrong";
+  else if (!live && !connecting) word = "Tap to start talking";
+  else if (connecting) word = "Connecting";
+  else if (isPaused) word = "Paused";
+  else if (holding) word = "Keep holding";
+  else if (flash === "correct")
+    word = (
+      <>
+        <CheckIcon size={22} color="var(--color-gold)" />
+        That&rsquo;s right
+      </>
+    );
+  else if (conv.isMuted) word = <Dotted>Mic off</Dotted>;
+  else if (asking) word = <Bars>Answer out loud</Bars>;
+  else if (thinking) word = "One sec";
+  else if (tutorTalking) word = <Dotted>Speaking</Dotted>;
+  else word = <Bars>Listening</Bars>;
+
+  const dialSize = textOnly.current && live ? 200 : 260;
 
   return (
     <div className="flex flex-1 flex-col gap-6">
-      <div className="flex flex-1 flex-col justify-center gap-3.5" aria-live="polite">
-        <div className="text-[15px] text-muted-on-ink">{label}</div>
-        <p className="font-display text-[30px] leading-[1.3]">
-          {caption ?? (live ? "…" : "Tap play and the tutor picks up where you are. Talk any time to answer or interrupt.")}
-        </p>
-        {heard && (
-          <div className="flex flex-col gap-1">
-            <span className="text-sm text-muted-on-ink">Heard</span>
-            <p className="font-display text-[22px] italic">&ldquo;{heard}&rdquo;</p>
-          </div>
-        )}
-        {graded && <Feedback correct={graded.correct === true} text={stripVerdict(graded.say)} source={`From ${source ?? "the course"}${where ? `, section ${where.section}` : ""}`} dark />}
-        {debugOn && live && (
-          <p className="font-mono text-[11px] text-gold">
-            in {debug.input.toFixed(3)} · floor {debug.floor.toFixed(3)} · ratio {debug.ratio.toFixed(2)} · out {debug.output.toFixed(3)} · {debug.phase.toUpperCase()}
-          </p>
-        )}
-        {debugOn && (loc || ctx !== null) && (
-          <p className="text-[11px] text-muted-on-ink">
-            {loc}
-            {ctx !== null ? ` · agent context ${ctx} tokens` : ""}
-          </p>
-        )}
-      </div>
+      <WhereBlock leg={leg} />
 
       {err && (
         <div role="status" className="rounded-xl bg-ink-raised px-4 py-3 text-[15px]">
@@ -260,26 +351,28 @@ function Inner({
         </div>
       )}
 
-      <div className="flex flex-col items-center gap-3">
-        {/* Not live: play starts the session. Live: mic-only mute; the session stays open and the tutor's audio keeps streaming. */}
-        <button
-          type="button"
-          onClick={() => (live ? conv.setMuted(!conv.isMuted) : start())}
-          disabled={conv.status === "connecting"}
-          aria-label={!live ? "Start listening" : conv.isMuted ? "Unmute the mic" : "Mute the mic"}
-          aria-pressed={live ? conv.isMuted : undefined}
-          className={`flex h-[92px] w-[92px] items-center justify-center rounded-full disabled:opacity-60 ${
-            live && conv.isMuted ? "border-2 border-gold text-gold" : "bg-gold text-ink"
-          } ${tutorTalking ? "ring-4 ring-gold/30" : ""}`}
-        >
-          {!live ? <PlayGlyph /> : <MicIcon size={34} />}
-        </button>
-        <p className="text-center text-sm text-muted-on-ink">
-          {!live ? "Play" : conv.isMuted ? "Mic muted. The tutor keeps talking; tap to answer." : "Mic on. Just talk to answer or interrupt."}
-        </p>
+      <div className="my-auto self-center">
+        <Dial
+          glyph={!live || isPaused ? "play" : "pause"}
+          progress={legRing(leg)}
+          dimmed={connecting || thinking}
+          disabled={connecting || conv.status === "error"}
+          size={dialSize}
+          label={!live ? "Start listening" : isPaused ? "Continue" : "Pause"}
+          onTap={() => (!live ? start() : isPaused ? resume() : pause())}
+        />
       </div>
 
-      {live && (
+      <div className="flex items-center justify-between gap-3">
+        <MicButton state={mic} onTap={toggleMute} />
+        <div className="flex min-h-11 flex-1 items-center justify-center gap-2.5 text-center text-[18px] text-muted-on-ink" aria-live="polite">
+          {word}
+        </div>
+        <HoldButton onHold={() => void finish()} onHoldingChange={setHolding} disabled={!live} />
+      </div>
+
+      {/* ?text=1 only: the demo fallback and browsers without a mic. Never on a normal car session. */}
+      {live && textOnly.current && (
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -299,44 +392,58 @@ function Inner({
             id="typed"
             value={typed}
             onChange={(e) => setTyped(e.target.value)}
-            placeholder="Mic trouble? Type: go, skip, quiz me"
-            className="min-h-12 flex-1 rounded-[14px] bg-ink-raised px-4 text-[15px] text-ground outline-none placeholder:text-muted-on-ink focus:ring-2 focus:ring-gold"
+            placeholder="go, skip, quiz me…"
+            className="min-h-14 flex-1 rounded-[14px] border-2 border-muted-on-ink bg-transparent px-4 text-[17px] text-ground outline-none placeholder:text-muted-on-ink focus:border-gold"
           />
-          <button className="min-h-12 rounded-[14px] bg-ground px-4 text-[15px] font-bold text-ink">Send</button>
+          <button className="min-h-14 rounded-[14px] bg-gold px-5 text-[17px] font-bold text-ink">Send</button>
         </form>
       )}
 
-      <p className="text-center text-sm text-muted-on-ink">Say: go, repeat, explain differently, go deeper, skip, where am I, quiz me, or ask anything.</p>
-
-      {live && (
-        <button
-          type="button"
-          onClick={() => void finish()}
-          className="min-h-11 self-center text-[15px] font-semibold underline underline-offset-4"
-        >
-          End trip
-        </button>
+      {debugOn && live && (
+        <p className="font-mono text-[11px] text-gold">
+          in {debug.input.toFixed(3)} · floor {debug.floor.toFixed(3)} · ratio {debug.ratio.toFixed(2)} · out {debug.output.toFixed(3)} · {debug.phase.toUpperCase()}
+        </p>
       )}
+      {debugOn && (loc || ctx !== null) && (
+        <p className="text-[11px] text-muted-on-ink">
+          {loc}
+          {ctx !== null ? ` · agent context ${ctx} tokens` : ""}
+        </p>
+      )}
+
+      <VoiceStrip state={strip} />
     </div>
   );
 }
 
-export function VoiceAgent({
-  plan,
-  onTripEnd,
-  onReply,
-  source,
-  legs,
-}: {
-  plan: Plan;
-  onTripEnd: (tripId: string) => void;
-  onReply?: (r: ToolReply) => void;
-  source?: string;
-  legs?: LegIndex;
-}) {
+/** State word with the gold dot: the tutor is speaking. */
+function Dotted({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <span className="h-2.5 w-2.5 rounded-full bg-gold" aria-hidden="true" />
+      {children}
+    </>
+  );
+}
+
+/** State word with four static bars: the mic is open. */
+function Bars({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <span className="flex h-3.5 items-end gap-[3px]" aria-hidden="true">
+        {[6, 14, 9, 12].map((h, i) => (
+          <span key={i} className="w-[3px] rounded-[2px] bg-gold" style={{ height: h }} />
+        ))}
+      </span>
+      {children}
+    </>
+  );
+}
+
+export function VoiceAgent(props: Props) {
   return (
     <ConversationProvider>
-      <Inner plan={plan} onTripEnd={onTripEnd} onReply={onReply} source={source} legs={legs} />
+      <Inner {...props} />
     </ConversationProvider>
   );
 }

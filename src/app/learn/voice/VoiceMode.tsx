@@ -1,5 +1,5 @@
 "use client";
-// Listen: dark, glanceable, big targets (docs/DESIGN.md §4.3). The ElevenLabs agent does the
+// Listen: the car-mode Dial (docs/DESIGN.md §4.3): dark, no lesson text, two big targets. The ElevenLabs agent does the
 // talking; this page frames it.
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -11,12 +11,13 @@ import { ModePill, Screen, SignalNotice, TopBar } from "@/components/carry/Chrom
 import { ChevronIcon } from "@/components/carry/Icons";
 import { persist, postJSON } from "@/components/carry/net";
 
-export default function VoiceMode({ legs, source, carriedFromReading, startId, carrying }: { legs: LegIndex; source: string; carriedFromReading: boolean; startId: string; carrying: boolean }) {
+export default function VoiceMode({ legs, carriedFromReading, startId, carrying }: { legs: LegIndex; carriedFromReading: boolean; startId: string; carrying: boolean }) {
   const router = useRouter();
   const [plan, setPlan] = useState<Plan | null>(null);
   const [busy, setBusy] = useState(false);
   const [trouble, setTrouble] = useState(false);
   const [segmentId, setSegmentId] = useState(startId);
+  const [paused, setPaused] = useState(false); // the Screen goes one shade darker while paused
 
   async function start(minutes: number) {
     setBusy(true);
@@ -51,10 +52,10 @@ export default function VoiceMode({ legs, source, carriedFromReading, startId, c
   );
 
   return (
-    <Screen dark gap="gap-6">
+    <Screen dark={paused ? "deep" : true} gap="gap-6">
       <TopBar left={back} title={leg ? `Leg ${leg.n} of ${leg.of}` : "Listen"} right={<ModePill to="read" dark onClick={() => router.push(plan ? "/learn/text?carry=1" : "/learn/text")} />} />
 
-      {carriedFromReading && (
+      {carriedFromReading && !plan && (
         <div className="flex items-center gap-2.5 self-start rounded-xl bg-ink-raised px-3.5 py-2.5 text-[15px]">
           <span className="h-2.5 w-2.5 rounded-full bg-gold" aria-hidden="true" />
           Your place carried over from reading
@@ -70,7 +71,9 @@ export default function VoiceMode({ legs, source, carriedFromReading, startId, c
       ) : (
         <VoiceAgent
           plan={plan}
-          source={source}
+          leg={legs[segmentId]}
+          paused={paused}
+          onPausedChange={setPaused}
           legs={legs}
           onReply={(r: ToolReply) => r.segmentId && setSegmentId(r.segmentId)}
           // Full navigation, not router.push: a fresh document drops the WebRTC/audio session for

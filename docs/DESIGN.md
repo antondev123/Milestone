@@ -52,7 +52,9 @@ Name: **Carry**. Direction: **Carry** palette, Fraunces over Public Sans.
 |---|---|---|---|
 | Big figure (Progress) | Fraunces | 60 / 1.0, tracking −0.02em | 600 |
 | Screen heading (Resume) | Fraunces | 34 / 1.12, tracking −0.015em | 600 |
-| Listen mode caption | Fraunces | 30 / 1.3 | 400 |
+| Listen mode Topic (chapter title) | Fraunces | 34 / 1.12 | 600 |
+| Listen mode Section title | Public Sans | 22 / 1.25 | 600 |
+| Listen mode state word | Public Sans | 18 | 400 |
 | Leg title, question | Fraunces | 28 / 1.15–1.2 | 600 |
 | Wordmark | Fraunces | 26 | 600 |
 | Resume fragment | Fraunces italic | 23 / 1.35 | 400 |
@@ -72,7 +74,7 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 - Vertical gaps between blocks: 22–28px.
 - Radii: 20 (resume card), 16 (primary buttons, feedback box), 14 (answer buttons), 22 (pill buttons), 12 (chip).
 - No shadows, no gradients.
-- Touch targets are at least 44px. Primary buttons are 60–68px tall; the Listen play/pause button is 92px.
+- Touch targets are at least 44px. Primary buttons are 60–68px tall. Listen mode is a driving screen: the pause/play dial is 220px, the mic button 96px, End 64px with a 700 ms hold (Android for Cars asks for 76dp targets and 24dp between them).
 
 ---
 
@@ -121,7 +123,7 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 **2. Read mode.** Top bar, a 4px progress bar for the current leg, the leg title, the previous sentence in muted text, the pick-up marker, then the lesson in short paragraphs (about 40 words each). At the bottom: a "Check my understanding" button with "Get off any time. Your place is saved." underneath.
 
-**3. Listen mode.** Ink background. Top bar, the carried-over chip, then "Now playing" with the current sentence as a large caption. Below that: a 6px progress bar with elapsed and total time, the controls (−15 / pause / +15), a full-width "Answer out loud" button, and a "Tap to answer instead" link.
+**3. Listen mode: the Dial.** A driving screen, so no lesson text at all: the words are for the ears. Ink background (ink-deep while paused). Top bar ("Leg n of N", Read instead). The **Where block**: "Topic" then the chapter title in Fraunces 34, "Section" then the section title at 22, and one 12px dot per section in the chapter (gold done, gold with a ground ring current, ink-track ahead). Centre: the **dial**, a 220px gold pause/play button inside an 8px ring that shows progress through the topic; the ring moves once per part and never ticks, and the button is only ever pause or play. Bottom row: the **mic button** (96px; outlined at rest, gold outline while the tutor listens, gold fill when a question is waiting for you, ground fill with a slashed mic when muted), the **state word** (one or two words at 18px: Speaking with a gold dot, Listening with four bars, Answer out loud, One sec, Paused, Mic off, a gold tick + That's right for three seconds), and **End** (64px, hold 700 ms, a gold arc fills while held). A 6px **voice strip** on the bottom edge: off when idle or paused, steady while speaking, dashed while listening, a sweep while connecting or thinking; the only animated element. Every state change has a short earcon so the screen is optional. Pause silences the tutor and closes the mic; Continue re-reads the interrupted block from its start. Mute closes the mic only; the lesson keeps going. The carried-over chip shows on the picker, not while driving. Layouts and the research behind them: the "Trip Car Mode" artifact.
 
 **4. Check.** Top bar ("End of leg 3"), the question, three answer buttons, the feedback box after answering, and a "Finish leg 3" button.
 
@@ -146,7 +148,7 @@ These states have no screens yet, and CONTEXT.md requires some of them. Build th
 
 1. **Dropped request or weak signal.** Say what happened and that progress is safe, e.g. "Lost signal. Your place is saved. Retrying." Never say anything that implies offline support.
 2. **Loading a leg**, especially audio on a slow connection.
-3. **Listen mode, playing vs paused.** The canvas only shows the playing state (pause icon visible).
-4. **Listen mode, recording an answer.** Show the mic as active, then show what was heard and whether it was right.
+3. **Listen mode, playing vs paused.** Paused: ink-deep ground, play glyph, strip off, mic dimmed, "Paused".
+4. **Listen mode, answering.** No transcript on screen. The mic fills gold while the question is open; a right answer is a gold tick and "That's right" in the state line for three seconds; a wrong one changes nothing visually, the tutor explains and re-asks. The feedback box with the source line lives on the summary card and in Read mode.
 5. **Wrong answer feedback.** Same box, a different verdict, and the correct answer shown.
 6. **Course finished** (leg 8 done).

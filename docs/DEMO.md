@@ -12,15 +12,15 @@ Before: `npm run demo:reset -- --seed` (position only: chapter 1 done, chapter 2
 - Tap **Skip**, **Continue**, answer the question. Tap **End trip**. Don't dwell.
 
 ## Beat 2 — driving, voice mode (75 s) ← the heart
-- Switch tab. "Now I'm driving. Same book, same position." Pick **10 min**, **Start talking**.
+- Switch tab. "Now I'm driving. Same book, same position." Pick **10 min**, tap the **dial**. The screen shows Topic, Section and the ring only, no words: "Nothing to read while I drive. Two buttons."
 - Agent (server-composed): "Back in chapter two, Managerial Decision-Making. Section two point five… Here we go." It starts reading on its own.
 - Interrupt with **"where am I"** → "Chapter two… section two point five, part one of three. Chapter is thirty-one percent done, about three more commutes." "It knows. I never touched the screen."
 - Say **"continue"**. It reads, pauses, keeps reading on its own. After ~10 s, **interrupt mid-sentence**: **"how does this apply to running a taxi business?"**
   - It stops. Three sentences from the book. "One sec" fills the gap while Claude thinks.
   - Say **"continue"** → "Back to Why We Can Never Fully Decide…" "It didn't lose its place. The server knows which block we were on; the agent only ever hears the words it should say."
-- Say **"go to chapter one"** → "Going to chapter one, Managing and Performing…"
+- Say **"go to chapter one"** → "Going to chapter one, Managing and Performing…" The Topic line, dots and ring change on screen.
 - Say **"take me to the chapter one quiz"** → "Chapter one quiz, six questions. First: according to Henry Mintzberg, what are the three major roles managers perform?" "That's the book's own review question." Answer in your own words. Graded by Claude, spoken back.
-- Say **"I'm done, I've arrived."**
+- Say **"I'm done, I've arrived."** (Or hold **End** for a second.)
 
 ## Beat 3 — the artefact (30 s)
 - Summary lands: legs done, checks right, day streak, the chapter route line, **You explored: decision-making in a taxi business**, quiz waiting, **Next leg picks up at 2.5 …**.

@@ -2,9 +2,11 @@
 import Link from "next/link";
 import { ChevronIcon, HeadphonesIcon, LinesIcon } from "./Icons";
 
-export function Screen({ children, dark = false, gap = "gap-7" }: { children: React.ReactNode; dark?: boolean; gap?: string }) {
+/** `dark: "deep"` is the paused Listen screen: one shade darker so paused reads at a squint. */
+export function Screen({ children, dark = false, gap = "gap-7" }: { children: React.ReactNode; dark?: boolean | "deep"; gap?: string }) {
+  const ground = dark === "deep" ? "bg-ink-deep text-ground" : dark ? "bg-ink text-ground" : "bg-ground text-ink";
   return (
-    <div className={dark ? "min-h-dvh bg-ink text-ground" : "min-h-dvh bg-ground text-ink"}>
+    <div className={`min-h-dvh ${ground}`}>
       <main className={`mx-auto flex min-h-dvh w-full max-w-[430px] flex-col px-6 pt-5 pb-8 ${gap}`}>{children}</main>
     </div>
   );
