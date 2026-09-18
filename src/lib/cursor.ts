@@ -265,7 +265,9 @@ export async function answer(course: Course, progress: Progress, text: string, m
   if (!q || (c.phase !== "ask" && !c.quiz)) {
     return commit(course, progress, c, { kind: "say", say: "There is no question open right now. Say go to carry on.", loc: loc(course, c), more: false });
   }
-  const result = await gradeAnswer(q, text);
+  // study mode taps buttons, so a first miss gets a hint instead of the answer; the second try reveals it
+  const first = (c.quiz ? c.quiz.attempt : c.attempt) === 0;
+  const result = await gradeAnswer(q, text, { hintFirst: mode === "study" && first });
   recordCheckpoint(progress, q, text, result.correct, result.feedback, mode);
   const attempt = c.quiz ? ++c.quiz.attempt : ++c.attempt;
   const retry = !result.correct && attempt === 1;
