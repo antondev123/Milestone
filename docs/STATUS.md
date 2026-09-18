@@ -13,6 +13,7 @@ Updated: 2026-09-18 (Fly deploy config added)
 - Trip summary page `/trip/[id]/summary`, verified.
 - docs/DEMO.md first draft with the interruption beat.
 - Voice mode: mic mute/unmute button (mic-only; session and tutor audio keep streaming). Not yet exercised in a live call.
+- Fly.io deploy config: `fly.toml`, `Dockerfile` (Next standalone), `npm run deploy:fly`, `docs/DEPLOY.md`. One always-on machine in jnb with a volume for `data/progress`, so the file store works as on localhost. Standalone build verified locally (pages, `/api/session`, progress write, `demo-reset --seed`). Not yet pushed to Fly: needs `fly auth login` + `fly apps create` + volume, see DEPLOY.md.
 
 ## Verified with live keys (2026-09-18)
 - Anthropic key + `claude-sonnet-5`: ingest and grading. Grader rejects vague answers, accepts paraphrase, handles spoken MCQ ("thirteen hundred rand"). ~3.5–4.5 s per grade; acceptable for voice, watch it in rehearsal.
@@ -27,7 +28,7 @@ Updated: 2026-09-18 (Fly deploy config added)
 - Voice mode mic test in Chrome per docs/ELEVENLABS.md §6: confirm the 700 ms auto-continue grace window feels right and barge-in mid-block re-reads the block. Chunked reading is now server-driven, so no prompt tuning for it.
 
 ## Not started
-- Vercel deploy (progress store will be memory-only there; fine for demo, or demo on localhost).
+- First real `npm run deploy:fly` and a phone test over HTTPS (mic needs a secure origin).
 - **parse-book.ts drops real prose**: every `> **` line is treated as a figure caption, but pdftotext glues body text onto some of them. Lost from `source/`: most of Decisional Roles (1.3) and the levels-of-management paragraph (1.4); the ingested 1.3/1.4 lessons filled the gap from the model, not the book. Chapter 1 now bypasses this; chapters 2+ need a parser fix and a re-ingest check.
 - Resume card precision is block-level (~150 words): the cursor has no word offset, so the card shows the end of the last fully heard block, not the exact word.
 - Summary polish: mastered/revisit section only shows once topics have ≥2 attempts.
