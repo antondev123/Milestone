@@ -13,7 +13,8 @@
     "ledger": "node --env-file=.env.local scripts/ledger.ts",
     "agent:configure": "node --env-file=.env.local scripts/configure-agent.ts",
     "parse:book": "node scripts/parse-book.ts --in data/courses/pom/raw/pom.txt --out data/courses/pom",
-    "validate": "node scripts/validate-course.ts pom"
+    "validate": "node scripts/validate-course.ts pom",
+    "course:verbatim": "node scripts/verbatim-chapter.ts build"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.126.0",

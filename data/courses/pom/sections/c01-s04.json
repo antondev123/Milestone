@@ -1,106 +1,125 @@
 {
   "id": "pom/c1/s4",
   "title": "Major Characteristics of the Manager's Job",
-  "sourceHash": "1a7a78a40566",
-  "model": "claude-sonnet-5",
+  "sourceHash": "bfdf8dca836d",
+  "model": "verbatim",
   "segments": [
     {
       "id": "pom/c1/s4/g1",
-      "title": "The Manager's Daily Pressures",
-      "durationSec": 185,
+      "title": "Why the manager's job is so demanding",
+      "durationSec": 236,
       "sectionId": "pom/c1/s4",
-      "script": "Picture the manager of a busy Shoprite branch in Soweto. Her day starts before the doors open and doesn't really end when they close, because problems follow her home on WhatsApp. This is the first truth about managing: time is always fragmented. You never get long, quiet stretches to think. You get five minutes here to solve a stock delivery issue, ten minutes there to calm down an angry customer, then a call from head office about targets. Researchers who studied managers found their work is short, broken into pieces, and mostly done through talking rather than writing. Working longer hours does not fix this, because a day only has twenty four hours, and eventually extra hours produce less and less benefit, what we call diminishing returns. Second truth, values compete. Think of a taxi association leader in Johannesburg. The drivers want more income per trip. Commuters want cheap, fast, safe rides. Owners of the taxis want the vehicles maintained and profits protected. The leader cannot make everyone happy at once. Decisions usually get made based on what is most urgent and what is closest to blowing up, not on some perfect formula. Third truth, the job has become overloaded. Many organisations, including South African firms, cut out layers of middle management to become leaner. That sounds efficient, but it meant the managers who remained suddenly had far more people reporting directly to them. Old management theory said seven direct reports was a sensible maximum. Now, thanks to cellphones, email, and instant messaging, some managers oversee twenty or thirty people directly. Because of all this, efficiency, doing more with the same or less time, has become the single most important skill a manager needs today. Two roles are also growing in importance. The entrepreneurial role means constantly scanning for threats and opportunities, like a spaza shop owner noticing a new competitor opening down the street, or spotting a gap to start selling airtime and electricity vouchers before anyone else does. The leadership role means being a mentor, not just a supervisor. If a skilled clinic nurse in a Joburg government clinic leaves, the whole department slows down until someone equally capable is trained, and even then, productivity dips for a while. Managers carry many responsibilities beyond just supervising, including long range planning, controlling resources, watching the wider business environment, coordinating between teams, handling customer and community relations, consulting internally on problems, and monitoring the quality of products and services. Not every manager does all of these equally. This depends heavily on where you sit in the organisation, whether you are an executive at the very top, a middle manager, or a first line manager working directly with frontline staff, and that hierarchy shapes exactly what your job looks like day to day.",
+      "script": "Time is fragmented. Managers have acknowledged from antiquity that they never seem to have enough time to get all those things done that need to be done. In the latter years of the twentieth century, however, a new phenomenon arose: demand for time from those in leadership roles increased, while the number of hours in a day remained constant. Increased work hours was one reaction to such demand, but managers quickly discovered that the day had just 24 hours and that working more of them produced diminishing marginal returns. According to one researcher, \"Managers are overburdened with obligations yet cannot easily delegate their tasks. As a result, they are driven to overwork and forced to do many tasks superficially. Brevity, fragmentation, and verbal communication characterize their work.\" Values compete and the various roles are in tension. Managers clearly cannot satisfy everyone. Employees want more time to do their jobs; customers want products and services delivered quickly and at high quality levels. Supervisors want more money to spend on equipment, training, and product development; shareholders want returns on investment maximized. A manager caught in the middle cannot deliver to each of these people what each most wants; decisions are often based on the urgency of the need and the proximity of the problem. The job is overloaded. In recent years, many North American and global businesses were reorganized to make them more efficient, nimble, and competitive. For the most part, this reorganization meant decentralizing many processes along with the wholesale elimination of middle management layers. Many managers who survived such downsizing found that their number of direct reports had doubled. Classical management theory suggests that seven is the maximum number of direct reports a manager can reasonably handle. Today, high-speed information technology and remarkably efficient telecommunication systems mean that many managers have as many as 20 or 30 people reporting to them directly. Efficiency is a core skill. With less time than they need, with time fragmented into increasingly smaller units during the workday, with the workplace following many managers out the door and even on vacation, and with many more responsibilities loaded onto managers in downsized, flatter organizations, efficiency has become the core management skill of the twenty-first century. The entrepreneur role is gaining importance. Managers must increasingly be aware of threats and opportunities in their environment. Threats include technological breakthroughs on the part of competitors, obsolescence in a manager's organization, and dramatically shortened product cycles. Opportunities might include product or service niches that are underserved, out-of-cycle hiring opportunities, mergers, purchases, or upgrades in equipment, space, or other assets. Managers who are carefully attuned to the marketplace and competitive environment will look for opportunities to gain an advantage. So is the leader role gaining importance. Managers must be more sophisticated as strategists and mentors. A manager's job involves much more than simple caretaking in a division of a large organization. Unless organizations are able to attract, train, motivate, retain, and promote good people, they cannot possibly hope to gain advantage over the competition. Thus, as leaders, managers must constantly act as mentors to those in the organization with promise and potential. When organizations lose a highly capable worker, all else in their world will come to a halt until they can replace that worker. Even if they find someone ideally suited and superbly qualified for a vacant position, they must still train, motivate, and inspire that new recruit, and live with the knowledge that productivity levels will be lower for a while than they were with their previous employee.",
       "keyPoints": [
-        "Managerial time is fragmented, brief, and mostly verbal, not long blocks of quiet planning",
-        "Managers face competing demands from employees, customers, and shareholders and must prioritise by urgency",
-        "Downsizing increased the number of direct reports, making efficiency the core modern management skill",
-        "The entrepreneurial and leadership roles are growing because managers must spot opportunities and mentor talent"
+        "Time is fragmented and working longer hours gives diminishing returns",
+        "Values compete: employees, customers, supervisors and shareholders all want different things",
+        "The job is overloaded: flatter organizations mean far more direct reports than the classical limit of seven",
+        "Efficiency is the core skill, and the entrepreneur and leader roles are growing in importance"
       ],
-      "altExplanation": "Think of managing like being the only cashier during a taxi rank's busiest hour, with three queues forming at once, a delivery van blocking the entrance, and your phone ringing about a broken card machine. You cannot finish any one task properly before another interrupts you. That is fragmentation. Now imagine each queue wants something different, one wants speed, one wants a discount, one wants a receipt reprinted. You cannot satisfy all three fully, so you make a judgement call based on who is angriest or closest to leaving. That is competing values. And when the shop next door closes and sends its customers to you without hiring extra staff, that is overload, exactly what happened to many managers after organisations cut middle layers.",
-      "deeper": "The shift toward efficiency as the defining managerial skill reflects a broader change in how organisations are structured. Flatter hierarchies, driven by technology that allows instant communication and monitoring, mean fewer layers exist to absorb decision making and coordination. This places enormous pressure on remaining managers to triage constantly, deciding which fires to fight first. The growing importance of the entrepreneurial role connects to faster product cycles and quicker technological obsolescence, meaning managers cannot simply maintain existing operations, they must actively hunt for advantage. Similarly, the leadership role expands because talent has become a scarcer resource than capital or equipment in many industries. Losing a single highly capable employee can stall an entire unit, so managers must invest continuously in developing people rather than treating staffing as a one time hiring event. Together these forces mean the manager's job has moved away from routine caretaking toward active, constant judgement calls made with incomplete time and information, which is precisely why efficiency, prioritising correctly under pressure, has overtaken other skills as the defining mark of a capable modern manager.",
-      "example": "Consider an Eskom regional manager during a period of load shedding. Customers are furious about outages, technicians want more staff to fix ageing infrastructure faster, and head office wants costs controlled. The manager cannot fully satisfy all three. She prioritises repairing the substation serving a hospital first, because the risk there is most urgent and closest, even though a residential area has been complaining longer. This is competing values and time fragmentation playing out in a single afternoon of decisions.",
+      "altExplanation": "Four pressures shape the modern manager's job: not enough time, and what there is comes in small pieces; people pulling in different directions; too many direct reports after layers of middle management were cut; and work that follows them home. Under those pressures, getting things done efficiently becomes the key skill.",
+      "deeper": "The leader role grows because organizations cannot gain an advantage unless they attract, train, motivate, retain and promote good people. Losing a highly capable worker stalls things, and even an ideal replacement must be trained and will be less productive for a while.",
       "checkpoint": [
         {
           "id": "pom/c1/s4/g1/q1",
-          "prompt": "Describe and explain the different levels of management.",
-          "type": "open",
-          "answer": "Management is the process of planning, organizing, directing, and controlling the activities of employees in combination with other resources to accomplish organizational goals. Managerial responsibilities include longrange planning, controlling, environmental scanning, supervision, coordination, customer relations, community relations, internal consulting, and monitoring of products and services. These responsibilities differ by level in the organizational hierarchy and by department or function. The twenty-first-century manager will differ from most current managers in four ways. In essence, he will be a global strategist, a master of technology, a good politician, and a premier leader-motivator.",
-          "rubric": "Answer must mention that management involves planning, organizing, directing, and controlling resources toward organisational goals, note that responsibilities differ by hierarchy level and by department or function, and reference the future manager needing to be a global strategist, technology master, skilled politician, and leader-motivator.",
-          "topic": "levels-of-management",
-          "source": "book"
-        },
-        {
-          "id": "pom/c1/s4/g1/q2",
-          "prompt": "Why has efficiency become the core management skill in modern organisations, according to the passage?",
+          "prompt": "According to classical management theory, what is the most direct reports a manager can reasonably handle?",
           "type": "mcq",
           "options": [
-            "Because managers have less time and more direct reports",
-            "Because computers replaced most managers",
-            "Because customers demand cheaper products",
-            "Because shareholders stopped wanting profits"
+            "Seven",
+            "Twelve",
+            "Thirty"
           ],
-          "answer": "Because managers have less time and more direct reports",
-          "rubric": "Correct option only.",
-          "topic": "managerial-efficiency",
+          "answer": "Seven",
+          "rubric": "Classical management theory suggests seven is the maximum number of direct reports, though many managers today have 20 or 30.",
+          "topic": "span-of-control",
           "source": "generated"
         },
         {
-          "id": "pom/c1/s4/g1/q3",
-          "prompt": "Explain in your own words what it means that a manager's values are in tension, using an example from your own life or community.",
+          "id": "pom/c1/s4/g1/q2",
+          "prompt": "Why does the chapter call efficiency the core management skill of the twenty-first century?",
           "type": "open",
-          "answer": "It means a manager cannot fully satisfy employees, customers, and shareholders or owners at the same time, so decisions get made based on urgency and closeness of the problem rather than pleasing everyone.",
-          "rubric": "Answer must state that different stakeholder groups want conflicting things and that managers resolve this through urgency or proximity, not by satisfying everyone equally, and should include a plausible concrete example.",
-          "topic": "competing-values",
+          "answer": "Because managers have less time than they need, that time is broken into small pieces, work follows them out the door, and flatter, downsized organizations load more responsibilities onto each manager.",
+          "rubric": "Must give at least one of these reasons: too little or fragmented time, work following managers home or on holiday, or more responsibilities and direct reports in flatter, downsized organizations.",
+          "topic": "efficiency-core-skill",
           "source": "generated"
         }
       ]
     },
     {
       "id": "pom/c1/s4/g2",
-      "title": "Skills Across Levels and Departments",
-      "durationSec": 191,
+      "title": "Responsibilities and levels of management",
+      "durationSec": 188,
       "sectionId": "pom/c1/s4",
-      "script": "Now let's talk about what skills a manager actually needs, and how that changes depending on where you sit and what department you work in. There are three broad types of managerial skill. Technical skills are the hands on knowledge of your specific field, like a bookkeeper at a small Durban manufacturing firm knowing exactly how to close the monthly accounts, or a production supervisor at a bottling plant knowing how the machinery actually works. Human relations skills are about working with people, understanding what motivates them, and managing group dynamics, like a stokvel treasurer who must keep twenty members feeling heard and fairly treated even when money is tight. Conceptual skills are the ability to see the whole picture, to understand how the finance department, the sales team, and the warehouse all fit together as one system, the kind of thinking a chief executive of a retail chain needs when deciding whether to open ten new stores across three provinces. These three skills are not equally important at every level. First line managers, the people directly supervising workers on the shop floor or in a call centre, rely heavily on technical skill because they need to understand the actual work being done and step in when something goes wrong. Middle managers sit in between, balancing all three skills fairly evenly, translating strategy from above into action below. Executive managers, the small team at the very top of the organisation, rely far more on conceptual skill and much less on technical skill, since their job is steering the whole ship rather than fixing individual machines. Human relations skill, though, matters at every single level, because whether you are supervising ten cashiers or leading a national company, you still need people to trust you and follow you. Beyond level, responsibilities also shift by department. A manufacturing manager focuses heavily on products, controlling quality, and supervising staff on the line. A marketing manager, by contrast, spends less time on internal coordination and planning and much more time on customer relationships and external contact, understanding what shoppers actually want. Accounting and human resources managers both do a lot of long range planning, but accounting concentrates on controlling budgets and tracking financial indicators, while human resources focuses on consulting, coordinating between departments, and managing relationships with unions or external training providers. Knowing this matters practically. If you are starting out, resist the urge to think and act like a chief executive before you have properly mastered being a first line supervisor, because the skills genuinely differ. And knowing which department emphasises which activities can help you choose a career path that matches your natural strengths, whether that is detailed technical work, people focused work, or big picture strategic thinking. Many companies rotate rising managers through different departments precisely so they build a well rounded set of skills before reaching the top.",
+      "script": "An important question often raised about managers is: What responsibilities do managers have in organizations? According to our definition, managers are involved in planning, organizing, directing, and controlling. Managers have described their responsibilities that can be aggregated into nine major types of activity. These include: Long-range planning. Managers occupying executive positions are frequently involved in strategic planning and development. Controlling. Managers evaluate and take corrective action concerning the allocation and use of human, financial, and material resources. Environmental scanning. Managers must continually watch for changes in the business environment and monitor business indicators such as returns on equity or investment, economic indicators, business cycles, and so forth. Supervision. Managers continually oversee the work of their subordinates. Coordinating. Managers often must coordinate the work of others both inside the work unit and out. Customer relations and marketing. Certain managers are involved in direct contact with customers and potential customers. Community relations. Contact must be maintained and nurtured with representatives from various constituencies outside the company, including state and federal agencies, local civic groups, and suppliers. Internal consulting. Some managers make use of their technical expertise to solve internal problems, acting as inside consultants for organizational change and development. Monitoring products and services. Managers get involved in planning, scheduling, and monitoring the design, development, production, and delivery of the organization's products and services. As we shall see, not every manager engages in all of these activities. Rather, different managers serve different roles and carry different responsibilities, depending upon where they are in the organizational hierarchy. We will begin by looking at several of the variations in managerial work. Although each manager may have a diverse set of responsibilities, including those mentioned above, the amount of time spent on each activity and the importance of that activity will vary considerably. The two most salient perceptions of a manager are (1) the manager's level in the organizational hierarchy and (2) the type of department or function for which he is responsible. Let us briefly consider each of these. We can distinguish three general levels of management: executives, middle management, and first-line management. Executive managers are at the top of the hierarchy and are responsible for the entire organization, especially its strategic direction. Middle managers, who are at the middle of the hierarchy, are responsible for major departments and may supervise other lower level managers. Finally, first-line managers supervise rank-and-file employees and carry out day-to-day activities within departments. Senior executives will devote more of their time to conceptual issues, while front-line managers will concentrate their efforts on technical issues. For example, top managers rate high on such activities as long-range planning, monitoring business indicators, coordinating, and internal consulting. Lower-level managers, by contrast, rate high on supervising because their responsibility is to accomplish tasks through rank-and-file employees. Middle managers rate near the middle for all activities.",
       "keyPoints": [
-        "Three managerial skills are technical, human relations, and conceptual, and their importance shifts by hierarchy level",
-        "First line managers need more technical skill, executives need more conceptual skill, human relations skill matters at every level",
-        "Responsibilities also differ by department, such as manufacturing focusing on products and control versus marketing focusing on customers"
+        "Managers' responsibilities fall into nine types, from long-range planning to monitoring products and services",
+        "How much time each gets depends on the manager's level and department",
+        "Executives lead the whole organization and its strategy; middle managers run major departments; first-line managers supervise rank-and-file employees",
+        "Top managers rate high on planning and coordinating; lower-level managers rate high on supervising"
       ],
-      "altExplanation": "Think of a game of soccer. The goalkeeper needs sharp technical skill, specific reflexes and positioning for one job. The team captain on the field needs strong people skills, reading teammates, motivating them mid match. The coach up in the stands needs conceptual skill, seeing the whole formation, how attack and defence connect, and adjusting strategy for the whole ninety minutes. Nobody expects the goalkeeper to coach from the goal line, and nobody expects the coach to make every save. Yet all three, keeper, captain, and coach, need to communicate and trust each other, which is like human relations skill running through every level of the team.",
-      "deeper": "The skill mix model helps explain common career frustrations. A talented technician promoted into first line management often struggles not because they lack ability, but because the job now demands more human relations skill than before, handling conflict, motivating a team, having difficult conversations, skills quite different from technical mastery. Similarly, a first line manager promoted straight to an executive role without middle management experience may struggle with conceptual work, seeing how departments interconnect, forecasting industry shifts, balancing competing strategic priorities across the whole organisation, because that muscle was never developed. This is partly why organisations rotate promising managers through multiple departments and levels rather than promoting purely on technical excellence. It also explains why departments differ so much in daily rhythm. A marketing manager's outward facing, relationship heavy work looks nothing like an accounting manager's controlling and monitoring focused work, even though both might report to the same executive team and both need long range planning skill. Recognising these differences helps individuals choose roles matching their strengths and helps organisations design more realistic promotion pathways rather than assuming any good employee can succeed at any managerial level immediately.",
-      "example": "Consider a young accountant promoted to branch manager at a bank in Polokwane. Her technical skill in finance was excellent, which is why she got promoted, but she suddenly needed strong human relations skill to manage twelve tellers with different personalities and grievances, and growing conceptual skill to understand how her branch's performance fit into the bank's regional strategy. Six months in, she realised the biggest challenge wasn't the numbers anymore, it was people and perspective, exactly the skill shift the model predicts as you move up.",
+      "altExplanation": "Every manager draws from the same nine responsibilities, but the mix changes with where they sit. Near the top, the job leans towards long-range planning and watching the business as a whole. Near the front line, it leans towards supervising the people doing the day-to-day work.",
+      "deeper": "The nine responsibilities are: long-range planning, controlling, environmental scanning, supervision, coordinating, customer relations and marketing, community relations, internal consulting, and monitoring products and services.",
       "checkpoint": [
         {
           "id": "pom/c1/s4/g2/q1",
-          "prompt": "Describe and explain the three types of managerial skills and how they relate to each level of management.",
-          "type": "open",
-          "answer": "Technical skills are the ability to use tools, procedures, and techniques of a specialised area, such as accounting principles or operations management. Human relations skills involve the ability to work with people and understand motivation and group processes. Conceptual skills involve organising and analysing information to see the organisation as a whole and understand how parts fit together. Executive positions require far more conceptual skill and less technical skill, first line managers require more technical skill and fewer conceptual skills, while human relations skills remain important at all three levels of the hierarchy.",
-          "rubric": "Answer must define all three skills, technical, human relations, and conceptual, and must state that executives need more conceptual and less technical skill, first line managers need more technical and less conceptual skill, and human relations skill is important at all levels.",
-          "topic": "managerial-skills",
-          "source": "book"
-        },
-        {
-          "id": "pom/c1/s4/g2/q2",
-          "prompt": "Which level of management typically relies most on conceptual skills?",
+          "prompt": "Which managers supervise rank-and-file employees and carry out day-to-day activities?",
           "type": "mcq",
           "options": [
-            "Executive managers",
+            "Middle managers",
             "First-line managers",
-            "Middle managers only",
-            "Nonmanagerial employees"
+            "Executive managers"
           ],
-          "answer": "Executive managers",
-          "rubric": "Correct option only.",
-          "topic": "managerial-skills",
+          "answer": "First-line managers",
+          "rubric": "First-line managers supervise rank-and-file employees and carry out day-to-day activities within departments.",
+          "topic": "levels-of-management",
           "source": "generated"
         },
         {
-          "id": "pom/c1/s4/g2/q3",
-          "prompt": "How does a marketing manager's focus typically differ from a manufacturing manager's focus, based on the passage?",
+          "id": "pom/c1/s4/g2/q2",
+          "prompt": "Name two of the nine types of managerial responsibility.",
           "type": "open",
-          "answer": "Marketing managers focus less on planning, coordinating, and internal consulting and more on customer relations and external contact, while manufacturing managers concentrate on products and services, controlling, and supervising staff.",
-          "rubric": "Answer must correctly contrast marketing's external customer focus against manufacturing's internal product, control, and supervision focus.",
-          "topic": "management-by-department",
+          "answer": "Any two of: long-range planning, controlling, environmental scanning, supervision, coordinating, customer relations and marketing, community relations, internal consulting, and monitoring products and services.",
+          "rubric": "Must name at least two items from this list, in any wording: long-range planning, controlling, environmental scanning, supervision, coordinating, customer relations and marketing, community relations, internal consulting, monitoring products and services.",
+          "topic": "managerial-responsibilities",
+          "source": "generated"
+        }
+      ]
+    },
+    {
+      "id": "pom/c1/s4/g3",
+      "title": "Three managerial skills",
+      "durationSec": 210,
+      "sectionId": "pom/c1/s4",
+      "script": "We can distinguish three types of managerial skills: Technical skills. Managers must have the ability to use the tools, procedures, and techniques of their special areas. An accountant must have expertise in accounting principles, whereas a production manager must know operations management. These skills are the mechanics of the job. Human relations skills. Human relations skills involve the ability to work with people and understand employee motivation and group processes. These skills allow the manager to become involved with and lead his group. Conceptual skills. These skills represent a manager's ability to organize and analyze information in order to improve organizational performance. They include the ability to see the organization as a whole and to understand how various parts fit together to work as an integrated unit. These skills are required to coordinate the departments and divisions successfully so that the entire organization can pull together. Different levels of these skills are required at different stages of the managerial hierarchy. That is, success in executive positions requires far more conceptual skill and less use of technical skills in most (but not all) situations, whereas first-line managers generally require more technical skills and fewer conceptual skills. Note, however, that human relations skills, or people skills, remain important for success at all three levels in the hierarchy. In addition to level in the hierarchy, managerial responsibilities also differ with respect to the type of department or function. There are differences found for quality assurance, manufacturing, marketing, accounting and finance, and human resource management departments. For instance, manufacturing department managers will concentrate their efforts on products and services, controlling, and supervising. Marketing managers, in comparison, focus less on planning, coordinating, and consulting and more on customer relations and external contact. Managers in both accounting and human resource management departments rate high on long-range planning, but will spend less time on the organization's products and service offerings. Managers in accounting and finance are also concerned with controlling and with monitoring performance indicators, while human resource managers provide consulting expertise, coordination, and external contacts. The emphasis on and intensity of managerial activities varies considerably by the department the manager is assigned to. At a personal level, knowing that the mix of conceptual, human, and technical skills changes over time and that different functional areas require different levels of specific management activities can serve at least two important functions. First, if you choose to become a manager, knowing that the mix of skills changes over time can help you avoid a common complaint that often young employees want to think and act like a CEO before they have mastered being a first-line supervisor. Second, knowing the different mix of management activities by functional area can facilitate your selection of an area or areas that best match your skills and interests. In many firms managers are rotated through departments as they move up in the hierarchy. In this way they obtain a well-rounded perspective on the responsibilities of the various departments. In their day-to-day tasks they must emphasize the right activities for their departments and their managerial levels. Knowing what types of activity to emphasize is the core of the manager's job.",
+      "keyPoints": [
+        "Technical skills are the mechanics of the job; human relations skills are about working with people; conceptual skills are about seeing the organization as a whole",
+        "Executives need more conceptual skill, first-line managers more technical skill",
+        "Human relations skills matter at every level",
+        "Activities also differ by department, and knowing what to emphasize is the core of the manager's job"
+      ],
+      "altExplanation": "As a manager moves up, the balance of skills shifts: less hands-on technical know-how, more big-picture thinking about how the parts fit together. What stays constant all the way up is the ability to work with and motivate people.",
+      "deeper": "The chapter gives two practical uses for this: it warns against wanting to act like a CEO before mastering first-line supervision, and it helps you pick a functional area, such as marketing, finance or HR, whose mix of activities suits your skills and interests.",
+      "checkpoint": [
+        {
+          "id": "pom/c1/s4/g3/q1",
+          "prompt": "Which kind of skill stays important at all three levels of management?",
+          "type": "mcq",
+          "options": [
+            "Technical skills",
+            "Conceptual skills",
+            "Human relations skills"
+          ],
+          "answer": "Human relations skills",
+          "rubric": "Human relations skills, or people skills, remain important for success at all three levels of the hierarchy.",
+          "topic": "human-relations-skills",
+          "source": "generated"
+        },
+        {
+          "id": "pom/c1/s4/g3/q2",
+          "prompt": "How does the mix of skills change between a first-line supervisor and an executive?",
+          "type": "open",
+          "answer": "Executives need far more conceptual skill and less technical skill, while first-line managers need more technical skill and less conceptual skill.",
+          "rubric": "Must say conceptual skills matter more at the top (executives) and technical skills matter more at the first-line level.",
+          "topic": "skills-by-level",
           "source": "generated"
         }
       ]

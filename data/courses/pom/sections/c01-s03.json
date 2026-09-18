@@ -1,119 +1,125 @@
 {
   "id": "pom/c1/s3",
   "title": "The Roles Managers Play",
-  "sourceHash": "5655b3bdc07c",
-  "model": "claude-sonnet-5",
+  "sourceHash": "5124adc8ff6b",
+  "model": "verbatim",
   "segments": [
     {
       "id": "pom/c1/s3/g1",
-      "title": "Interpersonal and Informational Roles of Managers",
-      "durationSec": 158,
+      "title": "Interpersonal roles: figurehead, leader, liaison",
+      "durationSec": 191,
       "sectionId": "pom/c1/s3",
-      "script": "Think about the manager of a busy Shoprite store in Soweto. In one single day she might cut a ribbon for a new till point, calm down a frustrated customer, phone a supplier about a late delivery, and quietly mentor a young cashier who wants to become a supervisor one day. Mintzberg, a researcher who studied what managers actually do all day rather than what job descriptions say they do, found that most of a manager's work clusters into three big roles. The first cluster is the interpersonal roles, and they come from the simple fact that managers deal with people constantly. Inside interpersonal roles there are three parts. The figurehead role is the ceremonial side of the job, like a taxi association chairperson attending a funeral of a member's family or opening a new rank. It might feel like a small thing, but it matters because people expect their leader to show up. The leader role is about how a manager motivates and directs the people under them. Think of a stokvel treasurer who does not just collect money but also keeps members engaged and resolves disputes between them, the same way a great manager like Lee Iacocca rescued Chrysler by rebuilding trust with workers and government. The liaison role is about building bridges outside your own team, for example a clinic manager in Joburg who keeps close contact with pharmaceutical suppliers, other clinics, and community leaders rather than only talking to her own nurses. Interestingly, research shows managers spend more time with peers and outside contacts than with their own bosses. The second cluster is informational roles. Here the manager becomes a kind of human data center. As a monitor, a spaza shop owner is always scanning, listening to customer complaints, checking what competitors are selling, and picking up rumors about a new shop opening nearby. As a disseminator, that owner then decides what information to share with the shop assistant, maybe telling them about a supplier price increase so they can adjust how they talk to customers. As a spokesperson, the owner might speak to a community meeting about why prices have gone up, representing the business to the outside world. These informational tasks matter because managers often know things nobody else in the organization knows, and deciding what to share, with whom, and when is a skill on its own.",
+      "script": "In Mintzberg's seminal study of managers and their jobs, he found the majority of them clustered around three core management roles. Managers are required to interact with a substantial number of people in the course of a workweek. They host receptions; take clients and customers to dinner; meet with business prospects and partners; conduct hiring and performance interviews; and form alliances, friendships, and personal relationships with many others. Numerous studies have shown that such relationships are the richest source of information for managers because of their immediate and personal nature. Three of a manager's roles arise directly from formal authority and involve basic interpersonal relationships. First is the figurehead role. As the head of an organizational unit, every manager must perform some ceremonial duties. In Mintzberg's study, chief executives spent 12% of their contact time on ceremonial duties; 17% of their incoming mail dealt with acknowledgments and requests related to their status. One example is a company president who requested free merchandise for a handicapped schoolchild. Managers are also responsible for the work of the people in their unit, and their actions in this regard are directly related to their role as a leader. The influence of managers is most clearly seen, according to Mintzberg, in the leader role. Formal authority vests them with great potential power. Leadership determines, in large part, how much power they will realize. Does the leader's role matter? Ask the employees of Chrysler Corporation (now DaimlerChrysler). When Lee Iacocca took over the company in the 1980s, the once-great auto manufacturer was in bankruptcy, teetering on the verge of extinction. He formed new relationships with the United Auto Workers, reorganized the senior management of the company, and—perhaps most importantly—convinced the U.S. federal government to guarantee a series of bank loans that would make the company solvent again. The loan guarantees, the union response, and the reaction of the marketplace were due in large measure to Iacocca's leadership style and personal charisma. More recent examples include the return of Starbucks founder Howard Schultz to reenergize and steer his company, and Amazon CEO Jeff Bezos and his ability to innovate during a downturn in the economy. Popular management literature has had little to say about the liaison role until recently. This role, in which managers establish and maintain contacts outside the vertical chain of command, becomes especially important in view of the finding of virtually every study of managerial work that managers spend as much time with peers and other people outside of their units as they do with their own subordinates. Surprisingly, they spend little time with their own superiors. In Rosemary Stewart's study, 160 British middle and top managers spent 47% of their time with peers, 41% of their time with people inside their unit, and only 12% of their time with superiors. Guest's (1956) study of U.S. manufacturing supervisors revealed similar findings.",
       "keyPoints": [
-        "Managers spend most of their time in three role clusters: interpersonal, informational, and decisional",
-        "Interpersonal roles include figurehead, leader, and liaison duties",
-        "Informational roles include monitor, disseminator, and spokesperson duties",
-        "Managers often know more than anyone else in the business and must decide what information to share"
+        "Mintzberg grouped managers' work into three core roles: interpersonal, informational and decisional",
+        "Figurehead: ceremonial duties that come with heading a unit",
+        "Leader: responsibility for the people in the unit; leadership decides how much of a manager's power is realized",
+        "Liaison: contacts outside the vertical chain of command, with peers as much as subordinates"
       ],
-      "altExplanation": "Picture a manager as the engine and dashboard of a taxi combined. The engine part is the interpersonal work, actually connecting with and moving people, greeting passengers, settling arguments, representing the taxi rank at community meetings. The dashboard part is the informational work, constantly reading gauges, picking up warning signs from the road, radio chatter from other drivers, and then deciding what to tell the passengers or the taxi owner. Without the engine, nothing moves. Without the dashboard, you drive blind. A good manager needs both working together every single day, switching between them within minutes, not in separate sessions.",
-      "deeper": "Mintzberg's original research involved shadowing chief executives and recording exactly how they spent their time, and what he found challenged the tidy textbook picture of managers calmly planning, organizing, and controlling in neat stages. Instead he saw fragmented, fast paced work full of interruptions, much of it verbal rather than written. The interpersonal and informational roles are closely linked because the relationships a manager builds through figurehead, leader, and liaison work become the very channels through which information flows in the monitor, disseminator, and spokesperson roles. A manager who is a poor liaison will simply have less information to work with, and a manager who cannot lead will struggle to get honest information from subordinates. This is why executive managers, middle management, and first line managers all rely heavily on informal networks rather than only formal reports, and why so much valuable business information travels as gossip, hearsay, and casual conversation rather than through official memos.",
-      "example": "Consider a first line manager at an Eskom depot. She greets contractors each morning, which is part figurehead and part liaison. During the day she hears through a technician, informally, that a transformer in another district failed unexpectedly. As monitor she absorbs this. As disseminator she immediately warns her own team to check similar equipment before it fails too, preventing a local blackout and showing how interpersonal contact directly feeds informational action.",
+      "altExplanation": "The three interpersonal roles all come from a manager's formal position. As figurehead they represent the unit at ceremonies. As leader they are responsible for their people's work. As liaison they build contacts sideways and outward, not just up and down the chain of command.",
+      "deeper": "Stewart's study of 160 British middle and top managers found they spent 47% of their time with peers, 41% with people inside their unit, and only 12% with superiors, which is why the liaison role matters more than popular literature once assumed.",
       "checkpoint": [
         {
           "id": "pom/c1/s3/g1/q1",
-          "prompt": "Which role involves a manager performing ceremonial duties such as opening a new taxi rank?",
+          "prompt": "Which interpersonal role covers a manager's ceremonial duties?",
           "type": "mcq",
           "options": [
-            "Figurehead role",
-            "Monitor role",
-            "Negotiator role",
-            "Resource allocator role"
+            "Figurehead",
+            "Liaison",
+            "Leader"
           ],
-          "answer": "Figurehead role",
-          "rubric": "Must select figurehead role as the ceremonial interpersonal duty.",
-          "topic": "interpersonal-roles",
+          "answer": "Figurehead",
+          "rubric": "As head of an organizational unit, every manager performs some ceremonial duties. Mintzberg calls this the figurehead role.",
+          "topic": "figurehead-role",
           "source": "generated"
         },
         {
           "id": "pom/c1/s3/g1/q2",
-          "prompt": "Explain why the liaison role is important for a manager, using an example other than the ones given in the lesson.",
+          "prompt": "What does a manager do in the liaison role?",
           "type": "open",
-          "answer": "The liaison role involves building and maintaining contacts outside the manager's own chain of command, often with peers or outsiders, and it matters because these contacts are frequently the richest source of information a manager has.",
-          "rubric": "Answer must state that liaison means contacts outside the vertical chain of command and must explain that this brings valuable information or relationships, with a plausible original example.",
-          "topic": "interpersonal-roles",
-          "source": "generated"
-        },
-        {
-          "id": "pom/c1/s3/g1/q3",
-          "prompt": "In the disseminator role, what must a manager decide about information?",
-          "type": "mcq",
-          "options": [
-            "Who should receive it, how much, and when",
-            "Only whether to keep it secret",
-            "How to sell it to competitors",
-            "Whether to delete it permanently"
-          ],
-          "answer": "Who should receive it, how much, and when",
-          "rubric": "Must identify that the disseminator role requires deciding recipients, amount, frequency, and form of information shared.",
-          "topic": "informational-roles",
+          "answer": "Builds and maintains contacts outside the vertical chain of command, such as peers and people outside their own unit.",
+          "rubric": "Must mention building or keeping contacts outside the chain of command or outside their own unit (peers, other departments, outside people).",
+          "topic": "liaison-role",
           "source": "generated"
         }
       ]
     },
     {
       "id": "pom/c1/s3/g2",
-      "title": "The Decisional Roles Managers Fulfil",
-      "durationSec": 167,
+      "title": "Informational roles: monitor, disseminator, spokesperson",
+      "durationSec": 120,
       "sectionId": "pom/c1/s3",
-      "script": "Now let's talk about the third cluster of roles, the decisional roles, because at the end of the day a manager's job comes down to making tough calls, often with incomplete information and under real pressure. Imagine the owner of a small transport business running a fleet of minibus taxis. Every week she must decide things like whether to buy a new vehicle, how to respond when a driver gets into an accident, and how to split limited fuel money between routes. These decisions map onto four decisional roles that Mintzberg identified. The first is the entrepreneur role, where managers actively look for ways to improve the business and adapt to change. Our taxi owner might notice that more people are using e-hailing apps and decide to add a loyalty card system to keep her regular passengers loyal. This is proactive, forward looking behavior, the same spirit you see in a spaza shop owner who starts stocking airtime and electricity vouchers because customers keep asking for them. The second role is the disturbance handler, sometimes called the crisis handler, and this is reactive rather than proactive. If two drivers get into a serious argument over a route, or if load shedding suddenly cuts power to a shop's fridges, the manager must react immediately even though she never planned for it. Good managers cannot always avoid a crisis, but how they respond defines their leadership. Third is the resource allocator role, deciding who gets what, how much, and when, because resources like money, vehicles, staff time, or even the manager's own attention are always limited. A stokvel treasurer allocating payout order among members, or a hospital manager deciding which ward gets extra nurses this month, is playing this role. Fourth is the negotiator role. Managers spend enormous amounts of time negotiating, whether it is a taxi association negotiating fare increases with local government, a manager negotiating a salary increase with a valued employee, or a shop owner negotiating better credit terms with a supplier like a large wholesaler. These negotiations happen constantly, often as quick conversations rather than formal sit down meetings, and they rely heavily on the trust and information built up through the interpersonal and informational roles we covered earlier. Together, these three role clusters, interpersonal, informational, and decisional, give a full picture of what managers actually do, whether they are an executive manager steering an entire company, someone in middle management coordinating between departments, or a first line manager supervising workers directly on the ground.",
+      "script": "Managers are required to gather, collate, analyze, store, and disseminate many kinds of information. In doing so, they become information resource centers, often storing huge amounts of information in their own heads, moving quickly from the role of gatherer to the role of disseminator in minutes. Although many business organizations install large, expensive management information systems to perform many of those functions, nothing can match the speed and intuitive power of a well-trained manager's brain for information processing. Not surprisingly, most managers prefer it that way. As monitors, managers are constantly scanning the environment for information, talking with liaison contacts and subordinates, and receiving unsolicited information, much of it as a result of their network of personal contacts. A good portion of this information arrives in verbal form, often as gossip, hearsay, and speculation. In the disseminator role, managers pass privileged information directly to subordinates, who might otherwise have no access to it. Managers must not only decide who should receive such information, but how much of it, how often, and in what form. Increasingly, managers are being asked to decide whether subordinates, peers, customers, business partners, and others should have direct access to information 24 hours a day without having to contact the manager directly. In the spokesperson role, managers send information to people outside of their organizations: an executive makes a speech to lobby for an organizational cause, or a supervisor suggests a product modification to a supplier. Increasingly, managers are also being asked to deal with representatives of the news media, providing both factual and opinion-based responses that will be printed or broadcast to vast unseen audiences, often directly or with little editing. The risks in such circumstances are enormous, but so too are the potential rewards in terms of brand recognition, public image, and organizational visibility.",
       "keyPoints": [
-        "The four decisional roles are entrepreneur, disturbance handler, resource allocator, and negotiator",
-        "Entrepreneur role is proactive change, disturbance handler role is reactive crisis response",
-        "Resource allocator decides who gets limited resources like money, staff, or time",
-        "Negotiator role involves frequent informal and formal bargaining with people inside and outside the organization"
+        "Managers act as information resource centres, gathering and passing on information quickly",
+        "Monitor: scanning the environment, often through personal contacts and word of mouth",
+        "Disseminator: passing privileged information to subordinates who would not otherwise have it",
+        "Spokesperson: sending information outside the organization, including to the news media"
       ],
-      "altExplanation": "Think of decisional roles like driving a taxi through Johannesburg traffic. Being an entrepreneur is like spotting a shortcut before anyone else and taking it to save time. Being a disturbance handler is like reacting instantly when a car cuts in front of you unexpectedly, you did not plan it but you must respond safely right now. Being a resource allocator is like deciding how much fuel to put in the tank and which passengers to pick up first when the taxi is nearly full. Being a negotiator is like haggling with a passenger who wants to pay less than the fare, or agreeing with another driver on who takes which route today. All four things can happen within the same twenty minute drive.",
-      "deeper": "What makes the decisional roles distinct from the other two clusters is that they are where a manager's judgment is tested most directly, because decisions often happen under ambiguity, with conflicting interests among stakeholders and without perfect information. The entrepreneur and disturbance handler roles sit at opposite ends of a spectrum of control, one is chosen and initiated by the manager while the other is forced upon them by circumstances outside their control, yet both require decisiveness. The resource allocator role is particularly demanding because it touches on fairness and motivation, since employees notice quickly when resources or attention are distributed unevenly, which can affect morale across executive managers, middle management, and first line managers alike. The negotiator role draws heavily on everything gathered through informational roles, since a manager who has been a good monitor and disseminator usually walks into a negotiation with better information than one who has not, giving them a real advantage in reaching favourable outcomes.",
-      "example": "A middle manager at a manufacturing plant discovers a machine breakdown just before a big Shoprite order is due. As disturbance handler she must react immediately, pulling workers from another line. As resource allocator she decides which shift gets overtime pay to finish the order. As negotiator she calls the client to renegotiate the delivery date. All three decisional roles play out within a single afternoon, showing how tightly connected they are in real management work.",
+      "altExplanation": "Think of information flowing through the manager in three directions. As monitor, it flows in from contacts and the environment. As disseminator, it flows down to their own people. As spokesperson, it flows out to suppliers, the public and the media.",
+      "deeper": "The chapter notes that managers are increasingly asked to decide whether subordinates, peers, customers and partners should have direct access to information around the clock, without going through the manager at all.",
       "checkpoint": [
         {
           "id": "pom/c1/s3/g2/q1",
-          "prompt": "Which decisional role describes a manager who proactively looks for ways to adapt the business to changing conditions?",
+          "prompt": "A supervisor suggests a product change to a supplier. Which informational role is that?",
           "type": "mcq",
           "options": [
-            "Entrepreneur role",
-            "Disturbance handler role",
-            "Negotiator role",
-            "Figurehead role"
+            "Monitor",
+            "Spokesperson",
+            "Disseminator"
           ],
-          "answer": "Entrepreneur role",
-          "rubric": "Must select entrepreneur role as the proactive, change seeking decisional role.",
-          "topic": "decisional-roles",
+          "answer": "Spokesperson",
+          "rubric": "In the spokesperson role, managers send information to people outside their organization, for example a supervisor suggesting a product modification to a supplier.",
+          "topic": "spokesperson-role",
           "source": "generated"
         },
         {
           "id": "pom/c1/s3/g2/q2",
-          "prompt": "Describe the difference between the entrepreneur role and the disturbance handler role, giving a reason why one is proactive and the other reactive.",
+          "prompt": "What does a manager do in the disseminator role?",
           "type": "open",
-          "answer": "The entrepreneur role involves managers voluntarily initiating change and improvement, while the disturbance handler role involves managers being forced to react to unplanned crises or problems that arise unexpectedly.",
-          "rubric": "Answer must state entrepreneur is proactive and self initiated while disturbance handler is reactive and involuntary, responding to unexpected problems.",
-          "topic": "decisional-roles",
+          "answer": "Passes privileged information directly to subordinates who might otherwise have no access to it, deciding who gets it, how much, how often and in what form.",
+          "rubric": "Must say the manager passes or shares information with subordinates (people inside the unit) who would otherwise not have it.",
+          "topic": "disseminator-role",
+          "source": "generated"
+        }
+      ]
+    },
+    {
+      "id": "pom/c1/s3/g3",
+      "title": "Decisional roles: entrepreneur to negotiator",
+      "durationSec": 130,
+      "sectionId": "pom/c1/s3",
+      "script": "Ultimately, managers are charged with the responsibility of making decisions on behalf of both the organization and the stakeholders with an interest in it. Such decisions are often made under circumstances of high ambiguity and with inadequate information. Often, the other two managerial roles—interpersonal and informational—will assist a manager in making difficult decisions in which outcomes are not clear and interests are often conflicting. In the role of entrepreneur, managers seek to improve their businesses, adapt to changing market conditions, and react to opportunities as they present themselves. Managers who take a longer-term view of their responsibilities are among the first to realize that they will need to reinvent themselves, their product and service lines, their marketing strategies, and their ways of doing business as older methods become obsolete and competitors gain advantage. While the entrepreneur role describes managers who initiate change, the disturbance or crisis handler role depicts managers who must involuntarily react to conditions. Crises can arise because bad managers let circumstances deteriorate or spin out of control, but just as often good managers find themselves in the midst of a crisis that they could not have anticipated but must react to just the same. The third decisional role of resource allocator involves managers making decisions about who gets what, how much, when, and why. Resources, including funding, equipment, human labor, office or production space, and even the boss's time are all limited, and demand inevitably outstrips supply. Managers must make sensible decisions about such matters while still retaining, motivating, and developing the best of their employees. The final decisional role is that of negotiator. Managers spend considerable amounts of time in negotiations: over budget allocations, labor and collective bargaining agreements, and other formal dispute resolutions. In the course of a week, managers will often make dozens of decisions that are the result of brief but important negotiations between and among employees, customers and clients, suppliers, and others with whom managers must deal.",
+      "keyPoints": [
+        "Decisions are often made with high ambiguity and too little information",
+        "Entrepreneur: initiating change and reacting to opportunities",
+        "Crisis handler: reacting to conditions the manager did not choose",
+        "Resource allocator and negotiator: deciding who gets what, and reaching agreement with others"
+      ],
+      "altExplanation": "The four decisional roles differ in who starts the action. The entrepreneur starts change. The crisis handler responds to change forced on them. The resource allocator divides limited money, space, people and time. The negotiator settles terms with employees, unions, customers and suppliers.",
+      "deeper": "The chapter stresses that the other two role groups feed this one: interpersonal and informational roles help a manager make difficult decisions where outcomes are unclear and interests conflict.",
+      "checkpoint": [
+        {
+          "id": "pom/c1/s3/g3/q1",
+          "prompt": "Deciding who gets funding, equipment, space and the boss's time is which decisional role?",
+          "type": "mcq",
+          "options": [
+            "Entrepreneur",
+            "Negotiator",
+            "Resource allocator"
+          ],
+          "answer": "Resource allocator",
+          "rubric": "The resource allocator role involves deciding who gets what, how much, when and why, because resources like funding, equipment, space and the boss's time are limited.",
+          "topic": "resource-allocator-role",
           "source": "generated"
         },
         {
-          "id": "pom/c1/s3/g2/q3",
-          "prompt": "What is the resource allocator role primarily concerned with?",
-          "type": "mcq",
-          "options": [
-            "Deciding who gets what resources, how much, and when",
-            "Signing ceremonial documents for the company",
-            "Reporting news to outside journalists only",
-            "Hiring new executive managers exclusively"
-          ],
-          "answer": "Deciding who gets what resources, how much, and when",
-          "rubric": "Must identify that resource allocator role is about distributing limited resources among people or units within the organization.",
-          "topic": "decisional-roles",
+          "id": "pom/c1/s3/g3/q2",
+          "prompt": "How is the crisis handler role different from the entrepreneur role?",
+          "type": "open",
+          "answer": "The entrepreneur initiates change, while the crisis handler has to react, involuntarily, to conditions they may not have anticipated.",
+          "rubric": "Must contrast starting or initiating change (entrepreneur) with reacting to unexpected or unchosen conditions (crisis handler).",
+          "topic": "crisis-vs-entrepreneur",
           "source": "generated"
         }
       ]
