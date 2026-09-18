@@ -6,10 +6,10 @@ All amounts in rands. FX R16.26/USD on 2026-09-18. Refresh live numbers with `np
 
 | Service | Plan | Used | Left | Resets |
 |---|---|---|---|---|
-| ElevenLabs | Creator, R358/month (US$22) for 100k credits, account shows 131k | 816 credits (R2.92) | 130,184 credits (R466) | 2026-10-18 |
+| ElevenLabs | Creator, R358/month (US$22) for 100k credits, account shows 131k | 2,708 credits (R9.69) | 128,292 credits (R459) | 2026-10-18 |
 | Anthropic | Pay as you go | see below | prepaid balance not visible via API, check console.anthropic.com | n/a |
 
-Credit price: R0.0036 per credit. Voice runs about 500 credits per minute, so roughly **R1.80 per minute of conversation**, LLM included. **~260 minutes of voice left** this month.
+Credit price: R0.0036 per credit. Voice runs about 500 credits per minute, so roughly **R1.80 per minute of conversation**, LLM included. **~262 minutes of voice left** this month.
 
 ## Spend log
 
@@ -19,7 +19,8 @@ Credit price: R0.0036 per credit. Voice runs about 500 credits per minute, so ro
 | 2026-09-18 | Smoke tests + 5 grading tests, Sonnet 5 | Anthropic | ~1.5k in / 0.3k out | R0.10 |
 | 2026-09-18 | Voice test call 1, 71 s | ElevenLabs | 597 credits | R2.14 |
 | 2026-09-18 | TTS previews / misc | ElevenLabs | 219 credits | R0.78 |
-| | **Running total** | | | **R4.29** |
+| 2026-09-18 | Voice test call 2, 235 s (repeat, go deeper, skip, quiz, explain) | ElevenLabs | 1,892 credits | R6.77 |
+| | **Running total** | | | **R11.06** |
 
 ## Rules of thumb for the event
 
