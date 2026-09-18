@@ -71,6 +71,10 @@ Text-only rehearsal without a mic: open `/learn/voice?text=1`, start, and type c
 8. "I'm done" → spoken summary, then the app navigates to the summary page ~4 s later.
 9. Watch the dev console: `[ctx] N/limit` per turn (agent context), `[ask] … cached=…` (cache hits after the first question in a section), `[tool] name ms`.
 
-## 7. Cost notes
+## 7. Study mode read-aloud (REST, not the agent)
+
+`/api/tts` calls `POST /v1/text-to-speech/{ELEVENLABS_VOICE_ID}/with-timestamps` with `ELEVENLABS_TTS_MODEL` (default `eleven_flash_v2_5`; the agent stays on `eleven_flash_v2`). It is not a conversation: no agent id, no tools, plain credits per character. A ~150-word block is ~900 characters and is cached on disk after the first play, so replaying chapter 1 costs nothing. Pick the voice on the dashboard Voices page; the default in `.env.example` is Alice (`Xb7hH8MSUJpSbSDYk0k2`).
+
+## 8. Cost notes
 
 ElevenLabs bills ~500 credits per minute of conversation regardless of tokens, plus LLM passthrough. Smaller tool returns cut only the passthrough line (~R0.20/min → ~R0.12/min); the reason for the block discipline is reliability and latency, not rands. The client ends the session at `estMinutes + 3` and nudges the agent to wrap up at `estMinutes + 1`. `max_duration_seconds` is 2400 as a backstop.

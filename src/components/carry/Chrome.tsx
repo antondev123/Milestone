@@ -28,20 +28,26 @@ export function TopBar({ left, title, right }: { left: React.ReactNode; title: s
   );
 }
 
-/** "Listen instead" / "Read instead". Switching never moves the learner's place. */
-export function ModePill({ to, onClick, dark = false }: { to: "listen" | "read"; onClick: () => void; dark?: boolean }) {
+/** Outlined 44px pill: icon plus a short label. */
+export function Pill({ icon, label, onClick, dark = false, pressed }: { icon: React.ReactNode; label: string; onClick: () => void; dark?: boolean; pressed?: boolean }) {
   return (
     <button
       type="button"
       onClick={onClick}
+      aria-pressed={pressed}
       className={`flex min-h-11 items-center gap-2 rounded-[22px] border-2 px-4 whitespace-nowrap text-[15px] font-semibold ${
         dark ? "border-ground text-ground" : "border-ink text-ink"
       }`}
     >
-      {to === "listen" ? <HeadphonesIcon size={18} /> : <LinesIcon size={18} />}
-      {to === "listen" ? "Listen instead" : "Read instead"}
+      {icon}
+      {label}
     </button>
   );
+}
+
+/** "Listen instead" / "Read instead". Switching never moves the learner's place. */
+export function ModePill({ to, onClick, dark = false }: { to: "listen" | "read"; onClick: () => void; dark?: boolean }) {
+  return <Pill icon={to === "listen" ? <HeadphonesIcon size={18} /> : <LinesIcon size={18} />} label={to === "listen" ? "Listen instead" : "Read instead"} onClick={onClick} dark={dark} />;
 }
 
 export function SignalNotice({ show, dark = false }: { show: boolean; dark?: boolean }) {

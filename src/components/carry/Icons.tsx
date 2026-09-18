@@ -1,4 +1,4 @@
-// The five Carry icons (docs/DESIGN.md §3). 24px stroke, currentColor.
+// The Carry icons (docs/DESIGN.md §3) plus the study-mode set. 24px stroke, currentColor.
 type P = { size?: number; className?: string };
 
 function Svg({ size = 24, className, children }: P & { children: React.ReactNode }) {
@@ -44,6 +44,38 @@ export const MicIcon = (p: P) => (
   <Svg {...p}>
     <rect x="9" y="3" width="6" height="11" rx="3" />
     <path d="M5 11a7 7 0 0 0 14 0M12 18v3" />
+  </Svg>
+);
+
+export const BookIcon = (p: P) => (
+  <Svg {...p}>
+    <path d="M4 5a2 2 0 0 1 2-2h5v17H6a2 2 0 0 0-2 2z" />
+    <path d="M20 5a2 2 0 0 0-2-2h-5v17h5a2 2 0 0 1 2 2z" />
+  </Svg>
+);
+
+export const SpeakerIcon = (p: P & { off?: boolean }) => (
+  <Svg {...p}>
+    <path d="M4 10v4h3l4 3V7l-4 3z" />
+    {p.off ? <path d="M16 9l4 6M20 9l-4 6" /> : <path d="M15 9a4 4 0 0 1 0 6M17.5 6.5a7.5 7.5 0 0 1 0 11" />}
+  </Svg>
+);
+
+export const ChatIcon = (p: P) => (
+  <Svg {...p}>
+    <path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-4 3v-3H6a2 2 0 0 1-2-2z" />
+  </Svg>
+);
+
+export const CloseIcon = (p: P) => (
+  <Svg {...p}>
+    <path d="M6 6l12 12M18 6L6 18" />
+  </Svg>
+);
+
+export const SkipIcon = (p: P & { back?: boolean }) => (
+  <Svg {...p}>
+    {p.back ? <path d="M17 6l-7 6 7 6M7 6v12" /> : <path d="M7 6l7 6-7 6M17 6v12" />}
   </Svg>
 );
 

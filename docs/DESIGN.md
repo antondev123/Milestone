@@ -129,6 +129,8 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 ---
 
+**6. Study mode (`/learn/study`).** Hands-on, not a commute; light. Sticky top bar with a "Read aloud / Audio off" pill instead of the mode pill. The leg title (Fraunces 34) and the verbatim text in 19/1.6 paragraphs, one per read-aloud block. While reading aloud: the spoken word carries a gold 35% highlight, the current sentence a 3px gold rule in the left gutter and `ink-deep` text, and a small outlined "Ask" chip. A 72px ink **read-aloud strip** is pinned at the bottom: play/pause (44px), the current sentence as a one-line teleprompter centred on the spoken word, a 3px gold block-progress bar, previous/next sentence, and a speed chip. Audio off removes the strip, rule, highlights and chip: just the page. The assistant is a 62% bottom sheet from a 56px ink FAB (phone) or a persistent 360px right column at `lg` (≥1024px) that also shows "Reading now". The checkpoint uses the answer buttons and feedback box above; on phones it is inline after the passage behind a gold "Check my understanding" button, on desktop it lives in the right column. Source line required, as everywhere. Reference: `docs/mockups/study/`.
+
 ## 5. Content rules
 
 - Every bracketed slot is filled from the seeded course and SOURCE DOC. Nothing is written free-hand.

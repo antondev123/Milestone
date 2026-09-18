@@ -83,7 +83,7 @@ export default function CourseMap() {
                       return (
                         <li key={s.id}>
                           {s.segments.length ? (
-                            <Link href={`/learn/text?goto=${encodeURIComponent(`section ${s.number}`)}`} className="block">
+                            <Link href={`/learn/study?goto=${encodeURIComponent(`section ${s.number}`)}`} className="block">
                               {inner}
                             </Link>
                           ) : (
