@@ -2,6 +2,7 @@
 // (server tool calls, client transcript and events, ElevenLabs' own transcript) merged by time.
 import Link from "next/link";
 import { getSession, type SessionEvent } from "@/lib/log/query";
+import { tidyTimeline } from "@/lib/log/timeline";
 import { Denied, Frame, fmtClock, fmtDur, fmtTime, fmtUsd, gate } from "../shared";
 
 export const dynamic = "force-dynamic";
@@ -118,6 +119,23 @@ function Row({ e, sessionId, q }: { e: SessionEvent; sessionId: string; q: strin
     case "tentative":
       body = <span className="text-[13px] text-muted italic">tentative: {s(x.text, 300)}</span>;
       break;
+    case "mode_flap":
+      // a run of speaking/listening flips between TTS chunks, collapsed by tidyTimeline
+      body = (
+        <span className="text-[12px] text-muted">
+          mode flapped ×{s(x.n)} over {Math.round(Number(x.ms ?? 0) / 100) / 10} s → {s(x.last)}
+        </span>
+      );
+      break;
+    case "reconnect":
+      tone = x.error || x.gaveUp ? "text-gold" : "";
+      body = (
+        <span className="text-[13px]">
+          <span className="font-semibold">reconnect</span> {x.gaveUp ? `gave up after ${s(x.tries)} tries` : `attempt ${s(x.attempt)}`}
+          {x.error ? <span className="text-gold"> · {s(x.error, 200)}</span> : null}
+        </span>
+      );
+      break;
     case "agent_tool_call":
       body = (
         <span className="text-[13px] text-muted">
@@ -149,10 +167,11 @@ function Row({ e, sessionId, q }: { e: SessionEvent; sessionId: string; q: strin
   );
 }
 
-export default async function SessionPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ key?: string }> }) {
+export default async function SessionPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ key?: string; raw?: string }> }) {
   const { ok, q } = await gate(searchParams);
   if (!ok) return <Denied />;
   const { id } = await params;
+  const raw = (await searchParams).raw === "1";
   const sd = getSession(id);
   if (!sd)
     return (
@@ -162,7 +181,8 @@ export default async function SessionPage({ params, searchParams }: { params: Pr
         </Link>
       </Frame>
     );
-  const { session, events, llm, totals, audio } = sd;
+  const { session, llm, totals, audio } = sd;
+  const events = tidyTimeline(sd.events, { raw });
   const usd = totals.reduce((a, t) => a + t.usd, 0);
   const credits = totals.reduce((a, t) => a + t.credits, 0);
   const counts = new Map<string, number>();
@@ -275,7 +295,12 @@ export default async function SessionPage({ params, searchParams }: { params: Pr
       </section>
 
       <section className="min-w-0 rounded-xl bg-panel p-4">
-        <h2 className="mb-1 text-[12px] uppercase tracking-wide text-muted">Timeline · {events.length} events</h2>
+        <h2 className="mb-1 text-[12px] uppercase tracking-wide text-muted">
+          Timeline · {events.length} {raw ? "raw" : "tidy"} events{raw ? "" : ` of ${sd.events.length}`} ·{" "}
+          <Link className="underline" href={`/admin/sessions/${session.id}${q ? q + "&" : "?"}${raw ? "" : "raw=1"}`}>
+            {raw ? "tidy" : "raw"}
+          </Link>
+        </h2>
         <p className="mb-2 text-[12px] text-muted">
           {[...counts.entries()]
             .sort((a, b) => b[1] - a[1])

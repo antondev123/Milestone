@@ -214,8 +214,10 @@ function currentQuestion(course: Course, c: Cursor): Question | undefined {
 function askQuestion(course: Course, progress: Progress, c: Cursor, prefix: string): ToolReply {
   const q = currentQuestion(course, c);
   if (!q) {
-    // no questions on this part: move on. The caller commits (or is itself a peek on a copy), so this
-    // must advance the cursor it was handed, not a clone.
+    // no questions on this part: it is finished the moment its last block was heard, so credit it
+    // (completeSegment is otherwise only reached from answer/skip) and move on. The caller commits
+    // (or is itself a peek on a copy), so this must advance the cursor it was handed, not a clone.
+    if (!c.quiz && c.phase !== "done") completeSegment(course, progress, c.segmentId);
     c.phase = "done";
     return serveNext(course, progress, {});
   }
@@ -449,12 +451,18 @@ export function startQuiz(course: Course, progress: Progress, chapterId: string)
 
 const CHAT_HISTORY = 6;
 
-export function beginDetour(course: Course, progress: Progress, question: string, answer: string, topic: string): Cursor {
+/**
+ * `meta`: the turn was about the tutor, the app or small talk ("what's your name?"), not the course.
+ * It still joins the chat history (follow-ups and "you didn't answer me" need it) but is not a detour
+ * on the record: no "You explored tutor identity" on the summary, no "First question from the road".
+ */
+export function beginDetour(course: Course, progress: Progress, question: string, answer: string, topic: string, meta = false): Cursor {
   const c = ensureCursor(course, progress);
   if (!c.detour) c.detour = { topic, turns: 0, startedAt: new Date().toISOString(), history: [] };
   c.detour.turns += 1;
-  c.detour.topic = topic;
+  if (!meta || !c.detour.topic) c.detour.topic = topic;
   c.detour.history = [...(c.detour.history ?? []), { q: question, a: answer }].slice(-CHAT_HISTORY);
+  if (meta) return c;
   progress.detours ??= [];
   progress.detours.push({ at: new Date().toISOString(), segmentId: c.segmentId, question, topic });
   return c;

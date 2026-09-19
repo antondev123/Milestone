@@ -175,12 +175,17 @@ await api("PATCH", `/agents/${agentId}`, {
       // "Are you still there?" over the learner's thinking time; the SILENCE prompt rule + skip_turn handle the rest.
       turn_timeout: 30,
       interruption_ignore_terms: ["mm", "mhm", "uh huh", "okay", "ok", "yeah", "right"], // backchannel, not barge-in
+      // The wait filler. Lookup tools are back in ~15 ms, so this only ever fires on `ask`/`answer` (Sonnet,
+      // 2–5 s): a quick acknowledgement, then the answer when it lands. Unlike pre-tool speech (off on every
+      // tool above) a soft-timeout message keeps the LLM turn open, so the tool's t is still spoken after it.
+      // API range 0.5–8 s. The first message is fixed; later ones are drawn from the list at random.
       soft_timeout_config: {
-        timeout_seconds: 2.5, // lands inside the Claude wait for answer/ask; at 5 s it never fired
-        message: "One sec.",
-        additional_soft_timeout_messages: ["Nearly there."],
+        timeout_seconds: 0.8,
+        message: "Let me check that for you.",
+        additional_soft_timeout_messages: ["Good one, give me a second.", "Let me have a look.", "Nearly there."],
         use_llm_generated_message: false,
-        randomize_fillers: false,
+        randomize_fillers: true,
+        max_soft_timeouts_per_generation: 2,
         disable_until_first_user_message: true,
       },
     },

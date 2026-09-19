@@ -28,7 +28,11 @@ This creates the seven client tools and patches the agent with everything below.
 
 **Navigation** goes to `goto` with the learner's words verbatim → `src/lib/navigate.ts` (chapter/section numbers, next/back/skip, quiz, then a lexical match over titles, key terms and objectives).
 
-**Latency.** Lookup tools return in ~15 ms. `answer` (open questions, Sonnet 5) is ~3–4 s and `ask` (Sonnet 5, cached, low effort) ~2–4 s; the 2.5 s soft-timeout filler "One sec." and "Nearly there." cover them. A question asked *while a question is open* costs both (classify in `answer`, then `ask`).
+**Latency and the wait filler.** Lookup tools return in ~15 ms. `answer` (open questions, Sonnet 5) is ~3–4 s and `ask` (Sonnet 5, cached, low effort) ~2–4 s. The platform's soft timeout covers the wait: at 0.8 s it says "Let me check that for you." (then one of "Good one, give me a second." / "Let me have a look." / "Nearly there." at random, at most two per turn), and because a soft-timeout message keeps the LLM turn open the tool's `t` is still spoken when it lands. Lookups are back before 0.8 s, so the filler only ever plays for Claude. A question asked *while a question is open* costs both (classify in `answer`, then `ask`).
+
+**These fields are owned by `scripts/configure-agent.ts`**: `pre_tool_speech` on every tool, `turn_timeout`, `soft_timeout_config`, `built_in_tools.skip_turn`. A dashboard edit silently reintroduced pre-tool speech once; after any dashboard change re-run `npm run agent:configure`, and check with `GET /v1/convai/agents/<id>` if in doubt.
+
+**Dropped calls.** `@elevenlabs/client` has no reconnection. `VoiceAgent` handles an `onDisconnect` with `reason: "error"` itself: the trip is not ended (the trip and the cursor live on the server), `interrupted` is posted so the block is re-read, and `startSession` is dialled again with the greeting "Back with you. Carrying on with your trip." on a 1/2/4/8/15 s backoff (paused while `navigator.onLine` is false, retried on `online`). After five failures the Dial reads "Connection lost. Tap to reconnect". An open question is re-served with "repeat the question" after the greeting; a paused trip stays paused on the new call. Hold-to-end works throughout. The session log gets a `reconnect` row per attempt and a new `conversation` row per call; the ElevenLabs sync pulls the **latest** call only.
 
 ## 2. First message
 

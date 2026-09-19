@@ -1,6 +1,7 @@
 // Session log from the terminal. Reads the SQLite file directly (no server needed) except `sync`.
 //   npm run sessions                    → list sessions, newest first
-//   npm run sessions -- <tripId>        → timeline + usage for one session
+//   npm run sessions -- <tripId>        → timeline + usage for one session (tidied: one row per spoken line,
+//                                         mode flaps collapsed, LLM usage hidden; --raw for every row)
 //   npm run sessions -- <tripId> --json → the same as JSON (what /api/log/sessions/<id> returns)
 //   npm run sessions -- sync <tripId>   → pull the ElevenLabs transcript + recording via the running
 //                                         server (NEXT_PUBLIC_BASE_URL, default http://localhost:3000)
@@ -8,6 +9,7 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
+import { tidyTimeline } from "../src/lib/log/timeline.ts";
 
 const dir = process.env.LOG_DIR || join(process.cwd(), "data", "progress", "logs");
 const file = join(dir, "milestone.db");
@@ -57,7 +59,12 @@ if (!sess) {
   console.error(`no session ${a}`);
   process.exit(1);
 }
-const events = db.prepare("SELECT * FROM events WHERE session_id = ? ORDER BY ts, id").all(a) as unknown as { ts: string; src: string; kind: string; data_json: string }[];
+const rawEvents = db.prepare("SELECT * FROM events WHERE session_id = ? ORDER BY ts, id").all(a) as unknown as { id: number; ts: string; src: string; kind: string; data_json: string }[];
+const raw = b === "--raw" || c === "--raw";
+const events = tidyTimeline(
+  rawEvents.map((e) => ({ id: e.id, ts: e.ts, src: e.src, kind: e.kind, data: JSON.parse(e.data_json) as unknown })),
+  { raw },
+);
 const llm = db.prepare("SELECT * FROM llm_calls WHERE session_id = ? ORDER BY ts, id").all(a) as unknown as Record<string, unknown>[];
 const audio = db.prepare("SELECT * FROM audio WHERE session_id = ?").all(a) as unknown as Record<string, unknown>[];
 
@@ -66,7 +73,7 @@ if (b === "--json" || c === "--json") {
     JSON.stringify(
       {
         session: { ...sess, summary: sess.summary_json ? JSON.parse(sess.summary_json) : null, summary_json: undefined },
-        events: events.map((e) => ({ ...e, data: JSON.parse(e.data_json), data_json: undefined })),
+        events,
         llm,
         audio,
       },
@@ -89,9 +96,9 @@ if (llm.length) {
   }
   console.log(`  total $${usd.toFixed(4)}`);
 }
-console.log(`\ntimeline (${events.length}):`);
+console.log(`\ntimeline (${events.length}${raw ? "" : ` tidy of ${rawEvents.length}`}):`);
 for (const e of events) {
-  const x = JSON.parse(e.data_json) as Record<string, unknown>;
+  const x = (e.data && typeof e.data === "object" ? e.data : {}) as Record<string, unknown>;
   let line: string;
   switch (e.kind) {
     case "transcript":
@@ -102,6 +109,15 @@ for (const e of events) {
       line = `tool ${x.tool} ${x.ms}ms${x.ok === false ? ` ERROR ${x.error}` : ""}${Object.keys((x.req as object) ?? {}).length ? ` in=${short(x.req, 120)}` : ""}${rep.say ? ` say="${short(rep.say, 160)}"` : ""}${rep.correct !== undefined ? (rep.correct ? " ✓" : " ✗") : ""}`;
       break;
     }
+    case "agent_tool_call":
+      line = `agent → ${x.tool} ${short(x.params, 160)}`;
+      break;
+    case "agent_tool_result":
+      line = `agent ← ${x.tool}${x.error ? " ERROR" : ""} ${short(x.result, 160)}${x.latencySecs != null ? ` (${Number(x.latencySecs).toFixed(2)} s)` : ""}`;
+      break;
+    case "mode_flap":
+      line = `mode flapped ×${x.n} over ${Math.round(Number(x.ms ?? 0) / 100) / 10} s → ${x.last}`;
+      break;
     default:
       line = `${e.kind} ${short(x, 200)}`;
   }

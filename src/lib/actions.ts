@@ -291,7 +291,7 @@ export async function actionAsk(question: string, opts: { context?: string; deto
     console.error(`[ask] failed: ${(e as Error).message}`);
     return cursor.commitReply(course, progress, { kind: "say", say: "I could not get to that one right now. Ask again, or say continue to carry on.", loc: "", more: false });
   }
-  const cur = cursor.beginDetour(course, progress, question, result.answer, result.topic);
+  const cur = cursor.beginDetour(course, progress, question, result.answer, result.topic, result.meta);
   let sayText = result.answer;
   let offer: ToolReply["offer"];
   if (result.jumpTo && result.jumpTo !== place?.section.id) {
