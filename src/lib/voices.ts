@@ -13,16 +13,14 @@ export interface Voice {
 
 export const VOICES: Voice[] = voicesJson as Voice[];
 
+/** Mark. What everyone hears until they pick on /settings, and what every demo reset goes back to. */
+export const DEFAULT_VOICE_ID = "UgBBYS2sOqTuMpoF3BR0";
+
 export function isVoiceId(id: string | null | undefined): id is string {
   return !!id && VOICES.some((v) => v.id === id);
 }
 
-/** Voice for read-aloud: the learner's pick if it is still on the list, else the env default. */
-export function resolveVoice(progress: Progress): string | undefined {
-  return isVoiceId(progress.voiceId) ? progress.voiceId : process.env.ELEVENLABS_VOICE_ID;
-}
-
-/** Voice override for the agent: only the learner's pick; undefined keeps the dashboard voice. */
-export function agentVoice(progress: Progress): string | undefined {
-  return isVoiceId(progress.voiceId) ? progress.voiceId : undefined;
+/** The learner's pick if it is still on the list, else the default. Used by Study read-aloud and the Listen agent override. */
+export function currentVoice(progress: Progress): string {
+  return isVoiceId(progress.voiceId) ? progress.voiceId : DEFAULT_VOICE_ID;
 }

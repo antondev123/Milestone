@@ -1,7 +1,7 @@
-// Freeze the 8 voices the picker offers: top trending English voices from the ElevenLabs library.
-// Adds each to our account (library voices are unusable by TTS/agent until added), downloads its
-// sample to public/voices/<id>.mp3 (preview URLs are signed and expire), writes data/voices.json.
-// Offline only, idempotent. Usage: npm run voices:sync
+// Freeze the 8 voices the picker offers, in picker order. All are ElevenLabs library voices:
+// each is added to our account if missing (library voices are unusable by TTS/agent until added),
+// its sample downloaded to public/voices/<id>.mp3 (preview URLs are signed and expire), and
+// data/voices.json written. Offline only, idempotent. Usage: npm run voices:sync
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -12,19 +12,28 @@ if (!key) {
 }
 const BASE = "https://api.elevenlabs.io/v1";
 const H = { "xi-api-key": key, "content-type": "application/json" };
-const WANT = 8;
 
-type Shared = {
+// Picker order. The first entry is the default voice (DEFAULT_VOICE_ID in src/lib/voices.ts).
+// The search term must find the voice in the shared library so it can be added by owner + id.
+const WANT: { id: string; search: string }[] = [
+  { id: "UgBBYS2sOqTuMpoF3BR0", search: "Mark" },
+  { id: "IRHApOXLvnW57QJPQH2P", search: "Adam" },
+  { id: "4O1sYUnmtThcBoSBrri7", search: "Maya" },
+  { id: "vChnJZ1Cu89g2XXumPfT", search: "Lara" },
+  { id: "dfeOmy6Uay63tNhyO99j", search: "Kristen" },
+  { id: "l30f87tf05uxyknGdDw6", search: "Alistair" },
+  { id: "h2sm0NbeIZXHBzJOMYcQ", search: "Natasha" },
+  { id: "D11AWvkESE7DJwqIVi7L", search: "Brian" },
+];
+
+type Shared = { voice_id: string; public_owner_id: string; name: string };
+type VoiceInfo = {
   voice_id: string;
-  public_owner_id: string;
   name: string;
   description?: string;
-  accent?: string;
-  category: string;
-  free_users_allowed: boolean;
+  labels?: { accent?: string };
   preview_url?: string;
 };
-type Own = { voices: { voice_id: string; name: string }[] };
 
 async function api<T>(method: string, path: string, body?: unknown): Promise<T> {
   const r = await fetch(BASE + path, { method, headers: H, body: body ? JSON.stringify(body) : undefined });
@@ -45,38 +54,35 @@ function blurb(libraryName: string, description: string | undefined): string {
   return cut.charAt(0).toUpperCase() + cut.slice(1).toLowerCase();
 }
 
-const trending = await api<{ voices: Shared[] }>("GET", "/shared-voices?sort=trending&language=en&page_size=30");
-const own = await api<Own>("GET", "/voices");
-const owned = new Set(own.voices.map((v) => v.voice_id));
-
 const outDir = join(process.cwd(), "public", "voices");
 mkdirSync(outDir, { recursive: true });
 
+const own = await api<{ voices: { voice_id: string }[] }>("GET", "/voices");
+const owned = new Set(own.voices.map((v) => v.voice_id));
+
 const picked: { id: string; name: string; blurb: string; accent: string; sample: string }[] = [];
-const seen = new Set<string>();
-for (const v of trending.voices) {
-  if (picked.length >= WANT) break;
-  if (!v.free_users_allowed || v.category !== "high_quality" || !v.preview_url) continue;
-  const name = shortName(v.name);
-  if (seen.has(name.toLowerCase())) continue;
+for (const { id, search } of WANT) {
   try {
-    if (!owned.has(v.voice_id)) {
-      await api("POST", `/voices/add/${v.public_owner_id}/${v.voice_id}`, { new_name: v.name });
-      console.log(`added   ${name} (${v.voice_id})`);
-    } else {
-      console.log(`have    ${name} (${v.voice_id})`);
+    if (!owned.has(id)) {
+      const found = await api<{ voices: Shared[] }>("GET", `/shared-voices?search=${encodeURIComponent(search)}&page_size=100`);
+      const shared = found.voices.find((v) => v.voice_id === id);
+      if (!shared) throw new Error(`not in the shared library under "${search}"`);
+      await api("POST", `/voices/add/${shared.public_owner_id}/${id}`, { new_name: shared.name });
+      console.log(`added   ${shortName(shared.name)} (${id})`);
     }
+    const v = await api<VoiceInfo>("GET", `/voices/${id}`);
+    if (!v.preview_url) throw new Error("no preview_url");
     const mp3 = await fetch(v.preview_url);
     if (!mp3.ok) throw new Error(`preview ${mp3.status}`);
-    writeFileSync(join(outDir, `${v.voice_id}.mp3`), Buffer.from(await mp3.arrayBuffer()));
+    writeFileSync(join(outDir, `${id}.mp3`), Buffer.from(await mp3.arrayBuffer()));
+    const name = shortName(v.name);
+    picked.push({ id, name, blurb: blurb(v.name, v.description), accent: v.labels?.accent ?? "", sample: `/voices/${id}.mp3` });
+    console.log(`ok      ${name} (${id})`);
   } catch (e) {
-    console.warn(`skip    ${name}: ${(e as Error).message}`);
-    continue;
+    console.warn(`skip    ${id}: ${(e as Error).message}`);
   }
-  seen.add(name.toLowerCase());
-  picked.push({ id: v.voice_id, name, blurb: blurb(v.name, v.description), accent: v.accent ?? "", sample: `/voices/${v.voice_id}.mp3` });
 }
 
-if (picked.length < WANT) console.warn(`only ${picked.length} of ${WANT} voices picked`);
+if (picked.length < WANT.length) console.warn(`only ${picked.length} of ${WANT.length} voices picked`);
 writeFileSync(join(process.cwd(), "data", "voices.json"), JSON.stringify(picked, null, 2) + "\n");
 console.log(`wrote data/voices.json with ${picked.length} voices`);

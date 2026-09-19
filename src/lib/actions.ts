@@ -13,7 +13,7 @@ import { askBook } from "./ask";
 import { quickIntent } from "./intent";
 import { carrySession, closeSession, openSession } from "./log/log";
 import { demoArmed, demoPlan } from "./demo";
-import { VOICES, isVoiceId, type Voice } from "./voices";
+import { VOICES, currentVoice, isVoiceId, type Voice } from "./voices";
 
 const userId = DEMO_USER_ID;
 const courseId = DEFAULT_COURSE_ID;
@@ -22,23 +22,16 @@ export function actionProgress(): Progress {
   return getProgress(userId, courseId);
 }
 
-/** Demo reset. The voice pick survives so a rehearsal does not lose it. */
+/** Demo reset. Everything goes, including the voice pick: the next person hears the default (Mark). */
 export function actionReset(): Progress {
-  const { voiceId } = getProgress(userId, courseId);
-  const fresh = resetProgress(userId, courseId);
-  if (voiceId) {
-    fresh.voiceId = voiceId;
-    saveProgress(fresh);
-  }
-  return fresh;
+  return resetProgress(userId, courseId);
 }
 
-export function actionVoices(): { voices: Voice[]; current: string | null } {
-  const p = getProgress(userId, courseId);
-  return { voices: VOICES, current: isVoiceId(p.voiceId) ? p.voiceId : null };
+export function actionVoices(): { voices: Voice[]; current: string } {
+  return { voices: VOICES, current: currentVoice(getProgress(userId, courseId)) };
 }
 
-export function actionSetVoice(voiceId: unknown): { voices: Voice[]; current: string | null } {
+export function actionSetVoice(voiceId: unknown): { voices: Voice[]; current: string } {
   if (typeof voiceId !== "string" || !isVoiceId(voiceId)) throw new Error("unknown voiceId");
   const p = getProgress(userId, courseId);
   p.voiceId = voiceId;

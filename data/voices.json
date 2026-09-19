@@ -1,10 +1,17 @@
 [
   {
-    "id": "bfGb7JTLUnZebZRiFYyq",
-    "name": "Adam",
-    "blurb": "Distinct, deep and engaging",
+    "id": "UgBBYS2sOqTuMpoF3BR0",
+    "name": "Mark",
+    "blurb": "Natural conversations",
     "accent": "american",
-    "sample": "/voices/bfGb7JTLUnZebZRiFYyq.mp3"
+    "sample": "/voices/UgBBYS2sOqTuMpoF3BR0.mp3"
+  },
+  {
+    "id": "IRHApOXLvnW57QJPQH2P",
+    "name": "Adam",
+    "blurb": "American, dark and tough",
+    "accent": "american",
+    "sample": "/voices/IRHApOXLvnW57QJPQH2P.mp3"
   },
   {
     "id": "4O1sYUnmtThcBoSBrri7",
@@ -12,13 +19,6 @@
     "blurb": "Friendly and cheerful",
     "accent": "indian",
     "sample": "/voices/4O1sYUnmtThcBoSBrri7.mp3"
-  },
-  {
-    "id": "zfWx5IjUaWGWTId9hv9t",
-    "name": "Atlas",
-    "blurb": "Deep, powerful cinematic announcer voice…",
-    "accent": "american",
-    "sample": "/voices/zfWx5IjUaWGWTId9hv9t.mp3"
   },
   {
     "id": "vChnJZ1Cu89g2XXumPfT",

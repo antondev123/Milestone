@@ -7,10 +7,10 @@ import type { Voice } from "@/lib/voices";
 import { PlayIcon, StopIcon } from "@/components/carry/Icons";
 import { postJSON } from "@/components/carry/net";
 
-type Props = { voices: Voice[]; current: string | null };
+type Props = { voices: Voice[]; current: string };
 
 export function VoicePicker({ voices, current }: Props) {
-  const [chosen, setChosen] = useState<string | null>(current);
+  const [chosen, setChosen] = useState<string>(current);
   const [playing, setPlaying] = useState<string | null>(null);
   const [trouble, setTrouble] = useState(false);
   const audio = useRef<HTMLAudioElement | null>(null);
@@ -48,7 +48,7 @@ export function VoicePicker({ voices, current }: Props) {
     setChosen(v.id);
     setTrouble(false);
     try {
-      const r = await postJSON<{ current: string | null }>("/api/voice", { voiceId: v.id });
+      const r = await postJSON<{ current: string }>("/api/voice", { voiceId: v.id });
       if (r.current !== v.id) throw new Error("not saved");
     } catch {
       setChosen(before);
