@@ -98,6 +98,12 @@ export function withMilestones(course: Course, progress: Progress, reply: ToolRe
 // ---------- next ----------
 
 export function serveNext(course: Course, progress: Progress, opts: { peek?: boolean } = {}): ToolReply {
+  // A peek warms the next block without committing, but the helpers below (readBlock, askQuestion,
+  // moveTo, quizQuestion, earnNow) all write into the cursor and progress as they go. The store hands
+  // out the same in-memory object every call, so a peek on the live object used to flip the phase to
+  // "ask" behind the client's back and the next real `next` said "Again." for a question never asked.
+  // Peek on a throwaway copy instead.
+  if (opts.peek) progress = structuredClone(progress);
   const c = ensureCursor(course, progress);
   // idempotency: a second `next` inside the dedupe window re-serves the same reply
   if (c.lastReply?.kind === "read" && c.lastAt && Date.now() - new Date(c.lastAt).getTime() < DEDUPE_MS && !opts.peek) return c.lastReply;
@@ -165,9 +171,8 @@ export function serveNext(course: Course, progress: Progress, opts: { peek?: boo
       prefix = say.chapterDone(from.chapter, true) + say.chapterIntro(to) + " ";
     }
   }
-  if (!opts.peek) moveTo(c, nxtId);
-  const cc = opts.peek ? { ...c, segmentId: nxtId, blockIdx: 0, served: false, heard: true, phase: "read" as const, qIdx: 0, attempt: 0 } : c;
-  const r = readBlock(course, progress, cc, prefix);
+  moveTo(c, nxtId);
+  const r = readBlock(course, progress, c, prefix);
   return opts.peek ? r : commit(course, progress, c, r);
 }
 
@@ -209,8 +214,10 @@ function currentQuestion(course: Course, c: Cursor): Question | undefined {
 function askQuestion(course: Course, progress: Progress, c: Cursor, prefix: string): ToolReply {
   const q = currentQuestion(course, c);
   if (!q) {
+    // no questions on this part: move on. The caller commits (or is itself a peek on a copy), so this
+    // must advance the cursor it was handed, not a clone.
     c.phase = "done";
-    return serveNext(course, progress, { peek: true });
+    return serveNext(course, progress, {});
   }
   c.served = true;
   c.heard = true;
@@ -353,6 +360,8 @@ export function explain(course: Course, progress: Progress, how: Aspect): ToolRe
 
 // ---------- interrupted ----------
 
+/** The learner cut the tutor off: the current block or question is re-served on the next `next`.
+ *  The client posts this only for a real barge-in, never for its own synthetic "continue" turn. */
 export function interrupted(course: Course, progress: Progress): void {
   const c = ensureCursor(course, progress);
   c.heard = false;

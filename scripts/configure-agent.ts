@@ -63,7 +63,7 @@ export const TOOLS = [
   },
   {
     name: "end_trip",
-    description: "End the trip and get the spoken progress summary. Call on \"I'm done\", \"I've arrived\", \"stop\".",
+    description: "End the trip and get the spoken progress summary. Only on \"I'm done\", \"I've arrived\", \"end the trip\", \"end the session\". Never on stop, pause or wait: those are a hold, not an end.",
     parameters: { type: "object", properties: {}, required: [] },
     timeout: LOOKUP_TIMEOUT,
   },
@@ -89,14 +89,17 @@ COMMANDS, act the moment you hear one, even mid-sentence:
 - give me an example -> explain(how "example")
 - skip, move on, next part, next chapter, go to chapter four, section two point five, take me to the quiz, quiz me, go back, take me to the bit about X -> goto(target: their words)
 - where am I, what's next, what's left, how am I doing -> where_am_i
-- hold on, wait, pause -> say "Holding." and stop. When they say continue, call next.
-- I'm done, I've arrived, stop -> end_trip, say its t, then a short goodbye.
+- hold on, wait, pause, stop, hang on -> say "Holding." and wait. When they say continue or go, call next.
+- I'm done, I've arrived, end the trip, end the session -> end_trip, say its t, then a short goodbye. Stop is a hold, never an end.
 
 ANYTHING ELSE IS CHAT, NOT A MISHEARING: call ask with their words verbatim.
+
+SILENCE: if the learner's turn is empty, "...", or just a breath, call skip_turn and say nothing. Never ask whether they are still there. They are driving; silence is normal.
 
 RULES:
 - You may only speak words that came from a tool's t, plus "okay", "holding" and "goodbye".
 - While a tool is running, say nothing. Never announce that you are checking, looking something up or wrapping up; the tool's t is your whole reply.
+- If you hear "say it", say the last t you received and have not yet spoken.
 - One tool call at a time. If a tool errors, say "let me get back to that" and call next.
 - If a turn is garbled, call explain(how "again"). Never comment on the words.
 - After you finish speaking, wait. Do not ask "shall I continue".`;
@@ -106,7 +109,10 @@ type ToolRow = { id: string; tool_config: { name: string } };
 const existing = await api<{ tools: ToolRow[] }>("GET", "/tools");
 const toolIds: string[] = [];
 for (const t of TOOLS) {
-  const config = { type: "client", name: t.name, description: t.description, parameters: t.parameters, expects_response: true, response_timeout_secs: t.timeout, disable_interruptions: false };
+  // pre_tool_speech "off": a filler ("Let me check on that") closes the agent's turn, and a tool result
+  // that lands after the filler has finished never gets an LLM turn, so the t is never spoken. The
+  // soft-timeout filler below covers the wait without closing the turn. Reference failure: trip-mu7f5dbm.
+  const config = { type: "client", name: t.name, description: t.description, parameters: t.parameters, expects_response: true, response_timeout_secs: t.timeout, pre_tool_speech: "off" };
   const found = existing.tools.find((x) => x.tool_config.name === t.name);
   if (found) {
     await api("PATCH", `/tools/${found.id}`, { tool_config: config });
@@ -139,6 +145,8 @@ await api("PATCH", `/agents/${agentId}`, {
         max_tokens: -1,
         tool_ids: toolIds,
         tools: [],
+        // skip_turn lets the agent answer the turn-timeout "..." with silence instead of "are you still there"
+        built_in_tools: { skip_turn: { type: "system", name: "skip_turn", description: "", params: { system_tool_type: "skip_turn" } } },
         enable_parallel_tool_calls: false,
       },
     },
@@ -150,8 +158,8 @@ await api("PATCH", `/agents/${agentId}`, {
         "go", "continue", "carry on", "back to the lesson", "back to the question", "keep chatting", "repeat", "say that again", "explain differently", "explain that differently", "I don't get it",
         "go deeper", "tell me more", "give me an example", "skip", "move on", "next part", "next chapter",
         "where am I", "what's next", "what's left", "how am I doing",
-        "go to chapter", "take me to chapter", "take me to the quiz", "quiz me", "go back", "hold on", "pause",
-        "I'm done", "I've arrived",
+        "go to chapter", "take me to chapter", "take me to the quiz", "quiz me", "go back", "hold on", "pause", "stop", "hang on",
+        "I'm done", "I've arrived", "end the trip",
         "chapter one", "chapter two", "chapter three", "chapter four", "chapter five", "chapter six",
         "Mintzberg", "Kotter", "Taylor", "Fayol", "Weber", "Hawthorne", "satisficing", "bounded rationality", "escalation of commitment", "groupthink",
       ],
@@ -163,7 +171,9 @@ await api("PATCH", `/agents/${agentId}`, {
       turn_model: "turn_v3",
       turn_eagerness: "eager", // driver commands are short; respond fast
       speculative_turn: true, // start the LLM before end-of-turn is certain
-      turn_timeout: 10,
+      // API max. At 10 s the platform injected a "..." user turn after every pause and the LLM improvised
+      // "Are you still there?" over the learner's thinking time; the SILENCE prompt rule + skip_turn handle the rest.
+      turn_timeout: 30,
       interruption_ignore_terms: ["mm", "mhm", "uh huh", "okay", "ok", "yeah", "right"], // backchannel, not barge-in
       soft_timeout_config: {
         timeout_seconds: 2.5, // lands inside the Claude wait for answer/ask; at 5 s it never fired
