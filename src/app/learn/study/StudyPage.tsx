@@ -12,6 +12,7 @@ import { AssistantFab, AssistantSheet } from "@/components/study/AssistantSheet"
 import { AssistantThread, type Message } from "@/components/study/AssistantThread";
 import { Checkpoint, type StudyQuestion } from "@/components/study/Checkpoint";
 import { LegNav, type LegLink } from "@/components/study/LegNav";
+import { PhoneButton, PhonePreview } from "@/components/study/PhonePreview";
 import { ReadAloudStrip } from "@/components/study/ReadAloudStrip";
 import { Reader } from "@/components/study/Reader";
 import { SectionPicker, type PickerManifest } from "@/components/study/SectionPicker";
@@ -52,6 +53,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   const [asking, setAsking] = useState(false);
   const [trouble, setTrouble] = useState(false);
   const [booting, setBooting] = useState(true);
+  const [phone, setPhone] = useState(false); // desktop-only phone preview (iframe), remembered across reloads
   const lastMarked = useRef<string>("");
   const checkRef = useRef<HTMLDivElement>(null);
   // one Checkpoint instance: phone inline or desktop column, never both (each would POST `check`)
@@ -179,6 +181,29 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
     if (desktop) setAsideTab("check");
     else setTimeout(() => checkRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
   }
+
+  // restore an open preview on reload; never inside the preview frame itself (it shares localStorage)
+  useEffect(() => {
+    if (window.self !== window.top) return;
+    try {
+      if (localStorage.getItem(PHONE_KEY) === "1") setPhone(true);
+    } catch {}
+  }, []);
+
+  function openPhone() {
+    player.pause(); // the frame shares the server cursor; do not read aloud in both
+    setPhone(true);
+    try {
+      localStorage.setItem(PHONE_KEY, "1");
+    } catch {}
+  }
+
+  const closePhone = useCallback(() => {
+    setPhone(false);
+    try {
+      localStorage.removeItem(PHONE_KEY);
+    } catch {}
+  }, []);
 
   const onCheckDone = useCallback(() => {
     setCheckDone(true);
@@ -317,6 +342,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
         >
           Check my understanding
         </button>
+        <PhoneButton onClick={openPhone} />
       </div>
       {/* the middle is one flex region; whatever is inside owns the single scroll (the thread, or the checkpoint) */}
       <div className="flex min-h-0 flex-1 flex-col">
@@ -379,8 +405,19 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
         </AssistantSheet>
         <SectionPicker open={pickerOpen} onClose={() => setPickerOpen(false)} manifest={manifest} hereSection={section} completed={completed} busy={booting} onPick={jumpToSection} />
       </StudyLayout>
+      <PhonePreview open={phone} onClose={closePhone} src={phoneSrc()} />
     </>
   );
+}
+
+const PHONE_KEY = "study:phone";
+
+// Same route and query (keeps ?goto=), flagged so the embedded page can tell it is a preview.
+function phoneSrc(): string {
+  if (typeof window === "undefined") return "/learn/study?frame=1";
+  const q = new URLSearchParams(window.location.search);
+  q.set("frame", "1");
+  return `/learn/study?${q}`;
 }
 
 /** Outlined, full width: ending is always one clear tap, never the primary (docs/DESIGN.md §3). */
