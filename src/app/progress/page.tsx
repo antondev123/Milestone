@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { actionProgress } from "@/lib/actions";
 import { DEFAULT_COURSE_ID, loadCourse } from "@/lib/course";
-import { courseFinished, currentChapter, milestoneRows, routeState, tripRows } from "@/lib/view";
+import { chapterLegs, courseFinished, currentChapter, milestoneRows, routeState, tripRows } from "@/lib/view";
 import { BackLink, Screen, TopBar } from "@/components/carry/Chrome";
 import { RouteLine } from "@/components/carry/RouteLine";
 import { Group } from "@/components/carry/Group";
@@ -19,12 +19,13 @@ export default function ProgressPage() {
   const route = routeState(chapter, progress, (n) => `Next: leg ${n}`);
   const done = route.done.filter(Boolean).length;
   const complete = courseFinished(course, progress);
-  // position on the map: chapters finished and legs done, from segmentsCompleted (not from trips)
+  // position on the map: chapters finished and legs (sections) done, from segmentsCompleted (not from trips)
   const doneSet = new Set(progress.segmentsCompleted);
   const chaptersDone = course.chapters.filter((c) => c.segments.length > 0 && c.segments.every((s) => doneSet.has(s.id))).length;
-  const legsDone = progress.segmentsCompleted.length;
+  const legsDone = course.chapters.flatMap(chapterLegs).filter((s) => s.segments.every((g) => doneSet.has(g.id))).length;
+  const partsDone = progress.segmentsCompleted.length;
   const position =
-    legsDone === 0
+    partsDone === 0
       ? null
       : `${chaptersDone > 0 ? `${chaptersDone} chapter${chaptersDone === 1 ? "" : "s"} finished, ` : ""}${legsDone} leg${legsDone === 1 ? "" : "s"} done on the map`;
 

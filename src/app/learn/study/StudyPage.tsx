@@ -143,7 +143,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
 
   const leg = seg ? legs[seg.id] : undefined;
   const section = leg?.section ?? "";
-  const legLabel = leg ? `Leg ${leg.n}` : "Leg";
+  const legLabel = leg ? `Leg ${leg.n}${leg.partCount > 1 ? `, part ${leg.partIndex}` : ""}` : "Leg";
 
   const order = useMemo(() => manifest?.chapters.flatMap((c) => c.sections.flatMap((s) => s.segments.map((g) => g.id))) ?? [], [manifest]);
   const legLink = (id: string | undefined): LegLink | null => {
