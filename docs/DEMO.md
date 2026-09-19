@@ -51,7 +51,7 @@ Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`
 - Tap **Hands-off** again after the summary: an ordinary open-ended trip from 2.5 part 3. The demo does not repeat until `npm run demo:stage`.
 
 ## Fallbacks
-- Mic or ElevenLabs fails: Read mode has no button any more; open `/learn/text` by URL. It has the same content and tools with typed commands; a Read trip is open-ended, so tap **End trip** after part 2. `/learn/voice?text=1` runs the real agent without audio but takes no commands (the Dial is hands-free).
+- Mic or ElevenLabs fails: Read quietly is deleted, so the only fallback is `/learn/voice?text=1`, which runs the real agent without audio but takes no commands (the Dial is hands-free).
 - Grading API down (no `ANTHROPIC_API_KEY`): MCQs grade locally; open answers fall back to keyword matching, which is lenient and accepts the answers above.
 - `ask` slow: the "One sec" filler covers ~3 s; on a timeout the tutor says "I couldn't check that one, say go" and reading resumes.
 - The trip does not end after part 2: the demo was not armed (someone browsed away or it already ran). Say "I'm done", run `npm run demo:stage`, reload.

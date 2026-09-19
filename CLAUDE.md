@@ -58,10 +58,9 @@ Hackathon, 36 hours, 2026-09-18 to 2026-09-19. Theme: "Travel — the journey, n
 | Design spec and brief | `docs/DESIGN.md`, `docs/CONTEXT.md` |
 | Carry screens: Resume, Progress | `src/app/page.tsx`, `src/app/progress/page.tsx`, view models in `src/lib/view.ts` |
 | Carry design components (top bar, mode pill, route line, feedback box, icons, retry) | `src/components/carry/` |
-| Text mode (renderer over the speech tools) | `src/app/learn/text/TextMode.tsx` (server shell `page.tsx`) |
 | Course map | `src/app/course/page.tsx` |
 | Cursor engine (position state machine), spoken lines, goto resolver, grounded ask | `src/lib/cursor.ts`, `src/lib/say.ts`, `src/lib/navigate.ts`, `src/lib/ask.ts` |
-| Speech tools (voice agent + text mode) | `src/app/api/tools/[tool]/route.ts` |
+| Speech tools (voice agent + Hands-on) | `src/app/api/tools/[tool]/route.ts` |
 | Voice mode | `src/app/learn/voice/page.tsx`, `src/components/VoiceAgent.tsx` |
 | Summary card | `src/app/trip/[id]/summary/page.tsx` |
 | Verbatim legs: chapter 1 (PDF text layer) and chapter 2 (section markdown), not ingested | `data/courses/pom/verbatim/cNN.json`, `scripts/verbatim-chapter.ts` (`npm run course:verbatim`) |

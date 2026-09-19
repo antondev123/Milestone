@@ -1,6 +1,6 @@
 "use client";
-// "Jump to" for Study mode, opened from the top-bar title. Same list as Text mode's Jump to…:
-// every teachable section, the current one marked, done ones labelled, chapter quizzes linked.
+// "Jump to" for Study mode, opened from the top-bar title:
+// every teachable section, the current one marked, done ones labelled.
 // Picking posts `goto` with "section N.M" (the page does that); nothing is locked.
 import Link from "next/link";
 import { LinesIcon } from "@/components/carry/Icons";
@@ -62,12 +62,6 @@ export function SectionPicker({
                     </button>
                   );
                 })}
-                {ch.quizFile && (
-                  <Link href={`/learn/text?goto=${encodeURIComponent(`quiz me on chapter ${ch.number}`)}`} className="flex min-h-11 items-center gap-3 rounded-lg px-2 text-[15px] hover:bg-panel">
-                    <span className="flex-1">Chapter quiz</span>
-                    <span className="shrink-0 text-sm text-muted">In Read mode</span>
-                  </Link>
-                )}
               </div>
             );
           })

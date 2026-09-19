@@ -59,8 +59,7 @@ src/lib/                     engine: store, planner, grader
 src/app/api/                 session, grade, progress, tools/* (ElevenLabs webhooks)
 src/app/page.tsx             Resume (Carry design): route line + where the last trip stopped
 src/app/progress             Progress (Carry design): minutes learned in transit, trips
-src/app/learn/text           Read quietly: text mode over the speech tools
-src/app/learn/voice          Listen: ElevenLabs agent
+src/app/learn/voice          Hands-off: ElevenLabs agent
 src/components/carry/        Carry design pieces: top bar, mode pill, route line, feedback box, icons, retry
 src/lib/view.ts              view models for the Carry screens (legs, resume card, trip rows)
 src/app/trip/[id]/summary    progress artefact

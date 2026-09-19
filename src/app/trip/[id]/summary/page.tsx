@@ -36,7 +36,6 @@ export default async function Summary({ params }: { params: Promise<{ id: string
   const route = routeState(chapter, progress, (n) => `Next: leg ${n}`);
   // the furthest stop this trip finished gets the gold tick as the route fills
   const justDone = chapter.segments.reduce((at, s, i) => (trip.segmentIds.includes(s.id) ? i : at), -1);
-  const pendingQuiz = progress.pendingQuizzes?.[0]?.split("/c")[1];
 
   return (
     <Screen gap="gap-[26px]">
@@ -99,13 +98,6 @@ export default async function Summary({ params }: { params: Promise<{ id: string
             ))}
           </ul>
         </Group>
-      )}
-
-      {pendingQuiz && (
-        <Link href={`/learn/text?goto=${encodeURIComponent(`quiz me on chapter ${pendingQuiz}`)}`} className="flex flex-col gap-1 rounded-2xl border-2 border-ink p-[18px]">
-          <span className="text-[15px] text-muted">Quiz waiting</span>
-          <span className="text-[17px] font-semibold">Chapter {pendingQuiz} review, about two minutes</span>
-        </Link>
       )}
 
       <Group label="Next leg picks up at" gap="gap-1.5">
