@@ -3,10 +3,10 @@
 //   npm run demo:reset -- --seed  → position only: chapter 1 done, chapter 2 through 2.4 (no trips, answers or streak)
 //   npm run demo:stage            → the seed above plus the stage demo armed: the next Listen trip is exactly
 //                                   2.5 parts 1 and 2, then it ends itself into the summary. Once. See docs/DEMO.md.
-// The chosen voice (Settings) is kept in every mode, so a rehearsal does not lose it.
+// The voice pick is wiped too: after any reset the next person hears the default (Mark).
 import { existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { emptyProgress, type Course, type Progress } from "../src/types/lesson.ts";
+import { type Course, type Progress } from "../src/types/lesson.ts";
 
 const courseId = process.env.COURSE_ID ?? "pom";
 const stage = process.argv.includes("--stage");
@@ -17,12 +17,6 @@ const STAGE_LEGS = [`${courseId}/c2/s5/g1`, `${courseId}/c2/s5/g2`];
 const dir = join(process.cwd(), "data", "progress");
 mkdirSync(dir, { recursive: true });
 const demoFile = join(dir, `demo-${courseId}.json`);
-let voiceId: string | undefined;
-try {
-  voiceId = (JSON.parse(readFileSync(demoFile, "utf8")) as Progress).voiceId;
-} catch {
-  voiceId = undefined;
-}
 let n = 0;
 for (const f of readdirSync(dir)) {
   if (f.endsWith(".json")) {
@@ -36,11 +30,6 @@ function loadCourse(): Course {
   const manifest = join(process.cwd(), "data", "courses", courseId, "course.json");
   if (!existsSync(manifest)) throw new Error(`no course at ${manifest}`);
   return JSON.parse(readFileSync(manifest, "utf8")) as Course;
-}
-
-if (voiceId && !seed) {
-  writeFileSync(demoFile, JSON.stringify({ ...emptyProgress("demo", loadCourse()), voiceId }, null, 2));
-  console.log(`demo-reset: kept voice ${voiceId}`);
 }
 
 if (seed) {
@@ -61,7 +50,6 @@ if (seed) {
     streakDays: 0,
     lastTripAt: null,
     trips: [],
-    voiceId,
   };
   if (stage) {
     for (const id of STAGE_LEGS) if (!segs.some((s) => s.id === id)) throw new Error(`stage leg ${id} is not in the course`);

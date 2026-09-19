@@ -184,7 +184,7 @@ Progress +=  demo? { segmentIds[], tripId? }   stage demo armed by `npm run demo
              legs, then it ends itself (the only trip with a non-empty ActiveTrip.segmentIds). Cleared when that trip ends.
 TripSummary += explored[]   detour topics this trip
 TripSummary += milestones[] milestone ids first earned on this trip
-Progress +=  voiceId?     learner's pick from /settings, an id in data/voices.json; unset = env/dashboard default
+Progress +=  voiceId?     learner's pick from /settings, an id in data/voices.json; unset = Mark (DEFAULT_VOICE_ID in src/lib/voices.ts)
 Plan += greeting            server-composed opening line
 
 ToolReply { kind: "read"|"ask"|"say"|"end", say, loc, more, options?, correct?, tripId?, segmentId?, offer?, qIdx?, block?,

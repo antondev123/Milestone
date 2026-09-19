@@ -38,7 +38,7 @@ let fsWritable: boolean | null = null;
 function config(voice: string | undefined) {
   const key = process.env.ELEVENLABS_API_KEY;
   const model = process.env.ELEVENLABS_TTS_MODEL || "eleven_flash_v2_5";
-  if (!key || !voice) throw new TtsError("Read-aloud is not configured (ELEVENLABS_API_KEY and ELEVENLABS_VOICE_ID)", 503);
+  if (!key || !voice) throw new TtsError("Read-aloud is not configured (ELEVENLABS_API_KEY)", 503);
   return { key, voice, model };
 }
 

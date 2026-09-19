@@ -14,7 +14,7 @@ npm run deploy:fly
 
 `deploy:fly` reads `.env.local`, pushes the server-side keys as Fly secrets
 (`ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `ANTHROPIC_ASK_MODEL`, `ELEVENLABS_API_KEY`,
-`ELEVENLABS_VOICE_ID`, `ELEVENLABS_TTS_MODEL`,
+`ELEVENLABS_TTS_MODEL`,
 `TOOL_WEBHOOK_SECRET`, `COURSE_ID`), and passes `NEXT_PUBLIC_ELEVENLABS_AGENT_ID` and
 `NEXT_PUBLIC_BASE_URL=https://<app>.fly.dev` as Docker build args (Next inlines `NEXT_PUBLIC_*`
 at build time, so they cannot be secrets). The build runs on Fly's remote builder; no local Docker needed.
