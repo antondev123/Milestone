@@ -51,6 +51,7 @@ Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`
 - Tap **Hands-off** again after the summary: an ordinary open-ended trip from 2.5 part 3. The demo does not repeat until `npm run demo:stage`.
 
 ## Fallbacks
+- Screen recordings: `/learn/voice?scripted=1` is the Listen screen with no trip and no agent. `window.__voice.set({ phase, flash, creep, segmentId })` puts it in any state (Connecting, Speaking, Listening, One sec, Answer out loud, That's right, a milestone label, Paused) and `window.__voice.earcon(name)` plays the app's earcons; the judges' video drives it with pre-generated clips (`src/components/ScriptedVoiceAgent.tsx`). Nothing in the UI links to it.
 - Mic or ElevenLabs fails: Read quietly is deleted, so the only fallback is `/learn/voice?text=1`, which runs the real agent without audio but takes no commands (the Dial is hands-free).
 - Grading API down (no `ANTHROPIC_API_KEY`): MCQs grade locally; open answers fall back to keyword matching, which is lenient and accepts the answers above.
 - `ask` slow: the "One moment" filler covers ~3 s; on a timeout the tutor says "I couldn't check that one, say go" and reading resumes.
