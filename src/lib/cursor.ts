@@ -16,6 +16,7 @@ import { blocks } from "./chunk";
 import { loadChapterQuiz, loadQuestionFull, loadSegmentFull } from "./course";
 import { gradeAnswer, revealLine } from "./grader";
 import { earnNow } from "./milestones";
+import { previousSegmentId } from "./navigate";
 import { completeSegment, endTrip, recordCheckpoint } from "./progress";
 import * as say from "./say";
 import { saveProgress } from "./store";
@@ -113,8 +114,11 @@ export function serveNext(course: Course, progress: Progress, opts: { peek?: boo
     const p = say.place(course, c.segmentId);
     delete c.detour;
     if (c.phase === "read") {
+      // "Back to <part>" only when a block of it was interrupted; a chat right after a goto, before the
+      // first block, is not a return (trip-mu81rfl5: "Going to 2.6…" then "Back to Experience…")
+      const prefix = c.served ? `Back to ${p?.segment.title ?? "it"}. ` : "";
       c.heard = false;
-      const r = readBlock(course, progress, c, `Back to ${p?.segment.title ?? "it"}. `);
+      const r = readBlock(course, progress, c, prefix);
       return opts.peek ? r : commit(course, progress, c, r);
     }
     if (c.phase === "ask") {
@@ -399,8 +403,13 @@ export function gotoSegment(course: Course, progress: Progress, segmentId: strin
 
 export function gotoBack(course: Course, progress: Progress): ToolReply {
   const c = ensureCursor(course, progress);
-  const prev = c.returnStack.pop();
-  if (!prev) return commit(course, progress, c, { kind: "say", say: "There is nowhere to go back to yet.", loc: loc(course, c), more: false });
+  let prev = c.returnStack.pop();
+  if (!prev) {
+    // nothing jumped to this trip: "go back" means the part before this one in the book
+    const before = previousSegmentId(course, c.segmentId);
+    if (!before) return commit(course, progress, c, { kind: "say", say: "This is the start of the course. There is nowhere to go back to.", loc: loc(course, c), more: false });
+    prev = { segmentId: before, blockIdx: 0 };
+  }
   const p = say.place(course, prev.segmentId);
   moveTo(c, prev.segmentId);
   c.blockIdx = prev.blockIdx;
@@ -494,11 +503,15 @@ export function lessonSoFar(course: Course, progress: Progress): LessonSoFar {
         : [];
   const ids = new Set(questions.map((q) => q.id));
   const since = progress.activeTrip?.startedAt ?? ""; // this trip's attempts only, not a rerun's from last week
+  // the whole part has been read and the checkpoint is what `next` serves next: the chat model must know,
+  // or it tells a learner who never heard the question that none was due (trip-mu81rfl5)
+  const pending = c.phase === "read" && !c.quiz && upto >= bl.length ? seg.checkpoint : [];
   return {
     readSoFar: bl.slice(0, upto).join("\n"),
     unread: bl.slice(upto).join("\n"),
     questions,
     attempts: progress.checkpoints.filter((a) => ids.has(a.questionId) && a.at >= since),
+    pending,
   };
 }
 
