@@ -90,7 +90,6 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 **Motion.** Nothing important waits for an animation: text, buttons and the resume fragment are on screen at first paint. The moving parts:
 - **Route line, every load:** the route is drawn dotted with empty stops, then the ink line fills stop by stop to where you are (110 ms a leg), each finished stop pops ink, the current stop pops gold and sends out two soft gold rings. Pure CSS (`route-*` classes in `globals.css`), so it runs on server pages.
 - **Leg just finished (summary):** the same fill; the furthest stop the trip finished pops a little bigger with a gold tick as the line passes it. No full-screen takeover.
-- **Read quietly:** the 4px leg bar eases to its width (420 ms).
 - **Listen:** the dial's gold ring creeps forward while the tutor reads and holds on pause or barge-in (see screen 3). Alongside the voice strip, it is the only continuous motion.
 - **Check / Study checkpoint:** feedback settles in (fade up, 220 ms).
 - Reduced motion shows every end state at once.
@@ -102,8 +101,8 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 **Primary button:** gold fill, ink label at 18/700, radius 16, full width, 60px tall or more. There is one per screen. The dark alternative is an ink fill with a ground-coloured label.
 
 **Mode choice buttons (Resume):** 68px tall, icon, label and a one-line description.
-- "Read quietly" / "Short text, tap to answer" (gold)
-- "Listen" / "Audio, answer out loud or tap" (ink)
+- "Hands-off" / "Just listen, answer out loud" (ink)
+- "Hands-on" / "Read along with the book, tap any line to ask" (panel)
 
 **Route line** (SVG, 342×48): one stop per leg, spaced to fit, y = 16. Animated fill on load: see Motion above.
 - Finished stop: ink circle, radius 7, joined by a solid ink line (3px).
@@ -136,7 +135,7 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 ## 4. Screens
 
-**1. Resume.** Wordmark with Settings and "Your progress" links. Three ruled groups: the chapter (label "Chapter 2: …", "n of N legs done", the route line), where you stopped (the resume block), and, pinned to the bottom, "How are you studying today?" with the Read quietly / Listen / Study buttons. No greeting or screen heading: the route and the cut-off sentence are the headline. A finished course shows "You finished the course." in the middle group.
+**1. Resume.** Wordmark with Settings and "Your progress" links. Three ruled groups: the chapter (label "Chapter 2: …", "n of N legs done", the route line), where you stopped (the resume block), and, pinned to the bottom, "How are you studying today?" with the Hands-off / Hands-on buttons. No greeting or screen heading: the route and the cut-off sentence are the headline. A finished course shows "You finished the course." in the middle group.
 
 **2. Read mode.** Top bar, a 4px progress bar for the current leg, the leg title, the previous sentence in muted text, the pick-up marker, then the lesson in short paragraphs (about 40 words each). At the bottom: a "Check my understanding" button with "Get off any time. Your progress is saved." underneath.
 
@@ -148,7 +147,7 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 ---
 
-**6. Study mode (`/learn/study`).** Hands-on, not a commute; light. Sticky top bar with a "Read aloud / Audio off" pill instead of the mode pill. The leg title (Fraunces 34) and the verbatim text in 19/1.6 paragraphs, one per read-aloud block. While reading aloud: the spoken word carries a gold 35% highlight, the current sentence a 3px gold rule in the left gutter and `ink-deep` text, and a small outlined "Ask" chip. A 72px ink **read-aloud strip** is pinned at the bottom: play/pause (44px), the current sentence as a one-line teleprompter centred on the spoken word, a 3px gold block-progress bar, previous/next sentence, and a speed chip. Audio off removes the strip, rule, highlights and chip: just the page. The assistant is a 62% bottom sheet from a 56px ink FAB (phone) or a persistent 360px right column at `lg` (≥1024px) that also shows "Reading now". The checkpoint uses the answer buttons and feedback box above; on phones it is inline after the passage behind a gold "Check my understanding" button (the FAB hides while a question is open), on desktop it lives in the right column. Source line required, as everywhere. A **leg footer** follows the passage on every screen: outlined "Previous leg" / "Next leg" with the neighbouring section as a caption, and an "All chapters" link; once the leg's checkpoint is done, "Next leg" is the gold primary and the check button goes outlined, so the screen keeps one primary. The top-bar title ("Leg 3 of 8 · 1.3") is a button with a small down chevron that opens **Jump to**, a sheet (centred dialog at `lg`) listing every teachable section with "You are here" / "Done", chapter quiz rows, and "All chapters". Reference: `docs/mockups/study/`.
+**6. Study mode (`/learn/study`).** Hands-on, not a commute; light. Sticky top bar with a "Read aloud / Audio off" pill instead of the mode pill. The leg title (Fraunces 34) and the verbatim text in 19/1.6 paragraphs, one per read-aloud block. While reading aloud: the spoken word carries a gold 35% highlight, the current sentence a 3px gold rule in the left gutter and `ink-deep` text, and a small outlined "Ask" chip. A 72px ink **read-aloud strip** is pinned at the bottom: play/pause (44px), the current sentence as a one-line teleprompter centred on the spoken word, a 3px gold block-progress bar, previous/next sentence, and a speed chip. Audio off removes the strip, rule, highlights and chip: just the page. The assistant is a 62% bottom sheet from a 56px ink FAB (phone) or a persistent 360px right column at `lg` (≥1024px) that also shows "Reading now". The checkpoint uses the answer buttons and feedback box above; on phones it is inline after the passage behind a gold "Check my understanding" button (the FAB hides while a question is open), on desktop it lives in the right column. Source line required, as everywhere. A **leg footer** follows the passage on every screen: outlined "Previous leg" / "Next leg" with the neighbouring section as a caption, and an "All chapters" link; once the leg's checkpoint is done, "Next leg" is the gold primary and the check button goes outlined, so the screen keeps one primary. The top-bar title ("Leg 3 of 8 · 1.3") is a button with a small down chevron that opens **Jump to**, a sheet (centred dialog at `lg`) listing every teachable section with "You are here" / "Done" and "All chapters". Reference: `docs/mockups/study/`.
 
 **7. Settings (`/settings`).** Top bar with back chevron and "Settings". One section, "Voice" (Fraunces 34) with a one-line explanation. Eight rows: an answer-style button (panel fill, 64px, radius 14, hairline; 2px ink ring and a gold dot with an ink ring when chosen, `aria-pressed`) holding the name (17/600) and a one-line blurb (14, muted), and beside it a 56px square play/stop button (ink fill while its sample plays). Samples are static files, so the sample button never waits. A muted footnote says where the choice applies. Linked as an underlined text link from the Resume header and the Progress top bar.
 

@@ -96,10 +96,11 @@ export default function CourseMap() {
                     })}
                   {ch.quizFile && (
                     <li className="border-b border-rule">
-                      <Link href={`/learn/text?goto=${encodeURIComponent(`quiz me on chapter ${ch.number}`)}`} className="flex min-h-11 items-center gap-3 text-[15px]">
+                      {/* quiz status only: taken by voice ("quiz me on chapter N"), no screen of its own */}
+                      <div className="flex min-h-11 items-center gap-3 text-[15px]">
                         <span className="flex-1">Chapter quiz</span>
                         <span className="shrink-0 text-sm text-muted">{score ? `${score.correct} of ${score.total}` : pending.has(ch.id) ? "Waiting for you" : "6 questions"}</span>
-                      </Link>
+                      </div>
                     </li>
                   )}
                 </ul>
