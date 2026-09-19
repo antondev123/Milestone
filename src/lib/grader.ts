@@ -25,6 +25,11 @@ function norm(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
 }
 
+/** Sonnet sometimes wraps a spoken line in quotes, or leaves one dangling ("…is a key reason.'", trip-mu83gskk). */
+export function unquote(s: string): string {
+  return s.trim().replace(/^["'“”‘’]+|["'“”‘’]+$/g, "").trim();
+}
+
 export interface GradeOptions {
   reveal?: boolean; // second try (or give-up): a wrong answer gets the correct idea. First try: a hint that never names it.
   chatting?: boolean; // an off-script chat is open: remarks and follow-ups are chat, only a clear attempt is graded
@@ -129,7 +134,7 @@ First decide intent:
 - "command": only navigation or control with no attempt in it ("go to chapter one", "skip", "hold on", "repeat").
 - "giveup": they say they do not know or ask to be told.
 
-Only an "answer" is graded. Accept paraphrase and informal wording. Reject vague, partial or non-committal answers that do not meet the rubric. feedback is one spoken sentence, max 20 words. If correct, affirm briefly. If wrong, do NOT state, name, quote or paraphrase the correct answer or option; say what is missing or point at the idea to think about, so they can try once more. For question, command or giveup, feedback is an empty string and correct is false. Never say "rubric".`;
+Only an "answer" is graded. Accept paraphrase and informal wording. If their words contain any one point the RUBRIC lists as sufficient, in their own words, it is correct, even when they add a weaker or wrong reason alongside it ("they don't have full information and there's biases" meets a rubric that accepts "information is incomplete"). Reject answers that meet none of the rubric points or are too vague to tell. feedback is one spoken sentence, max 20 words. If correct, affirm briefly. If wrong, do NOT state, name, quote or paraphrase the correct answer or option; say what is missing or point at the idea to think about, so they can try once more. For question, command or giveup, feedback is an empty string and correct is false. Never say "rubric".`;
 
 const SYSTEM_REVEAL = SYSTEM_HINT.replace(
   "If wrong, do NOT state, name, quote or paraphrase the correct answer or option; say what is missing or point at the idea to think about, so they can try once more.",
@@ -164,7 +169,7 @@ ${opts.chatting ? 'NOTE: the learner was chatting off-script just before this an
   const parsed = JSON.parse(text) as { intent?: AnswerIntent; correct?: boolean; feedback?: string };
   const intent: AnswerIntent = parsed.intent === "question" || parsed.intent === "command" || parsed.intent === "giveup" ? parsed.intent : "answer";
   if (intent !== "answer") return { correct: false, feedback: "", intent };
-  let feedback = String(parsed.feedback ?? "");
+  let feedback = unquote(String(parsed.feedback ?? ""));
   // hint-first leak guard: a wrong-answer hint that names the answer is no hint
   if (!parsed.correct && !opts.reveal && question.type === "mcq" && norm(feedback).includes(norm(question.answer))) feedback = HINT_FALLBACK;
   return { correct: !!parsed.correct, feedback, intent };
@@ -207,7 +212,7 @@ NOTES: ${question.rubric}`,
     logLlm({ provider: "anthropic", purpose: "hint", model: res.model, in: u.input_tokens, out: u.output_tokens, ms: Date.now() - t0, usd, requestId: res.id, meta: { questionId: question.id, picked } });
     if (res.stop_reason !== "end_turn") return HINT_FALLBACK;
     const text = res.content.find((b) => b.type === "text")?.text ?? "{}";
-    const hint = String((JSON.parse(text) as { hint?: string }).hint ?? "").trim();
+    const hint = unquote(String((JSON.parse(text) as { hint?: string }).hint ?? ""));
     // cheap leak guard: a hint that contains the answer text is no hint
     if (!hint || norm(hint).includes(norm(question.answer))) return HINT_FALLBACK;
     return hint;

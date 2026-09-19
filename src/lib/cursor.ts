@@ -12,7 +12,7 @@ import {
   type ToolReply,
 } from "@/types/lesson";
 import type { LessonSoFar } from "./ask";
-import { blocks } from "./chunk";
+import { blocks, sentences } from "./chunk";
 import { loadChapterQuiz, loadQuestionFull, loadSegmentFull } from "./course";
 import { gradeAnswer, revealLine } from "./grader";
 import { earnNow } from "./milestones";
@@ -77,6 +77,13 @@ export function moveTo(c: Cursor, segmentId: string, phase: Cursor["phase"] = "r
   c.attempt = 0;
   delete c.detour;
   delete c.quiz;
+  clearResume(c);
+}
+
+/** Forget a mid-block resume point: the block changed, or the whole block is wanted again. */
+function clearResume(c: Cursor): void {
+  delete c.resumeFrom;
+  delete c.quiet;
 }
 
 /** Trips are open-ended: the next segment is simply the next one in course order (null at the true end). */
@@ -136,6 +143,11 @@ export function serveNext(course: Course, progress: Progress, opts: { peek?: boo
   if (c.phase === "read") {
     const seg = segmentFull(course.id, c.segmentId);
     const bl = blocks(seg.script);
+    // a resume point past the last sentence means the whole block was in fact spoken
+    if (c.served && !c.heard && c.resumeFrom !== undefined && c.resumeFrom >= sentences(bl[c.blockIdx] ?? "").length) {
+      c.heard = true;
+      clearResume(c);
+    }
     if (c.served && c.heard) {
       if (c.blockIdx + 1 < bl.length) c.blockIdx += 1;
       else {
@@ -199,11 +211,22 @@ function readBlock(course: Course, progress: Progress, c: Cursor, prefix: string
   const first = c.blockIdx === 0 && !c.served;
   const p = say.place(course, c.segmentId);
   const intro = first && !prefix && p ? say.partIntro(p) + " " : "";
+  // mid-block resume: pick up at the sentence the agent was cut in, not the top of the block. A turn the
+  // agent cut short by itself (quiet) just carries on; a barge-in or pause keeps the caller's "Back to it."
+  let text = bl[c.blockIdx] ?? "";
+  if (c.resumeFrom !== undefined && c.resumeFrom > 0) {
+    const rest = sentences(text).slice(c.resumeFrom).join(" ");
+    if (rest) {
+      text = rest;
+      if (c.quiet) prefix = "";
+    }
+  }
+  clearResume(c);
   c.served = true;
   c.heard = true;
   return {
     kind: "read",
-    say: `${prefix}${intro}${bl[c.blockIdx] ?? ""}`.trim(),
+    say: `${prefix}${intro}${text}`.trim(),
     loc: loc(course, c),
     more: true,
     block: { idx: c.blockIdx, count: bl.length },
@@ -265,6 +288,7 @@ export function mark(course: Course, progress: Progress, segmentId: string, bloc
   c.phase = "read";
   c.served = true;
   c.heard = false;
+  clearResume(c);
   delete c.lastReply;
   delete c.detour;
   return commit(course, progress, c, { kind: "say", say: "", loc: loc(course, c), more: false });
@@ -354,8 +378,9 @@ export function explain(course: Course, progress: Progress, how: Aspect): ToolRe
     if (c.phase === "ask" && currentQuestion(course, c)) return commit(course, progress, c, askQuestion(course, progress, c, ""));
     if (c.phase === "read") {
       const seg = segmentFull(course.id, c.segmentId);
-      // key points are the "repeat" content; then reading resumes on the current block
+      // key points are the "repeat" content; then reading resumes on the current block, from its top
       c.heard = false;
+      clearResume(c);
       return commit(course, progress, c, { kind: "say", say: `The main points so far. ${seg.keyPoints.join(" ")}`, loc: loc(course, c), more: true });
     }
     return commit(course, progress, c, { ...(c.lastReply ?? { kind: "say", say: "Say go to continue.", loc: loc(course, c), more: false }) });
@@ -370,11 +395,40 @@ export function explain(course: Course, progress: Progress, how: Aspect): ToolRe
 
 /** The learner cut the tutor off: the current block or question is re-served on the next `next`.
  *  The client posts this only for a real barge-in, never for its own synthetic "continue" turn. */
-export function interrupted(course: Course, progress: Progress): void {
+export function interrupted(course: Course, progress: Progress, opts: { spoken?: string; quiet?: boolean } = {}): void {
   const c = ensureCursor(course, progress);
   c.heard = false;
+  // `spoken` is what the agent actually said of the block (the SDK's corrected response on a barge-in, or
+  // the transcript of a turn the agent cut short by itself): the re-read picks up at the next sentence.
+  // A bare post (no spoken) keeps any resume point an earlier post set; it never widens the re-read.
+  if (opts.spoken && c.phase === "read" && c.served) {
+    const from = spokenUpTo(segmentFull(course.id, c.segmentId), c.blockIdx, opts.spoken);
+    if (from !== undefined) {
+      c.resumeFrom = from;
+      c.quiet = opts.quiet === true;
+    }
+  }
   c.updatedAt = new Date().toISOString();
   saveProgress(progress);
+}
+
+const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
+
+/**
+ * The sentence of the block after the last one `spoken` contains. A contiguous run only: from the first
+ * sentence found in `spoken` (0 for a fresh read; later when the block was already resumed mid-way) to
+ * the first one missing, so a chance match cannot skip text. undefined when no sentence was said: that
+ * is a full re-read, as before.
+ */
+export function spokenUpTo(seg: Segment, blockIdx: number, spoken: string): number | undefined {
+  const said = norm(spoken);
+  if (!said) return undefined;
+  const sents = sentences(blocks(seg.script)[blockIdx] ?? "").map(norm);
+  const start = sents.findIndex((s) => s && said.includes(s));
+  if (start < 0) return undefined;
+  let k = start;
+  while (k < sents.length && said.includes(sents[k])) k += 1;
+  return k;
 }
 
 // ---------- where am I ----------
@@ -433,6 +487,7 @@ export function skip(course: Course, progress: Progress): ToolReply {
     c.qIdx = 0;
     c.attempt = 0;
     c.served = false;
+    clearResume(c);
     return commit(course, progress, c, { kind: "say", say: "Skipping to the questions.", loc: loc(course, c), more: true });
   }
   if (c.phase === "ask") {
@@ -455,6 +510,7 @@ export function startQuiz(course: Course, progress: Progress, chapterId: string)
   if (!quiz) return commit(course, progress, c, { kind: "say", say: "That chapter has no quiz yet.", loc: loc(course, c), more: false });
   c.quiz = { quizId: quiz.id, qIdx: 0, attempt: 0, correct: 0 };
   c.heard = false; // when the quiz ends, re-read the current block
+  clearResume(c);
   return commit(course, progress, c, { kind: "say", say: `Chapter ${say.num(Number(chapterId.split("/c")[1]))} quiz, ${say.num(quiz.questions.length)} questions.`, loc: loc(course, c), more: true });
 }
 

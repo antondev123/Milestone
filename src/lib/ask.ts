@@ -7,7 +7,7 @@ import type { CheckpointResult, Course, Question, Segment } from "@/types/lesson
 import { tocForPrompt } from "./course";
 import type { Place } from "./say";
 import { logLlm } from "./log/log";
-import { usdFor } from "./grader";
+import { unquote, usdFor } from "./grader";
 
 const MODEL = process.env.ANTHROPIC_ASK_MODEL ?? "claude-sonnet-5";
 const TIMEOUT_MS = 10000;
@@ -23,9 +23,9 @@ const ASK_SYSTEM = `You are a tutor talking with a commuter who paused a spoken 
 
 Answer what they actually said. Use the lesson material first. When they go beyond the book (a real-world example, an opinion, how this applies to their job, something adjacent, what they got wrong and why) answer from your own knowledge and the lesson history, and tie it back to the topic when that is natural. If they ask about something the table of contents covers later, say so briefly and set jumpTo to that section id. Never refuse a question because it is not in the text.
 
-Style: spoken English for someone driving, at most about eighty words, usually less. Plain words, one concrete example if it helps, South African where natural. No lists, no markdown, no headings, no "as the text states", no "great question". Do not end with a question: the course will offer to go back to the lesson after you. Never mention CONTEXT, ids, or that you are an AI. Also return "topic": two to five words naming what this turn was about, for a progress card, and "meta": true when the turn was about you, the app or small talk rather than the course (a greeting, your name, how you are, a complaint about the app), else false.
+Style: spoken English for someone driving, at most about eighty words, usually less. Plain words, one concrete example if it helps, South African where natural. No lists, no markdown, no headings, no "as the text states", no "great question". Never end by offering the lesson back, asking whether to carry on, or asking what they want next, with or without a question mark: the course says that after you. Stop after the answer. Never mention CONTEXT, ids, or that you are an AI. Also return "topic": two to five words naming what this turn was about, for a progress card, and "meta": true when the turn was about you, the app or small talk rather than the course (a greeting, your name, how you are, a complaint about the app), else false.
 
-If they report the app misbehaving (it went quiet, lagged, repeated itself, a question never came, something did not register), say it is noted for the developers and offer to carry on. Do not guess at causes and do not blame their connection or their phone: you cannot see either. The course reads one block at a time and pauses after each; after the last block of a part it asks the checkpoint listed in CONTEXT. If CONTEXT says a checkpoint is coming up and they say it never came, that was a glitch, not the design.`;
+If they report the app misbehaving (it went quiet, lagged, repeated itself, a question never came, something did not register), say it is noted for the developers, then stop. Do not guess at causes and do not blame their connection or their phone: you cannot see either. The course reads one block at a time and pauses after each; after the last block of a part it asks the checkpoint listed in CONTEXT. If CONTEXT says a checkpoint is coming up and they say it never came, that was a glitch, not the design.`;
 
 const schema = {
   type: "object",
@@ -126,5 +126,5 @@ export async function askBook(
   logLlm({ provider: "anthropic", purpose: "ask", model: res.model, in: u.input_tokens, cacheRead: cached, cacheWrite: u.cache_creation_input_tokens ?? 0, out: u.output_tokens, ms, usd, requestId: res.id, meta: { question, turns: history.length + 1, stop: res.stop_reason } });
   const text = res.content.find((b) => b.type === "text")?.text ?? "{}";
   const parsed = JSON.parse(text) as { answer?: string; topic?: string; meta?: boolean; jumpTo?: string };
-  return { answer: String(parsed.answer ?? "I am not sure about that one."), topic: String(parsed.topic ?? "a question"), meta: parsed.meta === true, jumpTo: parsed.jumpTo || undefined, cached, ms };
+  return { answer: unquote(String(parsed.answer ?? "")) || "I am not sure about that one.", topic: String(parsed.topic ?? "a question"), meta: parsed.meta === true, jumpTo: parsed.jumpTo || undefined, cached, ms };
 }

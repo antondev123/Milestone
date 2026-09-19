@@ -42,6 +42,8 @@ Drop `--seed` for a blank slate. Progress survives deploys and restarts (it live
 
 ```bash
 fly logs -a commute-course          # server logs, includes the [grade] lines
+fly ssh sftp get /app/data/progress/logs/milestone.db -a commute-course   # + milestone.db-wal; then LOG_DIR=<dir> npm run sessions
+NEXT_PUBLIC_BASE_URL=https://commute-course.fly.dev ADMIN_SECRET=<secret> npm run sessions -- sync <tripId>   # pull the ElevenLabs transcript; the machine has no curl or sqlite3
 fly status -a commute-course
 fly scale memory 2048 -a commute-course   # if the machine OOMs
 ```

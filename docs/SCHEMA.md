@@ -172,6 +172,8 @@ Cursor
   segmentId     current part
   blockIdx      which ~250-word block of the script (src/lib/chunk.ts) is current
   served/heard  the block or question was sent; heard=false after a barge-in → re-read on the next `next`
+  resumeFrom?   sentence of the current block the re-read starts at (`interrupted` with `spoken`); unset = whole block
+  quiet?        re-read without "Back to it." (the agent cut the turn short by itself, nothing to come back from)
   phase         "read" | "ask" (checkpoint qIdx) | "done" (part finished, next `next` moves on)
   qIdx, attempt
   detour?       { topic, turns, startedAt, history[] {q, a} }  set by `ask` (history = last 6 chat turns), popped by `next` ("Back to <part>.")
@@ -206,7 +208,7 @@ Mode = "voice" | "text" | "study"   (study = hands-on reader; trips log as "stud
 | `ask` | `{ question, context? }` (`context` = a tapped sentence, prepended for the model; `mode: "study"` skips the spoken detour and the "back to the lesson, or keep chatting?" tail) |
 | `goto` | `{ target }` (spoken words) |
 | `where_am_i` | – |
-| `interrupted` | – (client barge-in signal) |
+| `interrupted` | `{ spoken?, quiet? }` client barge-in signal; `spoken` = what the agent actually said, so the next `next` resumes at the following sentence; `quiet` = no "Back to it." |
 | `end_trip` | – → ToolReply + TripSummary fields + `spoken` |
 | `mark` | `{ segmentId, blockIdx }` study mode: the reader reached a block; cursor moves there (served, not heard) so Listen re-reads it |
 | `check` | `{ segmentId }` study mode: open the checkpoint (phase ask, q1) or reply "Part done."; `answer` grades from here |

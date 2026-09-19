@@ -167,6 +167,11 @@ export interface Cursor {
   blockIdx: number; // which ~150-word block of the script is current
   served: boolean; // the current block/question has been sent at least once
   heard: boolean; // it was not interrupted (client posts `interrupted` on barge-in)
+  // mid-block resume: the sentence of the current block the next re-read starts at (the client sent what
+  // was actually spoken with `interrupted`). Unset = the whole block again. quiet = no "Back to it." prefix
+  // (the agent stopped by itself, there is nothing to come back from).
+  resumeFrom?: number;
+  quiet?: boolean;
   phase: CursorPhase; // read = serving blocks, ask = serving checkpoint qIdx, done = segment finished
   qIdx: number;
   attempt: number; // attempts on the current question
