@@ -8,9 +8,9 @@ import VoiceMode from "./VoiceMode";
 
 export const dynamic = "force-dynamic";
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ carry?: string }> }) {
-  const { carry } = await searchParams;
+export default async function Page({ searchParams }: { searchParams: Promise<{ carry?: string; scripted?: string }> }) {
+  const { carry, scripted } = await searchParams;
   const course = loadCourse(DEFAULT_COURSE_ID);
   const progress = actionProgress();
-  return <VoiceMode legs={legIndex(course)} carriedFromReading={lastMode(progress) === "text"} startId={hereId(progress)} carrying={carry === "1"} voiceId={currentVoice(progress)} />;
+  return <VoiceMode legs={legIndex(course)} carriedFromReading={lastMode(progress) === "text"} startId={hereId(progress)} carrying={carry === "1"} voiceId={currentVoice(progress)} scripted={scripted === "1"} />;
 }
