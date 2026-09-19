@@ -46,6 +46,10 @@ export function actionSetVoice(voiceId: unknown): { voices: Voice[]; current: st
 export function actionStartSession(mode: Mode): Plan {
   const course = loadCourse(courseId);
   const progress = getProgress(userId, courseId);
+  // A trip still open belongs to a tab that never ended it (closed laptop, killed app). End it
+  // properly rather than overwrite it: its summary and session row close, and if that tab is still
+  // alive its next tool call is refused as stale (see /api/tools) and it ends itself.
+  if (progress.activeTrip) closeSession(endTrip(course, progress));
   if (mode === "voice" && demoArmed(progress)) return startDemo(course, progress, mode);
   const plan = planTrip(course, progress, mode);
   // the cursor is the source of truth for position; the plan starts where it points

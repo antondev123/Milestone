@@ -74,6 +74,20 @@ export function SignalNotice({ show, dark = false }: { show: boolean; dark?: boo
   );
 }
 
+/** The trip this screen was driving was ended (or replaced) on another screen; nothing here can move it now. */
+export function StaleNotice({ tripId, dark = false }: { tripId: string | null; dark?: boolean }) {
+  if (!tripId) return null;
+  return (
+    <div role="status" className={`rounded-xl px-4 py-3 text-[15px] font-medium ${dark ? "bg-ink-raised text-ground" : "bg-panel text-ink"}`}>
+      This session was ended on another screen.{" "}
+      <Link href={`/trip/${tripId}/summary`} className="underline underline-offset-4">
+        See its summary
+      </Link>
+      .
+    </div>
+  );
+}
+
 export function PrimaryButton({
   children,
   onClick,

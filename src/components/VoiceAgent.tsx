@@ -56,14 +56,23 @@ const RECONNECT_GREETING = "Back with you. Carrying on with your trip.";
 
 type Flash = { kind: "correct" } | { kind: "milestone"; label: string };
 
-async function post(tool: string, body: Record<string, unknown> = {}, signal?: AbortSignal): Promise<ToolReply> {
+/** Thrown when the server says this tab's trip is no longer the active one: end the call, never retry. */
+class StaleTripError extends Error {
+  constructor(public tripId: string) {
+    super("stale trip");
+  }
+}
+
+async function postTool(tripId: string, tool: string, body: Record<string, unknown> = {}, signal?: AbortSignal): Promise<ToolReply> {
   const r = await fetch(`/api/tools/${tool}`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ ...body, mode: "voice" }),
+    body: JSON.stringify({ ...body, mode: "voice", tripId }),
     signal,
   });
-  return r.json() as Promise<ToolReply>;
+  const reply = (await r.json()) as ToolReply;
+  if (r.status === 409 || reply.stale) throw new StaleTripError(tripId);
+  return reply;
 }
 
 type Props = {
@@ -89,6 +98,8 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const agentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID;
   // ?debug=1 shows the mic/duck meter for calibrating thresholds in rehearsal
   const [debugOn] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug"));
+  // every tool call names this trip; a 409 (ended or superseded elsewhere) throws StaleTripError
+  const post = (tool: string, body: Record<string, unknown> = {}, signal?: AbortSignal) => postTool(plan.tripId, tool, body, signal);
   // The ducking hook needs `conv`, and `conv` needs these callbacks: bridge with a ref.
   const ducking = useRef<ReturnType<typeof useBargeInDucking> | null>(null);
   // session log: events batch to /api/log/events, mic to /api/log/audio (see src/lib/log)
@@ -203,7 +214,8 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     try {
       await conv.endSession();
     } catch {}
-    const id = tripId ?? (await post("end_trip")).tripId ?? "";
+    // Stale here means another screen ended this trip first: its summary exists under our own id.
+    const id = tripId ?? (await post("end_trip").catch(() => ({ tripId: plan.tripId }))).tripId ?? plan.tripId;
     flushLog();
     onTripEnd(id);
   };
@@ -306,7 +318,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       barged.current = true;
       cancel();
       setCreep(null); // the ring holds where the tutor was cut off
-      void post("interrupted");
+      void post("interrupted").catch(() => {});
     },
     onModeChange: ({ mode }) => {
       clientLog("mode_change", { mode });
@@ -447,6 +459,12 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       return out;
     } catch (e) {
       if (ended.current || ac.signal.aborted) return JSON.stringify({ t: "" });
+      if (e instanceof StaleTripError) {
+        // this trip was ended (or replaced) from another screen: hang up quietly, land on our summary
+        clientLog("status", { status: "stale", tripId: e.tripId });
+        void finish(e.tripId);
+        return JSON.stringify({ t: "" });
+      }
       clientLog("client_error", { message: String((e as Error)?.message ?? e), source: "tool", tool });
       return JSON.stringify({ t: "I could not get to that one right now. Say continue to carry on." });
     } finally {
@@ -469,12 +487,15 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   useConversationClientTool("goto", (p: { target?: string }) => run("goto", (signal) => post("goto", { target: p?.target ?? "" }, signal)));
   useConversationClientTool("where_am_i", () => run("where_am_i", (signal) => post("where_am_i", {}, signal)));
   useConversationClientTool("end_trip", async () => {
-    const r = await post("end_trip");
-    if (r.tripId) {
+    const r = await post("end_trip").catch((e: unknown): ToolReply | null => {
+      if (e instanceof StaleTripError) void finish(e.tripId); // already ended elsewhere: just hang up
+      return null;
+    });
+    if (r?.tripId) {
       onReply?.(r);
       beginClosing(r.tripId, r.say ?? ""); // hang up once the agent has said the closing line
     }
-    return JSON.stringify({ t: r.say });
+    return JSON.stringify({ t: r?.say ?? "" });
   });
 
   // hard stop: the trip has no planned length, but a forgotten tab must not burn credits
@@ -594,7 +615,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       conv.setVolume({ volume: 0 });
       conv.setMuted(true);
     } catch {}
-    void post("interrupted");
+    void post("interrupted").catch(() => {});
     // A user turn cuts the agent off server-side; the prompt answers "pause" with "Holding." and waits.
     sendUser("pause");
     earcon.pause();

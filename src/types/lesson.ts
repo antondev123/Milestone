@@ -210,6 +210,7 @@ export interface ToolReply {
   options?: string[]; // mcq options (text mode renders buttons; voice has them inside `say`)
   correct?: boolean;
   tripId?: string;
+  stale?: true; // the caller's trip is not the active one (ended elsewhere, or superseded): stop, do not retry
   segmentId?: string;
   offer?: { sectionId: string; say: string }; // ask() found a better section; goto on "yes"
   qIdx?: number; // which checkpoint question this is (set on kind "ask"); study mode renders it locally
