@@ -50,7 +50,7 @@ This creates the seven client tools and patches the agent with everything below.
 
 ## 2b. Voice override
 
-The learner picks a voice on `/settings` (`Progress.voiceId`); the default is **Mark** (`UgBBYS2sOqTuMpoF3BR0`, `DEFAULT_VOICE_ID` in `src/lib/voices.ts`), and every demo reset goes back to it. Listen always sends the current voice as `overrides.tts.voiceId` on `startSession`, so the dashboard voice is never heard. `scripts/configure-agent.ts` enables `platform_settings.overrides.conversation_config_override.tts.voice_id`, without which the session is refused. The eight offered voices (Mark, Adam, Maya, Lara, Kristen, Alistair, Natasha, Brian) are a fixed id list in `scripts/voices.ts`, frozen into `data/voices.json` by `npm run voices:sync` (adds any missing one to the account from the shared library, saves samples to `public/voices/`). Library voices must be added to the account before TTS or the agent can use them; a voice removed from the account breaks both surfaces for whoever picked it, so re-run the sync rather than deleting on the dashboard.
+The learner picks a voice on `/settings` (`Progress.voiceId`); the default is **Alistair** (`l30f87tf05uxyknGdDw6`, `DEFAULT_VOICE_ID` in `src/lib/voices.ts`), and every demo reset goes back to it. Listen always sends the current voice as `overrides.tts.voiceId` on `startSession`, so the dashboard voice is never heard. `scripts/configure-agent.ts` enables `platform_settings.overrides.conversation_config_override.tts.voice_id`, without which the session is refused. The eight offered voices (Alistair, Mark, Adam, Maya, Lara, Kristen, Natasha, Brian) are a fixed id list in `scripts/voices.ts`, frozen into `data/voices.json` by `npm run voices:sync` (adds any missing one to the account from the shared library, saves samples to `public/voices/`). Library voices must be added to the account before TTS or the agent can use them; a voice removed from the account breaks both surfaces for whoever picked it, so re-run the sync rather than deleting on the dashboard.
 
 ## 3. System prompt
 
@@ -105,7 +105,7 @@ Text-only rehearsal without a mic: open `/learn/voice?text=1` and tap the dial. 
 
 ## 7. Study mode read-aloud (REST, not the agent)
 
-`/api/tts` calls `POST /v1/text-to-speech/{voice}/with-timestamps` with `ELEVENLABS_TTS_MODEL` (default `eleven_flash_v2_5`; the agent stays on `eleven_flash_v2`). It is not a conversation: no agent id, no tools, plain credits per character. A ~250-word block is ~1500 characters and is cached on disk after the first play, so replaying chapter 1 costs nothing. The voice is the learner's pick on `/settings`, else Mark (see §2b; `ELEVENLABS_VOICE_ID` is no longer read). The voice is part of the cache key, so each voice is synthesised once per block.
+`/api/tts` calls `POST /v1/text-to-speech/{voice}/with-timestamps` with `ELEVENLABS_TTS_MODEL` (default `eleven_flash_v2_5`; the agent stays on `eleven_flash_v2`). It is not a conversation: no agent id, no tools, plain credits per character. A ~250-word block is ~1500 characters and is cached on disk after the first play, so replaying chapter 1 costs nothing. The voice is the learner's pick on `/settings`, else Alistair (see §2b; `ELEVENLABS_VOICE_ID` is no longer read). The voice is part of the cache key, so each voice is synthesised once per block.
 
 ## 8. Study mode dictation (REST, not the agent)
 

@@ -16,12 +16,12 @@ const H = { "xi-api-key": key, "content-type": "application/json" };
 // Picker order. The first entry is the default voice (DEFAULT_VOICE_ID in src/lib/voices.ts).
 // The search term must find the voice in the shared library so it can be added by owner + id.
 const WANT: { id: string; search: string }[] = [
+  { id: "l30f87tf05uxyknGdDw6", search: "Alistair" },
   { id: "UgBBYS2sOqTuMpoF3BR0", search: "Mark" },
   { id: "IRHApOXLvnW57QJPQH2P", search: "Adam" },
   { id: "4O1sYUnmtThcBoSBrri7", search: "Maya" },
   { id: "vChnJZ1Cu89g2XXumPfT", search: "Lara" },
   { id: "dfeOmy6Uay63tNhyO99j", search: "Kristen" },
-  { id: "l30f87tf05uxyknGdDw6", search: "Alistair" },
   { id: "h2sm0NbeIZXHBzJOMYcQ", search: "Natasha" },
   { id: "D11AWvkESE7DJwqIVi7L", search: "Brian" },
 ];

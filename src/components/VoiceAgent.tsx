@@ -99,7 +99,7 @@ type Props = {
   leg?: Leg; // where the learner is now; drives the Where block and the ring
   paused: boolean;
   onPausedChange: (paused: boolean) => void;
-  voiceId?: string; // learner's pick from /settings (or the default, Mark); undefined keeps the agent's dashboard voice
+  voiceId?: string; // learner's pick from /settings (or the default, Alistair); undefined keeps the agent's dashboard voice
 };
 
 function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPausedChange, voiceId }: Props) {

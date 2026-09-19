@@ -13,8 +13,8 @@ export interface Voice {
 
 export const VOICES: Voice[] = voicesJson as Voice[];
 
-/** Mark. What everyone hears until they pick on /settings, and what every demo reset goes back to. */
-export const DEFAULT_VOICE_ID = "UgBBYS2sOqTuMpoF3BR0";
+/** Alistair. What everyone hears until they pick on /settings, and what every demo reset goes back to. */
+export const DEFAULT_VOICE_ID = "l30f87tf05uxyknGdDw6";
 
 export function isVoiceId(id: string | null | undefined): id is string {
   return !!id && VOICES.some((v) => v.id === id);
