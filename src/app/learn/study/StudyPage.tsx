@@ -4,7 +4,7 @@
 // every block the reader reaches is `mark`ed, so Listen and Read modes pick up there.
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { BackLink, ModePill, Pill, SignalNotice, TopBar } from "@/components/carry/Chrome";
+import { BackLink, ModePill, Pill, SignalNotice, StaleNotice, TopBar } from "@/components/carry/Chrome";
 import { CheckIcon, SpeakerIcon, StopIcon } from "@/components/carry/Icons";
 import { persist, postJSON } from "@/components/carry/net";
 import { installErrorLog, setLogSession } from "@/lib/log/client";
@@ -59,9 +59,16 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   // one Checkpoint instance: phone inline or desktop column, never both (each would POST `check`)
   const desktop = useMediaQuery("(min-width: 1024px)");
 
+  // Every tool call names the trip this page is driving. A 409 means it was ended (or replaced) on
+  // another screen: stop the player, say so, and never retry against the new trip.
+  const tripId = useRef<string | null>(null);
+  const [stale, setStale] = useState<string | null>(null); // the ended trip's id, for the summary link
   const tool = useCallback(
-    (name: string, body: Record<string, unknown> = {}): Promise<ToolReply> =>
-      persist(() => postJSON<ToolReply>(`/api/tools/${name}`, { ...body, mode: "study" }), setTrouble),
+    async (name: string, body: Record<string, unknown> = {}): Promise<ToolReply> => {
+      const r = await persist(() => postJSON<ToolReply>(`/api/tools/${name}`, { ...body, mode: "study", tripId: tripId.current ?? undefined }), setTrouble);
+      if (r.stale && tripId.current) setStale(tripId.current);
+      return r;
+    },
     [],
   );
 
@@ -83,8 +90,11 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
       fetch("/api/course").then((r) => r.json()).then((m: Manifest) => setManifest(m));
       const p0 = (await persist(() => fetch("/api/progress").then((r) => r.json() as Promise<Progress>), setTrouble)) as Progress;
       // mid-trip from Listen or Read: keep that trip (same id and clock); otherwise open a study session
-      if (!p0.activeTrip) await persist(() => postJSON("/api/session", { mode: "study" }), setTrouble);
-      else if (p0.activeTrip.mode !== "study") await persist(() => postJSON("/api/session", { carry: true, mode: "study" }), setTrouble);
+      if (!p0.activeTrip) tripId.current = (await persist(() => postJSON<{ tripId: string }>("/api/session", { mode: "study" }), setTrouble)).tripId;
+      else {
+        tripId.current = p0.activeTrip.tripId;
+        if (p0.activeTrip.mode !== "study") await persist(() => postJSON("/api/session", { carry: true, mode: "study" }), setTrouble);
+      }
       if (gotoTarget) await tool("goto", { target: gotoTarget });
       const p = (await persist(() => fetch("/api/progress").then((r) => r.json() as Promise<Progress>), setTrouble)) as Progress;
       // session log: browser errors land in the trip's timeline (src/lib/log)
@@ -118,6 +128,10 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
     },
     onFinished: () => openCheck(),
   });
+  useEffect(() => {
+    if (stale) player.pause();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stale]);
 
   const pos: Position | null = player.pos;
   const curIndex = pos ? index[pos.block] : undefined;
@@ -241,7 +255,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   /** Section picker and the assistant's "Go there now": `goto` resolves "section N.M" to its first part. */
   async function jumpToSection(sectionNumber: string) {
     player.pause();
-    await tool("goto", { target: `section ${sectionNumber}` });
+    if ((await tool("goto", { target: `section ${sectionNumber}` })).stale) return;
     const p = (await fetch("/api/progress").then((r) => r.json())) as Progress;
     await arrive(p.cursor?.segmentId ?? p.resume.segmentId, new Set(p.segmentsCompleted));
   }
@@ -254,7 +268,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   /** Leg footer: `mark` moves the cursor without completing the leg being left ("get off any time"). */
   async function jumpToLeg(id: string) {
     player.pause();
-    await tool("mark", { segmentId: id, blockIdx: 0 });
+    if ((await tool("mark", { segmentId: id, blockIdx: 0 })).stale) return; // the server did not move: stay put
     await arrive(id, completed);
   }
 
@@ -266,8 +280,9 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
 
   async function endSession() {
     player.pause();
+    if (stale) return router.push(`/trip/${stale}/summary`);
     const r = await tool("end_trip");
-    router.push(r.tripId ? `/trip/${r.tripId}/summary` : "/progress");
+    router.push(r.stale ? `/trip/${tripId.current}/summary` : r.tripId ? `/trip/${r.tripId}/summary` : "/progress");
   }
 
   const assistant = (dark = false) => (
@@ -360,6 +375,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
     <>
       <StudyLayout topBar={topBar} aside={aside} strip={strip}>
         <SignalNotice show={trouble} />
+        <StaleNotice tripId={stale} />
         {booting || !seg ? (
           <p className="text-[17px] text-muted" role="status">
             Getting your progress…

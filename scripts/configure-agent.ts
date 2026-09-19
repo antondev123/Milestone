@@ -175,14 +175,17 @@ await api("PATCH", `/agents/${agentId}`, {
       // "Are you still there?" over the learner's thinking time; the SILENCE prompt rule + skip_turn handle the rest.
       turn_timeout: 30,
       interruption_ignore_terms: ["mm", "mhm", "uh huh", "okay", "ok", "yeah", "right"], // backchannel, not barge-in
-      // The wait filler. Lookup tools are back in ~15 ms, so this only ever fires on `ask`/`answer` (Sonnet,
-      // 2–5 s): a quick acknowledgement, then the answer when it lands. Unlike pre-tool speech (off on every
-      // tool above) a soft-timeout message keeps the LLM turn open, so the tool's t is still spoken after it.
-      // API range 0.5–8 s. The first message is fixed; later ones are drawn from the list at random.
+      // The wait filler, for `ask`/`answer` only (Sonnet, 2–5 s): a quick acknowledgement, then the answer when
+      // it lands. Unlike pre-tool speech (off on every tool above) a soft-timeout message keeps the LLM turn
+      // open, so the tool's t is still spoken after it. The clock runs from the end of the learner's turn, so
+      // it includes the agent's own think time (~0.7–1 s) before a 15 ms lookup tool even fires: at 0.8 s the
+      // filler landed on every `next` and `goto` too, and "Nearly there" in front of a question read as a
+      // verdict (trip-mu7zpaw4). 2.5 s clears the lookups. API range 0.5–8 s. The first message is fixed;
+      // later ones are drawn from the list at random. Keep the phrases neutral: no praise, no progress words.
       soft_timeout_config: {
-        timeout_seconds: 0.8,
-        message: "Let me check that for you.",
-        additional_soft_timeout_messages: ["Good one, give me a second.", "Let me have a look.", "Nearly there."],
+        timeout_seconds: 2.5,
+        message: "One moment.",
+        additional_soft_timeout_messages: ["Let me check."],
         use_llm_generated_message: false,
         randomize_fillers: true,
         max_soft_timeouts_per_generation: 2,

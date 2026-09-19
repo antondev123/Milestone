@@ -187,7 +187,7 @@ TripSummary += milestones[] milestone ids first earned on this trip
 Progress +=  voiceId?     learner's pick from /settings, an id in data/voices.json; unset = Mark (DEFAULT_VOICE_ID in src/lib/voices.ts)
 Plan += greeting            server-composed opening line
 
-ToolReply { kind: "read"|"ask"|"say"|"end", say, loc, more, options?, correct?, tripId?, segmentId?, offer?, qIdx?, block?,
+ToolReply { kind: "read"|"ask"|"say"|"end", say, loc, more, options?, correct?, tripId?, stale? (409: the caller's trip is not the active one; stop, do not retry), segmentId?, offer?, qIdx?, block?,
             milestones? (ids first earned by this reply; already spoken inside `say`, the client plays an earcon) }
   qIdx: set on kind "ask" so study mode can render the question locally
   block: { idx, count } on kind "read": which script block of the part this is, so the Listen Dial can creep its ring through the part
@@ -199,6 +199,7 @@ Mode = "voice" | "text" | "study"   (study = hands-on reader; trips log as "stud
 
 | Tool | Body |
 |---|---|
+| *every tool* | `+ { mode?, tripId? }`. `tripId` names the trip the client is driving (Listen and Hands-on always send it). If it is not the active trip the reply is **409** `{ stale: true, kind: "end", tripId }`, logged under that trip, and nothing moves: the client must stop and never retry. No `tripId` (curl, legacy adapters) is accepted with a server warning. |
 | `next` | `{ peek?: true }` (peek warms the cache without moving) |
 | `explain` | `{ how: "again" \| "simpler" \| "deeper" \| "example" }` |
 | `answer` | `{ text, mode? }` |

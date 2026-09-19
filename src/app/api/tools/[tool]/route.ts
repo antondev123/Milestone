@@ -16,6 +16,7 @@ import {
   actionGrade,
   actionInterrupted,
   actionNext,
+  actionProgress,
   actionWhereAmI,
 } from "@/lib/actions";
 import { logEvent } from "@/lib/log/log";
@@ -55,7 +56,7 @@ function logToolCall(sessionId: string | null, tool: string, mode: Mode, req: Re
   const reply = ok
     ? { kind: r.kind, say: typeof r.say === "string" ? r.say : undefined, loc: r.loc, more: r.more, correct: typeof r.correct === "boolean" ? r.correct : undefined, segmentId: r.segmentId, qIdx: r.qIdx, offer: r.offer }
     : undefined;
-  const { mode: _mode, ...body } = req;
+  const { mode: _mode, tripId: _tripId, ...body } = req;
   logEvent("tool_call", { tool, mode, req: body, reply, ms, ok, error }, { sessionId: sessionId ?? undefined });
 }
 
@@ -67,6 +68,21 @@ export async function POST(req: Request, { params }: Params) {
   const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
   const mode: Mode = body.mode === "text" || body.mode === "study" ? body.mode : "voice";
   const t0 = Date.now();
+  // A client names the trip it is driving. One user, one cursor: without this a voice tab whose trip
+  // was ended from another screen kept calling tools against the next trip for five minutes
+  // (trip-mu7zl3ok drove trip-mu7zpaw4). A stale caller gets 409 and ends itself; its calls are logged
+  // under its own trip, not the live one. No tripId (curl, the legacy adapters) keeps the old behaviour.
+  const tripId = typeof body.tripId === "string" ? body.tripId : null;
+  if (tripId) {
+    const active = actionProgress().activeTrip?.tripId ?? null;
+    if (tripId !== active) {
+      const out = { error: "stale", kind: "end", say: "", loc: "end", more: false, tripId, stale: true as const };
+      logToolCall(tripId, tool, mode, body, out, Date.now() - t0, false, `stale: active trip is ${active ?? "none"}`);
+      return NextResponse.json(out, { status: 409 });
+    }
+  } else if (tool !== "get_segment" && tool !== "grade_answer" && tool !== "complete_segment") {
+    console.warn(`[tool] ${tool} without tripId`);
+  }
   try {
     let out: unknown;
     switch (tool) {
@@ -106,7 +122,8 @@ export async function POST(req: Request, { params }: Params) {
         out = { ...reply, ...summary, spoken: reply.say };
         // the trip is gone from progress by now, so pass the session id explicitly
         logToolCall(summary.tripId, tool, mode, body, out, Date.now() - t0, true);
-        if (mode === "voice") scheduleSync(summary.tripId);
+        // the trip's own mode, not the request's: a Study "End session" on a voice trip must still pull the call log
+        if (summary.mode === "voice") scheduleSync(summary.tripId);
         return NextResponse.json(out);
       }
       // ----- legacy tools -----
@@ -129,7 +146,7 @@ export async function POST(req: Request, { params }: Params) {
   } catch (e) {
     console.error(`[tool] ${tool} error: ${(e as Error).message}`);
     logToolCall(null, tool, mode, body, null, Date.now() - t0, false, (e as Error).message);
-    return NextResponse.json({ error: (e as Error).message, kind: "say", say: "Something went wrong there. Say go to carry on.", loc: "", more: false }, { status: 400 });
+    return NextResponse.json({ error: (e as Error).message, kind: "say", say: "Something went wrong there. Say continue to carry on.", loc: "", more: false }, { status: 400 });
   }
 }
 

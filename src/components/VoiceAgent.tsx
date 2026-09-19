@@ -47,6 +47,7 @@ const NUDGE = "say it"; // the prompt answers this with the pending t
 const FLASH_MS = 3000; // "That's right" / a milestone label stays in the state line this long
 // Trips are open-ended, so this is not a trip length: it is the credit guard for a forgotten tab.
 const HARD_STOP_MS = 2 * 60 * 60_000;
+const CLOSING_MAX_MS = 20_000; // longest we wait for the agent to say the closing line before hanging up anyway
 // A dropped call is not the end of the trip: the trip and the cursor live on the server, so we dial the
 // agent again and it carries on from the same block. Backoff per attempt; after the last one the Dial
 // offers a manual retry. Nothing ends a trip but the End button, the agent's end_trip and the hard stop.
@@ -55,14 +56,23 @@ const RECONNECT_GREETING = "Back with you. Carrying on with your trip.";
 
 type Flash = { kind: "correct" } | { kind: "milestone"; label: string };
 
-async function post(tool: string, body: Record<string, unknown> = {}, signal?: AbortSignal): Promise<ToolReply> {
+/** Thrown when the server says this tab's trip is no longer the active one: end the call, never retry. */
+class StaleTripError extends Error {
+  constructor(public tripId: string) {
+    super("stale trip");
+  }
+}
+
+async function postTool(tripId: string, tool: string, body: Record<string, unknown> = {}, signal?: AbortSignal): Promise<ToolReply> {
   const r = await fetch(`/api/tools/${tool}`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ ...body, mode: "voice" }),
+    body: JSON.stringify({ ...body, mode: "voice", tripId }),
     signal,
   });
-  return r.json() as Promise<ToolReply>;
+  const reply = (await r.json()) as ToolReply;
+  if (r.status === 409 || reply.stale) throw new StaleTripError(tripId);
+  return reply;
 }
 
 type Props = {
@@ -88,6 +98,8 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const agentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID;
   // ?debug=1 shows the mic/duck meter for calibrating thresholds in rehearsal
   const [debugOn] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug"));
+  // every tool call names this trip; a 409 (ended or superseded elsewhere) throws StaleTripError
+  const post = (tool: string, body: Record<string, unknown> = {}, signal?: AbortSignal) => postTool(plan.tripId, tool, body, signal);
   // The ducking hook needs `conv`, and `conv` needs these callbacks: bridge with a ref.
   const ducking = useRef<ReturnType<typeof useBargeInDucking> | null>(null);
   // session log: events batch to /api/log/events, mic to /api/log/audio (see src/lib/log)
@@ -117,6 +129,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const continuedAt = useRef(0); // when we last sent the synthetic "continue"
   const unspoken = useRef<number | null>(null); // watchdog: a tool reply the agent has not started speaking
   const toolAbort = useRef<AbortController | null>(null); // the tool fetch in flight, cut off by a hang-up or a dropped call
+  const closing = useRef<{ id: string; key: string; seen: boolean } | null>(null); // trip ended, closing line pending
   const statusRef = useRef<string>("disconnected"); // conv.status for timers (the render value is stale there)
   const connectedOnce = useRef(false); // a drop before the first connect is a failed start, not a lost call
   const reconnectTimer = useRef<number | null>(null);
@@ -150,19 +163,36 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
    * the words could have been spoken is a gap between TTS chunks: wait out the remaining estimate and
    * look again, rather than barge in on our own tutor (which marked the block unheard and re-read it).
    */
-  const armContinue = () => {
+  const whenSpoken = (then: () => void) => {
     cancel();
     const remaining = speechStart.current + speechMs.current - Date.now();
     timer.current = window.setTimeout(
       () => {
         timer.current = null;
-        if (barged.current || paused.current || ended.current || askingRef.current || thinkingRef.current) return;
+        if (ended.current) return;
         if (modeRef.current !== "listening") return; // it started speaking again: the next listening re-arms
-        if (speechStart.current + speechMs.current > Date.now()) return armContinue(); // a later utterance moved the bound
-        sendUser(CONTINUE);
+        if (speechStart.current + speechMs.current > Date.now()) return whenSpoken(then); // a later utterance moved the bound
+        then();
       },
       Math.max(GRACE_MS, remaining + GRACE_MS),
     );
+  };
+  const armContinue = () =>
+    whenSpoken(() => {
+      if (barged.current || paused.current || askingRef.current || thinkingRef.current) return;
+      sendUser(CONTINUE);
+    });
+  /**
+   * The trip is over on the server; the agent still has the closing line to say. Hang up once that
+   * line has been heard in full (its transcript arrived and its words have had time to be spoken),
+   * not on a fixed timer: at 4 s the "Next leg picks up at…" tail was cut every time (trip-mu7zpaw4).
+   * A fallback ends the call anyway if the agent never says it.
+   */
+  const beginClosing = (id: string, line: string) => {
+    if (closing.current) return;
+    autoContinue.current = false;
+    closing.current = { id, key: line.slice(0, 16), seen: !line };
+    window.setTimeout(() => void finish(id), CLOSING_MAX_MS);
   };
   /**
    * The one way a voice trip ends. Idempotent: the agent's end_trip tool, the End button and the
@@ -184,7 +214,8 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     try {
       await conv.endSession();
     } catch {}
-    const id = tripId ?? (await post("end_trip")).tripId ?? "";
+    // Stale here means another screen ended this trip first: its summary exists under our own id.
+    const id = tripId ?? (await post("end_trip").catch(() => ({ tripId: plan.tripId }))).tripId ?? plan.tripId;
     flushLog();
     onTripEnd(id);
   };
@@ -266,6 +297,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       if (msg.source !== "user") {
         ducking.current?.onAgentStarts();
         clearUnspoken(); // the agent is saying the reply
+        if (closing.current && !closing.current.seen && msg.message.includes(closing.current.key)) closing.current.seen = true;
         // the transcript lands as the speech starts: this is the clock the auto-continue gate runs on
         speechStart.current = Date.now();
         speechMs.current = (msg.message.split(/\s+/).filter(Boolean).length / GATE_WPM) * 60_000;
@@ -286,7 +318,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       barged.current = true;
       cancel();
       setCreep(null); // the ring holds where the tutor was cut off
-      void post("interrupted");
+      void post("interrupted").catch(() => {});
     },
     onModeChange: ({ mode }) => {
       clientLog("mode_change", { mode });
@@ -304,6 +336,12 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       }
       // listening: the agent stopped talking, either naturally or because it was cut off.
       setCreep(null); // the ring holds until the next block is spoken
+      if (closing.current) {
+        // the closing line has been said (a listening before its transcript is a filler or the cut-off turn)
+        const c = closing.current;
+        if (c.seen) whenSpoken(() => void finish(c.id));
+        return;
+      }
       if (afterReconnect.current) {
         // the reconnect greeting is done. An open question is re-served ("continue" would be graded as
         // the answer); otherwise auto-continue re-reads the interrupted block ("Back to it.").
@@ -390,11 +428,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     }
     onReply?.(r);
     // the course itself ran out and the server ended the trip: speak the closing line, then hand over
-    if (r.kind === "end" && r.tripId) {
-      autoContinue.current = false;
-      const id = r.tripId;
-      setTimeout(() => void finish(id), 4000);
-    }
+    if (r.kind === "end" && r.tripId) beginClosing(r.tripId, r.say ?? "");
     return JSON.stringify({ t: r.say });
   };
   /**
@@ -425,6 +459,12 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       return out;
     } catch (e) {
       if (ended.current || ac.signal.aborted) return JSON.stringify({ t: "" });
+      if (e instanceof StaleTripError) {
+        // this trip was ended (or replaced) from another screen: hang up quietly, land on our summary
+        clientLog("status", { status: "stale", tripId: e.tripId });
+        void finish(e.tripId);
+        return JSON.stringify({ t: "" });
+      }
       clientLog("client_error", { message: String((e as Error)?.message ?? e), source: "tool", tool });
       return JSON.stringify({ t: "I could not get to that one right now. Say continue to carry on." });
     } finally {
@@ -447,14 +487,15 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   useConversationClientTool("goto", (p: { target?: string }) => run("goto", (signal) => post("goto", { target: p?.target ?? "" }, signal)));
   useConversationClientTool("where_am_i", () => run("where_am_i", (signal) => post("where_am_i", {}, signal)));
   useConversationClientTool("end_trip", async () => {
-    const r = await post("end_trip");
-    if (r.tripId) {
-      autoContinue.current = false;
+    const r = await post("end_trip").catch((e: unknown): ToolReply | null => {
+      if (e instanceof StaleTripError) void finish(e.tripId); // already ended elsewhere: just hang up
+      return null;
+    });
+    if (r?.tripId) {
       onReply?.(r);
-      const id = r.tripId;
-      setTimeout(() => void finish(id), 4000); // let the agent say the closing line first
+      beginClosing(r.tripId, r.say ?? ""); // hang up once the agent has said the closing line
     }
-    return JSON.stringify({ t: r.say });
+    return JSON.stringify({ t: r?.say ?? "" });
   });
 
   // hard stop: the trip has no planned length, but a forgotten tab must not burn credits
@@ -574,7 +615,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       conv.setVolume({ volume: 0 });
       conv.setMuted(true);
     } catch {}
-    void post("interrupted");
+    void post("interrupted").catch(() => {});
     // A user turn cuts the agent off server-side; the prompt answers "pause" with "Holding." and waits.
     sendUser("pause");
     earcon.pause();

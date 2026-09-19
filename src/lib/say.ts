@@ -80,6 +80,11 @@ export function partIntro(p: Place): string {
   return `${part}${p.segment.title}.`;
 }
 
+/** "Part four of seven done." The driver asked to hear when a part is finished, not a filler mid-part. */
+export function partDone(p: Place): string {
+  return p.partCount > 1 ? `Part ${num(p.partIndex)} of ${num(p.partCount)} done.` : "";
+}
+
 export function sectionIntro(p: Place): string {
   return `Section ${sectionNumber(p.section.number)}, ${p.section.title}. ${partIntro(p)}`;
 }
@@ -95,7 +100,7 @@ export function boundary(from: Place | null, to: Place): string {
     return `${done}${chapterIntro(to)}`;
   }
   if (from.section.id !== to.section.id) return `${sectionDone(from)} Next, ${sectionIntro(to)}`;
-  return partIntro(to);
+  return `${partDone(from)} ${partIntro(to)}`.trim();
 }
 
 export function sectionDone(p: Place): string {
