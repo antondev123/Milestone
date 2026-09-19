@@ -330,7 +330,9 @@ export async function answer(course: Course, progress: Progress, text: string, m
     completeSegment(course, progress, c.segmentId);
     c.phase = "done";
     // completeSegment moved progress.resume; the cursor stays on this segment until next()
-    return commit(course, progress, c, withMilestones(course, progress, { kind: "say", say: `${result.feedback} Part done.`, loc: loc(course, c), more: true, correct: result.correct }));
+    // Study's Checkpoint reads the "Part done." tail; spoken, the boundary line names the part on the next `next`
+    const tail = mode === "study" ? " Part done." : "";
+    return commit(course, progress, c, withMilestones(course, progress, { kind: "say", say: `${result.feedback}${tail}`, loc: loc(course, c), more: true, correct: result.correct }));
   }
   return commit(course, progress, c, { kind: "say", say: result.feedback, loc: loc(course, c), more: true, correct: result.correct });
 }

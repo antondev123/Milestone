@@ -27,7 +27,7 @@ Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`
 ## Beat 3, the checks (70 s)
 - "Quick check. Why does the book say managers cannot make completely rational decisions on complex issues?"
   Answer in your own words, for example: **"Because you can't know every alternative or what each one leads to, and even if you could, you don't have the time or the head space to process it all."** Claude grades it (about 4 s, "One moment" covers it) and speaks one sentence back. Try a weak one in rehearsal ("because it's complicated") to see it rejected and offered once more.
-- "According to the passage, why is nonrational decision-making especially common with nonprogrammed decisions? A, … B, … C, … D, …" The right one is **"New ground, so we do not know what to ask"**. Say the letter, or the words: **"the new ground one"**. Graded locally, instant. "That's right", then "Part done. Milestone: First trip. First hands-free trip." with the fanfare earcon and the label on the state line. Reading carries on.
+- "According to the passage, why is nonrational decision-making especially common with nonprogrammed decisions? A, … B, … C, … D, …" The right one is **"New ground, so we do not know what to ask"**. Say the letter, or the words: **"the new ground one"**. Graded locally, instant. "That's right", then "Milestone: First trip. First hands-free trip." with the fanfare earcon, and "Part one of seven done. Part two of seven…" as the next block starts and the label on the state line. Reading carries on.
 
 ## Beat 4, the second minute and the live question (2.5 min)
 - It moves on by itself: "Part two of seven, Escalation of commitment. Given the lack of complete information, managers don't always make the right decision initially…"
