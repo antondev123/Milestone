@@ -255,7 +255,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   /** Section picker and the assistant's "Go there now": `goto` resolves "section N.M" to its first part. */
   async function jumpToSection(sectionNumber: string) {
     player.pause();
-    await tool("goto", { target: `section ${sectionNumber}` });
+    if ((await tool("goto", { target: `section ${sectionNumber}` })).stale) return;
     const p = (await fetch("/api/progress").then((r) => r.json())) as Progress;
     await arrive(p.cursor?.segmentId ?? p.resume.segmentId, new Set(p.segmentsCompleted));
   }
@@ -268,7 +268,7 @@ export default function StudyPage({ legs, source, courseTitle, gotoTarget, carri
   /** Leg footer: `mark` moves the cursor without completing the leg being left ("get off any time"). */
   async function jumpToLeg(id: string) {
     player.pause();
-    await tool("mark", { segmentId: id, blockIdx: 0 });
+    if ((await tool("mark", { segmentId: id, blockIdx: 0 })).stale) return; // the server did not move: stay put
     await arrive(id, completed);
   }
 

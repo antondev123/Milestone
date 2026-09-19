@@ -26,7 +26,7 @@ Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`
 
 ## Beat 3, the checks (70 s)
 - "Quick check. Why does the book say managers cannot make completely rational decisions on complex issues?"
-  Answer in your own words, for example: **"Because you can't know every alternative or what each one leads to, and even if you could, you don't have the time or the head space to process it all."** Claude grades it (about 4 s, "One sec" covers it) and speaks one sentence back. Try a weak one in rehearsal ("because it's complicated") to see it rejected and offered once more.
+  Answer in your own words, for example: **"Because you can't know every alternative or what each one leads to, and even if you could, you don't have the time or the head space to process it all."** Claude grades it (about 4 s, "One moment" covers it) and speaks one sentence back. Try a weak one in rehearsal ("because it's complicated") to see it rejected and offered once more.
 - "According to the passage, why is nonrational decision-making especially common with nonprogrammed decisions? A, … B, … C, … D, …" The right one is **"New ground, so we do not know what to ask"**. Say the letter, or the words: **"the new ground one"**. Graded locally, instant. "That's right", then "Part done. Milestone: First trip. First hands-free trip." with the fanfare earcon and the label on the state line. Reading carries on.
 
 ## Beat 4, the second minute and the live question (2.5 min)
@@ -53,6 +53,6 @@ Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`
 ## Fallbacks
 - Mic or ElevenLabs fails: Read quietly is deleted, so the only fallback is `/learn/voice?text=1`, which runs the real agent without audio but takes no commands (the Dial is hands-free).
 - Grading API down (no `ANTHROPIC_API_KEY`): MCQs grade locally; open answers fall back to keyword matching, which is lenient and accepts the answers above.
-- `ask` slow: the "One sec" filler covers ~3 s; on a timeout the tutor says "I couldn't check that one, say go" and reading resumes.
+- `ask` slow: the "One moment" filler covers ~3 s; on a timeout the tutor says "I couldn't check that one, say go" and reading resumes.
 - The trip does not end after part 2: the demo was not armed (someone browsed away or it already ran). Say "I'm done", run `npm run demo:stage`, reload.
 - Timing: the run is about six minutes with unhurried answers. Answering briskly and interrupting early in part two keeps it near five.
