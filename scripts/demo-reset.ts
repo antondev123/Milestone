@@ -3,7 +3,7 @@
 //   npm run demo:reset -- --seed  → position only: chapter 1 done, chapter 2 through 2.4 (no trips, answers or streak)
 //   npm run demo:stage            → the seed above plus the stage demo armed: the next Listen trip is exactly
 //                                   2.5 parts 1 and 2, then it ends itself into the summary. Once. See docs/DEMO.md.
-// The voice pick is wiped too: after any reset the next person hears the default (Mark).
+// The voice pick is wiped too: after any reset the next person hears the default (Alistair).
 import { existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { type Course, type Progress } from "../src/types/lesson.ts";

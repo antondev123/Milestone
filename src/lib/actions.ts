@@ -22,7 +22,7 @@ export function actionProgress(): Progress {
   return getProgress(userId, courseId);
 }
 
-/** Demo reset. Everything goes, including the voice pick: the next person hears the default (Mark). */
+/** Demo reset. Everything goes, including the voice pick: the next person hears the default (Alistair). */
 export function actionReset(): Progress {
   return resetProgress(userId, courseId);
 }
