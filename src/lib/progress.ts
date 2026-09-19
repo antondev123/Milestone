@@ -92,7 +92,14 @@ export function endTrip(course: Course, progress: Progress): TripSummary {
   }
   progress.lastTripAt = now;
 
-  const thisTrip = progress.checkpoints.filter((c) => c.at >= startedAt && c.attempt === 1);
+  // Score per question, not per attempt: a wrong first try then a right retry is one question
+  // right (the tutor said "Correct"). Topic mastery in recordCheckpoint stays first-try only.
+  // `attempt` is a lifetime count, so filtering on attempt === 1 dropped questions seen on an
+  // earlier trip from `total` altogether.
+  const inTrip = progress.checkpoints.filter((c) => c.at >= startedAt);
+  const byQuestion = new Map<string, boolean>();
+  for (const c of inTrip) byQuestion.set(c.questionId, (byQuestion.get(c.questionId) ?? false) || c.correct);
+  const firstTries = inTrip.filter((c) => c.attempt === 1); // "clean run" means right first time
   const mastered: string[] = [];
   const weak: string[] = [];
   for (const [topic, t] of Object.entries(progress.topics)) {
@@ -111,8 +118,8 @@ export function endTrip(course: Course, progress: Progress): TripSummary {
     minutes: Math.max(1, Math.round((new Date(now).getTime() - new Date(startedAt).getTime()) / 60_000)),
     mode: active?.mode ?? "text",
     segmentIds: active?.completedSegmentIds ?? [],
-    correct: thisTrip.filter((c) => c.correct).length,
-    total: thisTrip.length,
+    correct: [...byQuestion.values()].filter(Boolean).length,
+    total: byQuestion.size,
     mastered,
     weak,
     modulePct: Math.round((doneInChapter / moduleSegs) * 100),
@@ -125,7 +132,7 @@ export function endTrip(course: Course, progress: Progress): TripSummary {
     progress,
     mode: summary.mode,
     completedSegmentIds: summary.segmentIds,
-    checks: thisTrip,
+    checks: firstTries,
     detours: (progress.detours ?? []).filter((d) => d.at >= startedAt),
     quizzes: (progress.quizResults ?? []).filter((q) => q.at >= startedAt),
   });

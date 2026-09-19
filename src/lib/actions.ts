@@ -182,9 +182,13 @@ export function actionCheck(segmentId: string): ToolReply {
 export async function actionAnswer(text: string, mode: Mode): Promise<ToolReply> {
   const course = loadCourse(courseId);
   const progress = getProgress(userId, courseId);
-  if (!cursor.questionOpen(course, progress)) return cursor.answer(course, progress, text, mode);
   const study = mode === "study"; // the study page owns navigation; only repeat and give-up apply there
   const quick = quickIntent(text);
+  // No question to grade means the words were not an answer: a command is dispatched below, and
+  // anything else is chat. "There is no question open, say go" was a dead end for a driver who had
+  // just spoken a whole sentence (trip-mu7zpaw4). Study keeps the plain line: its box is typed.
+  const open = cursor.questionOpen(course, progress);
+  if (!open && study) return cursor.answer(course, progress, text, mode);
   switch (quick) {
     case "repeat":
       return { ...cursor.explain(course, progress, "again"), intent: "command" };
@@ -211,6 +215,7 @@ export async function actionAnswer(text: string, mode: Mode): Promise<ToolReply>
       break; // could not resolve it: let the grader decide what it was
     }
   }
+  if (!open) return { ...(await actionAsk(text, { detour: true })), intent: "question" };
   const r = await cursor.answer(course, progress, text, mode);
   if (r.intent === "question") {
     const a = await actionAsk(text, { detour: !study });

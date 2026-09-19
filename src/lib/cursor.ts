@@ -299,7 +299,7 @@ export async function answer(course: Course, progress: Progress, text: string, m
   const c = ensureCursor(course, progress);
   const q = currentQuestion(course, c);
   if (!q || (c.phase !== "ask" && !c.quiz)) {
-    return commit(course, progress, c, { kind: "say", say: "There is no question open right now. Say go to carry on.", loc: loc(course, c), more: false });
+    return commit(course, progress, c, { kind: "say", say: "No question is open right now. Say continue to carry on.", loc: loc(course, c), more: false });
   }
   const first = (c.quiz ? c.quiz.attempt : c.attempt) === 0;
   const result = opts.giveup ? { correct: false, feedback: revealLine(q), intent: "giveup" as const } : await gradeAnswer(q, text, { reveal: !first, chatting: !!c.detour });
