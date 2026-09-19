@@ -37,12 +37,18 @@ export function RouteLine({
   route,
   currentWord = "in progress",
   justDone,
+  dark = false,
 }: {
   route: RouteState;
   currentWord?: string;
   /** 0-based stop finished on the trip being shown: it gets a gold tick as the line passes it. */
   justDone?: number;
+  /** On an ink ground (the Resume header): the line and finished stops turn sand, the dotted route muted-on-ink. */
+  dark?: boolean;
 }) {
+  const line = dark ? "var(--color-ground)" : "var(--color-ink)";
+  const base = dark ? "var(--color-muted-on-ink)" : "var(--color-muted)";
+  const empty = dark ? "var(--color-ink)" : "var(--color-ground)";
   const n = Math.max(1, route.total);
   const step = n === 1 ? 0 : (W - PAD * 2) / (n - 1);
   const x = (i: number) => PAD + i * step;
@@ -58,9 +64,9 @@ export function RouteLine({
 
   return (
     <svg width="100%" viewBox={`0 0 ${W} 48`} role="img" aria-label={describe(route, currentWord)} className="block max-w-[342px] overflow-visible">
-      <line x1={x(0)} y1={Y} x2={x(n - 1)} y2={Y} stroke="var(--color-muted)" strokeWidth={2} strokeDasharray="4 6" strokeLinecap="round" />
+      <line x1={x(0)} y1={Y} x2={x(n - 1)} y2={Y} stroke={base} strokeWidth={2} strokeDasharray="4 6" strokeLinecap="round" />
       {route.done.map((_, i) => (
-        <circle key={`o${i}`} cx={x(i)} cy={Y} r={6} fill="var(--color-ground)" stroke="var(--color-muted)" strokeWidth={2} />
+        <circle key={`o${i}`} cx={x(i)} cy={Y} r={6} fill={empty} stroke={base} strokeWidth={2} />
       ))}
       {Array.from({ length: n - 1 }, (_, i) => i).filter(solid).map((i) => (
         <line
@@ -71,7 +77,7 @@ export function RouteLine({
           y1={Y}
           x2={x(i + 1)}
           y2={Y}
-          stroke="var(--color-ink)"
+          stroke={line}
           strokeWidth={3}
           strokeLinecap="round"
         />
@@ -80,7 +86,7 @@ export function RouteLine({
         d && i !== route.current ? (
           i === justDone ? (
             <g key={`d${i}`}>
-              <circle className="route-pop" style={at(i)} cx={x(i)} cy={Y} r={9} fill="var(--color-ink)" />
+              <circle className="route-pop" style={at(i)} cx={x(i)} cy={Y} r={9} fill={line} />
               <path
                 className="route-pop"
                 style={{ animationDelay: `${i * STEP_MS + 60}ms` }}
@@ -93,7 +99,7 @@ export function RouteLine({
               />
             </g>
           ) : (
-            <circle key={`d${i}`} className="route-pop" style={at(i)} cx={x(i)} cy={Y} r={7} fill="var(--color-ink)" />
+            <circle key={`d${i}`} className="route-pop" style={at(i)} cx={x(i)} cy={Y} r={7} fill={line} />
           )
         ) : null,
       )}
@@ -109,7 +115,7 @@ export function RouteLine({
         </>
       )}
       {route.label && route.current !== null && (
-        <text className="route-fade" style={at(route.current)} x={labelX} y={44} textAnchor={anchor} fontSize={13} fontWeight={600} fill="var(--color-ink)" fontFamily="var(--font-sans)">
+        <text className="route-fade" style={at(route.current)} x={labelX} y={44} textAnchor={anchor} fontSize={13} fontWeight={600} fill={line} fontFamily="var(--font-sans)">
           {route.label}
         </text>
       )}
