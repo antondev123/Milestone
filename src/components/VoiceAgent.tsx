@@ -7,6 +7,8 @@
 // finishes speaking (mode → listening) and nothing interrupted it, we send a text "continue" turn so
 // the agent calls `next` again. Barge-in cancels the pending continue and tells the server, so the
 // interrupted block is re-read after the driver's command. See docs/ELEVENLABS.md.
+// The SDK sometimes never sends that final "listening" (a phantom "speaking" in the same ms closes the
+// block): a watchdog polls the output meter once the words could have been said and infers it.
 // Every turn boundary is a short silence (the agent's LLM turn plus TTS start), which is why blocks
 // are long and the grace window short; the `next` round trip itself is ~15 ms and already warmed.
 //
@@ -41,7 +43,13 @@ const GRACE_MS = 300; // let a late barge-in win the race against auto-continue;
 // runs at (measured 165–215 wpm on eleven_flash_v2 in the session log), so until then a "listening" is
 // jitter, not the end of the turn, and auto-continue waits for the rest of that lower bound instead of firing.
 const GATE_WPM = 220;
-const SYNTHETIC_INTERRUPT_MS = 1500; // an `interruption` this soon after our own "continue" is that continue, not the driver
+const SYNTHETIC_INTERRUPT_MS = 1500; // an `interruption` this soon after our own "continue" / "say it" is that text, not the driver
+// The SDK can end an utterance with `listening` and a phantom `speaking` in the same millisecond and then
+// nothing (trip-mu81rfl5 at 84.1 s and 198.1 s): the block was heard in full, the app waited forever and
+// the queued question was never served. Once the words could have been said, we poll the output meter and
+// infer the listening the SDK never sent.
+const SPEAKING_WATCHDOG_MS = 1500;
+const OUTPUT_ACTIVE = 0.02; // same threshold as useBargeInDucking: agent audio is playing above this
 const UNSPOKEN_MS = 3000; // a tool reply with words that the agent has not started saying by then gets a nudge
 const NUDGE = "say it"; // the prompt answers this with the pending t
 const FLASH_MS = 3000; // "That's right" / a milestone label stays in the state line this long
@@ -126,8 +134,9 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const modeRef = useRef<"speaking" | "listening">("listening");
   const speechStart = useRef(0); // when the agent's current utterance started (its transcript arrives as speech starts)
   const speechMs = useRef(0); // the least time that utterance can take to say
-  const continuedAt = useRef(0); // when we last sent the synthetic "continue"
+  const syntheticAt = useRef(0); // when we last sent a synthetic user turn ("continue" / "say it")
   const unspoken = useRef<number | null>(null); // watchdog: a tool reply the agent has not started speaking
+  const speakingWatchdog = useRef<number | null>(null); // watchdog: a `speaking` the SDK never closed with `listening`
   const toolAbort = useRef<AbortController | null>(null); // the tool fetch in flight, cut off by a hang-up or a dropped call
   const closing = useRef<{ id: string; key: string; seen: boolean } | null>(null); // trip ended, closing line pending
   const statusRef = useRef<string>("disconnected"); // conv.status for timers (the render value is stale there)
@@ -150,13 +159,43 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       unspoken.current = null;
     }
   };
+  const clearSpeakingWatchdog = () => {
+    if (speakingWatchdog.current) {
+      clearTimeout(speakingWatchdog.current);
+      speakingWatchdog.current = null;
+    }
+  };
   // The SDK throws "No active conversation" if a timer fires after endSession(). Swallow it.
   const sendUser = (text: string) => {
     try {
       if (ended.current) return;
-      if (text === CONTINUE) continuedAt.current = Date.now();
+      if (text === CONTINUE || text === NUDGE) syntheticAt.current = Date.now();
       conv.sendUserMessage(text);
     } catch {}
+  };
+  /**
+   * Arm the dangling-`speaking` watchdog: once the current utterance's words could have been said, look
+   * at the output meter every SPEAKING_WATCHDOG_MS. Silence with the mode still `speaking` is the SDK's
+   * lost final `listening`: log it as inferred and run the listening logic ourselves.
+   */
+  const armSpeakingWatchdog = () => {
+    clearSpeakingWatchdog();
+    const remaining = speechStart.current + speechMs.current - Date.now();
+    speakingWatchdog.current = window.setTimeout(
+      () => {
+        speakingWatchdog.current = null;
+        if (ended.current || modeRef.current !== "speaking") return;
+        let silent = false;
+        try {
+          silent = !conv.isSpeaking && conv.getOutputVolume() < OUTPUT_ACTIVE;
+        } catch {}
+        if (!silent || speechStart.current + speechMs.current > Date.now()) return armSpeakingWatchdog();
+        clientLog("mode_change", { mode: "listening", inferred: true });
+        modeRef.current = "listening";
+        onListening();
+      },
+      Math.max(0, remaining) + SPEAKING_WATCHDOG_MS,
+    );
   };
   /**
    * Send "continue" once the agent has really finished its utterance. A "listening" that arrives before
@@ -170,7 +209,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       () => {
         timer.current = null;
         if (ended.current) return;
-        if (modeRef.current !== "listening") return; // it started speaking again: the next listening re-arms
+        if (modeRef.current !== "listening") return armSpeakingWatchdog(); // it started speaking again: the next listening (real or inferred) re-arms
         if (speechStart.current + speechMs.current > Date.now()) return whenSpoken(then); // a later utterance moved the bound
         then();
       },
@@ -206,6 +245,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     autoContinue.current = false;
     cancel();
     clearUnspoken();
+    clearSpeakingWatchdog();
     clearReconnect();
     toolAbort.current?.abort(); // a tool still in flight would reject into the SDK as "Failed to fetch"
     earcon.end();
@@ -258,6 +298,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       // any tool in flight, keep the mic recorder running, and dial again.
       cancel();
       clearUnspoken();
+      clearSpeakingWatchdog();
       toolAbort.current?.abort();
       barged.current = true;
       autoContinue.current = false;
@@ -309,9 +350,9 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       }
     },
     onInterruption: () => {
-      // Our own "continue" landing on the audio tail is reported as an interruption too. That is not the
-      // driver, so the block stays heard: posting `interrupted` here made the server re-read it ("Back to it.").
-      const synthetic = Date.now() - continuedAt.current < SYNTHETIC_INTERRUPT_MS;
+      // Our own "continue" or "say it" landing on the audio tail is reported as an interruption too. That is
+      // not the driver, so the block stays heard: posting `interrupted` here made the server re-read it ("Back to it.").
+      const synthetic = Date.now() - syntheticAt.current < SYNTHETIC_INTERRUPT_MS;
       clientLog("interruption", synthetic ? { synthetic } : {});
       if (synthetic) return;
       ducking.current?.onInterruption();
@@ -327,6 +368,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
         ducking.current?.onAgentStarts();
         barged.current = false;
         cancel();
+        armSpeakingWatchdog();
         // the block's words are now being spoken: creep the ring to the block's end over its speaking time
         if (pendingCreep.current) {
           setCreep(pendingCreep.current);
@@ -334,26 +376,8 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
         }
         return;
       }
-      // listening: the agent stopped talking, either naturally or because it was cut off.
-      setCreep(null); // the ring holds until the next block is spoken
-      if (closing.current) {
-        // the closing line has been said (a listening before its transcript is a filler or the cut-off turn)
-        const c = closing.current;
-        if (c.seen) whenSpoken(() => void finish(c.id));
-        return;
-      }
-      if (afterReconnect.current) {
-        // the reconnect greeting is done. An open question is re-served ("continue" would be graded as
-        // the answer); otherwise auto-continue re-reads the interrupted block ("Back to it.").
-        afterReconnect.current = false;
-        if (askingRef.current && !paused.current) {
-          sendUser("repeat the question");
-          return;
-        }
-      }
-      // A tool in flight means this was a filler, not a block: wait for the reply.
-      if (!autoContinue.current || barged.current || ended.current || paused.current || askingRef.current || thinkingRef.current) return;
-      armContinue();
+      clearSpeakingWatchdog();
+      onListening();
     },
     onContextUsage: (u) => {
       const usage = u as unknown as { context_tokens?: number; context_limit_tokens?: number };
@@ -376,6 +400,29 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       setErr(String(message));
     },
   });
+
+  /** The agent stopped talking: naturally, cut off, or (inferred) the SDK lost the final `listening`. */
+  function onListening() {
+      setCreep(null); // the ring holds until the next block is spoken
+      if (closing.current) {
+        // the closing line has been said (a listening before its transcript is a filler or the cut-off turn)
+        const c = closing.current;
+        if (c.seen) whenSpoken(() => void finish(c.id));
+        return;
+      }
+      if (afterReconnect.current) {
+        // the reconnect greeting is done. An open question is re-served ("continue" would be graded as
+        // the answer); otherwise auto-continue re-reads the interrupted block ("Back to it.").
+        afterReconnect.current = false;
+        if (askingRef.current && !paused.current) {
+          sendUser("repeat the question");
+          return;
+        }
+      }
+      // A tool in flight means this was a filler, not a block: wait for the reply.
+      if (!autoContinue.current || barged.current || ended.current || paused.current || askingRef.current || thinkingRef.current) return;
+      armContinue();
+  }
 
   ducking.current = useBargeInDucking(conv, debugOn, () => paused.current);
   const { ducked, debug } = ducking.current;
@@ -441,17 +488,19 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     toolAbort.current = ac;
     thinkingRef.current = true;
     setThinking(true);
+    clearUnspoken(); // a new tool supersedes the previous reply: its nudge must not land on this one
     try {
       const r = await call(ac.signal);
       const out = absorb(r);
       // Belt and braces for the reply going unsaid (pre-tool speech used to close the agent's turn before a
       // slow `ask` came back, and the answer was never spoken). If nothing is being said by then, log it so
       // the session log shows the failure, and nudge once: the prompt answers "say it" with the pending t.
+      // Never while another tool is in flight: the nudge is a user turn, and ElevenLabs abandons the running
+      // tool on user input, so the LLM re-said the previous t instead (trip-mu81rfl5, 148 s).
       if (r.say && !ended.current) {
-        clearUnspoken();
         unspoken.current = window.setTimeout(() => {
           unspoken.current = null;
-          if (ended.current || paused.current || modeRef.current !== "listening") return;
+          if (ended.current || paused.current || thinkingRef.current || modeRef.current !== "listening") return;
           clientLog("reply_unspoken", { tool });
           sendUser(NUDGE);
         }, UNSPOKEN_MS);

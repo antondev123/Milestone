@@ -60,6 +60,25 @@ function firstSegmentOf(section: SectionMeta): string | null {
   return section.segments[0]?.id ?? null;
 }
 
+/** First segment of the section before the one `segs[curIdx]` is in; null at the start of the course. */
+function previousSectionStart(segs: ReturnType<typeof allSegments>, curIdx: number): string | null {
+  if (curIdx < 0) return null;
+  const cur = segs[curIdx].sectionId;
+  let i = curIdx - 1;
+  while (i >= 0 && segs[i].sectionId === cur) i--;
+  if (i < 0) return null;
+  const prev = segs[i].sectionId;
+  while (i > 0 && segs[i - 1].sectionId === prev) i--;
+  return segs[i].id;
+}
+
+/** The part before the current one in course order; null at the very first part. */
+export function previousSegmentId(course: Course, currentSegmentId: string): string | null {
+  const segs = allSegments(course);
+  const i = segs.findIndex((s) => s.id === currentSegmentId);
+  return i > 0 ? segs[i - 1].id : null;
+}
+
 export function resolveTarget(course: Course, currentSegmentId: string, spoken: string): Target {
   const q = spoken.toLowerCase().replace(/[^a-z0-9.\s]/g, " ").replace(/\s+/g, " ").trim();
   const segs = allSegments(course);
@@ -67,7 +86,19 @@ export function resolveTarget(course: Course, currentSegmentId: string, spoken: 
   const curChapter = chapterOf(course, currentSegmentId);
   const curSection = sectionOf(course, currentSegmentId);
 
-  // relative / flow
+  // relative / flow. "previous section / part / chapter" is a place in the manifest, like "next section";
+  // plain "go back" / "where I was" is the return stack (trip-mu81rfl5: "previous section" on a fresh trip
+  // hit the empty stack and got "nowhere to go back to").
+  if (/\b(previous|last|prior) section\b/.test(q)) {
+    const id = previousSectionStart(segs, curIdx);
+    if (id) return { kind: "segment", segmentId: id, via: "relative" };
+  }
+  if (/\b(previous|last|prior) (part|segment)\b/.test(q) && curIdx > 0) return { kind: "segment", segmentId: segs[curIdx - 1].id, via: "relative" };
+  if (/\b(previous|last|prior) chapter\b/.test(q) && curChapter) {
+    const ch = course.chapters.find((c) => c.number === curChapter.number - 1);
+    const first = ch?.segments[0]?.id;
+    if (first) return { kind: "segment", segmentId: first, via: "relative" };
+  }
   if (/\b(back|previous|where i was|last part)\b/.test(q) && !/\bchapter \w+|section \w+/.test(q)) return { kind: "back", via: "relative" };
   if (/^(skip|move on|skip this|skip ahead)\b/.test(q)) return { kind: "skip", via: "flow" };
   if (/\bnext (part|segment)\b/.test(q) && curIdx >= 0 && segs[curIdx + 1]) return { kind: "segment", segmentId: segs[curIdx + 1].id, via: "relative" };
