@@ -46,9 +46,13 @@ export function useReadAloud(opts: {
   const { segmentId, blockCount, voiceId, onBlockStart, onFinished } = opts;
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const metas = useRef(new Map<string, Promise<Meta>>());
+  const known = useRef(new Map<string, Meta>()); // resolved timings, readable synchronously inside a tap
   const meta = useRef<Meta | null>(null); // timings for the block currently in the element
   const cur = useRef<Position | null>(null);
   const pendingSeek = useRef<number | null>(null); // seconds to seek to once the media is ready
+  // Word we were asked to jump to but could not yet (timings or media not ready). While set, the
+  // rAF loop leaves `pos` alone, so the highlight never slides back to word 0 before the seek lands.
+  const targetWord = useRef<number | null>(null);
   const raf = useRef(0);
   const speedRef = useRef(1); // mirrored in state for the UI; read here so loadBlock stays stable
   const cb = useRef({ onBlockStart, onFinished });
@@ -69,7 +73,9 @@ export function useReadAloud(opts: {
         p = fetch(ttsUrl(segmentId!, block, voiceId)).then(async (r) => {
           const j = (await r.json()) as Meta & { reason?: string };
           if (!r.ok) throw new Error(j.reason || `Read-aloud failed (${r.status})`);
-          return { text: j.text, words: j.words };
+          const m = { text: j.text, words: j.words };
+          known.current.set(key, m);
+          return m;
         });
         p.catch(() => metas.current.delete(key));
         metas.current.set(key, p);
@@ -92,7 +98,7 @@ export function useReadAloud(opts: {
     const a = audioRef.current;
     const m = meta.current;
     const c = cur.current;
-    if (a && m && c && !a.paused) {
+    if (a && m && c && !a.paused && targetWord.current == null && pendingSeek.current == null) {
       const t = a.currentTime;
       let w = c.word;
       while (w > 0 && m.words[w].start > t) w--;
@@ -103,6 +109,19 @@ export function useReadAloud(opts: {
       }
     }
     raf.current = requestAnimationFrame(tick);
+  }, []);
+
+  /** Move the media to `word` of the loaded block: now if the media is ready, else once it is. */
+  const applySeek = useCallback((a: HTMLAudioElement, m: Meta, word: number) => {
+    const at = m.words[Math.min(word, m.words.length - 1)]?.start ?? 0;
+    if (a.readyState >= 1) {
+      a.currentTime = at;
+      pendingSeek.current = null;
+      targetWord.current = null;
+      a.muted = false;
+    } else {
+      pendingSeek.current = at; // onMeta applies it and unmutes
+    }
   }, []);
 
   /** Point the element at a block. Synchronous up to play(), so it can live inside a tap handler. */
@@ -116,10 +135,20 @@ export function useReadAloud(opts: {
       setPos(cur.current);
       setBlockDuration(0);
       pendingSeek.current = null;
+      targetWord.current = word > 0 ? word : null;
       a.src = ttsUrl(segmentId, block, voiceId, true);
       a.defaultPlaybackRate = speedRef.current;
       a.playbackRate = speedRef.current;
       a.load();
+      const have = known.current.get(`${segmentId}/${block}`);
+      if (have) {
+        meta.current = have;
+        setBlockDuration(have.words.at(-1)?.end ?? 0);
+        if (word > 0) applySeek(a, have, word); // media just reloaded, so this lands on loadedmetadata
+      }
+      // Timings still on their way: play silently so the block's first words are not heard before
+      // the jump. applySeek unmutes.
+      a.muted = word > 0 && !have;
       cb.current.onBlockStart?.(block);
       if (autoplay) {
         setLoading(true);
@@ -134,20 +163,20 @@ export function useReadAloud(opts: {
           if (cur.current?.block !== block) return; // moved on
           meta.current = m;
           setBlockDuration(m.words.at(-1)?.end ?? 0);
-          if (word > 0 && m.words[word]) {
-            const at = m.words[word].start;
-            if (a.readyState >= 1) a.currentTime = at;
-            else pendingSeek.current = at;
-          }
+          const w = targetWord.current; // may differ from `word`: another skip landed meanwhile
+          if (w != null) applySeek(a, m, w);
+          else a.muted = false;
           if (block + 1 < blockCount) fetchMeta(block + 1).catch(() => {}); // warm the next block
         })
         .catch((e: Error) => {
           setError(e.message);
           setLoading(false);
+          targetWord.current = null;
+          a.muted = false;
           a.pause();
         });
     },
-    [segmentId, voiceId, blockCount, audio, fetchMeta],
+    [segmentId, voiceId, blockCount, audio, fetchMeta, applySeek],
   );
 
   // element events, bound once
@@ -167,6 +196,8 @@ export function useReadAloud(opts: {
       if (pendingSeek.current != null) {
         a.currentTime = pendingSeek.current;
         pendingSeek.current = null;
+        targetWord.current = null;
+        a.muted = false;
       }
     };
     const onEnded = () => {
@@ -211,9 +242,12 @@ export function useReadAloud(opts: {
     if (a) {
       a.pause();
       a.removeAttribute("src");
+      a.muted = false;
     }
     meta.current = null;
     cur.current = null;
+    pendingSeek.current = null;
+    targetWord.current = null;
     setPos(null);
     setPlaying(false);
     setLoading(false);
@@ -243,17 +277,19 @@ export function useReadAloud(opts: {
     (p: Position, o: { play?: boolean } = {}) => {
       const a = audio();
       const wantPlay = o.play ?? !a.paused;
-      if (cur.current?.block === p.block && meta.current && a.src) {
-        const w = meta.current.words[p.word];
-        if (w) a.currentTime = w.start;
+      if (cur.current?.block === p.block && a.src) {
+        // Same block: never reload it (that restarts from 0). If the timings are still in flight
+        // just move the target; loadBlock's continuation seeks there when they arrive.
         cur.current = p;
         setPos(p);
+        if (meta.current) applySeek(a, meta.current, p.word);
+        else targetWord.current = p.word;
         if (wantPlay && a.paused) play();
         return;
       }
       loadBlock(p.block, p.word, wantPlay);
     },
-    [audio, loadBlock, play],
+    [audio, loadBlock, play, applySeek],
   );
 
   const setSpeed = useCallback((s: number) => {
