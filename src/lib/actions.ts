@@ -236,8 +236,9 @@ export async function actionAnswer(text: string, mode: Mode): Promise<ToolReply>
 
 const NOT_FOUND = "I could not find that in the course. Try a chapter number, or ask me the question instead.";
 
-export function actionInterrupted(): { ok: true } {
-  cursor.interrupted(loadCourse(courseId), getProgress(userId, courseId));
+/** spoken: what the agent actually said before it stopped (the re-read resumes at the next sentence). */
+export function actionInterrupted(opts: { spoken?: string; quiet?: boolean } = {}): { ok: true } {
+  cursor.interrupted(loadCourse(courseId), getProgress(userId, courseId), opts);
   return { ok: true };
 }
 
@@ -277,8 +278,11 @@ export function actionGoto(target: string): ToolReply {
 function chatTail(turn: number, questionOpen: boolean): string {
   if (questionOpen) return turn === 1 ? "Want to go back to the question, or keep chatting?" : turn % 2 === 0 ? "Back to the question, or keep going?" : "Ready for the question again, or more on this?";
   if (turn === 1) return "Want to get back to the lesson, or keep chatting?";
-  return turn % 2 === 0 ? "Back to the lesson, or keep going?" : "Carry on with the lesson, or more on this?";
+  return turn % 2 === 0 ? "Would you like to resume the lesson, or discuss this further?" : "Back to the lesson, or keep going?";
 }
+
+/** The model wrote its own offer to carry on despite the prompt: the tail would say it twice (trip-mu83gskk). */
+const OFFERS_LESSON = /(carry on|back to the (lesson|question)|resume the lesson|keep chatting|keep going|discuss (this|it) further|whenever you'?re ready)[^.?!]*[.?!]?\s*$/i;
 
 /**
  * Off-script chat. The learner stepped out of the reading loop; the model sees the part read so far,
@@ -312,7 +316,7 @@ export async function actionAsk(question: string, opts: { context?: string; deto
   }
   // "First question from the road" is earned here, so it is spoken before the tail
   const reply = cursor.withMilestones(course, progress, { kind: "say", say: sayText, loc: "", more: false, offer });
-  if (opts.detour !== false && !offer) reply.say += ` ${chatTail(cur.detour!.turns, cursor.questionOpen(course, progress))}`;
+  if (opts.detour !== false && !offer && !OFFERS_LESSON.test(reply.say)) reply.say += ` ${chatTail(cur.detour!.turns, cursor.questionOpen(course, progress))}`;
   return cursor.commitReply(course, progress, reply);
 }
 

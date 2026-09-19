@@ -52,6 +52,14 @@ const SPEAKING_WATCHDOG_MS = 1500;
 const OUTPUT_ACTIVE = 0.02; // same threshold as useBargeInDucking: agent audio is playing above this
 const UNSPOKEN_MS = 3000; // a tool reply with words that the agent has not started saying by then gets a nudge
 const NUDGE = "say it"; // the prompt answers this with the pending t
+// After a barge-in the platform keeps the cut-off turn in the LLM's history as "<what was said>..." and
+// Gemini Flash then imitates that shape: every later long t stopped at ~55 words with a "..." and no
+// interruption at all (trip-mu83gskk: 4 of 5 turns after the first pause, 75% of two blocks never heard).
+// A transcript that ends in "..." with far fewer words than the tool's t is that. For a block the server
+// resumes at the next sentence (`interrupted` with what was spoken, quiet); anything else gets one nudge.
+const TRUNCATED = /(\.\.\.|…)\s*$/;
+const TRUNCATED_RATIO = 0.8; // said fewer than this share of the t's words
+const NUDGE_REST = "say the rest"; // the prompt answers this with the unsaid part of the last t
 const FLASH_MS = 3000; // "That's right" / a milestone label stays in the state line this long
 // Trips are open-ended, so this is not a trip length: it is the credit guard for a forgotten tab.
 const HARD_STOP_MS = 2 * 60 * 60_000;
@@ -135,6 +143,8 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const speechStart = useRef(0); // when the agent's current utterance started (its transcript arrives as speech starts)
   const speechMs = useRef(0); // the least time that utterance can take to say
   const syntheticAt = useRef(0); // when we last sent a synthetic user turn ("continue" / "say it")
+  const lastSaid = useRef<{ tool: string; kind: ToolReply["kind"]; words: number; nudged: boolean } | null>(null); // the last reply with words, for the truncation check
+  const nudgeRest = useRef(false); // a non-block reply was cut short by the agent: "say the rest" at the next listening
   const unspoken = useRef<number | null>(null); // watchdog: a tool reply the agent has not started speaking
   const speakingWatchdog = useRef<number | null>(null); // watchdog: a `speaking` the SDK never closed with `listening`
   const toolAbort = useRef<AbortController | null>(null); // the tool fetch in flight, cut off by a hang-up or a dropped call
@@ -169,7 +179,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const sendUser = (text: string) => {
     try {
       if (ended.current) return;
-      if (text === CONTINUE || text === NUDGE) syntheticAt.current = Date.now();
+      if (text === CONTINUE || text === NUDGE || text === NUDGE_REST) syntheticAt.current = Date.now();
       conv.sendUserMessage(text);
     } catch {}
   };
@@ -325,7 +335,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     },
     onMessage: (m) => {
       const msg = m as unknown as { message: string; source: "user" | "ai" | "agent"; event_id?: number };
-      if (msg.source === "user" && (msg.message === CONTINUE || msg.message === NUDGE)) return; // synthetic
+      if (msg.source === "user" && (msg.message === CONTINUE || msg.message === NUDGE || msg.message === NUDGE_REST)) return; // synthetic
       clientLog("transcript", { role: msg.source === "user" ? "user" : "agent", text: msg.message, eventId: msg.event_id });
       if (msg.source === "user") {
         // The learner spoke: the server's next reply decides whether reading carries on (`more`).
@@ -341,7 +351,19 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
         if (closing.current && !closing.current.seen && msg.message.includes(closing.current.key)) closing.current.seen = true;
         // the transcript lands as the speech starts: this is the clock the auto-continue gate runs on
         speechStart.current = Date.now();
-        speechMs.current = (msg.message.split(/\s+/).filter(Boolean).length / GATE_WPM) * 60_000;
+        const said = msg.message.split(/\s+/).filter(Boolean).length;
+        speechMs.current = (said / GATE_WPM) * 60_000;
+        // The agent cut the t short by itself (see TRUNCATED). The transcript arrives as the speech starts
+        // and the words still take ~15 s to say, so the server knows before auto-continue's `next`: a block
+        // resumes at the next sentence with no prefix. Anything else cannot be resumed server-side: one
+        // "say the rest" once the words are out. Once per reply; a short remainder is checked on its own.
+        const last = lastSaid.current;
+        if (last && !last.nudged && !closing.current && TRUNCATED.test(msg.message) && said < last.words * TRUNCATED_RATIO) {
+          last.nudged = true;
+          clientLog("truncated", { tool: last.tool, said, of: last.words });
+          if (last.kind === "read") void post("interrupted", { spoken: msg.message, quiet: true }).catch(() => {});
+          else nudgeRest.current = true; // sent from onListening, once the cut-off words are out
+        }
       }
       // never auto-"continue" into an open question: the agent would grade the word as the answer
       if (msg.source !== "user" && textOnly.current && autoContinue.current && !ended.current && !paused.current && !askingRef.current && !thinkingRef.current) {
@@ -360,6 +382,17 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       cancel();
       setCreep(null); // the ring holds where the tutor was cut off
       void post("interrupted").catch(() => {});
+    },
+    onAgentResponseCorrection: (c) => {
+      // What the agent had actually said when it was cut off (barge-in, or our "pause" turn). The server
+      // resumes the block at the next sentence instead of re-reading all ~250 words ("Back to it." stays).
+      // Refines the bare `interrupted` posted above; a correction for our own synthetic turn is skipped.
+      const ev = c as unknown as { corrected_agent_response?: string; original_agent_response?: string };
+      const spoken = ev?.corrected_agent_response ?? "";
+      const synthetic = Date.now() - syntheticAt.current < SYNTHETIC_INTERRUPT_MS;
+      clientLog("correction", { words: spoken.split(/\s+/).filter(Boolean).length, of: (ev?.original_agent_response ?? "").split(/\s+/).filter(Boolean).length, synthetic });
+      if (synthetic || !spoken || ended.current) return;
+      void post("interrupted", { spoken }).catch(() => {});
     },
     onModeChange: ({ mode }) => {
       clientLog("mode_change", { mode });
@@ -418,6 +451,19 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
           sendUser("repeat the question");
           return;
         }
+      }
+      // the agent cut a reply short by itself: ask for the rest before anything else moves on
+      if (nudgeRest.current) {
+        if (barged.current || ended.current || paused.current || thinkingRef.current) {
+          nudgeRest.current = false; // the learner or a tool moved on; the rest is gone
+          return;
+        }
+        // a listening in a TTS gap re-arms the same single timer; the flag clears when the nudge is sent
+        whenSpoken(() => {
+          nudgeRest.current = false;
+          sendUser(NUDGE_REST);
+        });
+        return;
       }
       // A tool in flight means this was a filler, not a block: wait for the reply.
       if (!autoContinue.current || barged.current || ended.current || paused.current || askingRef.current || thinkingRef.current) return;
@@ -492,6 +538,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     try {
       const r = await call(ac.signal);
       const out = absorb(r);
+      lastSaid.current = r.say ? { tool, kind: r.kind, words: r.say.split(/\s+/).filter(Boolean).length, nudged: false } : null;
       // Belt and braces for the reply going unsaid (pre-tool speech used to close the agent's turn before a
       // slow `ask` came back, and the answer was never spoken). If nothing is being said by then, log it so
       // the session log shows the failure, and nudge once: the prompt answers "say it" with the pending t.

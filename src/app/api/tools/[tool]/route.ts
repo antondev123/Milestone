@@ -113,7 +113,7 @@ export async function POST(req: Request, { params }: Params) {
         out = actionWhereAmI();
         break;
       case "interrupted":
-        out = actionInterrupted();
+        out = actionInterrupted({ spoken: body.spoken ? str(body.spoken) : undefined, quiet: body.quiet === true });
         break;
       case "end_trip":
       case "stop": {

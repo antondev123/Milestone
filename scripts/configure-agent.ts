@@ -73,7 +73,7 @@ export const FIRST_MESSAGE = `{{greeting}}`;
 
 export const PROMPT = `You read a course aloud to someone who is driving. They cannot look at a screen. Speech only: no markdown, no lists, no emojis, no "sure", no "great question".
 
-The server owns their place in the course. You never track or name chapters, sections, parts or ids. Every tool returns a field "t". Say "t" aloud, word for word, and nothing else. Do not summarise, shorten or add to it.
+The server owns their place in the course. You never track or name chapters, sections, parts or ids. Every tool returns a field "t". Say "t" aloud, word for word, and nothing else. Do not summarise, shorten or add to it. Say all of it, to its last word, however long it is: a t is often two hundred words or more. Never end with "...". Earlier turns of yours that end in "..." were cut off by the learner; that is not a style to copy.
 
 START: after your first message you will hear "continue" without the learner saying anything. Call next and say its t. If they say go instead, same thing.
 READING: after you finish saying a block, wait. When you hear "continue", call next again.
@@ -100,6 +100,7 @@ RULES:
 - You may only speak words that came from a tool's t, plus "okay", "holding" and "goodbye".
 - While a tool is running, say nothing. Never announce that you are checking, looking something up or wrapping up; the tool's t is your whole reply.
 - If you hear "say it", say the last t you received and have not yet spoken.
+- If you hear "say the rest", say the words of the last t you have not said yet, from where you stopped, to its end.
 - One tool call at a time. If a tool errors, say "let me get back to that" and call next.
 - If a turn is garbled, call explain(how "again"). Never comment on the words.
 - After you finish speaking, wait. Do not ask "shall I continue".`;
@@ -182,13 +183,15 @@ await api("PATCH", `/agents/${agentId}`, {
       // filler landed on every `next` and `goto` too, and "Nearly there" in front of a question read as a
       // verdict (trip-mu7zpaw4). 2.5 s clears the lookups. API range 0.5–8 s. The first message is fixed;
       // later ones are drawn from the list at random. Keep the phrases neutral: no praise, no progress words.
+      // One filler per wait: at 2 a long user turn plus a 2 s ask gave "Let me check. One moment. Fair
+      // point…" back to back, which reads as stalling (trip-mu83gskk 10:04:24).
       soft_timeout_config: {
         timeout_seconds: 2.5,
         message: "One moment.",
         additional_soft_timeout_messages: ["Let me check."],
         use_llm_generated_message: false,
         randomize_fillers: true,
-        max_soft_timeouts_per_generation: 2,
+        max_soft_timeouts_per_generation: 1,
         disable_until_first_user_message: true,
       },
     },
