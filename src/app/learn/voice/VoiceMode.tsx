@@ -6,11 +6,12 @@ import { useRouter } from "next/navigation";
 import type { Plan, ToolReply } from "@/types/lesson";
 import type { LegIndex } from "@/lib/view";
 import { VoiceAgent } from "@/components/VoiceAgent";
+import { ScriptedVoiceAgent } from "@/components/ScriptedVoiceAgent";
 import { ModePill, Screen, SignalNotice, TopBar } from "@/components/carry/Chrome";
 import { ChevronIcon } from "@/components/carry/Icons";
 import { persist, postJSON } from "@/components/carry/net";
 
-export default function VoiceMode({ legs, carriedFromReading, startId, carrying, voiceId }: { legs: LegIndex; carriedFromReading: boolean; startId: string; carrying: boolean; voiceId?: string }) {
+export default function VoiceMode({ legs, carriedFromReading, startId, carrying, voiceId, scripted = false }: { legs: LegIndex; carriedFromReading: boolean; startId: string; carrying: boolean; voiceId?: string; scripted?: boolean }) {
   const router = useRouter();
   const [plan, setPlan] = useState<Plan | null>(null);
   const [trouble, setTrouble] = useState(false);
@@ -30,7 +31,7 @@ export default function VoiceMode({ legs, carriedFromReading, startId, carrying,
       setPlan(p);
       setSegmentId(p.startAt.segmentId);
     })();
-  }, [carrying]);
+  }, [carrying, scripted]);
 
   const leg = legs[segmentId];
   const back = (
@@ -52,7 +53,9 @@ export default function VoiceMode({ legs, carriedFromReading, startId, carrying,
 
       <SignalNotice show={trouble} dark />
 
-      {!plan ? (
+      {scripted ? (
+        <ScriptedVoiceAgent legs={legs} startId={startId} onPausedChange={setPaused} onSegmentChange={setSegmentId} />
+      ) : !plan ? (
         <p className="text-[17px] text-muted-on-ink">{carrying ? "Carrying your trip over…" : "Getting your progress…"}</p>
       ) : (
         <VoiceAgent
