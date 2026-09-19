@@ -69,6 +69,10 @@ const CLOSING_MAX_MS = 20_000; // longest we wait for the agent to say the closi
 // offers a manual retry. Nothing ends a trip but the End button, the agent's end_trip and the hard stop.
 const RECONNECT_BACKOFF_MS = [1000, 2000, 4000, 8000, 15000];
 const RECONNECT_GREETING = "Back with you. Carrying on with your trip.";
+// The dial takes ~4 s to connect and the learner taps it again in that window; the tap that lands right
+// after connect used to pause the trip and cut the greeting at its first word (trip-mu86hs6p at 09:22:02).
+// A pause this soon after connect is that impatient tap, not a wish to stop.
+const START_GRACE_MS = 1500;
 
 type Flash = { kind: "correct" } | { kind: "milestone"; label: string };
 
@@ -155,6 +159,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const reconnectTries = useRef(0);
   const afterReconnect = useRef(false); // the next listening after a reconnect re-asks an open question
   const dialing = useRef(false); // a reconnect attempt is in startSession; its failure lands in onError
+  const connectedAt = useRef(0); // when the current call went live; a pause tap inside START_GRACE_MS is ignored
   const [reconnecting, setReconnecting] = useState(false);
   const [lost, setLost] = useState(false); // every retry failed; the Dial offers a manual one
   const cancel = () => {
@@ -277,6 +282,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       // a reconnect attaches the new conversation id; the sync pulls the latest call (earlier ones are in the `conversation` rows)
       if (conversationId) void fetch("/api/log/session", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ sessionId: plan.tripId, convId: conversationId }) }).catch(() => {});
       connectedOnce.current = true;
+      connectedAt.current = Date.now();
       dialing.current = false;
       reconnectTries.current = 0;
       clearReconnect();
@@ -622,6 +628,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     textOnly.current = new URLSearchParams(window.location.search).get("text") === "1";
     primeEarcons(); // inside the user's tap, so the browser lets later earcons play
     setEarconsEnabled(!textOnly.current);
+    earcon.tick(); // the tap landed: the call takes a few seconds to connect and the screen may be out of sight
     clientLog("status", { status: "start", textOnly: textOnly.current, ua: navigator.userAgent });
     if (!textOnly.current) void recorder.start(plan.tripId);
     connect(greeting);
@@ -701,6 +708,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   }
   function pause() {
     if (paused.current || ended.current) return;
+    if (Date.now() - connectedAt.current < START_GRACE_MS) return; // the impatient second tap, see START_GRACE_MS
     clientLog("pause", { on: true });
     setPaused(true);
     cancel();
@@ -784,7 +792,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
 
       <div className="my-auto self-center">
         <Dial
-          glyph={!live || isPaused ? "play" : "pause"}
+          glyph={(!live && !connecting) || isPaused ? "play" : "pause"}
           progress={legRing(leg)}
           creep={creep}
           sections={leg?.sectionCount}
