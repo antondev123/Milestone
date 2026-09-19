@@ -36,6 +36,14 @@ import { useMicRecorder } from "./useMicRecorder";
 
 const CONTINUE = "continue";
 const GRACE_MS = 300; // let a late barge-in win the race against auto-continue; every ms here is silence between blocks
+// mode → listening also fires in the gaps between TTS chunks (most under 300 ms, a few per session up to
+// 1.5 s). An utterance cannot be over before its words could have been said at the fastest rate the voice
+// runs at (measured 165–215 wpm on eleven_flash_v2 in the session log), so until then a "listening" is
+// jitter, not the end of the turn, and auto-continue waits for the rest of that lower bound instead of firing.
+const GATE_WPM = 220;
+const SYNTHETIC_INTERRUPT_MS = 1500; // an `interruption` this soon after our own "continue" is that continue, not the driver
+const UNSPOKEN_MS = 3000; // a tool reply with words that the agent has not started saying by then gets a nudge
+const NUDGE = "say it"; // the prompt answers this with the pending t
 const FLASH_MS = 3000; // "That's right" / a milestone label stays in the state line this long
 // Trips are open-ended, so this is not a trip length: it is the credit guard for a forgotten tab.
 const HARD_STOP_MS = 2 * 60 * 60_000;
@@ -97,17 +105,49 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const mutedBeforePause = useRef(false);
   const flashTimer = useRef<number | null>(null);
   const prevLeg = useRef<Leg | undefined>(leg);
+  const modeRef = useRef<"speaking" | "listening">("listening");
+  const speechStart = useRef(0); // when the agent's current utterance started (its transcript arrives as speech starts)
+  const speechMs = useRef(0); // the least time that utterance can take to say
+  const continuedAt = useRef(0); // when we last sent the synthetic "continue"
+  const unspoken = useRef<number | null>(null); // watchdog: a tool reply the agent has not started speaking
   const cancel = () => {
     if (timer.current) {
       clearTimeout(timer.current);
       timer.current = null;
     }
   };
+  const clearUnspoken = () => {
+    if (unspoken.current) {
+      clearTimeout(unspoken.current);
+      unspoken.current = null;
+    }
+  };
   // The SDK throws "No active conversation" if a timer fires after endSession(). Swallow it.
   const sendUser = (text: string) => {
     try {
-      if (!ended.current) conv.sendUserMessage(text);
+      if (ended.current) return;
+      if (text === CONTINUE) continuedAt.current = Date.now();
+      conv.sendUserMessage(text);
     } catch {}
+  };
+  /**
+   * Send "continue" once the agent has really finished its utterance. A "listening" that arrives before
+   * the words could have been spoken is a gap between TTS chunks: wait out the remaining estimate and
+   * look again, rather than barge in on our own tutor (which marked the block unheard and re-read it).
+   */
+  const armContinue = () => {
+    cancel();
+    const remaining = speechStart.current + speechMs.current - Date.now();
+    timer.current = window.setTimeout(
+      () => {
+        timer.current = null;
+        if (barged.current || paused.current || ended.current || askingRef.current || thinkingRef.current) return;
+        if (modeRef.current !== "listening") return; // it started speaking again: the next listening re-arms
+        if (speechStart.current + speechMs.current > Date.now()) return armContinue(); // a later utterance moved the bound
+        sendUser(CONTINUE);
+      },
+      Math.max(GRACE_MS, remaining + GRACE_MS),
+    );
   };
   /**
    * The one way a voice trip ends. Idempotent: the agent's end_trip tool, the End button and the
@@ -120,6 +160,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     ended.current = true;
     autoContinue.current = false;
     cancel();
+    clearUnspoken();
     earcon.end();
     recorder.stop();
     clientLog("status", { status: "ending", by: tripId ? "agent" : "user" });
@@ -156,7 +197,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     },
     onMessage: (m) => {
       const msg = m as unknown as { message: string; source: "user" | "ai" | "agent"; event_id?: number };
-      if (msg.source === "user" && msg.message === CONTINUE) return; // synthetic
+      if (msg.source === "user" && (msg.message === CONTINUE || msg.message === NUDGE)) return; // synthetic
       clientLog("transcript", { role: msg.source === "user" ? "user" : "agent", text: msg.message, eventId: msg.event_id });
       if (msg.source === "user") {
         // The learner spoke: the server's next reply decides whether reading carries on (`more`).
@@ -166,7 +207,13 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
         autoContinue.current = false;
         cancel();
       }
-      if (msg.source !== "user") ducking.current?.onAgentStarts();
+      if (msg.source !== "user") {
+        ducking.current?.onAgentStarts();
+        clearUnspoken(); // the agent is saying the reply
+        // the transcript lands as the speech starts: this is the clock the auto-continue gate runs on
+        speechStart.current = Date.now();
+        speechMs.current = (msg.message.split(/\s+/).filter(Boolean).length / GATE_WPM) * 60_000;
+      }
       // never auto-"continue" into an open question: the agent would grade the word as the answer
       if (msg.source !== "user" && textOnly.current && autoContinue.current && !ended.current && !paused.current && !askingRef.current && !thinkingRef.current) {
         cancel();
@@ -174,7 +221,11 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       }
     },
     onInterruption: () => {
-      clientLog("interruption", {});
+      // Our own "continue" landing on the audio tail is reported as an interruption too. That is not the
+      // driver, so the block stays heard: posting `interrupted` here made the server re-read it ("Back to it.").
+      const synthetic = Date.now() - continuedAt.current < SYNTHETIC_INTERRUPT_MS;
+      clientLog("interruption", synthetic ? { synthetic } : {});
+      if (synthetic) return;
       ducking.current?.onInterruption();
       barged.current = true;
       cancel();
@@ -183,6 +234,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     },
     onModeChange: ({ mode }) => {
       clientLog("mode_change", { mode });
+      modeRef.current = mode;
       if (mode === "speaking") {
         ducking.current?.onAgentStarts();
         barged.current = false;
@@ -198,10 +250,7 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       setCreep(null); // the ring holds until the next block is spoken
       // A tool in flight means this was a filler, not a block: wait for the reply.
       if (!autoContinue.current || barged.current || ended.current || paused.current || askingRef.current || thinkingRef.current) return;
-      timer.current = window.setTimeout(() => {
-        if (barged.current || paused.current) return;
-        sendUser(CONTINUE);
-      }, GRACE_MS);
+      armContinue();
     },
     onContextUsage: (u) => {
       const usage = u as unknown as { context_tokens?: number; context_limit_tokens?: number };
@@ -276,11 +325,25 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     return JSON.stringify({ t: r.say });
   };
   /** Every tool goes through here so the screen can show "One sec" while the server works. */
-  const run = async (call: () => Promise<ToolReply>): Promise<string> => {
+  const run = async (tool: string, call: () => Promise<ToolReply>): Promise<string> => {
     thinkingRef.current = true;
     setThinking(true);
     try {
-      return absorb(await call());
+      const r = await call();
+      const out = absorb(r);
+      // Belt and braces for the reply going unsaid (pre-tool speech used to close the agent's turn before a
+      // slow `ask` came back, and the answer was never spoken). If nothing is being said by then, log it so
+      // the session log shows the failure, and nudge once: the prompt answers "say it" with the pending t.
+      if (r.say && !ended.current) {
+        clearUnspoken();
+        unspoken.current = window.setTimeout(() => {
+          unspoken.current = null;
+          if (ended.current || paused.current || modeRef.current !== "listening") return;
+          clientLog("reply_unspoken", { tool });
+          sendUser(NUDGE);
+        }, UNSPOKEN_MS);
+      }
+      return out;
     } finally {
       thinkingRef.current = false;
       setThinking(false);
@@ -288,17 +351,17 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   };
 
   useConversationClientTool("next", () =>
-    run(async () => {
+    run("next", async () => {
       const r = await post("next");
       if (r.more && r.kind === "read") void post("next", { peek: true }); // warm the next block (no commit)
       return r;
     }),
   );
-  useConversationClientTool("explain", (p: { how?: string }) => run(() => post("explain", { how: p?.how ?? "simpler" })));
-  useConversationClientTool("answer", (p: { text?: string }) => run(() => post("answer", { text: p?.text ?? "" })));
-  useConversationClientTool("ask", (p: { question?: string }) => run(() => post("ask", { question: p?.question ?? "" })));
-  useConversationClientTool("goto", (p: { target?: string }) => run(() => post("goto", { target: p?.target ?? "" })));
-  useConversationClientTool("where_am_i", () => run(() => post("where_am_i")));
+  useConversationClientTool("explain", (p: { how?: string }) => run("explain", () => post("explain", { how: p?.how ?? "simpler" })));
+  useConversationClientTool("answer", (p: { text?: string }) => run("answer", () => post("answer", { text: p?.text ?? "" })));
+  useConversationClientTool("ask", (p: { question?: string }) => run("ask", () => post("ask", { question: p?.question ?? "" })));
+  useConversationClientTool("goto", (p: { target?: string }) => run("goto", () => post("goto", { target: p?.target ?? "" })));
+  useConversationClientTool("where_am_i", () => run("where_am_i", () => post("where_am_i")));
   useConversationClientTool("end_trip", async () => {
     const r = await post("end_trip");
     if (r.tripId) {
