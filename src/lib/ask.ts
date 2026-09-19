@@ -23,22 +23,24 @@ const ASK_SYSTEM = `You are a tutor talking with a commuter who paused a spoken 
 
 Answer what they actually said. Use the lesson material first. When they go beyond the book (a real-world example, an opinion, how this applies to their job, something adjacent, what they got wrong and why) answer from your own knowledge and the lesson history, and tie it back to the topic when that is natural. If they ask about something the table of contents covers later, say so briefly and set jumpTo to that section id. Never refuse a question because it is not in the text.
 
-Style: spoken English for someone driving, at most about eighty words, usually less. Plain words, one concrete example if it helps, South African where natural. No lists, no markdown, no headings, no "as the text states", no "great question". Do not end with a question: the course will offer to go back to the lesson after you. Never mention CONTEXT, ids, or that you are an AI. Also return "topic": two to five words naming what this turn was about, for a progress card.`;
+Style: spoken English for someone driving, at most about eighty words, usually less. Plain words, one concrete example if it helps, South African where natural. No lists, no markdown, no headings, no "as the text states", no "great question". Do not end with a question: the course will offer to go back to the lesson after you. Never mention CONTEXT, ids, or that you are an AI. Also return "topic": two to five words naming what this turn was about, for a progress card, and "meta": true when the turn was about you, the app or small talk rather than the course (a greeting, your name, how you are, a complaint about the app), else false.`;
 
 const schema = {
   type: "object",
   properties: {
     answer: { type: "string" },
     topic: { type: "string" },
+    meta: { type: "boolean" },
     jumpTo: { type: "string" },
   },
-  required: ["answer", "topic"],
+  required: ["answer", "topic", "meta"],
   additionalProperties: false,
 } as const;
 
 export interface AskResult {
   answer: string;
   topic: string;
+  meta: boolean; // about the tutor, the app or small talk, not the course: kept off the summary
   jumpTo?: string;
   cached: number;
   ms: number;
@@ -108,7 +110,7 @@ export async function askBook(
     messages: [
       ...history.slice(-6).flatMap((r) => [
         { role: "user" as const, content: r.q },
-        { role: "assistant" as const, content: JSON.stringify({ answer: r.a, topic: "" }) },
+        { role: "assistant" as const, content: JSON.stringify({ answer: r.a, topic: "", meta: false }) },
       ]),
       { role: "user", content: question },
     ],
@@ -120,6 +122,6 @@ export async function askBook(
   console.log(`[ask] ${MODEL} in=${u.input_tokens} cached=${cached} write=${u.cache_creation_input_tokens ?? 0} out=${u.output_tokens} ${ms}ms ~$${usd.toFixed(4)}`);
   logLlm({ provider: "anthropic", purpose: "ask", model: res.model, in: u.input_tokens, cacheRead: cached, cacheWrite: u.cache_creation_input_tokens ?? 0, out: u.output_tokens, ms, usd, requestId: res.id, meta: { question, turns: history.length + 1, stop: res.stop_reason } });
   const text = res.content.find((b) => b.type === "text")?.text ?? "{}";
-  const parsed = JSON.parse(text) as { answer?: string; topic?: string; jumpTo?: string };
-  return { answer: String(parsed.answer ?? "I am not sure about that one."), topic: String(parsed.topic ?? "a question"), jumpTo: parsed.jumpTo || undefined, cached, ms };
+  const parsed = JSON.parse(text) as { answer?: string; topic?: string; meta?: boolean; jumpTo?: string };
+  return { answer: String(parsed.answer ?? "I am not sure about that one."), topic: String(parsed.topic ?? "a question"), meta: parsed.meta === true, jumpTo: parsed.jumpTo || undefined, cached, ms };
 }

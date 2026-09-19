@@ -47,14 +47,20 @@ const NUDGE = "say it"; // the prompt answers this with the pending t
 const FLASH_MS = 3000; // "That's right" / a milestone label stays in the state line this long
 // Trips are open-ended, so this is not a trip length: it is the credit guard for a forgotten tab.
 const HARD_STOP_MS = 2 * 60 * 60_000;
+// A dropped call is not the end of the trip: the trip and the cursor live on the server, so we dial the
+// agent again and it carries on from the same block. Backoff per attempt; after the last one the Dial
+// offers a manual retry. Nothing ends a trip but the End button, the agent's end_trip and the hard stop.
+const RECONNECT_BACKOFF_MS = [1000, 2000, 4000, 8000, 15000];
+const RECONNECT_GREETING = "Back with you. Carrying on with your trip.";
 
 type Flash = { kind: "correct" } | { kind: "milestone"; label: string };
 
-async function post(tool: string, body: Record<string, unknown> = {}): Promise<ToolReply> {
+async function post(tool: string, body: Record<string, unknown> = {}, signal?: AbortSignal): Promise<ToolReply> {
   const r = await fetch(`/api/tools/${tool}`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ ...body, mode: "voice" }),
+    signal,
   });
   return r.json() as Promise<ToolReply>;
 }
@@ -110,6 +116,15 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const speechMs = useRef(0); // the least time that utterance can take to say
   const continuedAt = useRef(0); // when we last sent the synthetic "continue"
   const unspoken = useRef<number | null>(null); // watchdog: a tool reply the agent has not started speaking
+  const toolAbort = useRef<AbortController | null>(null); // the tool fetch in flight, cut off by a hang-up or a dropped call
+  const statusRef = useRef<string>("disconnected"); // conv.status for timers (the render value is stale there)
+  const connectedOnce = useRef(false); // a drop before the first connect is a failed start, not a lost call
+  const reconnectTimer = useRef<number | null>(null);
+  const reconnectTries = useRef(0);
+  const afterReconnect = useRef(false); // the next listening after a reconnect re-asks an open question
+  const dialing = useRef(false); // a reconnect attempt is in startSession; its failure lands in onError
+  const [reconnecting, setReconnecting] = useState(false);
+  const [lost, setLost] = useState(false); // every retry failed; the Dial offers a manual one
   const cancel = () => {
     if (timer.current) {
       clearTimeout(timer.current);
@@ -161,6 +176,8 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     autoContinue.current = false;
     cancel();
     clearUnspoken();
+    clearReconnect();
+    toolAbort.current?.abort(); // a tool still in flight would reject into the SDK as "Failed to fetch"
     earcon.end();
     recorder.stop();
     clientLog("status", { status: "ending", by: tripId ? "agent" : "user" });
@@ -175,14 +192,53 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const conv = useConversation({
     onConnect: (p) => {
       const { conversationId } = p as unknown as { conversationId?: string };
-      clientLog("status", { status: "connected", conversationId, textOnly: textOnly.current });
+      clientLog("status", { status: "connected", conversationId, textOnly: textOnly.current, reconnect: connectedOnce.current || undefined });
+      // a reconnect attaches the new conversation id; the sync pulls the latest call (earlier ones are in the `conversation` rows)
       if (conversationId) void fetch("/api/log/session", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ sessionId: plan.tripId, convId: conversationId }) }).catch(() => {});
+      connectedOnce.current = true;
+      dialing.current = false;
+      reconnectTries.current = 0;
+      clearReconnect();
+      setReconnecting(false);
+      setLost(false);
+      // paused when the link dropped: stay paused on the new call (volume and mic are per session)
+      if (paused.current) {
+        try {
+          conv.setVolume({ volume: 0 });
+          conv.setMuted(true);
+        } catch {}
+      }
     },
     onDisconnect: (d) => {
+      const det = d as unknown as { reason?: string; message?: string };
       clientLog("disconnect", d as unknown as Record<string, unknown>);
       flushLog();
+      if (ended.current || det.reason === "user") return; // our own endSession
+      if (det.reason === "agent") {
+        // the platform hung up (the 2 h max_duration; the agent has no end_call tool): end properly
+        void finish();
+        return;
+      }
+      if (!connectedOnce.current) {
+        setErr("Could not connect. Tap to try again.");
+        return;
+      }
+      // The link dropped mid-trip. Nothing ends: mark the block unheard so the agent re-reads it, cut off
+      // any tool in flight, keep the mic recorder running, and dial again.
+      cancel();
+      clearUnspoken();
+      toolAbort.current?.abort();
+      barged.current = true;
+      autoContinue.current = false;
+      void post("interrupted").catch(() => {});
+      setLost(false);
+      setReconnecting(true);
+      scheduleReconnect();
     },
-    onStatusChange: ({ status }) => clientLog("status", { status }),
+    onStatusChange: ({ status }) => {
+      statusRef.current = status;
+      clientLog("status", { status });
+    },
     onDebug: (d) => {
       const dbg = d as unknown as { type?: string; response?: string };
       if (dbg?.type === "tentative_agent_response") clientLog("tentative", { text: dbg.response });
@@ -248,6 +304,15 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       }
       // listening: the agent stopped talking, either naturally or because it was cut off.
       setCreep(null); // the ring holds until the next block is spoken
+      if (afterReconnect.current) {
+        // the reconnect greeting is done. An open question is re-served ("continue" would be graded as
+        // the answer); otherwise auto-continue re-reads the interrupted block ("Back to it.").
+        afterReconnect.current = false;
+        if (askingRef.current && !paused.current) {
+          sendUser("repeat the question");
+          return;
+        }
+      }
       // A tool in flight means this was a filler, not a block: wait for the reply.
       if (!autoContinue.current || barged.current || ended.current || paused.current || askingRef.current || thinkingRef.current) return;
       armContinue();
@@ -261,6 +326,14 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       }
     },
     onError: (message, context) => {
+      if (dialing.current) {
+        // a reconnect attempt failed to start: back off and try again, not an error on screen
+        dialing.current = false;
+        afterReconnect.current = false;
+        clientLog("reconnect", { attempt: reconnectTries.current, error: String(message) });
+        scheduleReconnect();
+        return;
+      }
       clientLog("client_error", { message: String(message), source: "elevenlabs", context });
       setErr(String(message));
     },
@@ -324,12 +397,18 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     }
     return JSON.stringify({ t: r.say });
   };
-  /** Every tool goes through here so the screen can show "One sec" while the server works. */
-  const run = async (tool: string, call: () => Promise<ToolReply>): Promise<string> => {
+  /**
+   * Every tool goes through here so the screen can show "One sec" while the server works. The fetch is
+   * abortable (hang-up, dropped call) and nothing rejects into the SDK: an aborted call answers with an
+   * empty t, a failed one with the same line the server uses when `ask` cannot reach Claude.
+   */
+  const run = async (tool: string, call: (signal: AbortSignal) => Promise<ToolReply>): Promise<string> => {
+    const ac = new AbortController();
+    toolAbort.current = ac;
     thinkingRef.current = true;
     setThinking(true);
     try {
-      const r = await call();
+      const r = await call(ac.signal);
       const out = absorb(r);
       // Belt and braces for the reply going unsaid (pre-tool speech used to close the agent's turn before a
       // slow `ask` came back, and the answer was never spoken). If nothing is being said by then, log it so
@@ -344,24 +423,29 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
         }, UNSPOKEN_MS);
       }
       return out;
+    } catch (e) {
+      if (ended.current || ac.signal.aborted) return JSON.stringify({ t: "" });
+      clientLog("client_error", { message: String((e as Error)?.message ?? e), source: "tool", tool });
+      return JSON.stringify({ t: "I could not get to that one right now. Say continue to carry on." });
     } finally {
+      if (toolAbort.current === ac) toolAbort.current = null;
       thinkingRef.current = false;
       setThinking(false);
     }
   };
 
   useConversationClientTool("next", () =>
-    run("next", async () => {
-      const r = await post("next");
-      if (r.more && r.kind === "read") void post("next", { peek: true }); // warm the next block (no commit)
+    run("next", async (signal) => {
+      const r = await post("next", {}, signal);
+      if (r.more && r.kind === "read") void post("next", { peek: true }).catch(() => {}); // warm the next block (no commit)
       return r;
     }),
   );
-  useConversationClientTool("explain", (p: { how?: string }) => run("explain", () => post("explain", { how: p?.how ?? "simpler" })));
-  useConversationClientTool("answer", (p: { text?: string }) => run("answer", () => post("answer", { text: p?.text ?? "" })));
-  useConversationClientTool("ask", (p: { question?: string }) => run("ask", () => post("ask", { question: p?.question ?? "" })));
-  useConversationClientTool("goto", (p: { target?: string }) => run("goto", () => post("goto", { target: p?.target ?? "" })));
-  useConversationClientTool("where_am_i", () => run("where_am_i", () => post("where_am_i")));
+  useConversationClientTool("explain", (p: { how?: string }) => run("explain", (signal) => post("explain", { how: p?.how ?? "simpler" }, signal)));
+  useConversationClientTool("answer", (p: { text?: string }) => run("answer", (signal) => post("answer", { text: p?.text ?? "" }, signal)));
+  useConversationClientTool("ask", (p: { question?: string }) => run("ask", (signal) => post("ask", { question: p?.question ?? "" }, signal)));
+  useConversationClientTool("goto", (p: { target?: string }) => run("goto", (signal) => post("goto", { target: p?.target ?? "" }, signal)));
+  useConversationClientTool("where_am_i", () => run("where_am_i", (signal) => post("where_am_i", {}, signal)));
   useConversationClientTool("end_trip", async () => {
     const r = await post("end_trip");
     if (r.tripId) {
@@ -395,10 +479,6 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     }
     setErr(null);
     ended.current = false;
-    // The greeting is spoken, then reading starts by itself: arm auto-continue so the first
-    // mode → listening sends "continue" and the agent calls `next`. No "go" needed.
-    autoContinue.current = true;
-    barged.current = false;
     const greeting = plan.greeting ?? "Ready when you are.";
     // ?text=1 → text-only session (no mic, no TTS): same agent, same tools. For debugging and for
     // browsers without microphone access. Auto-continue then keys off agent messages instead of speech.
@@ -407,8 +487,20 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
     setEarconsEnabled(!textOnly.current);
     clientLog("status", { status: "start", textOnly: textOnly.current, ua: navigator.userAgent });
     if (!textOnly.current) void recorder.start(plan.tripId);
+    connect(greeting);
+  }
+  /**
+   * Dial the agent: the first time with the server's greeting, after a drop with a short "carrying on".
+   * The hook's startSession returns nothing; a failed dial arrives as onStatusChange("disconnected")
+   * then onError, which is where a reconnect attempt schedules the next one.
+   */
+  function connect(greeting: string): void {
+    // The greeting is spoken, then reading starts by itself: arm auto-continue so the first
+    // mode → listening sends "continue" and the agent calls `next`. No "go" needed.
+    autoContinue.current = true;
+    barged.current = false;
     conv.startSession({
-      agentId,
+      agentId: agentId!,
       connectionType: textOnly.current ? "websocket" : "webrtc",
       textOnly: textOnly.current,
       // The agent must allow the tts.voice_id override (scripts/configure-agent.ts) or the session is refused.
@@ -416,6 +508,55 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
       dynamicVariables: { greeting, trip_id: plan.tripId },
     });
   }
+  function clearReconnect() {
+    if (reconnectTimer.current) {
+      clearTimeout(reconnectTimer.current);
+      reconnectTimer.current = null;
+    }
+  }
+  function scheduleReconnect() {
+    clearReconnect();
+    const n = reconnectTries.current;
+    if (n >= RECONNECT_BACKOFF_MS.length) {
+      clientLog("reconnect", { gaveUp: true, tries: n });
+      setReconnecting(false);
+      setLost(true);
+      return;
+    }
+    // offline: no point dialling; the `online` listener below retries the moment the network is back
+    reconnectTimer.current = window.setTimeout(tryReconnect, navigator.onLine === false ? 60_000 : RECONNECT_BACKOFF_MS[n]);
+  }
+  function tryReconnect() {
+    reconnectTimer.current = null;
+    if (ended.current || statusRef.current === "connected" || statusRef.current === "connecting") return;
+    reconnectTries.current += 1;
+    clientLog("reconnect", { attempt: reconnectTries.current });
+    afterReconnect.current = true;
+    dialing.current = true;
+    connect(RECONNECT_GREETING);
+  }
+  /** The Dial's tap once every automatic retry has failed. */
+  function retryNow() {
+    if (ended.current) return;
+    reconnectTries.current = 0;
+    setLost(false);
+    setReconnecting(true);
+    tryReconnect();
+  }
+  useEffect(() => {
+    const onOnline = () => {
+      if (reconnectTimer.current && !ended.current) {
+        clearReconnect();
+        tryReconnect();
+      }
+    };
+    window.addEventListener("online", onOnline);
+    return () => {
+      window.removeEventListener("online", onOnline);
+      clearReconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function setPaused(on: boolean) {
     paused.current = on;
@@ -469,10 +610,12 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
   const connecting = conv.status === "connecting";
 
   // ----- the screen is a pure function of the flow state -----
-  const strip: StripState = !live && !connecting ? "off" : isPaused ? "off" : connecting || thinking ? "sweep" : tutorTalking ? "steady" : "dashed";
+  const strip: StripState = reconnecting ? "sweep" : !live && !connecting ? "off" : isPaused ? "off" : connecting || thinking ? "sweep" : tutorTalking ? "steady" : "dashed";
   const mic: MicState = !live || isPaused || textOnly.current ? "off" : conv.isMuted ? "muted" : asking ? "question" : tutorTalking ? "rest" : "listening";
   let word: React.ReactNode;
-  if (conv.status === "error") word = "Something went wrong";
+  if (lost) word = "Connection lost. Tap to reconnect";
+  else if (reconnecting) word = "Reconnecting";
+  else if (conv.status === "error") word = "Something went wrong";
   else if (!live && !connecting) word = "Tap to start talking";
   else if (connecting) word = "Connecting";
   else if (isPaused) word = "Paused";
@@ -508,11 +651,11 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
           progress={legRing(leg)}
           creep={creep}
           sections={leg?.sectionCount}
-          dimmed={connecting || thinking}
-          disabled={connecting || conv.status === "error"}
+          dimmed={connecting || reconnecting || thinking}
+          disabled={connecting || reconnecting || (conv.status === "error" && !lost)}
           size={dialSize}
-          label={!live ? "Start listening" : isPaused ? "Continue" : "Pause"}
-          onTap={() => (!live ? start() : isPaused ? resume() : pause())}
+          label={lost ? "Reconnect" : !live ? "Start listening" : isPaused ? "Continue" : "Pause"}
+          onTap={() => (lost ? retryNow() : !live ? start() : isPaused ? resume() : pause())}
         />
       </div>
 
@@ -521,7 +664,8 @@ function Inner({ plan, onTripEnd, onReply, legs, leg, paused: isPaused, onPaused
         <div className="flex min-h-11 flex-1 items-center justify-center gap-2.5 text-center text-[18px] text-muted-on-ink" aria-live="polite">
           {word}
         </div>
-        <HoldButton onHold={() => void finish()} onHoldingChange={setHolding} disabled={!live} />
+        {/* a lost call must still be endable: the trip is alive on the server until end_trip */}
+        <HoldButton onHold={() => void finish()} onHoldingChange={setHolding} disabled={!live && !reconnecting && !lost} />
       </div>
 
 
