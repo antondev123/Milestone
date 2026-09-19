@@ -39,7 +39,7 @@ Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`
 
 ## Beat 5, arrival (30 s)
 - Part 2 was the last planned leg, so the trip ends itself. Tutor: "Trip done. Two parts, three of three right. Chapter is forty-two percent finished. Milestone: day one of your streak. You explored escalation of commitment and sunk costs. Next leg picks up at two point five, Barriers to Effective Decision-Making."
-- The summary lands: the gold **milestone card** on top (Day one of your streak, First trip, First hands-free trip, First question from the road, and Clean run if all three checks were right first time), then parts done, checks right, day streak, the chapter route line (the gold stop now carries a 2-of-7 wedge), "You explored", and *Next leg picks up at 2.5 …, Time constraints and uncertainty*.
+- The summary lands: the trip as a **ticket**, from *2.5.1 Bounded rationality* to *2.5.2 Escalation of commitment*, with minutes on the road, checks right and the day streak; then **Milestones reached** (Day one of your streak, First trip, First hands-free trip, First question from the road, and Clean run if all three checks were right first time), "You explored", and *Next leg picks up at 2.5 …, Time constraints and uncertainty*. The chapter route (with the 2-of-7 wedge) is on the home screen and Progress.
 - "You arrive with progress, not an episode. Curiosity counts as progress. And every one of those milestones came from what just happened on the road."
 
 ## Beat 6, how it's built (18 s)

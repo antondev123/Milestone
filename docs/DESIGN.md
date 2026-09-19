@@ -83,13 +83,13 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 ## 3. Components
 
-**Logo.** `MilestoneLogo` (`src/components/carry/MilestoneLogo.tsx`, copied from the kit, artwork untouched): the full lockup, 36px tall, top left on Resume. `theme="dark"` on any dark surface, `mono` where only one colour works. Never recolour the pin, stretch it or retype the wordmark. Favicons, Apple touch icon and `site.webmanifest` live in `public/` and are wired in `src/app/layout.tsx`.
+**Logo.** `MilestoneLogo` (`src/components/carry/MilestoneLogo.tsx`, copied from the kit, artwork untouched): the full lockup, 44px tall (136px wide) top left on Resume's ink header, `theme="dark"`; on a 320px phone it shrinks to make room for the links. `theme="dark"` on any dark surface, `mono` where only one colour works. Never recolour the pin, stretch it or retype the wordmark. Favicons, Apple touch icon and `site.webmanifest` live in `public/` and are wired in `src/app/layout.tsx`.
 
-**Groups and separators ("timetable").** Light and dark screens are grouped like a printed timetable, not with cards. Every group opens with a **2px rule** (ink on light, muted-on-ink on dark) and, where it helps, a **group label** (14/600, muted) with an optional right-aligned note (14, muted, tabular numbers, e.g. "4 of 13 legs done"). Rows inside a group are split by **1px hairlines** (`rule`, `ink-track` on dark). Side-by-side figures (the summary's stats, Solid / Worth another look) share one ruled row split by vertical hairlines. Panel fills stay for things you tap (answer buttons, the Study mode button, the ask field), not for grouping. Built with `Group`, `GroupLabel` and `Hairline` in `src/components/carry/Group.tsx`. Kept as they are: the feedback box (outline, now with a hairline above the source line), the gold milestone card on the summary, and the outlined "Quiz waiting" link.
+**Groups and separators ("timetable").** Light and dark screens are grouped like a printed timetable, not with cards. Every group opens with a **2px rule** (ink on light, muted-on-ink on dark) and, where it helps, a **group label** (14/600, muted) with an optional right-aligned note (14, muted, tabular numbers, e.g. "4 of 13 legs done"). Rows inside a group are split by **1px hairlines** (`rule`, `ink-track` on dark). Side-by-side figures (the summary's stats, Solid / Worth another look) share one ruled row split by vertical hairlines. Panel fills stay for things you tap (answer buttons, the Study mode button, the ask field), not for grouping. Built with `Group`, `GroupLabel` and `Hairline` in `src/components/carry/Group.tsx`. Kept as they are: the feedback box (outline, now with a hairline above the source line) and the outlined "Quiz waiting" link. The summary's trip ticket is a panel card on purpose (see Screen 4a).
 
 **Motion.** Nothing important waits for an animation: text, buttons and the resume fragment are on screen at first paint. The moving parts:
 - **Route line, every load:** the route is drawn dotted with empty stops, then the ink line fills stop by stop to where you are (160 ms a leg), each finished stop pops ink, the current stop pops gold and sends out two soft gold rings. Pure CSS (`route-*` classes in `globals.css`), so it runs on server pages.
-- **Leg just finished (summary):** the same fill; the furthest stop the trip finished pops a little bigger with a gold tick as the line passes it. No full-screen takeover.
+- **Summary ticket:** the from→to line draws (`route-seg`, 150 ms in) and its gold end stop pops (`route-pop`), then the milestone rows fade up one after another (110 ms apart). No full-screen takeover. (`RouteLine`'s `justDone` gold tick is still available but the summary no longer shows the chapter route.)
 - **Listen:** the dial's gold ring creeps forward while the tutor reads and holds on pause or barge-in (see screen 3). Alongside the voice strip, it is the only continuous motion.
 - **Check / Study checkpoint:** feedback settles in (fade up, 220 ms).
 - Reduced motion shows every end state at once.
@@ -100,11 +100,11 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 **Primary button:** gold fill, ink label at 18/700, radius 16, full width, 60px tall or more. There is one per screen. The dark alternative is an ink fill with a ground-coloured label.
 
-**Mode choice buttons (Resume):** 68px tall, icon, label and a one-line description.
+**Mode choice buttons (Resume):** 72px tall, one line of description each, icon, label and a one-line description.
 - "Hands-off" / "Just listen, answer out loud" (ink)
 - "Hands-on" / "Read along with the book, tap any line to ask" (panel)
 
-**Route line** (SVG, 342×48): one stop per leg (section), spaced to fit, y = 16. Animated fill on load: see Motion above.
+**Route line** (SVG, 342×48): one stop per leg (section), spaced to fit, y = 16. `dark` redraws it for an ink ground (line and finished stops `ground`, dotted route and empty rings `muted-on-ink`, empty fill `ink`, gold current stop unchanged): used on Resume's header. Animated fill on load: see Motion above.
 - Finished stop: ink circle, radius 7, joined by a solid ink line (3px).
 - Current stop: gold circle, radius 11, with a 3px ink ring, and a label below it (13/600). Parts of that leg already done show as an ink wedge inside the disc (radius 8), clockwise from 12 o'clock like a clock face (e.g. 2 of 7 parts = a 103° slice).
 - Upcoming stop: ground circle, radius 6, with a 2px muted ring, joined by a dashed line (2px, dash 4 6).
@@ -120,7 +120,7 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 **Feedback box:** 2px ink outline, radius 16. It holds a verdict (Fraunces 22), one sentence of explanation, and a source line: "From [SOURCE DOC], section [X]". **The source line is required.** It is our visible proof that lessons are grounded.
 
-**Milestone card (Summary):** panel fill, radius 20, padding 18. "Milestone reached" (15, muted), then one row per milestone: the 10px gold dot with a 2px ink ring and the label at 17/600. On Progress, a "Milestones" list uses the trip-row layout (dot and label left, day right). Milestones are named stops earned from logged data (`src/lib/milestones.ts`), awarded once, only for what that trip did. No badges, no points, no emoji.
+**Milestones (Summary):** a ruled group, "Milestones reached" with "n new" as the note, one 44px row per milestone: the 10px gold dot with a 2px ink ring and the label at 16/600, split by hairlines. Sentence case (the old all-caps gold card is gone). On Progress, a "Milestones" list uses the trip-row layout (dot and label left, day right). Milestones are named stops earned from logged data (`src/lib/milestones.ts`), awarded once, only for what that trip did. No badges, no points, no emoji.
 
 **Trip row (Progress):** 56px tall, with a hairline below (the group rule is above the first). The left side shows the day and part of day (16/600) over what was covered and in which mode (14, muted). The right side shows the minutes (16/600).
 
@@ -135,7 +135,7 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 ## 4. Screens
 
-**1. Resume.** Wordmark with Settings and "Your progress" links. Three ruled groups: the chapter (label "Chapter 2: …", "n of N legs done", the route line), where you stopped (the resume block), and, pinned to the bottom, "How are you studying today?" with the Hands-off / Hands-on buttons. No greeting or screen heading: the route and the cut-off sentence are the headline. A finished course shows "You finished the course." in the middle group.
+**1. Resume ("departure board").** A full-bleed ink header: the dark logo (44px) with Settings and "Your progress" links in `ground`, the label line "Chapter n" / "n of N legs done" (muted-on-ink), the chapter title in Fraunces 30/1.1 (hyphenated words never split, `NoBreak` in `Chrome.tsx`) and the dark route line. Below it on sand: where you stopped (the resume block) and, pinned to the bottom, "How are you studying today?" with the Hands-off / Hands-on buttons. No greeting or screen heading: the route and the cut-off sentence are the headline. A finished course shows "You finished the course." in the middle group.
 
 **2. Read mode.** Top bar, a 4px progress bar for the current leg, the leg title, the previous sentence in muted text, the pick-up marker, then the lesson in short paragraphs (about 40 words each). At the bottom: a "Check my understanding" button with "Get off any time. Your progress is saved." underneath.
 
@@ -143,7 +143,9 @@ Copy is sentence case everywhere: no all-caps labels, no emoji, no arrows tacked
 
 **4. Check.** Top bar ("End of leg 3"), the question, three answer buttons, the feedback box after answering, and a "Finish leg 3" button.
 
-**5. Progress.** "Learned in transit" with the big figure and trip count, then the route line with the next leg marked, the trip list (newest first), and a "Back to the course" button.
+**4a. Summary (the ticket).** Top bar, "You arrived with progress.", then the trip as a ticket: a panel card (radius 20) with From / To (label 13/600 muted, the part code "2.5.1" in Fraunces 26, the part title 14) either side of a small from→to line that sits in its own fixed 48px column so a long title can never run into or clip it; a dashed perforation with ground-coloured notches; and minutes on the road | checks right | day streak. One part: a single "Part finished" column. None: "No part finished this trip". Then Milestones reached, You explored, Next leg picks up at, the licence line, and the gold "Next leg, hands-off" button.
+
+**5. Progress.** Hero: "Learned in transit" with minutes and trip count once there are trips; before the first trip, "On the map" with the legs done (60) and "legs done" (Fraunces 26) and a line saying minutes start on the first trip. Then "Chapter n" with the route line (next leg marked), a "Chapters" window (the chapter before, the current one, the next two: check / gold dot / hollow ring, title, Done / "x of y" / "n legs" / "Coming") with an "All 18 chapters" link, the milestones and trip list (newest first) when present, and a "Back to the course" button.
 
 ---
 

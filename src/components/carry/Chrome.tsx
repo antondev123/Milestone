@@ -12,6 +12,23 @@ export function Screen({ children, dark = false, gap = "gap-7" }: { children: Re
   );
 }
 
+/** A title that never wraps at a hyphen: "Managerial Decision-Making" breaks between words, not inside "Decision-Making". */
+export function NoBreak({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(\s+)/).map((w, i) =>
+        w.includes("-") ? (
+          <span key={i} className="whitespace-nowrap">
+            {w}
+          </span>
+        ) : (
+          w
+        ),
+      )}
+    </>
+  );
+}
+
 export function BackLink({ href, label = "Back to course" }: { href: string; label?: string }) {
   return (
     <Link href={href} aria-label={label} className="-ml-2 flex h-11 w-11 items-center justify-center rounded-full">
