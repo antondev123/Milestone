@@ -5,7 +5,7 @@ import { actionProgress } from "@/lib/actions";
 import { DEFAULT_COURSE_ID, loadCourse } from "@/lib/course";
 import { chapterOf, findSegment, sectionOf } from "@/types/lesson";
 import { milestoneLabel } from "@/lib/milestones";
-import { routeState, tripMinutes } from "@/lib/view";
+import { chapterLegs, routeState, tripMinutes } from "@/lib/view";
 import { BackLink, Screen, TopBar } from "@/components/carry/Chrome";
 import { RouteLine } from "@/components/carry/RouteLine";
 import { Group } from "@/components/carry/Group";
@@ -31,11 +31,13 @@ export default async function Summary({ params }: { params: Promise<{ id: string
   const nextSection = nextSeg ? sectionOf(course, nextSeg.id) : undefined;
   const anchorId = progress.segmentsCompleted.at(-1) ?? progress.resume.segmentId;
   const chapter = chapterOf(course, anchorId) ?? course.chapters[0];
-  const totalSegs = chapter.segments.length;
-  const doneInChapter = progress.segmentsCompleted.filter((sid) => sid.startsWith(chapter.id + "/")).length;
+  const legs = chapterLegs(chapter);
+  const doneSet = new Set(progress.segmentsCompleted);
+  const legsDone = legs.filter((s) => s.segments.every((g) => doneSet.has(g.id))).length;
   const route = routeState(chapter, progress, (n) => `Next: leg ${n}`);
-  // the furthest stop this trip finished gets the gold tick as the route fills
-  const justDone = chapter.segments.reduce((at, s, i) => (trip.segmentIds.includes(s.id) ? i : at), -1);
+  // the furthest leg this trip completed gets the gold tick as the route fills; a leg only partly
+  // done this trip shows as the arc on the gold stop instead
+  const justDone = legs.reduce((at, s, i) => (route.done[i] && s.segments.some((g) => trip.segmentIds.includes(g.id)) ? i : at), -1);
 
   return (
     <Screen gap="gap-[26px]">
@@ -63,25 +65,39 @@ export default async function Summary({ params }: { params: Promise<{ id: string
 
       <Group>
         <dl className="grid grid-cols-3">
-          <Stat big={String(trip.segmentIds.length)} small={`leg${trip.segmentIds.length === 1 ? "" : "s"} done`} first />
+          <Stat big={String(trip.segmentIds.length)} small={`part${trip.segmentIds.length === 1 ? "" : "s"} done`} first />
           <Stat big={`${trip.correct}/${trip.total}`} small="checks right" />
           <Stat big={String(trip.streakDays)} small={`day streak`} />
         </dl>
       </Group>
 
-      <Group label={`Chapter ${chapter.number}: ${chapter.shortTitle}`} aside={`${doneInChapter} of ${totalSegs} legs`}>
+      <Group label={`Chapter ${chapter.number}: ${chapter.shortTitle}`} aside={`${legsDone} of ${legs.length} legs`}>
         <RouteLine route={route} currentWord="next" justDone={justDone >= 0 ? justDone : undefined} />
         <ul className="flex flex-col">
-          {chapter.segments.map((s, i) => {
-            const done = progress.segmentsCompleted.includes(s.id);
-            const thisTrip = trip.segmentIds.includes(s.id);
+          {legs.map((s, i) => {
+            const legDone = route.done[i];
+            const touched = s.segments.some((g) => trip.segmentIds.includes(g.id));
             return (
-              <li key={s.id} className={`flex min-h-11 items-center gap-3 border-b border-rule text-[15px] ${done ? "" : "text-muted"}`}>
-                <span className="w-5 shrink-0">{done ? <CheckIcon size={18} /> : <span className="sr-only">Not done</span>}</span>
-                <span className="flex-1">
-                  Leg {i + 1}. {s.title}
-                </span>
-                {thisTrip && <span className="shrink-0 rounded-xl bg-panel px-2 py-0.5 text-sm font-semibold text-ink">this trip</span>}
+              <li key={s.id} className="flex flex-col">
+                <div className={`flex min-h-11 items-center gap-3 border-b border-rule text-[15px] font-semibold ${legDone || touched ? "" : "text-muted"}`}>
+                  <span className="w-5 shrink-0">{legDone ? <CheckIcon size={18} /> : <span className="sr-only">Not done</span>}</span>
+                  <span className="flex-1">
+                    Leg {i + 1}. {s.title}
+                  </span>
+                </div>
+                {/* only the leg this trip touched is unfolded: its parts, with the ones from this trip marked */}
+                {touched &&
+                  s.segments.map((g) => {
+                    const done = doneSet.has(g.id);
+                    const thisTrip = trip.segmentIds.includes(g.id);
+                    return (
+                      <div key={g.id} className={`flex min-h-11 items-center gap-3 border-b border-rule pl-8 text-[15px] ${done ? "" : "text-muted"}`}>
+                        <span className="w-5 shrink-0">{done ? <CheckIcon size={18} /> : <span className="sr-only">Not done</span>}</span>
+                        <span className="flex-1">{g.title}</span>
+                        {thisTrip && <span className="shrink-0 rounded-xl bg-panel px-2 py-0.5 text-sm font-semibold text-ink">this trip</span>}
+                      </div>
+                    );
+                  })}
               </li>
             );
           })}

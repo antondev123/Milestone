@@ -17,7 +17,7 @@ Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`
 "Half of South Africa's workers commute by public transport, and most start courses they never finish. This is a real textbook, OpenStax Principles of Management, eighteen chapters, cut into commute-sized parts. We turn the trip into the lesson."
 
 ## Beat 1, land and go (10 s)
-- `/` shows *Chapter 2: Managerial Decision-Making, 11 of 31 legs done* and the resume card. "Chapter one done, a third of chapter two. I'm driving, so: Hands-off."
+- `/` shows *Chapter 2: Managerial Decision-Making, 3 of 6 legs done* (one stop per section, the fourth gold) and the resume card ("Leg 4, part 1 starts with"). "Chapter one done, a third of chapter two. I'm driving, so: Hands-off."
 - Tap **Hands-off**. The Dial: Topic, Section and the ring, no words. Tap the **dial**, the only tap.
 - Tutor: "Back in chapter two, Managerial Decision-Making. Section two point five, part one of seven. Here we go." Then it starts reading on its own.
 
@@ -39,7 +39,7 @@ Phone or narrow window, mic allowed in Chrome, speakers not headphones. Open `/`
 
 ## Beat 5, arrival (30 s)
 - Part 2 was the last planned leg, so the trip ends itself. Tutor: "Trip done. Two parts, three of three right. Chapter is forty-two percent finished. Milestone: day one of your streak. You explored escalation of commitment and sunk costs. Next leg picks up at two point five, Barriers to Effective Decision-Making."
-- The summary lands: the gold **milestone card** on top (Day one of your streak, First trip, First hands-free trip, First question from the road, and Clean run if all three checks were right first time), then legs done, checks right, day streak, the chapter route line, "You explored", and *Next leg picks up at 2.5 …, Time constraints and uncertainty*.
+- The summary lands: the gold **milestone card** on top (Day one of your streak, First trip, First hands-free trip, First question from the road, and Clean run if all three checks were right first time), then parts done, checks right, day streak, the chapter route line (the gold stop now carries a 2-of-7 wedge), "You explored", and *Next leg picks up at 2.5 …, Time constraints and uncertainty*.
 - "You arrive with progress, not an episode. Curiosity counts as progress. And every one of those milestones came from what just happened on the road."
 
 ## Beat 6, how it's built (18 s)

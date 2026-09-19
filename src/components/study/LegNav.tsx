@@ -15,18 +15,18 @@ export function LegNav({ prev, next, primaryNext, disabled, onGo }: { prev: LegL
       <div className="grid grid-cols-2 gap-3">
         <div className="flex flex-col gap-1.5">
           <button type="button" disabled={disabled || !prev} onClick={() => prev && onGo(prev.id)} className={outlined}>
-            Previous leg
+            Previous part
           </button>
           {prev && <span className="truncate text-center text-[13px] text-muted">{prev.caption}</span>}
         </div>
         <div className="flex flex-col gap-1.5">
           {next && primaryNext ? (
             <PrimaryButton onClick={() => onGo(next.id)} disabled={disabled}>
-              Next leg
+              Next part
             </PrimaryButton>
           ) : (
             <button type="button" disabled={disabled || !next} onClick={() => next && onGo(next.id)} className={outlined}>
-              Next leg
+              Next part
             </button>
           )}
           <span className="truncate text-center text-[13px] text-muted">{next ? next.caption : "Last leg of the course"}</span>

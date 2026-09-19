@@ -27,7 +27,7 @@ export default function CourseMap() {
       <div className="flex flex-col gap-2">
         <h1 className="font-display text-[34px] leading-[1.12] font-semibold tracking-[-0.015em]">{course.title}</h1>
         <p className="text-[15px] text-muted">
-          {course.chapters.length} chapters, {done.size} of {totalSegs} legs done. Nothing is locked.
+          {course.chapters.length} chapters, {done.size} of {totalSegs} parts done. Nothing is locked.
         </p>
       </div>
 

@@ -14,11 +14,12 @@ export function hereId(progress: Progress): string {
   return progress.cursor?.segmentId ?? progress.resume.segmentId;
 }
 
-// ---------- legs: a chapter's parts, numbered for the route line and top bar ----------
+// ---------- legs: a leg is a teachable section, its parts are the ~2-minute segments ----------
+// The route line has one stop per leg (docs/DESIGN.md §3), so chapter 2 is 6 stops, not 31.
 
 export interface Leg {
-  n: number; // 1-based within the chapter
-  of: number;
+  n: number; // leg number: 1-based among the chapter's teachable sections (same as sectionIdx)
+  of: number; // legs in the chapter
   chapter: number;
   section: string; // "1.3"
   // For the Listen dial: Topic / Section words and a coarse ring, no lesson text on screen.
@@ -32,16 +33,21 @@ export interface Leg {
 
 export type LegIndex = Record<string, Leg>;
 
-/** Every teachable part in the course → its leg number within its chapter. Small; safe to send to the client. */
+/** A chapter's teachable sections: the legs on the route line. */
+export function chapterLegs(chapter: Chapter) {
+  return chapter.sections.filter((s) => s.segments.length > 0);
+}
+
+/** Every teachable part in the course → its leg (section) and part numbers. Small; safe to send to the client. */
 export function legIndex(course: Course): LegIndex {
   const out: LegIndex = {};
   for (const ch of course.chapters) {
-    const teachable = ch.sections.filter((s) => s.segments.length > 0);
+    const teachable = chapterLegs(ch);
     teachable.forEach((s, si) =>
       s.segments.forEach((g, gi) => {
         out[g.id] = {
-          n: ch.segments.findIndex((x) => x.id === g.id) + 1,
-          of: ch.segments.length,
+          n: si + 1,
+          of: teachable.length,
           chapter: ch.number,
           section: s.number,
           chapterTitle: ch.shortTitle || ch.title,
@@ -80,17 +86,23 @@ export function lastMode(progress: Progress): Mode | null {
 // ---------- route line ----------
 
 export interface RouteState {
-  total: number;
-  done: boolean[];
+  total: number; // legs (teachable sections) in the chapter
+  done: boolean[]; // a leg is done when every part of it is
   current: number | null; // 0-based index of the gold stop
+  fraction: number; // parts of the current leg done, 0–1: the arc on the gold stop
   label: string | null;
 }
 
 export function routeState(chapter: Chapter, progress: Progress, labelFor: (n: number) => string): RouteState {
-  const done = chapter.segments.map((s) => progress.segmentsCompleted.includes(s.id));
-  const here = chapter.segments.findIndex((s) => s.id === hereId(progress));
+  const legs = chapterLegs(chapter);
+  const completed = new Set(progress.segmentsCompleted);
+  const done = legs.map((s) => s.segments.every((g) => completed.has(g.id)));
+  const id = hereId(progress);
+  const here = legs.findIndex((s) => s.segments.some((g) => g.id === id));
   const current = done.every(Boolean) ? null : here >= 0 && !done[here] ? here : done.findIndex((d) => !d);
-  return { total: chapter.segments.length, done, current, label: current === null ? null : labelFor(current + 1) };
+  const cur = current === null ? null : legs[current];
+  const fraction = cur ? cur.segments.filter((g) => completed.has(g.id)).length / cur.segments.length : 0;
+  return { total: legs.length, done, current, fraction, label: current === null ? null : labelFor(current + 1) };
 }
 
 // ---------- resume card ----------
@@ -107,32 +119,34 @@ export interface ResumeCard {
 
 function timeLeft(wordsLeft: number): string {
   const sec = (wordsLeft / WORDS_PER_MIN) * 60;
-  if (sec < 60) return "Less than a minute left in this leg";
+  if (sec < 60) return "Less than a minute left in this part";
   const m = Math.ceil(sec / 60);
-  return `About ${m} minute${m === 1 ? "" : "s"} left in this leg`;
+  return `About ${m} minute${m === 1 ? "" : "s"} left in this part`;
 }
 
 /**
  * The card's cut-off comes from the cursor's block: the engine reads ~150-word blocks, so the
  * place is exact to the block the learner last heard in full (a barged-in block counts as unheard).
  */
-export function resumeCard(course: Course, progress: Progress, legN: number): ResumeCard | null {
+export function resumeCard(course: Course, progress: Progress, leg: Leg | undefined): ResumeCard | null {
   const seg = loadSegmentFull(course.id, hereId(progress));
   if (!seg) return null;
+  // "leg 4, part 2" when the section has several parts, else just "leg 4"
+  const legN = leg ? `leg ${leg.n}${leg.partCount > 1 ? `, part ${leg.partIndex}` : ""}` : "leg 1";
   const bl = blocks(seg.script);
   const c = progress.cursor;
   const phase = c?.phase ?? (progress.resume.position === "checkpoint" ? "ask" : "read");
   if (phase === "ask" || phase === "done") {
     return {
-      context: phase === "ask" ? `You finished reading leg ${legN} on your last trip` : `You finished leg ${legN} on your last trip`,
+      context: phase === "ask" ? `You finished reading ${legN} on your last trip` : `You finished ${legN} on your last trip`,
       fragment: `…${words(seg.script).slice(-14).join(" ")}`,
-      footer: phase === "ask" ? "The check for this leg is next" : "The next leg is up",
+      footer: phase === "ask" ? "The check for this part is next" : "The next part is up",
     };
   }
   const stopAt = c ? (c.served && c.heard ? c.blockIdx + 1 : c.blockIdx) : 0;
   if (stopAt <= 0) {
     return {
-      context: progress.segmentsCompleted.length ? `Leg ${legN} starts with` : `Your first leg starts with`,
+      context: progress.segmentsCompleted.length ? `${legN[0].toUpperCase()}${legN.slice(1)} starts with` : `Your first leg starts with`,
       fragment: `${words(seg.script).slice(0, 14).join(" ").replace(/[,;:]+$/, "")}…`,
       footer: timeLeft(words(seg.script).length),
     };
@@ -199,10 +213,10 @@ export function tripRows(course: Course, progress: Progress): TripRow[] {
       const chapters = [...new Set(finished.map((l) => l.chapter))];
       const what =
         finished.length === 0
-          ? "No leg finished"
+          ? "No part finished"
           : chapters.length === 1
             ? `Chapter ${chapters[0]}, ${listLegs(finished.map((l) => l.n))}`
-            : `${finished.length} legs across chapters ${chapters.join(" and ")}`;
+            : `${finished.length} parts across chapters ${chapters.join(" and ")}`;
       return { id: t.tripId, when: `${weekday} ${partOfDay(hour)}`, what: `${what}, ${modeVerb(t.mode)}`, minutes: tripMinutes(t) };
     })
     .reverse();

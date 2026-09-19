@@ -20,7 +20,7 @@ export default function Resume() {
   const leg = legIndex(course)[hereId(progress)];
   const route = routeState(chapter, progress, (n) => `Leg ${n}`);
   const doneInChapter = route.done.filter(Boolean).length;
-  const card = finished ? null : resumeCard(course, progress, leg?.n ?? 1);
+  const card = finished ? null : resumeCard(course, progress, leg);
 
   return (
     <Screen gap="gap-6">
